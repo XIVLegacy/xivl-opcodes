@@ -1,0 +1,1840 @@
+{
+  "description": "FFXIV 1.x client `Application::Lua::Script::Client::Command::*::Receiver` cross-reference. Source: the client decomp corpus, docs/receiver_classes_inventory.md (43 classes). Confidence tiers: `confirmed` (decomp-verified), `strong` (unique keyword overlap), `candidate` (multiple plausible matches), `gap` (no catalog match).",
+  "version": "1.23b",
+  "receiver_inventory_doc": "the client decomp corpus: docs/receiver_classes_inventory.md",
+  "receivers": [
+    {
+      "name": "KickClientOrderEventReceiver",
+      "namespace": "Network",
+      "rtti_rva": "0xc574b0",
+      "slots": 5,
+      "slot1_fn": "FUN_0089f530",
+      "label": "KickEvent",
+      "mapping": {
+        "opcode": "0x012f",
+        "confidence": "confirmed",
+        "catalog_entry": "KickEventPacket",
+        "evidence": "decomp:event_kick_receiver_decomp.md"
+      },
+      "cast_target": null,
+      "slot1_shape": {
+        "insns_to_first_ret": 42,
+        "max_local_stack": 0,
+        "seh": true,
+        "tail_jmp": "0x89f594"
+      }
+    },
+    {
+      "name": "StartServerOrderEventFunctionReceiver",
+      "namespace": "Network",
+      "rtti_rva": "0xc574c8",
+      "slots": 5,
+      "slot1_fn": "FUN_0089f430",
+      "label": "RunEventFunction",
+      "mapping": {
+        "opcode": "0x0130",
+        "confidence": "confirmed",
+        "catalog_entry": "RunEventFunctionPacket",
+        "evidence": "decomp:event_run_event_function_receiver_decomp.md"
+      },
+      "cast_target": null,
+      "slot1_shape": {
+        "insns_to_first_ret": 44,
+        "max_local_stack": 0,
+        "seh": true,
+        "tail_jmp": "0x89f4a1"
+      },
+      "lua_actor_impl_slot": 57
+    },
+    {
+      "name": "EndClientOrderEventReceiver",
+      "namespace": "Network",
+      "rtti_rva": "0xc57348",
+      "slots": 5,
+      "slot1_fn": "FUN_0089d180",
+      "label": "EndEvent",
+      "mapping": {
+        "opcode": "0x0131",
+        "confidence": "confirmed",
+        "catalog_entry": "EndEventPacket",
+        "evidence": "decomp:event_end_receiver_decomp.md"
+      },
+      "cast_target": null,
+      "slot1_shape": {
+        "insns_to_first_ret": 38,
+        "max_local_stack": 0,
+        "seh": true,
+        "tail_jmp": "0x89d1d9"
+      }
+    },
+    {
+      "name": "SetEventStatusReceiver",
+      "namespace": "Network",
+      "rtti_rva": "0xc573a0",
+      "slots": 2,
+      "slot1_fn": "FUN_0089d860",
+      "label": "SetEventStatus",
+      "mapping": {
+        "opcode": "0x0136",
+        "confidence": "confirmed",
+        "catalog_entry": "SetEventStatusPacket",
+        "evidence": "inventory_anchor"
+      },
+      "cast_target": {
+        "src": "ActorBase",
+        "target": "NpcBase"
+      },
+      "slot1_shape": {
+        "insns_to_first_ret": 22,
+        "max_local_stack": 0,
+        "seh": false,
+        "tail_jmp": null
+      },
+      "lua_actor_impl_slot": 48
+    },
+    {
+      "name": "SetNoticeEventConditionReceiver",
+      "namespace": "Network",
+      "rtti_rva": "0xc573ac",
+      "slots": 2,
+      "slot1_fn": "FUN_0089d980",
+      "label": "SetNoticeEventCondition",
+      "mapping": {
+        "opcode": "0x016b",
+        "confidence": "confirmed",
+        "catalog_entry": "SetNoticeEventCondition",
+        "evidence": "inventory_anchor"
+      },
+      "cast_target": {
+        "src": "ActorBase",
+        "target": "DirectorBase"
+      },
+      "slot1_shape": {
+        "insns_to_first_ret": 24,
+        "max_local_stack": 0,
+        "seh": false,
+        "tail_jmp": null
+      },
+      "apply_chain_lua_readers": [
+        {
+          "luaName": "_onPreEvent",
+          "opcode": "0x016b",
+          "applyHelperVa": null,
+          "fireSite": "EventCondition base class slot 0x0c (FUN_00897660) fires when queued NoticeBlock/NoticeNonBlock is processed",
+          "evidenceBcsy": null,
+          "mechanism": "apply_chain",
+          "bindingFlavor": "deferred_via_event_condition"
+        },
+        {
+          "luaName": "_onPostEvent",
+          "opcode": "0x016b",
+          "applyHelperVa": null,
+          "fireSite": "EventCondition base class slot 0x10 (FUN_008977b0) fires when queued NoticeBlock/NoticeNonBlock is processed",
+          "evidenceBcsy": null,
+          "mechanism": "apply_chain",
+          "bindingFlavor": "deferred_via_event_condition"
+        }
+      ]
+    },
+    {
+      "name": "SetTalkEventConditionReceiver",
+      "namespace": "Network",
+      "rtti_rva": "0xc573dc",
+      "slots": 2,
+      "slot1_fn": "FUN_0089df60",
+      "label": "event: talk cond",
+      "mapping": {
+        "opcode": "0x012e",
+        "confidence": "confirmed",
+        "catalog_entry": "SetTalkEventCondition",
+        "evidence": "direct_token_match; dispatcher_hunt: FUN_004d8860 event-family specific handler FUN_00574fd0",
+        "notes": "PROMOTED: central packet dispatcher located. Opcode 0x012e confirmed dispatched by FUN_004d8860 event-family specific handler FUN_00574fd0. Strong-confidence keyword overlap from the receiver inventory is now backed by decomp evidence of the dispatcher binding."
+      },
+      "cast_target": {
+        "src": "ActorBase",
+        "target": "NpcBase"
+      },
+      "slot1_shape": {
+        "insns_to_first_ret": 20,
+        "max_local_stack": 0,
+        "seh": false,
+        "tail_jmp": null
+      },
+      "apply_chain_lua_readers": [
+        {
+          "luaName": "_onPreEvent",
+          "opcode": "0x012e",
+          "applyHelperVa": null,
+          "fireSite": "EventCondition base class slot 0x0c (FUN_00897660) fires when queued TalkBlock/TalkNonBlock is processed",
+          "evidenceBcsy": null,
+          "mechanism": "apply_chain",
+          "bindingFlavor": "deferred_via_event_condition"
+        },
+        {
+          "luaName": "_onPostEvent",
+          "opcode": "0x012e",
+          "applyHelperVa": null,
+          "fireSite": "EventCondition base class slot 0x10 (FUN_008977b0) fires when queued TalkBlock/TalkNonBlock is processed",
+          "evidenceBcsy": null,
+          "mechanism": "apply_chain",
+          "bindingFlavor": "deferred_via_event_condition"
+        },
+        {
+          "luaName": "_onTalkEvent",
+          "opcode": "0x012e",
+          "applyHelperVa": null,
+          "fireSite": "TalkBlock slot 0x28 (FUN_00892d70) fires when queued TalkBlock is processed",
+          "evidenceBcsy": null,
+          "mechanism": "apply_chain",
+          "bindingFlavor": "deferred_via_event_condition"
+        },
+        {
+          "luaName": "_onTalkRequest",
+          "opcode": "0x012e",
+          "applyHelperVa": null,
+          "fireSite": "TalkNonBlock slot 0x28 (FUN_00892e90) fires when queued TalkNonBlock is processed",
+          "evidenceBcsy": null,
+          "mechanism": "apply_chain",
+          "bindingFlavor": "deferred_via_event_condition"
+        }
+      ]
+    },
+    {
+      "name": "SetEmoteEventConditionReceiver",
+      "namespace": "Network",
+      "rtti_rva": "0xc57394",
+      "slots": 2,
+      "slot1_fn": "FUN_0089d750",
+      "label": "event: emote cond",
+      "mapping": {
+        "opcode": "0x016c",
+        "confidence": "confirmed",
+        "catalog_entry": "SetEmoteEventCondition",
+        "evidence": "direct_token_match; dispatcher_hunt: FUN_004dc690 high-opcode multi-opcode fallthrough -> actor->vftable[9]",
+        "notes": "PROMOTED: central packet dispatcher located. Opcode 0x016c confirmed dispatched by FUN_004dc690 high-opcode multi-opcode fallthrough -> actor->vftable[9]. Strong-confidence keyword overlap from the receiver inventory is now backed by decomp evidence of the dispatcher binding."
+      },
+      "cast_target": null,
+      "slot1_shape": {
+        "insns_to_first_ret": 11,
+        "max_local_stack": 0,
+        "seh": false,
+        "tail_jmp": null
+      }
+    },
+    {
+      "name": "SetPushEventConditionWithCircleReceiver",
+      "namespace": "Network",
+      "rtti_rva": "0xc573b8",
+      "slots": 2,
+      "slot1_fn": "FUN_0089db00",
+      "label": "event: push circle cond",
+      "mapping": {
+        "opcode": "0x016f",
+        "confidence": "confirmed",
+        "catalog_entry": "SetPushEventConditionWithCircle",
+        "evidence": "direct_token_match; dispatcher_hunt: FUN_004dc690 high-opcode multi-opcode fallthrough -> actor->vftable[9]",
+        "notes": "PROMOTED: central packet dispatcher located. Opcode 0x016f confirmed dispatched by FUN_004dc690 high-opcode multi-opcode fallthrough -> actor->vftable[9]. Strong-confidence keyword overlap from the receiver inventory is now backed by decomp evidence of the dispatcher binding."
+      },
+      "cast_target": null,
+      "slot1_shape": {
+        "insns_to_first_ret": 27,
+        "max_local_stack": 0,
+        "seh": false,
+        "tail_jmp": null
+      },
+      "apply_chain_lua_readers": [
+        {
+          "luaName": "_onPreEvent",
+          "opcode": "0x016f",
+          "applyHelperVa": null,
+          "fireSite": "EventCondition base class slot 0x0c (FUN_00897660) fires when queued PushBlock/PushNonBlock is processed",
+          "evidenceBcsy": null,
+          "mechanism": "apply_chain",
+          "bindingFlavor": "deferred_via_event_condition"
+        },
+        {
+          "luaName": "_onPostEvent",
+          "opcode": "0x016f",
+          "applyHelperVa": null,
+          "fireSite": "EventCondition base class slot 0x10 (FUN_008977b0) fires when queued PushBlock/PushNonBlock is processed",
+          "evidenceBcsy": null,
+          "mechanism": "apply_chain",
+          "bindingFlavor": "deferred_via_event_condition"
+        },
+        {
+          "luaName": "_onPushEvent",
+          "opcode": "0x016f",
+          "applyHelperVa": null,
+          "fireSite": "PushBlock slot 0x28 (FUN_00892a80) fires when queued PushBlock is processed",
+          "evidenceBcsy": null,
+          "mechanism": "apply_chain",
+          "bindingFlavor": "deferred_via_event_condition"
+        },
+        {
+          "luaName": "_onPushRequest",
+          "opcode": "0x016f",
+          "applyHelperVa": null,
+          "fireSite": "PushNonBlock slot 0x28 (FUN_00892c30) fires when queued PushNonBlock is processed",
+          "evidenceBcsy": null,
+          "mechanism": "apply_chain",
+          "bindingFlavor": "deferred_via_event_condition"
+        }
+      ]
+    },
+    {
+      "name": "SetPushEventConditionWithFanReceiver",
+      "namespace": "Network",
+      "rtti_rva": "0xc573c4",
+      "slots": 2,
+      "slot1_fn": "FUN_0089dc90",
+      "label": "event: push fan cond",
+      "mapping": {
+        "opcode": "0x0170",
+        "confidence": "confirmed",
+        "catalog_entry": "SetPushEventConditionWithFan",
+        "evidence": "direct_token_match; dispatcher_hunt: FUN_004dc690 high-opcode multi-opcode fallthrough -> actor->vftable[9]",
+        "notes": "PROMOTED: central packet dispatcher located. Opcode 0x0170 confirmed dispatched by FUN_004dc690 high-opcode multi-opcode fallthrough -> actor->vftable[9]. Strong-confidence keyword overlap from the receiver inventory is now backed by decomp evidence of the dispatcher binding."
+      },
+      "cast_target": null,
+      "slot1_shape": {
+        "insns_to_first_ret": 31,
+        "max_local_stack": 12,
+        "seh": false,
+        "tail_jmp": null
+      }
+    },
+    {
+      "name": "SetPushEventConditionWithTriggerBoxReceiver",
+      "namespace": "Network",
+      "rtti_rva": "0xc573d0",
+      "slots": 2,
+      "slot1_fn": "FUN_0089de20",
+      "label": "event: push triggerbox cond",
+      "mapping": {
+        "opcode": "0x0175",
+        "confidence": "confirmed",
+        "catalog_entry": "SetPushEventConditionWithTriggerBox",
+        "evidence": "direct_token_match; dispatcher_hunt: FUN_004dc690 high-opcode multi-opcode fallthrough -> actor->vftable[9]",
+        "notes": "PROMOTED: central packet dispatcher located. Opcode 0x0175 confirmed dispatched by FUN_004dc690 high-opcode multi-opcode fallthrough -> actor->vftable[9]. Strong-confidence keyword overlap from the receiver inventory is now backed by decomp evidence of the dispatcher binding."
+      },
+      "cast_target": null,
+      "slot1_shape": {
+        "insns_to_first_ret": 30,
+        "max_local_stack": 0,
+        "seh": false,
+        "tail_jmp": null
+      }
+    },
+    {
+      "name": "GrandCompanyReceiver",
+      "namespace": "Network",
+      "rtti_rva": "0xc57318",
+      "slots": 2,
+      "slot1_fn": "FUN_0089cd60",
+      "label": "actor: grand company",
+      "mapping": {
+        "opcode": "0x0194",
+        "confidence": "confirmed",
+        "catalog_entry": "SetGrandCompanyPacket",
+        "evidence": "direct_token_match; dispatcher_hunt: FUN_004dc690 high-opcode multi-opcode fallthrough -> actor->vftable[9]",
+        "notes": "PROMOTED: central packet dispatcher located. Opcode 0x0194 confirmed dispatched by FUN_004dc690 high-opcode multi-opcode fallthrough -> actor->vftable[9]. Strong-confidence keyword overlap from the receiver inventory is now backed by decomp evidence of the dispatcher binding."
+      },
+      "cast_target": {
+        "src": "ActorBase",
+        "target": "PlayerBase"
+      },
+      "slot1_shape": {
+        "insns_to_first_ret": 26,
+        "max_local_stack": 0,
+        "seh": false,
+        "tail_jmp": null
+      },
+      "lua_actor_impl_slot": 71,
+      "indirect_lua_readers": [
+        {
+          "luaName": "_getBelongGrandCompany",
+          "luaApiClass": "PlayerBase",
+          "luaApiImplVa": "0x00706CC0",
+          "sharedField": {
+            "actorClass": "PlayerBase",
+            "offsets": [
+              "0xed"
+            ]
+          },
+          "writerBcsy": null,
+          "luaApiBcsy": null,
+          "confidence": "confirmed",
+          "mechanism": "data_dependency"
+        }
+      ]
+    },
+    {
+      "name": "SetDisplayNameReceiver",
+      "namespace": "Network",
+      "rtti_rva": "0xc57388",
+      "slots": 2,
+      "slot1_fn": "FUN_0089d610",
+      "label": "actor: display name",
+      "mapping": {
+        "opcode": "0x013d",
+        "confidence": "confirmed",
+        "catalog_entry": "SetActorNamePacket",
+        "evidence": "display_name_equiv_actor_name; dispatcher_hunt: FUN_004d8860 event-family specific handler",
+        "notes": "PROMOTED: central packet dispatcher located. Opcode 0x013d confirmed dispatched by FUN_004d8860 event-family specific handler. Strong-confidence keyword overlap from the receiver inventory is now backed by decomp evidence of the dispatcher binding."
+      },
+      "cast_target": {
+        "src": "ActorBase",
+        "target": "CharaBase"
+      },
+      "slot1_shape": {
+        "insns_to_first_ret": 27,
+        "max_local_stack": 0,
+        "seh": false,
+        "tail_jmp": null
+      },
+      "lua_actor_impl_slot": 62,
+      "indirect_lua_readers": [
+        {
+          "luaName": "_getDisplayName",
+          "luaApiClass": "CharaBase",
+          "luaApiImplVa": "0x006FA4C0",
+          "sharedField": {
+            "actorClass": "CharaBase",
+            "offsets": [
+              "0x60",
+              "0x60.0x58"
+            ]
+          },
+          "writerBcsy": null,
+          "luaApiBcsy": null,
+          "confidence": "confirmed",
+          "mechanism": "data_dependency"
+        },
+        {
+          "luaName": "_getLocalizedDisplayName",
+          "luaApiClass": "CharaBase",
+          "luaApiImplVa": "0x006FA3D0",
+          "sharedField": {
+            "actorClass": "CharaBase",
+            "offsets": [
+              "0x60"
+            ]
+          },
+          "writerBcsy": null,
+          "luaApiBcsy": null,
+          "confidence": "confirmed",
+          "mechanism": "data_dependency"
+        }
+      ],
+      "apply_chain_lua_readers": [
+        {
+          "luaName": "_onUpdateDisplayName",
+          "opcode": "0x013d",
+          "applyHelperVa": "0x006FAFF0",
+          "fireSite": "FUN_006FAFF0 calls FUN_00447260(\"_onUpdateDisplayName\", ...) + FUN_00CC7A90(...) on the new-name path",
+          "evidenceBcsy": null,
+          "mechanism": "apply_chain"
+        }
+      ]
+    },
+    {
+      "name": "ChangeActorSubStatModeBorderReceiver",
+      "namespace": "System",
+      "rtti_rva": "0xc575e0",
+      "slots": 2,
+      "slot1_fn": "FUN_008a32c0",
+      "label": "actor sub-stat mode/border",
+      "mapping": {
+        "opcode": "0x0144",
+        "confidence": "confirmed",
+        "catalog_entry": "SetActorSubStatePacket",
+        "evidence": "substat_mode_equiv_substate; dispatcher_hunt: FUN_004dc690 high-opcode multi-opcode fallthrough -> actor->vftable[9]",
+        "notes": "PROMOTED: central packet dispatcher located. Opcode 0x0144 confirmed dispatched by FUN_004dc690 high-opcode multi-opcode fallthrough -> actor->vftable[9]. Strong-confidence keyword overlap from the receiver inventory is now backed by decomp evidence of the dispatcher binding."
+      },
+      "cast_target": {
+        "src": "ActorBase",
+        "target": "CharaBase"
+      },
+      "slot1_shape": {
+        "insns_to_first_ret": 16,
+        "max_local_stack": 0,
+        "seh": false,
+        "tail_jmp": null
+      },
+      "lua_actor_impl_slot": 86,
+      "indirect_lua_readers": [
+        {
+          "luaName": "_getSubStatMode",
+          "luaApiClass": "CharaBase",
+          "luaApiImplVa": "0x00707FB0",
+          "sharedField": {
+            "actorClass": "CharaBase",
+            "offsets": [
+              "0xdc",
+              "0xdc.0x18"
+            ]
+          },
+          "writerBcsy": null,
+          "luaApiBcsy": null,
+          "confidence": "confirmed",
+          "mechanism": "data_dependency"
+        }
+      ]
+    },
+    {
+      "name": "JobChangeReceiver",
+      "namespace": "Network",
+      "rtti_rva": "0xc57300",
+      "slots": 2,
+      "slot1_fn": "FUN_0089cb60",
+      "label": "actor: job change",
+      "mapping": {
+        "opcode": "0x01a4",
+        "confidence": "confirmed",
+        "catalog_entry": "SetCurrentJobPacket",
+        "evidence": "job_change_equiv_set_current_job; dispatcher_hunt: FUN_004dc690 high-opcode multi-opcode fallthrough -> actor->vftable[9]",
+        "notes": "PROMOTED: central packet dispatcher located. Opcode 0x01a4 confirmed dispatched by FUN_004dc690 high-opcode multi-opcode fallthrough -> actor->vftable[9]. Strong-confidence keyword overlap from the receiver inventory is now backed by decomp evidence of the dispatcher binding."
+      },
+      "cast_target": {
+        "src": "ActorBase",
+        "target": "PlayerBase",
+        "additional": [
+          {
+            "src": "ActorBase",
+            "target": "MyPlayer"
+          }
+        ]
+      },
+      "slot1_shape": {
+        "insns_to_first_ret": 33,
+        "max_local_stack": 0,
+        "seh": false,
+        "tail_jmp": "0x706dc0"
+      },
+      "lua_actor_impl_slot": 79,
+      "indirect_lua_readers": [
+        {
+          "luaName": "_getJob",
+          "luaApiClass": "CharaBase",
+          "luaApiImplVa": "0x0071E020",
+          "sharedField": {
+            "actorClass": "PlayerBase",
+            "offsets": [
+              "0xf1"
+            ]
+          },
+          "writerBcsy": null,
+          "luaApiBcsy": null,
+          "confidence": "confirmed",
+          "mechanism": "data_dependency"
+        }
+      ]
+    },
+    {
+      "name": "ChocoboGradeReceiver",
+      "namespace": "System",
+      "rtti_rva": "0xc575a4",
+      "slots": 2,
+      "slot1_fn": "FUN_008a3020",
+      "label": "mount: chocobo grade",
+      "mapping": {
+        "opcode": "0x0197",
+        "confidence": "confirmed",
+        "catalog_entry": "SetCurrentMountChocoboPacket",
+        "evidence": "chocobo_grade_equiv_current_mount; dispatcher_hunt: FUN_004dc690 high-opcode multi-opcode fallthrough -> actor->vftable[9]",
+        "notes": "PROMOTED: central packet dispatcher located. Opcode 0x0197 confirmed dispatched by FUN_004dc690 high-opcode multi-opcode fallthrough -> actor->vftable[9]. Strong-confidence keyword overlap from the receiver inventory is now backed by decomp evidence of the dispatcher binding."
+      },
+      "cast_target": {
+        "src": "ActorBase",
+        "target": "MyPlayer"
+      },
+      "slot1_shape": {
+        "insns_to_first_ret": 40,
+        "max_local_stack": 0,
+        "seh": true,
+        "tail_jmp": "0x6de3b0"
+      },
+      "lua_actor_impl_slot": 68,
+      "indirect_lua_readers": [
+        {
+          "luaName": "_getChocoboGrade",
+          "luaApiClass": "PlayerBase",
+          "luaApiImplVa": "0x0071E4C0",
+          "sharedField": {
+            "actorClass": "PlayerBase",
+            "offsets": [
+              "0x15e"
+            ]
+          },
+          "writerBcsy": null,
+          "luaApiBcsy": null,
+          "confidence": "confirmed",
+          "mechanism": "data_dependency"
+        }
+      ]
+    },
+    {
+      "name": "GoobbueReceiver",
+      "namespace": "System",
+      "rtti_rva": "0xc575b0",
+      "slots": 2,
+      "slot1_fn": "FUN_008a3100",
+      "label": "mount: goobbue",
+      "mapping": {
+        "opcode": "0x01a0",
+        "confidence": "confirmed",
+        "catalog_entry": "SetCurrentMountGoobbuePacket",
+        "evidence": "direct_token_match; dispatcher_hunt: FUN_004dc690 high-opcode multi-opcode fallthrough -> actor->vftable[9]",
+        "notes": "PROMOTED: central packet dispatcher located. Opcode 0x01a0 confirmed dispatched by FUN_004dc690 high-opcode multi-opcode fallthrough -> actor->vftable[9]. Strong-confidence keyword overlap from the receiver inventory is now backed by decomp evidence of the dispatcher binding."
+      },
+      "cast_target": {
+        "src": "ActorBase",
+        "target": "MyPlayer"
+      },
+      "slot1_shape": {
+        "insns_to_first_ret": 40,
+        "max_local_stack": 0,
+        "seh": true,
+        "tail_jmp": "0x6de3c0"
+      },
+      "lua_actor_impl_slot": 69,
+      "indirect_lua_readers": [
+        {
+          "luaName": "_getChocoboRidingGrade",
+          "luaApiClass": "PlayerBase",
+          "luaApiImplVa": "0x0071E4D0",
+          "sharedField": {
+            "actorClass": "PlayerBase",
+            "offsets": [
+              "0x15d"
+            ]
+          },
+          "writerBcsy": null,
+          "luaApiBcsy": null,
+          "confidence": "confirmed",
+          "mechanism": "data_dependency"
+        }
+      ]
+    },
+    {
+      "name": "ChocoboReceiver",
+      "namespace": "System",
+      "rtti_rva": "0xc57598",
+      "slots": 2,
+      "slot1_fn": "FUN_008a2f30",
+      "label": "mount: chocobo",
+      "mapping": {
+        "opcode": "0x0198",
+        "confidence": "confirmed",
+        "catalog_entry": "SetChocoboNamePacket",
+        "evidence": "full_disasm: shape matches AddictLoginTime + ChocoboReceiver fires the same FUN_0x9da6cc event-context factory + FUN_0x6de370 sub-handler with 4 args (stack+this+8+this+4+this+9). The 3-field receiver state (actor id at +4, byte at +8, byte at +9) fits the 32-byte SetChocoboName body (u32 actor_id + chocobo color/grade enums + ASCII name). SetHasChocoboPacket's 1-byte body wouldn't justify 3 state fields; dispatcher_hunt: FUN_004dc690 high-opcode specific handler FUN_00576150",
+        "notes": "PROMOTED: central packet dispatcher located. Opcode 0x0198 confirmed dispatched by FUN_004dc690 high-opcode specific handler FUN_00576150. Strong-confidence keyword overlap from the receiver inventory is now backed by decomp evidence of the dispatcher binding."
+      },
+      "cast_target": {
+        "src": "ActorBase",
+        "target": "MyPlayer"
+      },
+      "slot1_shape": {
+        "insns_to_first_ret": 22,
+        "max_local_stack": 0,
+        "seh": false,
+        "tail_jmp": null
+      },
+      "lua_actor_impl_slot": 67,
+      "indirect_lua_readers": [
+        {
+          "luaName": "_getChocoboRidingGrade",
+          "luaApiClass": "PlayerBase",
+          "luaApiImplVa": "0x0071E4D0",
+          "sharedField": {
+            "actorClass": "PlayerBase",
+            "offsets": [
+              "0x15d"
+            ]
+          },
+          "writerBcsy": null,
+          "luaApiBcsy": null,
+          "confidence": "confirmed",
+          "mechanism": "data_dependency"
+        }
+      ]
+    },
+    {
+      "name": "VehicleGradeReceiver",
+      "namespace": "System",
+      "rtti_rva": "0xc575bc",
+      "slots": 2,
+      "slot1_fn": "FUN_008a31e0",
+      "label": "mount: vehicle grade",
+      "mapping": {
+        "opcode": "0x01a1",
+        "confidence": "confirmed",
+        "catalog_entry": "SetHasGoobbuePacket",
+        "evidence": "batch_disasm: thin 15-insn dispatcher reading this+0x4 + tail-call to UI at FUN_0x6f8350. Same exact shape as confirmed AddictLoginTimeKindReceiver (the 0x0192 strong); dispatcher_hunt: FUN_004dc690 high-opcode multi-opcode fallthrough -> actor->vftable[9]",
+        "notes": "PROMOTED: central packet dispatcher located. Opcode 0x01a1 confirmed dispatched by FUN_004dc690 high-opcode multi-opcode fallthrough -> actor->vftable[9]. Strong-confidence keyword overlap from the receiver inventory is now backed by decomp evidence of the dispatcher binding."
+      },
+      "cast_target": {
+        "src": "ActorBase",
+        "target": "MyPlayer"
+      },
+      "slot1_shape": {
+        "insns_to_first_ret": 40,
+        "max_local_stack": 0,
+        "seh": true,
+        "tail_jmp": "0x6f8350"
+      },
+      "lua_actor_impl_slot": 70,
+      "indirect_lua_readers": [
+        {
+          "luaName": "_isEnabledGoobbue",
+          "luaApiClass": "PlayerBase",
+          "luaApiImplVa": "0x0071E4E0",
+          "sharedField": {
+            "actorClass": "PlayerBase",
+            "offsets": [
+              "0x160"
+            ]
+          },
+          "writerBcsy": null,
+          "luaApiBcsy": null,
+          "confidence": "confirmed",
+          "mechanism": "data_dependency"
+        }
+      ]
+    },
+    {
+      "name": "AchievementPointReceiver",
+      "namespace": "Network",
+      "rtti_rva": "0xc572ac",
+      "slots": 2,
+      "slot1_fn": "FUN_0089c510",
+      "label": "achievement: point",
+      "mapping": {
+        "opcode": "0x019c",
+        "confidence": "confirmed",
+        "catalog_entry": "SetAchievementPointsPacket",
+        "evidence": "batch_disasm: thin 16-insn dispatcher reading this+0x4, same shape as confirmed-strong AddictLoginTime/VehicleGrade pattern. Achievement family is 1:1 receiver:opcode in 0x019C-0x019F; dispatcher_hunt: FUN_004dc690 high-opcode multi-opcode fallthrough -> actor->vftable[9]",
+        "notes": "PROMOTED: central packet dispatcher located. Opcode 0x019c confirmed dispatched by FUN_004dc690 high-opcode multi-opcode fallthrough -> actor->vftable[9]. Strong-confidence keyword overlap from the receiver inventory is now backed by decomp evidence of the dispatcher binding."
+      },
+      "cast_target": {
+        "src": "ActorBase",
+        "target": "MyPlayer"
+      },
+      "slot1_shape": {
+        "insns_to_first_ret": 16,
+        "max_local_stack": 0,
+        "seh": false,
+        "tail_jmp": null
+      },
+      "lua_actor_impl_slot": 74,
+      "indirect_lua_readers": [
+        {
+          "luaName": "_updateWork",
+          "luaApiClass": "CharaBase",
+          "luaApiImplVa": "0x006E7670",
+          "sharedField": {
+            "actorClass": "CharaBase",
+            "offsets": [
+              "0xa8"
+            ]
+          },
+          "writerBcsy": null,
+          "luaApiBcsy": null,
+          "confidence": "confirmed",
+          "mechanism": "data_dependency"
+        }
+      ]
+    },
+    {
+      "name": "AchievementTitleReceiver",
+      "namespace": "Network",
+      "rtti_rva": "0xc572b8",
+      "slots": 2,
+      "slot1_fn": "FUN_0089c5f0",
+      "label": "achievement: title",
+      "mapping": {
+        "opcode": "0x019d",
+        "confidence": "confirmed",
+        "catalog_entry": "SetPlayerTitlePacket",
+        "evidence": "batch_disasm: thin 14-insn dispatcher reading this+0x4. Achievement family 1:1; title = SetPlayerTitle; dispatcher_hunt: FUN_004dc690 high-opcode multi-opcode fallthrough -> actor->vftable[9]",
+        "notes": "PROMOTED: central packet dispatcher located. Opcode 0x019d confirmed dispatched by FUN_004dc690 high-opcode multi-opcode fallthrough -> actor->vftable[9]. Strong-confidence keyword overlap from the receiver inventory is now backed by decomp evidence of the dispatcher binding."
+      },
+      "cast_target": {
+        "src": "ActorBase",
+        "target": "PlayerBase"
+      },
+      "slot1_shape": {
+        "insns_to_first_ret": 14,
+        "max_local_stack": 0,
+        "seh": false,
+        "tail_jmp": null
+      },
+      "lua_actor_impl_slot": 75,
+      "indirect_lua_readers": [
+        {
+          "luaName": "_setAchievementTitle",
+          "luaApiClass": "PlayerBase",
+          "luaApiImplVa": "0x0071E570",
+          "sharedField": {
+            "actorClass": "PlayerBase",
+            "offsets": [
+              "0xe8"
+            ]
+          },
+          "writerBcsy": null,
+          "luaApiBcsy": null,
+          "confidence": "confirmed",
+          "mechanism": "data_dependency"
+        }
+      ]
+    },
+    {
+      "name": "AchievementIdReceiver",
+      "namespace": "Network",
+      "rtti_rva": "0xc572c4",
+      "slots": 2,
+      "slot1_fn": "FUN_0089c6d0",
+      "label": "achievement: id",
+      "mapping": {
+        "opcode": "0x019e",
+        "confidence": "confirmed",
+        "catalog_entry": "AchievementEarnedPacket",
+        "evidence": "batch_disasm: thin 15-insn dispatcher reading this+0x4 + tail-call to UI at FUN_0x704430 (same FUN_704xxx UI area as AddictLoginTime at 0x704230); dispatcher_hunt: FUN_004dc690 high-opcode multi-opcode fallthrough -> actor->vftable[9]",
+        "notes": "PROMOTED: central packet dispatcher located. Opcode 0x019e confirmed dispatched by FUN_004dc690 high-opcode multi-opcode fallthrough -> actor->vftable[9]. Strong-confidence keyword overlap from the receiver inventory is now backed by decomp evidence of the dispatcher binding."
+      },
+      "cast_target": {
+        "src": "ActorBase",
+        "target": "MyPlayer"
+      },
+      "slot1_shape": {
+        "insns_to_first_ret": 45,
+        "max_local_stack": 0,
+        "seh": true,
+        "tail_jmp": "0x704430"
+      },
+      "lua_actor_impl_slot": 76
+    },
+    {
+      "name": "AchievementAchievedCountReceiver",
+      "namespace": "Network",
+      "rtti_rva": "0xc572d0",
+      "slots": 2,
+      "slot1_fn": "FUN_0089c7c0",
+      "label": "achievement: count",
+      "mapping": {
+        "opcode": "0x019f",
+        "confidence": "confirmed",
+        "catalog_entry": "SendAchievementRatePacket",
+        "evidence": "batch_disasm: 22-insn dispatcher reading this+0x4/0x8/0xc (3 fields) - more state-heavy than peers, fits count/rate semantics; dispatcher_hunt: FUN_004dc690 high-opcode multi-opcode fallthrough -> actor->vftable[9]",
+        "notes": "PROMOTED: central packet dispatcher located. Opcode 0x019f confirmed dispatched by FUN_004dc690 high-opcode multi-opcode fallthrough -> actor->vftable[9]. Strong-confidence keyword overlap from the receiver inventory is now backed by decomp evidence of the dispatcher binding."
+      },
+      "cast_target": {
+        "src": "ActorBase",
+        "target": "MyPlayer"
+      },
+      "slot1_shape": {
+        "insns_to_first_ret": 22,
+        "max_local_stack": 0,
+        "seh": false,
+        "tail_jmp": null
+      },
+      "lua_actor_impl_slot": 77
+    },
+    {
+      "name": "ChangeActorSubStatStatusReceiver",
+      "namespace": "System",
+      "rtti_rva": "0xc575c8",
+      "slots": 5,
+      "slot1_fn": "FUN_008a34d0",
+      "label": "actor sub-stat status",
+      "mapping": {
+        "opcode": "0x0179",
+        "confidence": "confirmed",
+        "catalog_entry": "SetActorStatusAllPacket",
+        "evidence": "batch_disasm: canonical 5-slot Receive shape - 33 insns, SEH, 2 calls, no local stack, reads this+0x10/0x14/0x15. Matches the decomp-confirmed KickClientOrderEventReceiver baseline exactly. 5-slot priority maps to the SetActorStatusAll variant (broader scope); dispatcher_hunt: FUN_004dc690 high-opcode multi-opcode fallthrough -> actor->vftable[9]",
+        "notes": "PROMOTED: central packet dispatcher located. Opcode 0x0179 confirmed dispatched by FUN_004dc690 high-opcode multi-opcode fallthrough -> actor->vftable[9]. Strong-confidence keyword overlap from the receiver inventory is now backed by decomp evidence of the dispatcher binding."
+      },
+      "cast_target": null,
+      "slot1_shape": {
+        "insns_to_first_ret": 40,
+        "max_local_stack": 0,
+        "seh": true,
+        "tail_jmp": "0x8a352f"
+      },
+      "indirect_lua_readers": [
+        {
+          "luaName": "_getSubStatStatus",
+          "luaApiClass": "CharaBase",
+          "luaApiImplVa": "0x006FA150",
+          "sharedField": {
+            "actorClass": "CharaBase",
+            "offsets": [
+              "0xdc",
+              "0xdc.0x04"
+            ]
+          },
+          "writerBcsy": null,
+          "luaApiBcsy": null,
+          "confidence": "confirmed",
+          "mechanism": "data_dependency"
+        }
+      ],
+      "apply_chain_lua_readers": [
+        {
+          "luaName": "_onChangeSubStatStatus",
+          "opcode": "0x0179",
+          "applyHelperVa": "0x008A3630 (slot 3) -> 0x007084B0 -> FUN_006EEC00 + FUN_00707D60",
+          "fireSite": "FUN_00707D60 calls FUN_00447260(\"_onChangeSubStatStatus\", ...) + FUN_00CC7A90(...) when the indexed status u32 changes (gated on param_6 != '\\0')",
+          "evidenceBcsy": null,
+          "mechanism": "apply_chain"
+        }
+      ]
+    },
+    {
+      "name": "SetTargetTimeReceiver",
+      "namespace": "Network",
+      "rtti_rva": "0xc573f4",
+      "slots": 2,
+      "slot1_fn": "FUN_008a04b0",
+      "label": "target: time",
+      "mapping": {
+        "opcode": "0x00d3",
+        "confidence": "confirmed",
+        "catalog_entry": "SetActorTargetAnimatedPacket",
+        "evidence": "full_disasm: does 64-bit timing arithmetic with x0x3e8 (= 1000) multiply for ms conversion, subtracts current time via FUN_0x75bda0 (get-current-time), compares against 0x21 threshold, float-converts result for animation rate calculation. SetActorTarget (0x00DB) is stateless target id; SetActorTargetAnimated (0x00D3) has the time component this receiver implements; dispatcher_hunt: FUN_004dc690 low-opcode multi-opcode fallthrough 0xCC-0xE5 -> actor->vftable[9]",
+        "notes": "PROMOTED: central packet dispatcher located. Opcode 0x00d3 confirmed dispatched by FUN_004dc690 low-opcode multi-opcode fallthrough 0xCC-0xE5 -> actor->vftable[9]. Strong-confidence keyword overlap from the receiver inventory is now backed by decomp evidence of the dispatcher binding."
+      },
+      "cast_target": null,
+      "slot1_shape": {
+        "insns_to_first_ret": 122,
+        "max_local_stack": 24,
+        "seh": true,
+        "tail_jmp": "0x8a05de"
+      },
+      "lua_actor_impl_slot": 61,
+      "apply_chain_lua_readers": [
+        {
+          "luaName": "_onReceiveTimingPacket",
+          "opcode": "0x00d3",
+          "applyHelperVa": null,
+          "fireSite": "FUN_008A0370 calls FUN_00447260(\"_onReceiveTimingPacket\", DAT_00f67298) + FUN_00CC7A90(param_2, local_60, local_a0) on the expired/zero-time path",
+          "evidenceBcsy": null,
+          "mechanism": "apply_chain"
+        }
+      ]
+    },
+    {
+      "name": "UserDataReceiver",
+      "namespace": "Network",
+      "rtti_rva": "0xc57488",
+      "slots": 6,
+      "slot1_fn": "FUN_008a2a20",
+      "label": "user data (primary vtable)",
+      "mapping": {
+        "opcode": "0x0133",
+        "confidence": "confirmed",
+        "catalog_entry": "GenericDataPacket",
+        "evidence": "full_disasm: constructor-wrapped LuaParam dispatch (calls FUN_0xcc9320/cc9330 init/dtor pair, conditionally invokes FUN_0x783e30 string-op on this+8 buffer). The shape fits GenericData's 192-byte LuaParam list body: receiver wraps its own context, populates from packet body, processes optional sub-content. Both vtables 0xc57488 (6-slot) and 0xc574a4 (2-slot) share slot1 fn; dispatcher_hunt: FUN_004d8860 event-family specific handler FUN_00575060",
+        "notes": "PROMOTED: central packet dispatcher located. Opcode 0x0133 confirmed dispatched by FUN_004d8860 event-family specific handler FUN_00575060. Strong-confidence keyword overlap from the receiver inventory is now backed by decomp evidence of the dispatcher binding."
+      },
+      "cast_target": null,
+      "slot1_shape": {
+        "insns_to_first_ret": 5,
+        "max_local_stack": 0,
+        "seh": false,
+        "tail_jmp": null
+      },
+      "lua_actor_impl_slot": 59
+    },
+    {
+      "name": "UserDataReceiver",
+      "namespace": "Network",
+      "rtti_rva": "0xc574a4",
+      "slots": 2,
+      "slot1_fn": "FUN_008a2a20",
+      "label": "user data (sibling vtable, same slot1 fn)",
+      "mapping": {
+        "opcode": "0x0133",
+        "confidence": "confirmed",
+        "catalog_entry": "GenericDataPacket",
+        "evidence": "shares slot1 fn with the primary 6-slot vtable at 0xc57488; same disasm verdict applies; dispatcher_hunt: FUN_004d8860 event-family specific handler FUN_00575060",
+        "notes": "PROMOTED: central packet dispatcher located. Opcode 0x0133 confirmed dispatched by FUN_004d8860 event-family specific handler FUN_00575060. Strong-confidence keyword overlap from the receiver inventory is now backed by decomp evidence of the dispatcher binding."
+      },
+      "cast_target": null,
+      "slot1_shape": {
+        "insns_to_first_ret": 5,
+        "max_local_stack": 0,
+        "seh": false,
+        "tail_jmp": null
+      }
+    },
+    {
+      "name": "JobQuestCompleteTripleReceiver",
+      "namespace": "Network",
+      "rtti_rva": "0xc57360",
+      "slots": 6,
+      "slot1_fn": "FUN_0089d350",
+      "label": "quest: job complete",
+      "mapping": {
+        "opcode": "0x01A2",
+        "confidence": "confirmed",
+        "catalog_entry": "opcodes.json MapClientbound _0x01A2 (added by catalog_extension)",
+        "evidence": "cross_reference",
+        "body_shape": "24 bytes / 3x 8-byte sub-records",
+        "dispatch_shape": "6-slot vtable with factory at slot1 + queue + deferred UI dispatch at slot5 (FUN_0x6f9520)",
+        "notes": "**RESOLVED via client-decomp cross-reference.** The receiver is JobQuestCompleteTriple. The 24-byte / 3x8-byte sub-record body shape (per slot1 decomp) corresponds to 3 paired u32 fields per sub-record - likely 3 job-quest-completion banners batched into one packet. The prior candidate mapping to 0x00E3 SetActorQuestGraphic (24B body size match) is now SUPERSEDED by the receiver binding; SetActorQuestGraphic is a different mechanism. This is the FIRST resolved entry that has no LuaActorImpl::vftable wrapper (`table-only pointer dispatch`); reachability via the receiver-registration table rather than a vtable slot.",
+        "prior_mapping": {
+          "opcode": "0x00e3",
+          "confidence": "candidate",
+          "catalog_entry": "SetActorQuestGraphicPacket",
+          "evidence": "full_disasm: slot1 is a thin wrapper that allocates a 0x20 (32-byte) context via FUN_0x9d1b35, calls sub-receiver FUN_0x89d270 with this+8 as arg. The actual dispatch lives in FUN_0x89d270 (not yet decompiled). 'Triple' qualifier may mean either 3-arg constructor variant or 3-way completion dispatch. SetActorQuestGraphic is the closest catalog match by name; needs FUN_0x89d270 decomp to confirm or reject - SUPERSEDED by 3 receiver binding."
+        }
+      },
+      "cast_target": null,
+      "slot1_shape": {
+        "insns_to_first_ret": 32,
+        "max_local_stack": 0,
+        "seh": true,
+        "tail_jmp": "0x89d39d"
+      }
+    },
+    {
+      "name": "EntrustItemReceiver",
+      "namespace": "Network",
+      "rtti_rva": "0xc57470",
+      "slots": 2,
+      "slot1_fn": "FUN_0089cb90",
+      "label": "item: entrust",
+      "mapping": {
+        "opcode": "0x01A5",
+        "confidence": "confirmed",
+        "catalog_entry": "_0x01a5 / SetPlayerItemStoragePacket / MapServerOpcode::SetPlayerItemStorage",
+        "evidence": "cross_reference",
+        "body_shape": "32-byte bitstream of stored items; one flag bit per item slot in the Armour storage. The client allocates 32 bytes of item flags but uses only the first 20 as of 1.23b.",
+        "dispatch_shape": "16-insn thin dispatcher; MyPlayer cast; handler FUN_0x6efbd0 (131 insns) with calls to 0x9d22b4 / 0x9d186e / 0x7222d0 / 0x714e40",
+        "lua_api": [
+          "_countEnableEntrustItem",
+          "_countEntrustItem",
+          "_getEnableEntrustItem",
+          "_getEntrustItem"
+        ],
+        "notes": "**RESOLVED via Ghidra client decomp.** Opcode 0x1A5, server-to-client: sets which items are currently stored in the Armour as a per-item stored/not-stored flag, which is why extra item detail is dropped once an item is entrusted. The receiver state at this+0x144 holds the entrusted collection."
+      },
+      "cast_target": {
+        "src": "ActorBase",
+        "target": "MyPlayer"
+      },
+      "slot1_shape": {
+        "insns_to_first_ret": 16,
+        "max_local_stack": 0,
+        "seh": false,
+        "tail_jmp": null
+      },
+      "lua_actor_impl_slot": 80
+    },
+    {
+      "name": "ExecuteDebugCommandReceiver",
+      "namespace": "System",
+      "rtti_rva": "0xc575ec",
+      "slots": 2,
+      "slot1_fn": "FUN_008a4880",
+      "label": "GM debug command",
+      "mapping": {
+        "opcode": null,
+        "confidence": "client_internal",
+        "catalog_entry": null,
+        "evidence": "gm_debug_command_parser; static_exhaustion:lua_callback_confirmed; slot7_client_internal_proof:vftable-write immediate scan of 0x010575EC returned 2 hits (ctor FUN_008a3c10 + dtor FUN_008a3c80); constructor takes (this, param_2) and writes vftable + calls FUN_00447200(param_2) - NO opcode switch, NO packet header read; factory wrapper FUN_007616f0 has the alloc+ctor+cleanup shape identical to the vftable-write-immediate-scan factories FUN_007617b0/0x60/0x10/0xb0 (operator new pattern); delete-and-tear-down variant FUN_008a4fd0 wraps dtor with conditional _free - GM tool teardown path; no inbound packet-dispatch path identified anywhere in the chain; c46_verification: FindReferencesToAddresses on slot1_fn re-confirmed client_internal classification - 5-7 total caller hits across 5 targets, ALL in client-internal apply-wrapper layer (FUN_00759XXX range) or input-key state machine FUN_00894D30. ZERO packet-dispatch sites (no refs from FUN_004DC690/FUN_004D8860/FUN_0058CCA0/FUN_0059CED0). Per-receiver callers: FUN_00759630 (apply-wrapper: ctor + slot1 + dtor inline). Reproducible by a FindAllReferences pass on the slot1 function plus decomp of its callers. FUN_00894D30 (421B) is the same input-key state machine described in the vftable-write immediate scan finding (reads DAT_012c3f77 global byte; edge-triggered enter/leave dispatch via 4 bVar booleans). Conclusion: classifications hold under fresh evidence; no new packet attribution.",
+        "lua_callback": "_onDebugInput (decomp: apply method FUN_008A4880 explicitly fires '_onDebugInput' via FUN_00447260 at xref 0x008A4BFB; lua_actor_impl_slot=7)",
+        "body_shape": "variable-length string-heavy",
+        "dispatch_shape": "194-insn slot1, 368B local stack, 28+ calls including string constructors (FUN_0x447200/4460a0/447260/446fb0/445530/446f50). Compares against global at 0xf67298.",
+        "notes": "RECLASSIFIED by the bulk vftable-write sweep: NOT an inbound-packet receiver. Same client-internal Lua Command-pattern as the vftable-write-immediate-scan trigger-box/attribute-event quartet. GM-only: decomp already confirmed apply method FUN_008A4880 fires '_onDebugInput' Lua callback. Receiver is constructed locally when GM enters a debug command (input dispatcher -> factory FUN_007616f0). No opcode binds. See BCS-Y entry for ExecuteDebugCommandReceiver in xivl-client-structs symbols.json. GM debug command parser. StartGMTicketPacket (0x01D3) is a player-facing ticket workflow, not the GM debug parser. Distinct opcode unknown."
+      },
+      "cast_target": null,
+      "slot1_shape": {
+        "insns_to_first_ret": 83,
+        "max_local_stack": 368,
+        "seh": true,
+        "tail_jmp": "0x8a4cb8"
+      }
+    },
+    {
+      "name": "SendLogReceiver",
+      "namespace": "Network",
+      "rtti_rva": "0xc574e0",
+      "slots": 2,
+      "slot1_fn": "FUN_0089fbf0",
+      "label": "system: log message",
+      "mapping": {
+        "opcode": [
+          343,
+          344,
+          345,
+          346,
+          347,
+          348,
+          349,
+          350,
+          351,
+          352,
+          353,
+          354,
+          355,
+          356,
+          357,
+          358,
+          359,
+          360,
+          361,
+          362
+        ],
+        "confidence": "confirmed",
+        "catalog_entry": "multi: 0x0157..0x016A (20 entries, MapClientbound)",
+        "evidence": "pcap_npc_enrichment (0x0167 enrichment=0.998, 63 fires in 4/10 NPC captures, 0 baseline) + static_constructor_decomp:FUN_0089F5B0 (SendLogReceiver constructor) writes 'Application::Lua::Script::Client::Command::Network::SendLogReceiver::vftable' at param_1[0] then switches on *(short *)(param_2+2) (packet opcode) with explicit cases for opcodes 0x0157..0x016A. Receiver handles ALL 20 GameMessage* variants (Bahamut anchor names): GameMessageWithActor1-5 (0x0157-0x015B), GameMessageCustomSender1-5 (0x015C-0x0160), GameMessageDisplayIdSender1-5 (0x0161-0x0165), GameMessageWithoutActor1-5 (0x0166-0x016A). Constructor at FUN_0089F5B0, destructor at FUN_0089FB50, apply at FUN_0089FBF0 (PURE-NATIVE per decomp - 16 UI/text-render helpers, no _on* Lua firer); wrapper at FUN_00759FD0 = LuaActorImpl::vftable slot 63 (BCS-Y-0092). CONFIRMED. 10/15 gap receivers now resolved; 5 remain (slots 19/20/21/22 trigger-box, slot 7 debug).",
+        "lua_callback": "NONE (decomp: apply method FUN_0089FBF0 has 16 callees all UI/text-rendering helpers (FUN_00772050 / FUN_0076F5A0 / FUN_007906C0 / etc); no FUN_00447260 calls; dispatches directly to chat/log UI; lua_actor_impl_slot=63)",
+        "body_shape": "multi-field (esi+0x10/14/16/18/1a/20/24 byte/word reads of varying sizes)",
+        "dispatch_shape": "203-insn slot1, 220B stack, 24 calls, no dynamic_cast; dedicated s_SendLogParameterUnpackFunctor companion class (unique - only receiver with explicit unpack functor)",
+        "notes": "Heavy chat-log multi-channel dispatcher. No catalog match for system log scope - 0x0003 SendMessage is different. Dedicated parameter-unpack functor class generated alongside (anonymous namespace ?A0xee95e5e4).",
+        "opcodeHex": [
+          "0x0157",
+          "0x0158",
+          "0x0159",
+          "0x015a",
+          "0x015b",
+          "0x015c",
+          "0x015d",
+          "0x015e",
+          "0x015f",
+          "0x0160",
+          "0x0161",
+          "0x0162",
+          "0x0163",
+          "0x0164",
+          "0x0165",
+          "0x0166",
+          "0x0167",
+          "0x0168",
+          "0x0169",
+          "0x016a"
+        ]
+      },
+      "cast_target": null,
+      "slot1_shape": {
+        "insns_to_first_ret": 98,
+        "max_local_stack": 220,
+        "seh": true,
+        "tail_jmp": "0x89fc86"
+      },
+      "lua_actor_impl_slot": 63
+    },
+    {
+      "name": "AddictLoginTimeKindReceiver",
+      "namespace": "Network",
+      "rtti_rva": "0xc572dc",
+      "slots": 2,
+      "slot1_fn": "FUN_0089c8b0",
+      "label": "playtime warning",
+      "mapping": {
+        "opcode": "0x0192",
+        "confidence": "confirmed",
+        "catalog_entry": "_0x0192",
+        "evidence": "partial_decomp: thin 22-instruction dispatcher, kindByte at this+0x4, tail-call to UI handler at FUN_0x704230. Matches the SendAddictionLimitMessage shape. See the client decomp corpus doc docs/addiction_limit_message_receiver_decomp.md; dispatcher_hunt: FUN_004dc690 high-opcode multi-opcode fallthrough -> actor->vftable[9]",
+        "notes": "PROMOTED: central packet dispatcher located. Opcode 0x0192 confirmed dispatched by FUN_004dc690 high-opcode multi-opcode fallthrough -> actor->vftable[9]. Strong-confidence keyword overlap from the receiver inventory is now backed by decomp evidence of the dispatcher binding."
+      },
+      "cast_target": {
+        "src": "ActorBase",
+        "target": "MyPlayer"
+      },
+      "slot1_shape": {
+        "insns_to_first_ret": 40,
+        "max_local_stack": 0,
+        "seh": true,
+        "tail_jmp": "0x704230"
+      },
+      "lua_actor_impl_slot": 65
+    },
+    {
+      "name": "ExecutePushOnEnterTriggerBoxReceiver",
+      "namespace": "System",
+      "rtti_rva": "0xbdfaf8",
+      "slots": 2,
+      "slot1_fn": "FUN_008a4270",
+      "label": "trigger-box enter",
+      "mapping": {
+        "opcode": null,
+        "confidence": "client_internal",
+        "catalog_entry": null,
+        "evidence": "execute_push_trigger_enter; static_exhaustion:lua_callback_confirmed; client_internal_proof:vftable-write immediate scan returned only ctor/dtor (no opcode switch in constructor unlike SendLogReceiver); all non-wrapper callers are client-internal (FUN_00894d30 input-key state machine reading global byte DAT_012c3f77 + 4 factory wrappers FUN_007617b0/0x60/0x10/0xb0 with shape `alloc + ctor + cleanup`); no packet header read anywhere in the dispatch chain; c46_verification: FindReferencesToAddresses on slot1_fn re-confirmed client_internal classification - 5-7 total caller hits across 5 targets, ALL in client-internal apply-wrapper layer (FUN_00759XXX range) or input-key state machine FUN_00894D30. ZERO packet-dispatch sites (no refs from FUN_004DC690/FUN_004D8860/FUN_0058CCA0/FUN_0059CED0). Per-receiver callers: FUN_00759720 (apply-wrapper, cookie-protected) | FUN_00894D30 (input-key state machine bVar4 path at 0x00894EAA). Reproducible by a FindAllReferences pass on the slot1 function plus decomp of its callers. FUN_00894D30 (421B) is the same input-key state machine described in the vftable-write immediate scan finding (reads DAT_012c3f77 global byte; edge-triggered enter/leave dispatch via 4 bVar booleans). Conclusion: classifications hold under fresh evidence; no new packet attribution.",
+        "lua_callback": "_onReaction (decomp: apply chain FUN_008A4270 -> FUN_0070A6C0 -> FUN_00706F60 confirmed to fire '_onReaction' per BCS-Y-0164; lua_actor_impl_slot=19)",
+        "body_shape": "8 bytes (slot1 forwards 2 args + this to common handler)",
+        "dispatch_shape": "70-insn slot1; NpcBase cast; handler FUN_0x70a6c0 (14 insns) reads NpcBase+0x12c (triggerBoxCtrl), tail-calls common FUN_0x706f60 with flag=1 (enter)",
+        "notes": "RECLASSIFIED by the vftable-write immediate scan: NOT an inbound-packet receiver. Constructor takes pointer arguments and copies bytes; no opcode dispatch. Receiver is constructed by client-internal callers (state machine for slots 19/20; factory wrappers for slots 21/22). Belongs to the 'Lua Command-pattern' family - objects that Lua scripts or client code instantiate to fire scoped events, not packet decoders. No opcode binds to this receiver ever. See BCS-Y-0264 (the vftable-write-immediate-scan structural finding) and BCS-Y-0253 (this receiver's class entry). EXECUTE downstream of 0x0175 SetPushEventConditionWithTriggerBox. Enter/Leave share FUN_0x706f60 with enter=1 / leave=0 flag. Server-emitted actor enter/leave events on a trigger box. SET is mapped but EXECUTE pair is gaps."
+      },
+      "cast_target": {
+        "src": "ActorBase",
+        "target": "NpcBase"
+      },
+      "slot1_shape": {
+        "insns_to_first_ret": 70,
+        "max_local_stack": 0,
+        "seh": true,
+        "tail_jmp": null
+      }
+    },
+    {
+      "name": "ExecutePushOnLeaveTriggerBoxReceiver",
+      "namespace": "System",
+      "rtti_rva": "0xbdfb04",
+      "slots": 2,
+      "slot1_fn": "FUN_008a4340",
+      "label": "trigger-box leave",
+      "mapping": {
+        "opcode": null,
+        "confidence": "client_internal",
+        "catalog_entry": null,
+        "evidence": "execute_push_trigger_leave; static_exhaustion:lua_callback_confirmed; client_internal_proof:vftable-write immediate scan returned only ctor/dtor (no opcode switch in constructor unlike SendLogReceiver); all non-wrapper callers are client-internal (FUN_00894d30 input-key state machine reading global byte DAT_012c3f77 + 4 factory wrappers FUN_007617b0/0x60/0x10/0xb0 with shape `alloc + ctor + cleanup`); no packet header read anywhere in the dispatch chain; c46_verification: FindReferencesToAddresses on slot1_fn re-confirmed client_internal classification - 5-7 total caller hits across 5 targets, ALL in client-internal apply-wrapper layer (FUN_00759XXX range) or input-key state machine FUN_00894D30. ZERO packet-dispatch sites (no refs from FUN_004DC690/FUN_004D8860/FUN_0058CCA0/FUN_0059CED0). Per-receiver callers: FUN_007597A0 (apply-wrapper, cookie-protected) | FUN_00894D30 (input-key state machine bVar2 path at 0x00894E21). Reproducible by a FindAllReferences pass on the slot1 function plus decomp of its callers. FUN_00894D30 (421B) is the same input-key state machine described in the vftable-write immediate scan finding (reads DAT_012c3f77 global byte; edge-triggered enter/leave dispatch via 4 bVar booleans). Conclusion: classifications hold under fresh evidence; no new packet attribution.",
+        "lua_callback": "_onReaction (decomp: apply chain FUN_008A4340 -> FUN_0070A6F0 -> FUN_00706F60 confirmed to fire '_onReaction' per BCS-Y-0165; lua_actor_impl_slot=20; shares firer with slot 19)",
+        "body_shape": "8 bytes (slot1 forwards 2 args + this to common handler)",
+        "dispatch_shape": "70-insn slot1; NpcBase cast; handler FUN_0x70a6f0 (14 insns), same shape as Enter but tail-calls FUN_0x706f60 with flag=0 (leave)",
+        "notes": "RECLASSIFIED by the vftable-write immediate scan: NOT an inbound-packet receiver. Constructor takes pointer arguments and copies bytes; no opcode dispatch. Receiver is constructed by client-internal callers (state machine for slots 19/20; factory wrappers for slots 21/22). Belongs to the 'Lua Command-pattern' family - objects that Lua scripts or client code instantiate to fire scoped events, not packet decoders. No opcode binds to this receiver ever. See BCS-Y-0264 (the vftable-write-immediate-scan structural finding) and BCS-Y-0255 (this receiver's class entry). Pair of ExecutePushOnEnterTriggerBoxReceiver. The two handlers differ only in flag arg (1 vs 0)."
+      },
+      "cast_target": {
+        "src": "ActorBase",
+        "target": "NpcBase"
+      },
+      "slot1_shape": {
+        "insns_to_first_ret": 70,
+        "max_local_stack": 0,
+        "seh": true,
+        "tail_jmp": null
+      }
+    },
+    {
+      "name": "AttributeTypeEventEnterReceiver",
+      "namespace": "System",
+      "rtti_rva": "0xbdfb10",
+      "slots": 2,
+      "slot1_fn": "FUN_008a3de0",
+      "label": "attr-type enter",
+      "mapping": {
+        "opcode": null,
+        "confidence": "client_internal",
+        "catalog_entry": null,
+        "evidence": "attribute_type_event_enter; static_exhaustion:pure_native_no_lua_callback; client_internal_proof:vftable-write immediate scan returned only ctor/dtor (no opcode switch in constructor unlike SendLogReceiver); all non-wrapper callers are client-internal (FUN_00894d30 input-key state machine reading global byte DAT_012c3f77 + 4 factory wrappers FUN_007617b0/0x60/0x10/0xb0 with shape `alloc + ctor + cleanup`); no packet header read anywhere in the dispatch chain; c46_verification: FindReferencesToAddresses on slot1_fn re-confirmed client_internal classification - 5-7 total caller hits across 5 targets, ALL in client-internal apply-wrapper layer (FUN_00759XXX range) or input-key state machine FUN_00894D30. ZERO packet-dispatch sites (no refs from FUN_004DC690/FUN_004D8860/FUN_0058CCA0/FUN_0059CED0). Per-receiver callers: FUN_00759820 (apply-wrapper, SEH). Reproducible by a FindAllReferences pass on the slot1 function plus decomp of its callers. FUN_00894D30 (421B) is the same input-key state machine described in the vftable-write immediate scan finding (reads DAT_012c3f77 global byte; edge-triggered enter/leave dispatch via 4 bVar booleans). Conclusion: classifications hold under fresh evidence; no new packet attribution.",
+        "lua_callback": "NONE (decomp: apply chain FUN_008A3DE0 -> FUN_006E11E0 is pure-native; no FUN_00447260 calls in the chain; lua_actor_impl_slot=21)",
+        "body_shape": "8 bytes (slot1 forwards 2 args)",
+        "dispatch_shape": "20-insn slot1; MyPlayer cast; handler FUN_0x6e11e0 (8 insns) reads this+0x10c (area ctrl), forwards (arg1, this, arg2) to FUN_0x898d20",
+        "notes": "RECLASSIFIED by the vftable-write immediate scan: NOT an inbound-packet receiver. Constructor takes pointer arguments and copies bytes; no opcode dispatch. Receiver is constructed by client-internal callers (state machine for slots 19/20; factory wrappers for slots 21/22). Belongs to the 'Lua Command-pattern' family - objects that Lua scripts or client code instantiate to fire scoped events, not packet decoders. No opcode binds to this receiver ever. See BCS-Y-0264 (the vftable-write-immediate-scan structural finding) and BCS-Y-0257 (this receiver's class entry). Per-player ENTER event for attribute-type triggers. Distinct from Push trigger-box family (different handler chain). No catalog match."
+      },
+      "cast_target": {
+        "src": "ActorBase",
+        "target": "MyPlayer"
+      },
+      "slot1_shape": {
+        "insns_to_first_ret": 20,
+        "max_local_stack": 0,
+        "seh": false,
+        "tail_jmp": null
+      }
+    },
+    {
+      "name": "AttributeTypeEventLeaveReceiver",
+      "namespace": "System",
+      "rtti_rva": "0xbdfb1c",
+      "slots": 2,
+      "slot1_fn": "FUN_008a3e20",
+      "label": "attr-type leave",
+      "mapping": {
+        "opcode": null,
+        "confidence": "client_internal",
+        "catalog_entry": null,
+        "evidence": "attribute_type_event_leave; static_exhaustion:pure_native_no_lua_callback; client_internal_proof:vftable-write immediate scan returned only ctor/dtor (no opcode switch in constructor unlike SendLogReceiver); all non-wrapper callers are client-internal (FUN_00894d30 input-key state machine reading global byte DAT_012c3f77 + 4 factory wrappers FUN_007617b0/0x60/0x10/0xb0 with shape `alloc + ctor + cleanup`); no packet header read anywhere in the dispatch chain; c46_verification: FindReferencesToAddresses on slot1_fn re-confirmed client_internal classification - 5-7 total caller hits across 5 targets, ALL in client-internal apply-wrapper layer (FUN_00759XXX range) or input-key state machine FUN_00894D30. ZERO packet-dispatch sites (no refs from FUN_004DC690/FUN_004D8860/FUN_0058CCA0/FUN_0059CED0). Per-receiver callers: FUN_007598A0 (apply-wrapper, SEH). Reproducible by a FindAllReferences pass on the slot1 function plus decomp of its callers. FUN_00894D30 (421B) is the same input-key state machine described in the vftable-write immediate scan finding (reads DAT_012c3f77 global byte; edge-triggered enter/leave dispatch via 4 bVar booleans). Conclusion: classifications hold under fresh evidence; no new packet attribution.",
+        "lua_callback": "NONE (decomp: apply chain FUN_008A3E20 -> FUN_006E1200 is pure-native; no FUN_00447260 calls in the chain; lua_actor_impl_slot=22)",
+        "body_shape": "8 bytes (slot1 forwards 2 args)",
+        "dispatch_shape": "20-insn slot1; MyPlayer cast; handler FUN_0x6e1200 (8 insns), same shape as Enter, forwards to FUN_0x898eb0 (paired enter/leave handlers at 0x898d20/0x898eb0 are 400 bytes apart)",
+        "notes": "RECLASSIFIED by the vftable-write immediate scan: NOT an inbound-packet receiver. Constructor takes pointer arguments and copies bytes; no opcode dispatch. Receiver is constructed by client-internal callers (state machine for slots 19/20; factory wrappers for slots 21/22). Belongs to the 'Lua Command-pattern' family - objects that Lua scripts or client code instantiate to fire scoped events, not packet decoders. No opcode binds to this receiver ever. See BCS-Y-0264 (the vftable-write-immediate-scan structural finding) and BCS-Y-0259 (this receiver's class entry). Pair of AttributeTypeEventEnterReceiver. Handlers FUN_0x898d20 and FUN_0x898eb0 are sibling enter/leave functions."
+      },
+      "cast_target": {
+        "src": "ActorBase",
+        "target": "MyPlayer"
+      },
+      "slot1_shape": {
+        "insns_to_first_ret": 20,
+        "max_local_stack": 0,
+        "seh": false,
+        "tail_jmp": null
+      }
+    },
+    {
+      "name": "ChangeActorExtraStatReceiver",
+      "namespace": "Network",
+      "rtti_rva": "0xc572e8",
+      "slots": 2,
+      "slot1_fn": "FUN_0089c990",
+      "label": "actor: extra stat",
+      "mapping": {
+        "opcode": "0x0145",
+        "confidence": "confirmed",
+        "catalog_entry": "_0x0145 / SetActorIconPacket / MapServerOpcode::SetActorIcon",
+        "evidence": "cross_reference",
+        "body_shape": "u32 iconCode at body+0 with client-observed branches for bit 8 and bits 16 through 18. The flagA/flagB bytes at body+0x02/+0x03 hold the same bits as bytes 2/3 of the u32.",
+        "dispatch_shape": "19-insn slot1; CharaBase cast (any character); handler FUN_0x6fa980 (99 insns, 0xb8 = 184B local stack, SEH, calls 0x6eec00 / 0x584e10 / 0x44d350 / 0x585020 / 0x748bf0 / 0x447260)",
+        "notes": "**RESOLVED via Ghidra client decomp.** Opcode 0x145, server-to-client: changes the player object's NetStatUser and NetStatSystem values, used to set the AFK, Disconnecting, and GM icons. FUN_006FA980's branches (per xivl-client-structs BCS-Y-0146) fire `_onChangeNetStatUser` for bit 8 and `_onChangeNetStatSystem` for bits 16/17/18. 17 pcap observations in the current corpus have consistent payload length 40. Catalog entry already exists at opcodes.json line 2972 as SetActorIconPacket (no retail_class_name yet)."
+      },
+      "cast_target": {
+        "src": "ActorBase",
+        "target": "CharaBase"
+      },
+      "slot1_shape": {
+        "insns_to_first_ret": 19,
+        "max_local_stack": 0,
+        "seh": false,
+        "tail_jmp": null
+      },
+      "lua_actor_impl_slot": 85,
+      "indirect_lua_readers": [
+        {
+          "luaName": "_getNetStatUser",
+          "luaApiClass": "CharaBase",
+          "luaApiImplVa": "0x006FA250",
+          "sharedField": {
+            "actorClass": "CharaBase",
+            "offsets": [
+              "0xdc",
+              "0xdc.0x10"
+            ]
+          },
+          "writerBcsy": null,
+          "luaApiBcsy": null,
+          "confidence": "confirmed",
+          "mechanism": "data_dependency"
+        },
+        {
+          "luaName": "_getNetStatSystem",
+          "luaApiClass": "CharaBase",
+          "luaApiImplVa": "0x006FA2C0",
+          "sharedField": {
+            "actorClass": "CharaBase",
+            "offsets": [
+              "0xdc",
+              "0xdc.0x10"
+            ]
+          },
+          "writerBcsy": null,
+          "luaApiBcsy": null,
+          "confidence": "confirmed",
+          "mechanism": "data_dependency"
+        },
+        {
+          "luaName": "_getActorExtraStat",
+          "luaApiClass": "CharaBase",
+          "luaApiImplVa": "0x006FA1F0",
+          "sharedField": {
+            "actorClass": "CharaBase",
+            "offsets": [
+              "0xdc",
+              "0xdc.0x10"
+            ]
+          },
+          "writerBcsy": null,
+          "luaApiBcsy": null,
+          "confidence": "confirmed",
+          "mechanism": "data_dependency"
+        },
+        {
+          "luaName": "_setActorExtraStat",
+          "luaApiClass": "CharaBase",
+          "luaApiImplVa": "0x007080F0",
+          "sharedField": {
+            "actorClass": "CharaBase",
+            "offsets": [
+              "0xdc",
+              "0xdc.0x10"
+            ]
+          },
+          "writerBcsy": null,
+          "luaApiBcsy": null,
+          "confidence": "confirmed",
+          "mechanism": "data_dependency"
+        }
+      ],
+      "apply_chain_lua_readers": [
+        {
+          "luaName": "_onChangeNetStatUser",
+          "opcode": "0x0145",
+          "applyHelperVa": "0x006FA980",
+          "fireSite": "FUN_006FA980 fires once per changed bit in range 8..15 (8 iterations); arg is bit-index minus 7 (so 1..8)",
+          "evidenceBcsy": null,
+          "mechanism": "apply_chain"
+        },
+        {
+          "luaName": "_onChangeNetStatSystem",
+          "opcode": "0x0145",
+          "applyHelperVa": "0x006FA980",
+          "fireSite": "FUN_006FA980 fires for changes at bit positions 0x10/0x11/0x12 with args 1/2/3 respectively",
+          "evidenceBcsy": null,
+          "mechanism": "apply_chain"
+        }
+      ]
+    },
+    {
+      "name": "ChangeSystemStatReceiver",
+      "namespace": "Network",
+      "rtti_rva": "0xc572f4",
+      "slots": 2,
+      "slot1_fn": "FUN_0089ca80",
+      "label": "system stat",
+      "mapping": {
+        "opcode": "0x018E",
+        "confidence": "confirmed",
+        "catalog_entry": "opcodes.json MapClientbound _0x018E (added by catalog_extension)",
+        "evidence": "cross_reference",
+        "body_shape": "1-byte isStarred at body+0; the body carries a wider flag array but only the first byte is exercised - it sets the star above a retainer's head during item search.",
+        "dispatch_shape": "41-insn slot1 with SEH but no calls (inline state update); CharaBase cast; tail-jmp to 0x6fae70 (the `_onChangeSystemFlag` Lua firer per the ScanLuaCallbackNames harvest)",
+        "notes": "**RESOLVED via client-decomp cross-reference.** Opcode 0x18E, server-to-client: changes the player object's SystemFlag values; the only use of SystemFlag is setting the star above a retainer's head when searching, and the actor must be a retainer for the star to show. Lua callback `_onChangeSystemFlag` (per the ScanLuaCallbackNames harvest: FUN_006fae70 fires this string) - matches the receiver's tail-jmp target. Sibling of ChangeActorExtraStat (slot 85, opcode 0x0145) but using a different SystemFlag bit array."
+      },
+      "cast_target": {
+        "src": "ActorBase",
+        "target": "CharaBase"
+      },
+      "slot1_shape": {
+        "insns_to_first_ret": 41,
+        "max_local_stack": 0,
+        "seh": true,
+        "tail_jmp": "0x6fae70"
+      },
+      "lua_actor_impl_slot": 64,
+      "indirect_lua_readers": [
+        {
+          "luaName": "_getSystemFlag",
+          "luaApiClass": "CharaBase",
+          "luaApiImplVa": "0x006FA330",
+          "sharedField": {
+            "actorClass": "CharaBase",
+            "offsets": [
+              "0xdc",
+              "0xdc.0x14"
+            ]
+          },
+          "writerBcsy": null,
+          "luaApiBcsy": null,
+          "confidence": "confirmed",
+          "mechanism": "data_dependency"
+        }
+      ]
+    },
+    {
+      "name": "ChangeShadowActorFlagReceiver",
+      "namespace": "Network",
+      "rtti_rva": "0xc5730c",
+      "slots": 2,
+      "slot1_fn": "FUN_0089cc70",
+      "label": "actor: shadow flag",
+      "mapping": {
+        "opcode": "0x017B",
+        "confidence": "confirmed",
+        "catalog_entry": "_0x017b / SetActorIsZoningPacket / MapServerOpcode::SetActorIsZoning",
+        "evidence": "cross_reference",
+        "body_shape": "1 byte (the new flag value; isZoning bool)",
+        "dispatch_shape": "7-insn ultra-thin slot1 -> FUN_0x6dbe50 (15 insns). Handler stores byte at this->0x5d, fires on-change notification via vtable[31] (eax+0x7c) tail-call when value changes",
+        "notes": "**RESOLVED via Ghidra client decomp.** 'Shadow' in the receiver name refers to the dimmed actor rendering during zone transitions. 16 pcap observations in the current corpus have consistent payload length 40 (32B header + 8B body of which only byte 0 is used). Catalog entry already exists at opcodes.json line 4041 as SetActorIsZoningPacket (no retail_class_name yet)."
+      },
+      "cast_target": null,
+      "slot1_shape": {
+        "insns_to_first_ret": 7,
+        "max_local_stack": 0,
+        "seh": false,
+        "tail_jmp": null
+      },
+      "lua_actor_impl_slot": 89
+    },
+    {
+      "name": "SetCommandEventConditionReceiver",
+      "namespace": "Network",
+      "rtti_rva": "0xc5737c",
+      "slots": 2,
+      "slot1_fn": "FUN_0089d4f0",
+      "label": "event: command cond (dead code in 1.23b)",
+      "mapping": {
+        "opcode": null,
+        "confidence": "gap",
+        "catalog_entry": null,
+        "evidence": "DEMOTED: static-decomp of SendLogReceiver constructor FUN_0089F5B0 reads literal switch cases for opcodes 0x0157..0x016A inclusive, putting 0x0166 in the SendLog dispatch range. That constructor-switch literal-case evidence is decisive for SendLog. | CLOSED as DEAD CODE in 1.23b by xivl-client-structs evidence: ctor FUN_0089D400 has 0 callers binary-wide (Ghidra FindAllReferences); vftable VA 0x0105737C only referenced by its own ctor + dtor (both expected vftable writes); the actual Set*EventCondition factory dispatch table is `vftable_B` at 0x00fe02ac (90 slots, distinct from previously-dumped vftable_A at 0x00fdfb2c) and NONE of its slots call FUN_0089D400 - slots 50/51/52/53/54/55 construct other Set* receivers (FUN_0089DE70 / FUN_0089D8A0 SetNotice / FUN_0089D660 SetEmote / FUN_0089D9E0 / FUN_0089DB50 / FUN_0089DCF0). The handler FUN_006F1C20 IS still reachable via FUN_00762CA0 (batch iterator over 0x58-byte command-event-condition array entries) called from FUN_006F3420 (state-copy method), but that is internal/Lua-driven plumbing, not network dispatch. No alternative wire opcode exists. Reproducible from the retail binary: a FindAllReferences pass on FUN_0089D400 and a dump of vftable_B at 0x00fe02ac. Same structural shape as 0x01CD dead-code.",
+        "body_shape": "8 bytes (8B receiver state at esi+0x58/+0x59)",
+        "dispatch_shape": "20-insn slot1; MyPlayer cast; reads esi+0x58 and esi+0x59 (receiver state); calls handler FUN_0x6f1c20 (66 insns, SEH, allocates via FUN_0x9d1b35 twice + sub-handlers 0x892080 / 0x8921a0 / 0x725ed0). Slot1 itself is never invoked because the parent class is never instantiated (dead-code finding).",
+        "notes": "Receiver class identified via RTTI + dispatch shape; class is DEAD CODE in 1.23b (no instances ever created). The evidence field records the closure."
+      },
+      "cast_target": {
+        "src": "ActorBase",
+        "target": "MyPlayer"
+      },
+      "slot1_shape": {
+        "insns_to_first_ret": 20,
+        "max_local_stack": 0,
+        "seh": false,
+        "tail_jmp": null
+      }
+    },
+    {
+      "name": "HateStatusReceiver",
+      "namespace": "Network",
+      "rtti_rva": "0xc5733c",
+      "slots": 2,
+      "slot1_fn": "FUN_0089d030",
+      "label": "combat: hate status",
+      "mapping": {
+        "opcode": "0x0195",
+        "confidence": "confirmed",
+        "catalog_entry": "_0x0195 / MapServerOpcode::SetEnmityIndicator",
+        "evidence": "pcap_observed: 4 captures across combat_autoattack/combat_skills/party_battle_leve/war_quest_update2; client_decomp: MDI-022 body offsets translate as handler-local +0x4 / +0x8 = body+0x0 u32 / body+0x4 u16",
+        "body_shape": "8 bytes (handler writes eax+0x154 and eax+0x158 of NpcBase)",
+        "dispatch_shape": "16-insn slot1; NpcBase cast; no downstream call (inline NpcBase field writes after cast)",
+        "lua_class": "CmnTargetHateStatus (inherits StatusBaseClass; status ID 223107)",
+        "notes": "NPC-side hate status for targeting reticule UI (CmnTarget = common target widget). Writes two fields at NpcBase+0x154/+0x158."
+      },
+      "cast_target": {
+        "src": "ActorBase",
+        "target": "NpcBase"
+      },
+      "slot1_shape": {
+        "insns_to_first_ret": 16,
+        "max_local_stack": 0,
+        "seh": false,
+        "tail_jmp": null
+      },
+      "lua_actor_impl_slot": 66,
+      "indirect_lua_readers": [
+        {
+          "luaName": "_isEnmity",
+          "luaApiClass": "NpcBase",
+          "luaApiImplVa": "0x00750A70",
+          "sharedField": {
+            "actorClass": "NpcBase",
+            "offsets": [
+              "0x154",
+              "0x158"
+            ]
+          },
+          "writerBcsy": "BCS-Y-0278",
+          "luaApiBcsy": "BCS-Y-0212",
+          "confidence": "confirmed",
+          "mechanism": "data_dependency"
+        },
+        {
+          "luaName": "_getLookAtCharacter",
+          "luaApiClass": "CharaBase",
+          "luaApiImplVa": "0x006FA690",
+          "sharedField": {
+            "actorClass": "NpcBase",
+            "offsets": [
+              "0x154"
+            ]
+          },
+          "writerBcsy": "BCS-Y-0278",
+          "luaApiBcsy": null,
+          "confidence": "confirmed",
+          "mechanism": "data_dependency"
+        }
+      ]
+    },
+    {
+      "name": "HamletSupplyRankingReceiver",
+      "namespace": "Network",
+      "rtti_rva": "0xc57324",
+      "slots": 2,
+      "slot1_fn": "FUN_0089ce70",
+      "label": "hamlet: supply rank",
+      "mapping": {
+        "opcode": "0x01A6",
+        "confidence": "confirmed",
+        "catalog_entry": "opcodes.json MapClientbound _0x01A6 (added by catalog_extension)",
+        "evidence": "cross_reference",
+        "body_shape": "multi-field (handler reads ecx+0x60 sub-table)",
+        "dispatch_shape": "16-insn slot1; AreaBase cast; handler FUN_0x6f3310 (40 insns, SEH, calls FUN_0x9d1b35 alloc + FUN_0x6f3030/728a10/6edff0)",
+        "lua_api": [
+          "_countHamletSupplyRanking",
+          "_getHamletSupplyRanking"
+        ],
+        "notes": "**RESOLVED via client decomp.** The receiver is HamletSupplyRanking. AreaBase cast confirms area-level scope (Hamlet defense areas). The Lua count/get pair exposes a ranking-list client interface."
+      },
+      "cast_target": {
+        "src": "ActorBase",
+        "target": "AreaBase"
+      },
+      "slot1_shape": {
+        "insns_to_first_ret": 16,
+        "max_local_stack": 0,
+        "seh": false,
+        "tail_jmp": null
+      },
+      "lua_actor_impl_slot": 82
+    },
+    {
+      "name": "HamletDefenseScoreReceiver",
+      "namespace": "Network",
+      "rtti_rva": "0xc57330",
+      "slots": 2,
+      "slot1_fn": "FUN_0089e420",
+      "label": "hamlet: defense",
+      "mapping": {
+        "opcode": "0x01A8",
+        "confidence": "confirmed",
+        "catalog_entry": "opcodes.json MapClientbound _0x01A8 (added by catalog_extension)",
+        "evidence": "cross_reference",
+        "body_shape": "multi-field (handler reads ebx+0x154)",
+        "dispatch_shape": "16-insn slot1; no cast; handler FUN_0x6f2210 (50 insns, SEH, alloc + dealloc pair via FUN_0x9d1b35/9d1b17 = state-swap pattern; sub-handlers FUN_0x6eefe0 / 0x6e8800 / 0x6f1480)",
+        "lua_api": [
+          "_countHamletDefenseScore",
+          "_getHamletDefenseScore",
+          "_getHamletDefenseScoreAll",
+          "_waitForHamletDefenseScore"
+        ],
+        "lua_class": "InstanceRaidHamletDefense (inherits InstanceRaidBaseClass; hamletID 1/2/3 maps to contentID 8/9/10)",
+        "notes": "**RESOLVED via client decomp.** The receiver is HamletDefenseScore. Sibling of HamletSupplyRanking (0x1A6 - 2 opcodes apart in the same Hamlet cluster). The state-swap pattern (alloc + dealloc pair via 0x9d1b35/9d1b17) matches the JobQuestCompleteTriple deferred-dispatch shape - both use the alloc-new + swap-into-receiver-slot mechanism for atomic state-vector updates."
+      },
+      "cast_target": null,
+      "slot1_shape": {
+        "insns_to_first_ret": 16,
+        "max_local_stack": 0,
+        "seh": false,
+        "tail_jmp": null
+      },
+      "lua_actor_impl_slot": 83,
+      "indirect_lua_readers": [
+        {
+          "luaName": "_getLookAtCharacter",
+          "luaApiClass": "CharaBase",
+          "luaApiImplVa": "0x006FA690",
+          "sharedField": {
+            "actorClass": "CharaBase",
+            "offsets": [
+              "0x154"
+            ]
+          },
+          "writerBcsy": null,
+          "luaApiBcsy": null,
+          "confidence": "confirmed",
+          "mechanism": "data_dependency"
+        },
+        {
+          "luaName": "_countHamletDefenseScore",
+          "luaApiClass": "PlayerBase",
+          "luaApiImplVa": "0x0071E710",
+          "sharedField": {
+            "actorClass": "PlayerBase",
+            "offsets": [
+              "0x154"
+            ]
+          },
+          "writerBcsy": null,
+          "luaApiBcsy": null,
+          "confidence": "confirmed",
+          "mechanism": "data_dependency"
+        },
+        {
+          "luaName": "_getHamletDefenseScore",
+          "luaApiClass": "PlayerBase",
+          "luaApiImplVa": "0x0071E720",
+          "sharedField": {
+            "actorClass": "PlayerBase",
+            "offsets": [
+              "0x154"
+            ]
+          },
+          "writerBcsy": null,
+          "luaApiBcsy": null,
+          "confidence": "confirmed",
+          "mechanism": "data_dependency"
+        },
+        {
+          "luaName": "_getHamletDefenseScoreAll",
+          "luaApiClass": "PlayerBase",
+          "luaApiImplVa": "0x0071E730",
+          "sharedField": {
+            "actorClass": "PlayerBase",
+            "offsets": [
+              "0x154"
+            ]
+          },
+          "writerBcsy": null,
+          "luaApiBcsy": null,
+          "confidence": "confirmed",
+          "mechanism": "data_dependency"
+        }
+      ]
+    },
+    {
+      "name": "SyncMemoryReceiver",
+      "namespace": "Network",
+      "rtti_rva": "0xc5747c",
+      "slots": 2,
+      "slot1_fn": "FUN_0089e550",
+      "label": "sync: memory",
+      "mapping": {
+        "opcode": "0x0137",
+        "confidence": "confirmed",
+        "catalog_entry": "_0x0137 / SetActorPropertyPacket / Set Actor Work Values, SyncMemory (MapServerOpcode::SetActorProperty)",
+        "evidence": "constructor_verification:FUN_0089f4c0 EXPLICITLY writes 'Application::Lua::Script::Client::Command::Network::SyncMemoryReceiver::vftable' at param_1[0] (after first writing CommandInterface::vftable as part of the base-class chain); FUN_0089e6e0 EXPLICITLY writes the same vtable then resets to CommandInterface::vftable - canonical construct/destruct sequence. Wrapper FUN_00759ed0 at LuaActorImpl::vftable[60] follows construct->apply->destruct (FUN_0089f4c0 / FUN_0089e550 / FUN_0089e6e0). Handler chain FUN_00775a30 -> FUN_00775180 iterates the property stream with per-record 1-byte type-tag dispatch against thresholds DAT_00fe059b / DAT_00fe05a0 / DAT_00fe05a1 (NOT a single-property sentinel - dispatch is per-record-type, with three type bands routing to record-update / property-set / end-marker branches). The Set Actor Work Values (SyncMemory) label aligns with this property-stream semantic. BCS-Y-0075 MurmurHash2Backward documents 0x0137 as the property-id stream that this receiver consumes in full. SUPERSEDES CANDIDATE: the 'sentinel property-id' framing was a misread - 0x0137 always feeds SyncMemoryReceiver, internal dispatch is per-record type-tag not per-opcode sentinel.",
+        "body_shape": "property-stream: header + sequence of records, each with a 1-byte type tag (record-update for bVar1 < DAT_00fe059b; property-set for bVar1 < DAT_00fe05a0; end-marker for bVar1 < DAT_00fe05a1; terminator otherwise)",
+        "dispatch_shape": "42-insn slot1; no cast; canonical Receiver construct/apply/destruct chain (FUN_0xcc7510 init helper / FUN_0xcc73b0 / FUN_0x775a30 apply / FUN_0xcc9330 dtor helper); the receiver instance is constructed on stack via FUN_0089f4c0 then destructed via FUN_0089e6e0",
+        "notes": "**CANDIDATE via client-decomp cross-reference.** The Set Actor Work Values (SyncMemory) label bridges opcode 0x0137 to the SyncMemory tag, which matches this receiver's name. **BUT** the existing opcodes.json catalog binds 0x0137 to the same opcode under another name, describing the per-actor work-field sync mechanism documented in MDI-006 (Murmur2 property-id hash) and MDI-022 (combat damage feedback channel). The receiver's constructor-wrapped infrastructure shape matches the property-id stream format (per-property typed parser via constructor). **Marked CANDIDATE rather than CONFIRMED because**: (a) the SyncMemory receiver is one of many possible consumers of 0x0137 (the opcode carries a broader property-id stream); the receiver may only fire on a SPECIFIC property-id subset rather than every 0x0137 invocation. (b) The 'constructor-wrapped' dispatch shape suggests it might be a state-sync triggered by a SPECIFIC sentinel property-id rather than every 0x0137 packet. **Verification path**: decompile the constructor at FUN_0xcc7510 + sub-handler FUN_0x775a30 to identify which property-id range or sentinel triggers SyncMemory, then cross-check against xivl-opcodes payload_samples 0x0137 corpus to confirm those property-ids appear on the wire."
+      },
+      "cast_target": null,
+      "slot1_shape": {
+        "insns_to_first_ret": 42,
+        "max_local_stack": 0,
+        "seh": true,
+        "tail_jmp": null
+      },
+      "lua_actor_impl_slot": 60
+    }
+  ],
+  "rtti_methodology_note": "Each receiver's slot1 entrypoint may begin with __RTDynamicCast (FUN_0x9da6cc), which checks the actor pointer against a TargetType TypeDescriptor. The cast_target.target field records the runtime type the packet requires (MyPlayer for local-player-only, PlayerBase for any player, CharaBase for any character, NpcBase for NPC-only, AreaBase for area-level, DirectorBase for event-director-level). When cast_target is null, the receiver either uses a canonical 5-slot Receive body or a heavy infrastructure shape with no entry-point cast.",
+  "gap_receiver_evidence_note": "Comprehensive gap-receiver evidence pass: deep slot1 + downstream handler disasm + Lua corpus identifier cross-reference. One promotion (SetCommandEventCondition -> 0x0166 candidate via sibling-family pattern); fifteen remain gap with full shape documentation. Receiver state: 5 confirmed / 22 strong / 1 candidate / 15 gap.",
+  "gap_receiver_decomp_batch_note": "Headless-Ghidra batch decomp pass on the 15 gap receivers' slot1 plus the 15 dispatch wrapper VAs from Callers. This batch primarily CORROBORATES xivl-client-structs MDI-019 / MDI-022 rather than discovering net-new findings. Slot1 decomp confirmed dispatch_shape notes for all 15 entries. Wrappers (FUN_00759xxx/FUN_0075axxx family) ARE the Application::Lua::Script::Client::LuaActorImpl::vftable method slots (BCS-Y-0092, base 0x00FDFB2C, 90 slots total); the prior memory note about 'ReceiverApplyWrapperTable at 0x00FDFC00' is incorrect - 0x00FDFC00 is just where LuaActorImpl slots 53..89 happen to land inside that vtable. Receiver dispatch is the standard C++ virtual call (compiles to `call [eax + N*4]`); the wrappers themselves carry no opcode constant. MDI-019 already enumerates slot numbers for 6 of the 15 gap receivers (ExecuteDebugCommand=7, ExecutePushOnEnter=19, ExecutePushOnLeave=20, AttributeTypeEventEnter=21, AttributeTypeEventLeave=22, plus HateStatus=66 from MDI-022 and ChangeActorExtraStat=32 from MDI-022); the other 8 gap receivers have not yet been enumerated. HateStatus's NpcBase+0x154/+0x158 fields surfaced here are already documented in MDI-022; this batch promoted them to BCS-S-0010 NpcBase in xivl-client-structs as a formal struct entry. Opcodes for these 15 receivers remain gap; the still-open mapping is opcode -> LuaActorImpl slot index N, which requires a binary scan for `call [reg + N*4]` shapes against s2c dispatcher handlers (per MDI-019 closing note), not another receiver decomp batch.",
+  "gap_receiver_decomp_batch": [
+    {
+      "receiver": "JobQuestCompleteTripleReceiver",
+      "slot1_va": "0x0089d350",
+      "decomp_confirms": "factory: alloc 0x20 via FUN_009d1b35, dispatch to FUN_0089d270 sub-receiver with param_1+8 body offset",
+      "new_evidence": null,
+      "wrapper_va": null,
+      "wrapper_note": "no caller VA detected in Ghidra; dispatched via function pointer (table-only reachability)"
+    },
+    {
+      "receiver": "EntrustItemReceiver",
+      "slot1_va": "0x0089cb90",
+      "decomp_confirms": "MyPlayer cast confirmed; handler FUN_006efbd0 called with param_1+4",
+      "new_evidence": null,
+      "wrapper_va": "0x0075a730",
+      "wrapper_note": "LuaActorImpl::vftable[80] per the vtable-extraction pass (0x00FDFB2C base; slot offset 0x140). FUN_0089f110(param_2, 0x20) pre / receiver / FUN_0089e5e0 post",
+      "lua_actor_impl_slot": 80
+    },
+    {
+      "receiver": "ExecuteDebugCommandReceiver",
+      "slot1_va": "0x008a4880",
+      "decomp_confirms": "GM debug command parser; iterates a vector at +0x14 (stride 0x15 dwords) and dispatches each entry through Lua _onDebugInput callback",
+      "new_evidence": "string-literal anchor: 'debug' and '_onDebugInput' present in slot1 body, removing any naming ambiguity",
+      "wrapper_va": "0x00759630",
+      "lua_actor_impl_slot": 7,
+      "wrapper_note": "LuaActorImpl::vftable[7] per MDI-019. FUN_008a3c10 pre / receiver / FUN_008a3c80 post"
+    },
+    {
+      "receiver": "SendLogReceiver",
+      "slot1_va": "0x0089fbf0",
+      "decomp_confirms": "multi-channel log dispatcher confirmed",
+      "new_evidence": "channel switch on u8@+0x10 with cases 0/1/2/0xff routing to FUN_00772050/00771f50/00772650/00772560; reads sender id at +0x1a, opcode/topic word at +0x18, message body at +0x14; channel 0xff is a WorldMaster-cast fallback path",
+      "wrapper_va": "0x00759fd0",
+      "wrapper_note": "LuaActorImpl::vftable[63] per the vtable-extraction pass (0x00FDFB2C base; slot offset 0xfc). FUN_0089f5b0 pre / receiver / FUN_0089fb50 post",
+      "lua_actor_impl_slot": 63
+    },
+    {
+      "receiver": "ExecutePushOnEnterTriggerBoxReceiver",
+      "slot1_va": "0x008a4270",
+      "decomp_confirms": "NpcBase cast (TriggerBox is NPC-typed in client RTTI); handler FUN_006ed6c0 invoked when actor matches expected self-context",
+      "new_evidence": null,
+      "wrapper_va": "0x00759720, 0x00894d30",
+      "lua_actor_impl_slot": 19,
+      "wrapper_note": "LuaActorImpl::vftable[19] per MDI-019 (wrapper FUN_00759720: FUN_008a3d00 pre / receiver / FUN_00776950 post). Also reachable from FUN_00894d30 (421B) which holds a 4-state DAT_012c3f77 input-key state machine routing circle/fan/trigger-box enter/leave dispatch"
+    },
+    {
+      "receiver": "ExecutePushOnLeaveTriggerBoxReceiver",
+      "slot1_va": "0x008a4340",
+      "decomp_confirms": "twin of ExecutePushOnEnter; NpcBase cast; handler FUN_006ed6f0",
+      "new_evidence": null,
+      "wrapper_va": "0x007597a0, 0x00894d30",
+      "lua_actor_impl_slot": 20,
+      "wrapper_note": "LuaActorImpl::vftable[20] per MDI-019 (wrapper FUN_007597a0: FUN_008a3d70 pre / receiver / FUN_007769d0 post). Shares FUN_00894d30 state machine with ExecutePushOnEnter"
+    },
+    {
+      "receiver": "AttributeTypeEventEnterReceiver",
+      "slot1_va": "0x008a3de0",
+      "decomp_confirms": "1-byte body packet; MyPlayer cast; passes byte from param_1+4 to handler FUN_006e11e0",
+      "new_evidence": null,
+      "wrapper_va": "0x00759820",
+      "lua_actor_impl_slot": 21,
+      "wrapper_note": "LuaActorImpl::vftable[21] per MDI-019. FUN_00776a50 pre / receiver / SEH unwind"
+    },
+    {
+      "receiver": "AttributeTypeEventLeaveReceiver",
+      "slot1_va": "0x008a3e20",
+      "decomp_confirms": "twin of AttributeTypeEventEnter; MyPlayer cast; handler FUN_006e1200",
+      "new_evidence": null,
+      "wrapper_va": "0x007598a0",
+      "lua_actor_impl_slot": 22,
+      "wrapper_note": "LuaActorImpl::vftable[22] per MDI-019. FUN_00776b70 pre / receiver / SEH unwind"
+    },
+    {
+      "receiver": "ChangeActorExtraStatReceiver",
+      "slot1_va": "0x0089c990",
+      "decomp_confirms": "CharaBase cast; handler FUN_006fa980(actor, u32@+0x4, 1) - third arg literal 1 distinguishes this from ChangeSystemStat",
+      "new_evidence": "literal flag value 1 in the FUN_006fa980 call cleanly distinguishes ExtraStat from SystemStat at the handler call site",
+      "wrapper_va": "0x0075a920",
+      "lua_actor_impl_slot": 85,
+      "wrapper_note": "LuaActorImpl::vftable[85] per MDI-022 corrected slot base (0x00FDFC80 = base 0x00FDFB2C + 85*4; pre-correction MDI-022 had slot 32 from the wrong 0x00FDFC00 base). FUN_0089c8e0 pre / receiver / FUN_0089c940 post"
+    },
+    {
+      "receiver": "ChangeSystemStatReceiver",
+      "slot1_va": "0x0089ca80",
+      "decomp_confirms": "CharaBase cast; handler FUN_006fae70 (no third-arg flag visible at slot1 layer)",
+      "new_evidence": null,
+      "wrapper_va": "0x0075a060",
+      "wrapper_note": "LuaActorImpl::vftable[64] per the vtable-extraction pass (0x00FDFB2C base; slot offset 0x100). FUN_0089c9d0 pre / receiver / FUN_0089ca30 post",
+      "lua_actor_impl_slot": 64
+    },
+    {
+      "receiver": "ChangeShadowActorFlagReceiver",
+      "slot1_va": "0x0089cc70",
+      "decomp_confirms": "ultra-thin 22B body confirmed; no RTTI cast; FUN_006dbe50(actor, byte@+0x4)",
+      "new_evidence": null,
+      "wrapper_va": "0x0075aaa0",
+      "wrapper_note": "LuaActorImpl::vftable[89] per the vtable-extraction pass (0x00FDFB2C base; slot offset 0x164). FUN_0089cbc0 pre / receiver / FUN_0089cc20 post",
+      "lua_actor_impl_slot": 89
+    },
+    {
+      "receiver": "HateStatusReceiver",
+      "slot1_va": "0x0089d030",
+      "decomp_confirms": "NpcBase cast; reads u32@+0x4 and u16@+0x8; writes them to NpcBase+0x154 (u32) and NpcBase+0x158 (u16) inline - matches MDI-022 lifecycle decode",
+      "new_evidence": "decomp run independently surfaced the same NpcBase+0x154/+0x158 fields already documented in xivl-client-structs MDI-022; promoted from prose to formal struct entry as BCS-S-0010 NpcBase in this batch",
+      "wrapper_va": "0x0075a160",
+      "lua_actor_impl_slot": 66,
+      "wrapper_note": "LuaActorImpl::vftable[66] per MDI-019/MDI-022 (0x00FDFC34 = base 0x00FDFB2C + 66*4). FUN_0089cf60(FUN_00cc9320-wrapped param) pre / receiver / FUN_0089cfd0 post"
+    },
+    {
+      "receiver": "HamletSupplyRankingReceiver",
+      "slot1_va": "0x0089ce70",
+      "decomp_confirms": "AreaBase cast; handler FUN_006f3310(param_1+8)",
+      "new_evidence": null,
+      "wrapper_va": "0x0075a7c0",
+      "wrapper_note": "LuaActorImpl::vftable[82] per the vtable-extraction pass (0x00FDFB2C base; slot offset 0x148). FUN_0089cdb0 pre / receiver / FUN_0089ce20 post; wrapper allocates 1536B local stack for staging buffer",
+      "lua_actor_impl_slot": 82
+    },
+    {
+      "receiver": "HamletDefenseScoreReceiver",
+      "slot1_va": "0x0089e420",
+      "decomp_confirms": "no RTTI cast; handler FUN_006f2210(actor, param_1+8)",
+      "new_evidence": null,
+      "wrapper_va": "0x0075a870",
+      "wrapper_note": "LuaActorImpl::vftable[83] per the vtable-extraction pass (0x00FDFB2C base; slot offset 0x14c). FUN_0089cea0 pre / receiver / FUN_0089cf10 post; wrapper allocates 280B local stack",
+      "lua_actor_impl_slot": 83
+    },
+    {
+      "receiver": "SyncMemoryReceiver",
+      "slot1_va": "0x0089e550",
+      "decomp_confirms": "constructor-wrapped infrastructure shape; handler FUN_00775a30(uVar1, FUN_00cc73b0-wrapped param, param_1+4); decomp update: FUN_0089f4c0 explicitly writes SyncMemoryReceiver::vftable (definitive vtable-construction evidence); handler chain FUN_00775a30 -> FUN_00775180 dispatches per-record type-tag bytes against DAT_00fe059b/05a0/05a1 thresholds",
+      "new_evidence": "FUN_0089f4c0 line 669 'undefined4 * __thiscall FUN_0089f4c0(undefined4 *param_1, ...) { ... *param_1 = Application::Lua::Script::Client::Command::Network::SyncMemoryReceiver::vftable; ... }' definitively identifies the constructor; FUN_0089e6e0 mirror-image destructor. No sentinel property-id; receiver consumes the full 0x0137 property stream with per-record type-tag dispatch.",
+      "wrapper_va": "0x00759ed0",
+      "wrapper_note": "LuaActorImpl::vftable[60] per the vtable-extraction pass (0x00FDFB2C base; slot offset 0xf0). FUN_0089f4c0(param_3+1, *param_3) pre / receiver / FUN_0089e6e0 post",
+      "lua_actor_impl_slot": 60
+    }
+  ],
+  "vftable_slot_extraction_note": "LuaActorImpl::vftable direct extraction (Python pefile read of VA 0x00FDFB2C slots 0..89) matched against the 7 unmapped wrapper VAs from the earlier batch. Filled in slots for 7 of the 8 unmapped receivers (JobQuestCompleteTriple remains unmapped: it has no wrapper, reached via table-only pointer). All 7 previously-known slot assignments (ExecuteDebugCommand=7, ExecutePushOnEnter=19, ExecutePushOnLeave=20, AttributeTypeEventEnter=21, AttributeTypeEventLeave=22, HateStatus=66, ChangeActorExtraStat=85) re-verified against the same extraction.",
+  "static_exhaustion_note": "Static-analysis path exhausted for the 6 remaining gap receivers (slots 7, 19, 20, 21, 22, 63). Decomp of each receiver's apply method clarifies the Lua-callback firing pattern: (a) slot 7 ExecuteDebugCommandReceiver apply FUN_008A4880 fires `_onDebugInput` via FUN_00447260+FUN_00CC7A90 (explicit '_onDebugInput' string at xref 0x008A4BFB); (b) slot 19 ExecutePushOnEnterTriggerBoxReceiver apply FUN_008A4270 -> FUN_0070A6C0 -> FUN_00706F60 fires `_onReaction` (matching BCS-Y-0164); (c) slot 20 ExecutePushOnLeaveTriggerBoxReceiver apply FUN_008A4340 -> FUN_0070A6F0 -> FUN_00706F60 fires `_onReaction` (matching BCS-Y-0165); (d) slot 21 AttributeTypeEventEnterReceiver apply FUN_008A3DE0 -> FUN_006E11E0 PURE-NATIVE (no Lua firer); (e) slot 22 AttributeTypeEventLeaveReceiver apply FUN_008A3E20 -> FUN_006E1200 PURE-NATIVE (no Lua firer); (f) slot 63 SendLogReceiver apply FUN_0089FBF0 PURE-NATIVE (16 callees all UI/text-rendering helpers: FUN_00772050 / FUN_0076F5A0 / FUN_007906C0 / etc; dispatches to chat/log UI). The Lua-side chain is locked for 3 of 6 receivers; NONE has an opcode-side binding from static analysis. Receiver-to-opcode mapping inherently requires either packet capture (preferred path, pipeline not provisioned) OR interactive Ghidra type recovery on the inbound-opcode dispatcher to identify which 0x01xx-range opcode routes to each receiver's wrapper. Gap-receiver count remains at 9 of 15 CONFIRMED, 6 of 15 GAP (opcode-side).",
+  "syncmemory_constructor_note": "SyncMemoryReceiver CANDIDATE -> CONFIRMED. Ghidra headless decomp of FUN_0089f4c0 (the slot1's pre-call) revealed it writes 'Application::Lua::Script::Client::Command::Network::SyncMemoryReceiver::vftable' to param_1[0], definitively identifying it as the receiver constructor. FUN_0089e6e0 (post-call) is the mirror-image destructor. The CANDIDATE caveat about 'sentinel property-id' was a misread: 0x0137 always feeds SyncMemoryReceiver (slot 60), and internal dispatch happens per-record via 1-byte type-tag bands against thresholds DAT_00fe059b/05a0/05a1. The FUN_0xcc7510 'constructor' VA in the prior CANDIDATE note was actually a shared SEH-cookie/stack-check helper (7-byte body, 200+ callers, calls FUN_00cd7910 which returns param_1+0x220 - a stack-cookie offset). FUN_0xcc73b0 is similarly a shared helper. Pcap framework (BCS-Y-0075 MurmurHash2Backward) confirms 0x0137 carries a property-id stream that this receiver consumes in full. The Set Actor Work Values (SyncMemory) label aligns. 8/15 -> 9/15 gap receivers now CONFIRMED; 6 remain (ExecutePushOnEnter/Leave, AttributeTypeEventEnter/Leave, SendLog, ExecuteDebug).",
+  "catalog_extension_note": "Mechanical follow-up to the receiver analysis pass. Added 4 client-receiver opcodes to the opcodes.json MapClientbound bucket: 0x018E (ChangeSystemStatReceiver / 'Set Retainer Star'), 0x01A2 (JobQuestCompleteTripleReceiver), 0x01A6 (HamletSupplyRankingReceiver), 0x01A8 (HamletDefenseScoreReceiver). All four are confidence=decomp_routed with client_receiver/slot pointers carrying the structural decomp facts captured here. None has a pcap observation; client-receiver decomp is the evidence chain. The MISSING_FROM_CATALOG markers above are now resolved.",
+  "client_internal_reclassification_note": "The vftable-write immediate scan methodology (as applied to SendLog) was applied to the 4 'apply-known-shape' gap receivers (ExecutePushOnEnter/LeaveTriggerBox slots 19/20, AttributeTypeEventEnter/Leave slots 21/22). Methodology returned ctor/dtor pairs but NO opcode switch in any constructor (contrast SendLog 20-case switch on packet[+2]). Alt-caller decomp (FUN_00894d30 state machine + FUN_007617b0/0x60/0x10/0xb0 factories) confirmed 100% client-internal dispatch with no packet header read. Reclassified all 4 from gap -> client_internal. Inbound gap-receiver universe drops from 15 to 11 receivers; 10/11 confirmed, 1 still genuinely gap (slot 7 ExecuteDebugCommandReceiver, GM-only).",
+  "lua_actor_impl_sweep_note": "The bulk vftable-write sweep across all 90 LuaActorImpl::vftable slots via SweepLuaActorImplSlots.java. Result: 33 of 90 slots have construct-apply-destruct Receiver class patterns (i.e. the wrapper or its first callee writes a derived class vftable to *this). Of those 33: 28 already documented with lua_actor_impl_slot, 3 needed slot annotations added (AddictLoginTimeKindReceiver=65, AchievementAchievedCountReceiver=77, ChangeActorSubStatModeBorderReceiver=86), and 2 are non-receiver patterns (slot 0 = LuaActorImpl base destructor itself, slot 88 = std::bad_alloc allocation-failure path). The remaining 57 of 90 slots are TRUE direct-dispatch wrappers with no Receiver class - they call the apply path directly without constructing a temporary receiver object on the stack. Combined with the vftable-write immediate scan and bulk vftable-write sweep reclassification of slots 7/19/20/21/22 to client_internal, final inbound-receiver state is: 43 receivers total in catalog, 10/10 inbound CONFIRMED, 5 reclassified as client_internal, 28 unchanged (strong/confirmed mix); no remaining gap receivers.",
+  "methodology_calibration_note": "This methodology-calibration pass attempted to verify/demote the 18 unverified-Receiver slots using the SendLog/SyncMemory methodology (multi-case switch in ctor indicates inbound binding). Cross-validation against 8 known-confirmed inbound receivers showed that 6 of 8 have MAX_CASES=0 in their ctor and small callees. The opcode-dispatch switch in SendLog is actually in the APPLY method (FUN_0089f5b0, 5231 bytes, 20 cases), not in the ctor. Therefore 'no ctor switch' is NOT a reliable client_internal signal - the earlier trigger-box and ExecuteDebugCommand reclassifications relied on factory-wrapper alloc+ctor+cleanup pattern + alt-caller analysis (input state machine FUN_00894d30/FUN_007616f0 factories), not just ctor-switch absence. Its actual gain: 3 'mystery' slot identifications (slot 82=HamletSupplyRankingReceiver, 85=ChangeActorExtraStatReceiver, 89=ChangeShadowActorFlagReceiver - all already confirmed in catalog, sweep missed them due to decomp line-wrapping in vftable name extraction) plus 22 lua_actor_impl_slot annotations added across confirmed + strong receivers. The 15 strong-confidence receivers visible in the sweep remain strong - this methodology insufficient to promote without finding the central packet -> LuaActorImpl-slot dispatcher.",
+  "dispatcher_hunt_note": "Located the central packet dispatchers: FUN_004dc690 (0x004DC690, size 3390B, 27 of 35 target opcodes) handles opcodes > 0x13D and low-opcode group 0x0F + 0xCC-0xE5; FUN_004d8860 (0x004D8860, size 863B, 19 of 35) handles the event family (0x12E, 0x12F, 0x130, 0x131, 0x132, 0x133, 0x136, 0x137, 0x138). Both read opcode at packet+2. FUN_004dc690 has a multi-opcode fallthrough group that dispatches via `actor->vftable[9](packet)` where actor is looked up by FUN_004d9910. All 21 strong-confidence receivers + 1 candidate (SetCommandEvent) verified opcode-bound and promoted to confirmed. Receivers with their own dedicated handler paths (e.g., 0x198 Chocobo via FUN_00576150) are also promoted based on dispatcher binding.",
+  "indirect_lua_readers_note": "xivl-client-structs (BCS-Y-0338/0341/0342/0343) added indirect-binding evidence: for each receiver that writes an actor-state field also read by a Lua API, an indirect_lua_readers entry records the {luaName, sharedField, luaApiImplVa, bcsRefs} link. This sits parallel to lua_actor_impl_slot (which records direct _onXxx callback firing) and captures the data-dependency mechanism for receivers whose state mutation surfaces to Lua via field-sharing rather than callback fire.",
+  "apply_chain_note": "xivl-client-structs (BCS-Y-0351) added the apply_chain binding mechanism: a Lua-name fired from the receiver's apply helper (depth >= 2 of the apply chain) rather than from a LuaActorImpl::vftable slot dispatcher. For each receiver whose apply chain fires named Lua callbacks via FUN_00447260 + FUN_00CC7A90, an apply_chain_lua_readers entry records the {luaName, opcode, applyHelperVa, fireSite, evidenceBcsy} link. This sits parallel to lua_actor_impl_slot (direct slot dispatch) and indirect_lua_readers (data-dependency via shared field) as the third bridge mechanism."
+}

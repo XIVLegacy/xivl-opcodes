@@ -1,0 +1,594 @@
+"""Apply curated overrides and canonicalize both root catalogs."""
+
+import json
+import sys
+from pathlib import Path
+
+from _json_io import CONSTANTS_PATH, OPCODES_PATH, write_json
+
+EXPECTED_TOP_DESC = "FFXIV 1.23b opcode catalog joined with pcap observations and retail-client analysis. WorldMapBackend holds world<->map backbone packets; both backend directions share opcode integers. WorldMapBackend entries are server-to-server and never cross the client TCP socket, so client-capture pcap evidence is structurally impossible for those wire values. A catalog extension added 4 client-side receiver opcodes (0x018E SetRetainerStar, 0x01A2 JobQuestCompleteTriple, 0x01A6 HamletSupplyRanking, 0x01A8 HamletDefenseScore); evidence is xivl-client-structs client receiver decomp."
+REVERIFY_METHOD = "live-validation: verify that the retail 1.23b client accepts the behavior in a live session"
+CLIENT_SEMANTICS_PATH = Path(__file__).resolve().parent.parent / "data" / "client_opcode_semantics.json"
+LOCAL_DECOMP_ANCHOR_EVIDENCE = {
+    "FUN_0075ECD0": "data/client_opcode_semantics.json#c2s-0135",
+    "FUN_00576560": "data/vendor/client-structs/bcsy-opcode-bindings.json#BCS-Y-0545",
+    "FUN_00576250": "data/vendor/client-structs/bcsy-opcode-bindings.json#BCS-Y-0564",
+    "FUN_0089F530": "data/vendor/client-structs/bcsy-opcode-bindings.json#BCS-Y-0029",
+    "FUN_0089F430": "data/vendor/client-structs/bcsy-opcode-bindings.json#BCS-Y-0031",
+    "FUN_0089D180": "data/vendor/client-structs/bcsy-opcode-bindings.json#BCS-Y-0033",
+    "FUN_0089D980": "data/vendor/client-structs/bcsy-opcode-bindings.json#BCS-Y-0734",
+}
+UNSUPPORTED_NOTE_PREFIXES = (
+    "processor_evidence=",
+    "case_comment=",
+    "dispatch_only_no_packet_class",
+)
+
+OVERRIDES = [
+    (
+        "LobbyClientbound",
+        "0x0002",
+        "Error",
+        "implementationServiceRelabel=same_wire_integer_used_by_World/Map_at_0x0002; no_reference_Lobby_Server_packet_class_at_this_opcode; not_a_parity_discrepancy; no_pcap_evidence",
+        "implementationServiceRelabel=same_wire_integer_used_by_World/Map_at_0x0002; no_reference_Lobby_Server_packet_class_at_this_opcode; not_a_parity_discrepancy; no_pcap_evidence",
+    ),
+    (
+        "WorldClientbound",
+        "0x0002",
+        "_0x2Packet",
+        "no_pcap_evidence",
+        "no_pcap_evidence; implementationServiceRelabel=LobbyOpcode::Error_at_lobby_clientbound_same_wire_integer; not_a_parity_discrepancy",
+    ),
+    (
+        "MapServerbound",
+        "0x0002",
+        "_0x0002Handler",
+        "no_pcap_evidence",
+        "no_pcap_evidence; implementationServiceRelabel=LobbyOpcode::Error_at_lobby_clientbound_same_wire_integer; not_a_parity_discrepancy",
+    ),
+    (
+        "MapClientbound",
+        "0x0002",
+        "_0x02Packet",
+        "no_pcap_evidence",
+        "no_pcap_evidence; implementationServiceRelabel=LobbyOpcode::Error_at_lobby_clientbound_same_wire_integer; not_a_parity_discrepancy",
+    ),
+    (
+        "MapClientbound",
+        "0x013a",
+        "BattleActionX10Packet",
+        "",
+        "packet_size=0xD8; multiplexed_at_runtime=true; payload_variants=CommandResultX10Packet,BattleActionX10Packet; runtime_distinguish=source_actor+per_entry_layout(12B_CommandResult_vs_~16B_BattleAction)",
+    ),
+    (
+        "MapClientbound",
+        "0x013b",
+        "BattleActionX18Packet",
+        "no_pcap_evidence",
+        "packet_size=0x148; multiplexed_at_runtime=true; payload_variants=CommandResultX18Packet,BattleActionX18Packet; runtime_distinguish=source_actor+per_entry_layout; no_pcap_evidence",
+    ),
+    (
+        "WorldMapBackend",
+        "0x100a",
+        "ErrorPacket",
+        "backend_direction=world_to_map; no_pcap_evidence; structural_backbone_no_client_pcap_resolution_possible",
+        "backend_direction=world_to_map; no_pcap_evidence; structural_backbone_no_client_pcap_resolution_possible",
+    ),
+    (
+        "WorldMapBackend",
+        "0x1010",
+        "_0x1010",
+        "no_retail_evidence; structural_backbone_no_client_pcap_resolution_possible",
+        "no_retail_evidence; structural_backbone_no_client_pcap_resolution_possible",
+    ),
+    (
+        "WorldMapBackend",
+        "0x1011",
+        "_0x1011",
+        "no_retail_evidence; structural_backbone_no_client_pcap_resolution_possible",
+        "no_retail_evidence; structural_backbone_no_client_pcap_resolution_possible",
+    ),
+    (
+        "WorldMapBackend",
+        "0x1020",
+        "PartyModifyPacket",
+        "backend_direction=map_to_world; no_pcap_evidence; structural_backbone_no_client_pcap_resolution_possible",
+        "backend_direction=map_to_world; no_pcap_evidence; structural_backbone_no_client_pcap_resolution_possible",
+    ),
+    (
+        "WorldMapBackend",
+        "0x1020",
+        "PartySyncPacket",
+        "backend_direction=world_to_map; no_pcap_evidence; structural_backbone_no_client_pcap_resolution_possible",
+        "backend_direction=world_to_map; no_pcap_evidence; structural_backbone_no_client_pcap_resolution_possible",
+    ),
+    (
+        "WorldMapBackend",
+        "0x1025",
+        "CreateLinkshellPacket",
+        "backend_direction=map_to_world; no_pcap_evidence; structural_backbone_no_client_pcap_resolution_possible",
+        "backend_direction=map_to_world; no_pcap_evidence; structural_backbone_no_client_pcap_resolution_possible",
+    ),
+    (
+        "WorldMapBackend",
+        "0x1025",
+        "LinkshellResultPacket",
+        "backend_direction=world_to_map; no_pcap_evidence; structural_backbone_no_client_pcap_resolution_possible",
+        "backend_direction=world_to_map; no_pcap_evidence; structural_backbone_no_client_pcap_resolution_possible",
+    ),
+    (
+        "WorldMapBackend",
+        "0x1fff",
+        "_0x1FFF",
+        "no_retail_evidence; structural_backbone_no_client_pcap_resolution_possible",
+        "no_retail_evidence; structural_backbone_no_client_pcap_resolution_possible",
+    ),
+]
+
+UNSUPPORTED_IMPLEMENTATION_OVERRIDES = [
+    ("WorldMapBackend", "0x1000", "SessionBeginConfirmPacket"),
+    ("WorldMapBackend", "0x1000", "SessionBeginPacket"),
+    ("WorldMapBackend", "0x1001", "SessionEndConfirmPacket"),
+    ("WorldMapBackend", "0x1001", "SessionEndPacket"),
+    ("WorldMapBackend", "0x1002", "WorldRequestZoneChangePacket"),
+    ("WorldMapBackend", "0x1003", "MapDrainPendingSendsPacket"),
+    ("WorldMapBackend", "0x100a", "ErrorPacket"),
+    ("WorldMapBackend", "0x1020", "PartyModifyPacket"),
+    ("WorldMapBackend", "0x1020", "PartySyncPacket"),
+    ("WorldMapBackend", "0x1021", "PartyLeavePacket"),
+    ("WorldMapBackend", "0x1022", "PartyInvitePacket"),
+    ("WorldMapBackend", "0x1023", "GroupInviteResultPacket"),
+    ("WorldMapBackend", "0x1025", "CreateLinkshellPacket"),
+    ("WorldMapBackend", "0x1025", "LinkshellResultPacket"),
+    ("WorldMapBackend", "0x1026", "ModifyLinkshellPacket"),
+    ("WorldMapBackend", "0x1027", "DeleteLinkshellPacket"),
+    ("WorldMapBackend", "0x1028", "LinkshellChangePacket"),
+    ("WorldMapBackend", "0x1029", "LinkshellInvitePacket"),
+    ("WorldMapBackend", "0x1030", "LinkshellInviteCancelPacket"),
+    ("WorldMapBackend", "0x1031", "LinkshellLeavePacket"),
+    ("WorldMapBackend", "0x1032", "LinkshellRankChangePacket"),
+]
+
+REVERIFY_OVERRIDES = [
+    ("WorldMapBackend", "0x1010", "_0x1010"),
+    ("WorldMapBackend", "0x1011", "_0x1011"),
+    ("WorldMapBackend", "0x1fff", "_0x1FFF"),
+]
+
+
+# Name overrides require the prior name and accept the corrected name for idempotent reruns.
+NAME_OVERRIDES = [
+    (
+        "MapServerbound",
+        "0x012f",
+        "ParameterDataRequestPacket",
+        "ActorWorkUpdatePacket",
+        "MapClientOpcode::ActorWorkUpdate",
+    ),
+    (
+        "MapServerbound",
+        "0x0133",
+        "GroupCreatedPacket",
+        "GroupWorkUpdatePacket",
+        "MapClientOpcode::GroupWorkUpdate",
+    ),
+    (
+        "WorldServerbound",
+        "0x0133",
+        "GroupCreatedPacket",
+        "GroupWorkUpdatePacket",
+        "MapClientOpcode::GroupWorkUpdate",
+    ),
+    (
+        "MapServerbound",
+        "0x0135",
+        "AchievementProgressRequestPacket",
+        "BindingSubscribeRequestPacket",
+        "MapClientOpcode::BindingSubscribeRequest",
+    ),
+]
+
+
+# Pcap joins use (direction, opcode) only; PCAP_AMBIGUOUS marks shared services and
+# PCAP_LOBBY_PURGE removes lobby rows that inherited in-world captures.
+PCAP_AMBIGUOUS_SERVICES = "world,map"
+PCAP_AMBIGUOUS = [
+    ("WorldClientbound", "0x017a", "SynchGroupWorkValuesPacket"),
+    ("MapClientbound", "0x017a", "SynchGroupWorkValuesPacket"),
+    ("WorldClientbound", "0x017c", "GroupHeaderPacket"),
+    ("MapClientbound", "0x017c", "GroupHeaderPacket"),
+    ("WorldClientbound", "0x017d", "GroupMembersBeginPacket"),
+    ("MapClientbound", "0x017d", "GroupMembersBeginPacket"),
+    ("WorldClientbound", "0x017e", "GroupMembersEndPacket"),
+    ("MapClientbound", "0x017e", "GroupMembersEndPacket"),
+    ("WorldClientbound", "0x017f", "GroupMembersX08Packet"),
+    ("MapClientbound", "0x017f", "GroupMembersX08Packet"),
+    ("WorldServerbound", "0x0133", "GroupWorkUpdatePacket"),
+    ("MapServerbound", "0x0133", "GroupWorkUpdatePacket"),
+]
+
+LANE_MOVES = {
+    "0x0007": ("DeleteAllActorsPacket", 12),
+    "0x0008": ("_0x0008", 19),
+    "0x0143": ("DeleteGroupPacket", 12),
+}
+LANE_UNRESOLVED = {"0x0002", "0x0003", "0x0188", "0x0189", "0x018a"}
+PCAP_LOBBY_PURGE = [
+    ("LobbyServerbound", "0x0003", "_0x0003Handler"),
+    ("LobbyClientbound", "0x000c", "AccountListPacket"),
+    ("LobbyClientbound", "0x000d", "CharacterListPacket"),
+    ("LobbyClientbound", "0x000f", "SelectCharacterConfirmPacket"),
+]
+
+
+CLIENT_SEMANTICS_SPECIAL_NOTES = {
+    "c2s-012f": (
+        "retail_client_analysis=FUN_0075E770 writes opcode 0x012f and body size 0x38, "
+        "copies a request-id dword plus 32 bytes of serialized state, and sends through "
+        "FUN_004D6D30; observed 72-byte packet; semantic_status=the client body supports "
+        "a parameter/state-data request while ActorWorkUpdatePacket remains an "
+        "implementation label and cross-check"
+    ),
+    "c2s-0135": (
+        "no_pcap_evidence; semantic_status=blocked; "
+        "retail_client_analysis=FUN_0075ECD0 proves only "
+        "opcode 0x0135, packet length 0x18, one u32 payload value, sole caller "
+        "FUN_00705EB0, and the FUN_004D6D30 send path; unknown=binding-id and "
+        "subscription-type semantics; "
+        "decomp_anchor_evidence=data/client_opcode_semantics.json#c2s-0135; "
+        "decomp_anchor_locator=FUN_0075ECD0"
+    ),
+}
+
+
+def scrub_emulator_notes(notes: str) -> tuple[str, int]:
+    """Remove unsupported server-source notes while preserving local evidence tails."""
+    cleaned = []
+    removed = 0
+    for part in (part.strip() for part in notes.split(";") if part.strip()):
+        if part.startswith(UNSUPPORTED_NOTE_PREFIXES):
+            removed += 1
+            _, separator, local_tail = part.partition(" | ")
+            if separator and local_tail:
+                cleaned.append(local_tail.strip())
+            continue
+        if part.startswith("reference_doc="):
+            removed += 1
+            _, separator, local_tail = part.partition(" | ")
+            if separator and local_tail:
+                cleaned.append(local_tail.strip())
+            continue
+        cleaned.append(part)
+    return "; ".join(cleaned), removed
+
+
+def localize_decomp_anchor_evidence(entry: dict) -> tuple[bool, bool]:
+    """Localize supported anchor citations and remove unsupported external ones."""
+    evidence = LOCAL_DECOMP_ANCHOR_EVIDENCE.get(entry.get("decompAnchor"))
+    if evidence is None:
+        parts = [
+            part.strip()
+            for part in entry.get("notes", "").split(";")
+            if part.strip()
+        ]
+        retained = [
+            part
+            for part in parts
+            if not (
+                part.startswith("decomp_anchor_evidence=")
+                and not part.partition("=")[2].startswith("data/")
+            )
+        ]
+        if retained != parts:
+            entry["notes"] = "; ".join(retained)
+            return False, True
+        return False, False
+
+    token = f"decomp_anchor_evidence={evidence}"
+    parts = [part.strip() for part in entry.get("notes", "").split(";") if part.strip()]
+    replaced = False
+    localized = []
+    for part in parts:
+        if part.startswith("decomp_anchor_evidence="):
+            if part != token:
+                replaced = True
+            if token not in localized:
+                localized.append(token)
+        else:
+            localized.append(part)
+    if not any(part.startswith("decomp_anchor_evidence=") for part in parts):
+        localized.append(token)
+        replaced = True
+    if replaced:
+        entry["notes"] = "; ".join(localized)
+    return replaced, False
+
+
+def swap_managed_prefix(current: str, expected_old: str, new_notes: str):
+    """Replace an owned prefix idempotently while preserving an appended tail."""
+    # new_notes may start with expected_old, so test the applied form first.
+    if current.startswith(new_notes):
+        return current, "skipped"
+    if current.startswith(expected_old):
+        return new_notes + current[len(expected_old):], "applied"
+    return current, "mismatch"
+
+
+def apply_client_semantics(top: dict) -> tuple[int, int]:
+    """Attach the independently reviewed client-body evidence to catalog rows."""
+    evidence = json.loads(CLIENT_SEMANTICS_PATH.read_text(encoding="utf-8"))
+    applied = 0
+    errors = 0
+
+    for row in evidence["rows"]:
+        matches = [
+            entry
+            for entries in top["lists"].values()
+            for entry in entries
+            if entry["opcodeHex"] == row["opcodeHex"]
+            and entry["direction"] == row["direction"]
+            and entry.get("decompAnchor") == row["function"]
+        ]
+        if len(matches) != 1:
+            print(
+                f"  WARN: client semantics {row['id']} matched {len(matches)} catalog rows"
+            )
+            errors += 1
+            continue
+
+        entry = matches[0]
+        if row["id"] in CLIENT_SEMANTICS_SPECIAL_NOTES:
+            entry["notes"] = CLIENT_SEMANTICS_SPECIAL_NOTES[row["id"]]
+
+        parts = [part.strip() for part in entry.get("notes", "").split(";") if part.strip()]
+        parts = [
+            part
+            for part in parts
+            if not part.startswith("client_semantics_evidence=")
+            and not part.startswith("dependency_status=")
+        ]
+        if row["status"] == "closed":
+            parts = [
+                part
+                for part in parts
+                if not part.startswith("decomp_anchor_evidence=")
+                and not part.startswith("decomp_anchor_locator=")
+            ]
+        elif not any(
+            part.startswith("decomp_anchor_evidence=") for part in parts
+        ):
+            local_evidence = LOCAL_DECOMP_ANCHOR_EVIDENCE.get(row["function"])
+            if local_evidence is None:
+                print(f"  WARN: no local anchor evidence for open row {row['id']}")
+                errors += 1
+                continue
+            parts.extend(
+                [
+                    f"decomp_anchor_evidence={local_evidence}",
+                    f"decomp_anchor_locator={row['function']}",
+                ]
+            )
+        parts.extend(
+            [
+                f"client_semantics_evidence=data/client_opcode_semantics.json#{row['id']}",
+                f"dependency_status={row['status']}",
+            ]
+        )
+        entry["notes"] = "; ".join(parts)
+        if row["id"] in {"c2s-012f", "c2s-0135"}:
+            entry["confidence"] = "blocked"
+        applied += 1
+
+    return applied, errors
+
+
+def main() -> int:
+    if hasattr(sys.stdout, "reconfigure"):
+        sys.stdout.reconfigure(encoding="utf-8")
+
+    catalog = json.loads(OPCODES_PATH.read_text(encoding="utf-8"))
+    top = catalog[0]
+
+    scrubbed = 0
+    localized = 0
+    removed_external = 0
+    for entries in top["lists"].values():
+        for entry in entries:
+            notes, removed = scrub_emulator_notes(entry.get("notes", ""))
+            if removed:
+                entry["notes"] = notes
+                scrubbed += removed
+            did_localize, did_remove = localize_decomp_anchor_evidence(entry)
+            localized += did_localize
+            removed_external += did_remove
+    print(f"Removed {scrubbed} unsupported emulator note fragments")
+    print(f"Localized {localized} decomp-anchor citations")
+    print(f"Removed {removed_external} unsupported external decomp-anchor citations")
+
+    warned = 0
+    if top["description"] == EXPECTED_TOP_DESC:
+        print("Top-level description matches the expected baseline")
+    else:
+        print("WARN: top-level description drifted from the expected baseline")
+        warned += 1
+
+    applied = 0
+    skipped = 0
+    for bucket, opcode_hex, name, expected_old, new_notes in OVERRIDES:
+        found = False
+        for e in top["lists"][bucket]:
+            if e["opcodeHex"] == opcode_hex and e["name"] == name:
+                found = True
+                current = e.get("notes", "")
+                e["notes"], status = swap_managed_prefix(current, expected_old, new_notes)
+                if status == "applied":
+                    applied += 1
+                elif status == "skipped":
+                    skipped += 1
+                else:
+                    print(f"  WARN: {bucket} {opcode_hex} {name} notes don't match expected baseline")
+                    print(f"    expected: {expected_old[:120]}")
+                    print(f"    current:  {current[:120]}")
+                    warned += 1
+                break
+        if not found:
+            print(f"  WARN: no entry found for {bucket} {opcode_hex} {name}")
+            warned += 1
+
+    print(f"\nApplied {applied} note overrides ({skipped} skipped, {warned} warnings)")
+
+    retired_applied = 0
+    retired_skipped = 0
+    for bucket, opcode_hex, name in UNSUPPORTED_IMPLEMENTATION_OVERRIDES:
+        for e in top["lists"].get(bucket, []):
+            if e["opcodeHex"] == opcode_hex and e["name"] == name:
+                if (
+                    e.get("implementationAnchor") is None
+                    and e.get("confidence") == "blocked"
+                    and "needsReverify" not in e
+                    and "reverifyMethod" not in e
+                ):
+                    retired_skipped += 1
+                else:
+                    e["implementationAnchor"] = None
+                    e["confidence"] = "blocked"
+                    e.pop("needsReverify", None)
+                    e.pop("reverifyMethod", None)
+                    retired_applied += 1
+                break
+        else:
+            print(f"  WARN: no entry for retired anchor {bucket} {opcode_hex} {name}")
+            warned += 1
+    print(
+        f"Applied {retired_applied} retired implementation overrides "
+        f"({retired_skipped} skipped)"
+    )
+
+    reverify_applied = 0
+    reverify_skipped = 0
+    for bucket, opcode_hex, name in REVERIFY_OVERRIDES:
+        for e in top["lists"].get(bucket, []):
+            if e["opcodeHex"] == opcode_hex and e["name"] == name:
+                if e.get("needsReverify") is True and e.get("reverifyMethod") == REVERIFY_METHOD:
+                    reverify_skipped += 1
+                else:
+                    e["needsReverify"] = True
+                    e["reverifyMethod"] = REVERIFY_METHOD
+                    reverify_applied += 1
+                break
+        else:
+            print(f"  WARN: no entry for reverify mark {bucket} {opcode_hex} {name}")
+            warned += 1
+    print(f"Applied {reverify_applied} reverify marks ({reverify_skipped} skipped)")
+
+    name_applied = 0
+    name_skipped = 0
+    for bucket, opcode_hex, prior_name, new_name, new_anchor in NAME_OVERRIDES:
+        found = False
+        for e in top["lists"].get(bucket, []):
+            if e["opcodeHex"] == opcode_hex and e.get("name") in (prior_name, new_name):
+                found = True
+                if e.get("name") == new_name and e.get("implementationAnchor") == new_anchor:
+                    name_skipped += 1
+                else:
+                    e["name"] = new_name
+                    e["implementationAnchor"] = new_anchor
+                    name_applied += 1
+                break
+        if not found:
+            print(
+                f"  WARN: no entry found for name override {bucket} {opcode_hex} "
+                f"prior_name={prior_name}"
+            )
+            warned += 1
+    print(f"Applied {name_applied} name overrides ({name_skipped} skipped)")
+
+    amb_token = f"pcap_service_ambiguous={PCAP_AMBIGUOUS_SERVICES}"
+    amb_applied = 0
+    amb_skipped = 0
+    for bucket, opcode_hex, name in PCAP_AMBIGUOUS:
+        for e in top["lists"].get(bucket, []):
+            if e["opcodeHex"] == opcode_hex and e["name"] == name:
+                notes = e.get("notes", "")
+                if amb_token in notes:
+                    amb_skipped += 1
+                else:
+                    e["notes"] = f"{notes}; {amb_token}" if notes else amb_token
+                    amb_applied += 1
+                break
+        else:
+            print(f"  WARN: no entry for ambiguity mark {bucket} {opcode_hex} {name}")
+            warned += 1
+    print(f"Applied {amb_applied} pcap-ambiguity marks ({amb_skipped} skipped)")
+
+    purge_token = "pcap_evidence_dropped=lobby_not_in_capture_corpus"
+    purge_applied = 0
+    purge_skipped = 0
+    for bucket, opcode_hex, name in PCAP_LOBBY_PURGE:
+        for e in top["lists"].get(bucket, []):
+            if e["opcodeHex"] == opcode_hex and e["name"] == name:
+                notes = e.get("notes", "")
+                if not e.get("observedIn") and purge_token in notes:
+                    purge_skipped += 1
+                else:
+                    e["observedIn"] = []
+                    e["payloadLengths"] = []
+                    if purge_token not in notes:
+                        e["notes"] = f"{notes}; {purge_token}" if notes else purge_token
+                    purge_applied += 1
+                break
+        else:
+            print(f"  WARN: no entry for lobby purge {bucket} {opcode_hex} {name}")
+            warned += 1
+    print(f"Applied {purge_applied} lobby pcap purges ({purge_skipped} skipped)")
+
+    world = top["lists"]["WorldClientbound"]
+    before = len(world)
+    top["lists"]["WorldClientbound"] = [
+        e for e in world if e["opcodeHex"] not in LANE_MOVES
+    ]
+    print(f"Removed {before - len(top['lists']['WorldClientbound'])} main-lane world duplicates")
+
+    # Lane counts are promoted facts; rewritten source history cannot pin them.
+    for bucket_name, entries in top["lists"].items():
+        for e in entries:
+            opcode_hex = e["opcodeHex"]
+            if bucket_name == "MapClientbound" and opcode_hex in LANE_MOVES:
+                expected_name, count = LANE_MOVES[opcode_hex]
+                if e["name"] != expected_name:
+                    continue
+                ruling = (f"lane_ruling=moved_from_WorldClientbound; "
+                          f"main_lane_count={count}; chat_lane_count=0")
+            elif bucket_name == "WorldClientbound" and opcode_hex in LANE_UNRESOLVED:
+                ruling = ("lane_ruling=unresolved_no_s2c_observation; "
+                          "main_lane_count=0; chat_lane_count=0")
+            else:
+                continue
+            notes = e.get("notes", "")
+            if "lane_ruling=" not in notes:
+                e["notes"] = f"{notes}; {ruling}" if notes else ruling
+
+    semantics_applied, semantics_errors = apply_client_semantics(top)
+    warned += semantics_errors
+    print(f"Applied {semantics_applied} client-semantics evidence links")
+
+    if warned:
+        print(f"Refusing to write opcodes.json after {warned} warning(s)", file=sys.stderr)
+        return 1
+
+    write_json(OPCODES_PATH, catalog)
+    print("Canonicalized opcodes.json")
+
+    if not CONSTANTS_PATH.is_file():
+        print(f"{CONSTANTS_PATH.name}: file missing", file=sys.stderr)
+        return 1
+    write_json(
+        CONSTANTS_PATH,
+        json.loads(CONSTANTS_PATH.read_text(encoding="utf-8")),
+    )
+    print("Canonicalized constants.json")
+    return 0
+
+
+if __name__ == "__main__":
+    raise SystemExit(main())

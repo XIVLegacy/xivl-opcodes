@@ -1,0 +1,70 @@
+name: Checks
+
+on:
+  pull_request:
+  push:
+    branches: [main]
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+concurrency:
+  group: ${{ github.workflow }}-${{ github.ref || github.run_id }}
+  cancel-in-progress: true
+
+jobs:
+  checks:
+    name: Catalog Checks
+    runs-on: ubuntu-latest
+    timeout-minutes: 10
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7.0.1
+
+      - name: Check whitespace
+        run: git diff --check
+
+      - name: Set up Python
+        uses: actions/setup-python@5fda3b95a4ea91299a34e894583c3862153e4b97 # v7.0.0
+        with:
+          python-version: "3.12"
+          cache: pip
+          cache-dependency-path: tools/requirements.txt
+
+      - name: Install validator dependencies
+        run: python -m pip install -r tools/requirements.txt
+
+      - name: Generate catalog
+        run: python tools/generate_catalog.py
+
+      - name: Validate generated headers
+        run: python tools/generate_structs.py --validate
+
+      - name: Run repository gate
+        run: python tools/validate_repository.py
+
+      - name: Check catalog regeneration
+        run: git diff --exit-code
+
+  clang-format:
+    name: Clang Format
+    runs-on: ubuntu-latest
+    timeout-minutes: 10
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7.0.1
+
+      - name: Set up Python
+        uses: actions/setup-python@5fda3b95a4ea91299a34e894583c3862153e4b97 # v7.0.0
+        with:
+          python-version: "3.12"
+
+      - name: Install Clang Format
+        run: python -m pip install clang-format==22.1.8
+
+      - name: Check C++ formatting
+        run: >-
+          git ls-files -z -- '*.c' '*.cc' '*.cpp' '*.cxx' '*.h' '*.hh'
+          '*.hpp' '*.hxx' |
+          xargs -0 clang-format --dry-run --Werror
