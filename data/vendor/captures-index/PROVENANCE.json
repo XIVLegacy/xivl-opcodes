@@ -1,0 +1,15 @@
+{
+  "files": [
+    {
+      "file": "captures.json",
+      "sourceRepo": "xivl-captures",
+      "sourcePath": "sources/pcap-1.23b/objects",
+      "sha256": "43a631e66238691343424645d0a7f7b205ffd2eec454a497c5532bfdebc12bff",
+      "refreshMode": "derive",
+      "deriver": "captures-index",
+      "evidenceTier": "packet captures; the capture corpus itself is the evidence, this index is only its file listing",
+      "transformation": "directory listing of the .pcapng names at the pinned source revision"
+    }
+  ],
+  "note": "Every observedIn reference in the catalog resolves against this index (tools/validate_corpus.py). xivl-captures owns the corpus; this is a pinned consumer copy, hash-gated by tools/validate_vendor.py and re-derived by tools/refresh_vendor.py."
+}

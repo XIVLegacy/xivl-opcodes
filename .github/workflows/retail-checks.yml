@@ -1,0 +1,200 @@
+name: Retail Checks
+
+on:
+  workflow_dispatch:
+
+concurrency:
+  group: retail-checks
+  cancel-in-progress: false
+
+permissions:
+  contents: read
+
+jobs:
+  retail-preflight:
+    name: Retail Preflight Checks
+    runs-on: ubuntu-24.04
+    timeout-minutes: 10
+    steps:
+      - name: Check out reviewed revision
+        uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7.0.1
+        with:
+          persist-credentials: false
+
+      - name: Set up Python
+        uses: actions/setup-python@5fda3b95a4ea91299a34e894583c3862153e4b97 # v7.0.0
+        with:
+          python-version: "3.12"
+
+      - name: Reject untrusted dispatch refs
+        run: python tools/verify_retail_zone_dispatch.py --check-dispatch
+
+      - name: Verify the fixed public grant
+        shell: bash
+        run: |
+          set -euo pipefail
+          python tools/test_retail_zone_dispatch.py
+          python tools/verify_retail_zone_dispatch.py > "${RUNNER_TEMP}/asset-free-attestation.json"
+          rm -f -- "${RUNNER_TEMP}/asset-free-attestation.json"
+
+  zone-dispatch:
+    name: Zone Dispatch Checks
+    needs: retail-preflight
+    runs-on: ubuntu-24.04
+    timeout-minutes: 60
+    environment:
+      name: retail-evidence
+    steps:
+      - name: Check out approved public commit
+        uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7.0.1
+        with:
+          ref: ${{ github.sha }}
+          persist-credentials: false
+
+      - name: Set up Python
+        uses: actions/setup-python@5fda3b95a4ea91299a34e894583c3862153e4b97 # v7.0.0
+        with:
+          python-version: "3.12"
+
+      - name: Fetch the immutable private blob
+        id: fetch
+        continue-on-error: true
+        uses: XIVLegacy/xivl-tools/.github/actions/fetch-retail-input@145a6a56a310c0613e7f2ca7c1d93feee1146df8
+        with:
+          token: ${{ secrets.RETAIL_INPUTS_TOKEN }}
+          commit: aeb52f6dbde95a793ee6d52be28de9f28a885b15
+          path: ffxivgame.exe
+          size: "15996808"
+          sha256: 9341f2b4567440b310a4d494f5cc5599ca334ba51c8042247317ff466492f2e9
+          output-path: ${{ runner.temp }}/retail-evidence-private/input/ffxivgame.exe
+
+      - name: Install the pinned analysis toolchain
+        id: toolchain
+        if: steps.fetch.outcome == 'success'
+        continue-on-error: true
+        uses: XIVLegacy/xivl-tools/.github/actions/setup-retail-toolchain@145a6a56a310c0613e7f2ca7c1d93feee1146df8
+        with:
+          scratch-root: ${{ runner.temp }}/retail-evidence-private
+          include-ghidra: "true"
+
+      - name: Reproduce and verify zone dispatch evidence
+        id: analysis
+        if: steps.fetch.outcome == 'success' && steps.toolchain.outcome == 'success'
+        continue-on-error: true
+        shell: bash
+        run: |
+          set -euo pipefail
+          umask 077
+          private_root="${RUNNER_TEMP}/retail-evidence-private"
+          staging_root="${GITHUB_WORKSPACE}/_retail-staging"
+          project_root="${private_root}/project"
+          observations="${private_root}/observations.json"
+          mutated="${private_root}/observations-mutated.json"
+          mkdir -p "${staging_root}" "${project_root}"
+
+          export GHIDRA_HEADLESS_MAXMEM="6G"
+          export GHIDRA_JAVA_OPTIONS="-Dlog4j.skipJansi=true"
+          headless="${{ steps.toolchain.outputs.analyze-headless }}"
+          input="${private_root}/input/ffxivgame.exe"
+
+          timeout 45m "${headless}" "${project_root}" retail_zone_dispatch \
+            -import "${input}" \
+            -processor x86:LE:32:default \
+            -cspec windows \
+            -analysisTimeoutPerFile 2700 \
+            -max-cpu 2 \
+            > "${private_root}/import.log" 2>&1
+
+          export XIVL_RETAIL_DISPATCHER_VA="0x00dbfd10"
+          export XIVL_RETAIL_OPCODE="0x018d"
+          export XIVL_RETAIL_BYTE_TABLE_VA="0x00dc1274"
+          export XIVL_RETAIL_DWORD_TABLE_VA="0x00dc0f5c"
+          export XIVL_RETAIL_OBSERVATIONS_OUT="${observations}"
+          timeout 5m "${headless}" "${project_root}" retail_zone_dispatch \
+            -process ffxivgame.exe \
+            -noanalysis \
+            -readOnly \
+            -scriptPath "${GITHUB_WORKSPACE}/tools/ghidra_scripts" \
+            -postScript ExportZoneDispatchRoute.java \
+            > "${private_root}/verify.log" 2>&1
+
+          python tools/verify_retail_zone_dispatch.py --input "${observations}" \
+            > "${staging_root}/retail-evidence-attestation.json" \
+            2> "${private_root}/verifier.log"
+
+          OBSERVATIONS="${observations}" MUTATED="${mutated}" python - <<'PY'
+          import json
+          import os
+          from pathlib import Path
+
+          document = json.loads(Path(os.environ["OBSERVATIONS"]).read_text(encoding="ascii"))
+          document["case_index"] += 1
+          Path(os.environ["MUTATED"]).write_text(
+              json.dumps(document, sort_keys=True, separators=(",", ":")) + "\n",
+              encoding="ascii",
+          )
+          PY
+
+          set +e
+          python tools/verify_retail_zone_dispatch.py --input "${mutated}" \
+            > "${private_root}/negative-attestation.json" \
+            2> "${private_root}/negative-verifier.log"
+          negative_status=$?
+          set -e
+          test "${negative_status}" -ne 0
+          NEGATIVE="${private_root}/negative-attestation.json" python - <<'PY'
+          import json
+          import os
+          from pathlib import Path
+
+          import tools._schema_check as schema_check
+
+          document = json.loads(Path(os.environ["NEGATIVE"]).read_text(encoding="ascii"))
+          schema = schema_check.load_schema(
+              Path("schemas/retail-evidence-attestation.schema.json")
+          )
+          assert document.get("result", {}).get("status") == "fail"
+          assert not schema_check.validate(document, schema)
+          PY
+
+      - name: Create a sanitized failure attestation
+        if: always() && !cancelled() && steps.analysis.outcome != 'success'
+        shell: bash
+        run: |
+          set -euo pipefail
+          staging_root="${GITHUB_WORKSPACE}/_retail-staging"
+          mkdir -p "${staging_root}"
+          set +e
+          python tools/verify_retail_zone_dispatch.py \
+            --input "${RUNNER_TEMP}/retail-evidence-private/missing-observations.json" \
+            > "${staging_root}/retail-evidence-attestation.json" 2> /dev/null
+          status=$?
+          set -e
+          test "${status}" -ne 0
+
+      - name: Finalize retail attestation
+        id: finalize
+        if: always()
+        continue-on-error: true
+        uses: XIVLegacy/xivl-tools/.github/actions/finalize-retail-attestation@145a6a56a310c0613e7f2ca7c1d93feee1146df8
+        with:
+          scratch-root: ${{ runner.temp }}/retail-evidence-private
+          staging-root: ${{ github.workspace }}/_retail-staging
+
+      - name: Validate the only retained file
+        id: retained
+        if: always() && !cancelled() && steps.finalize.outcome == 'success'
+        run: python tools/verify_retail_zone_dispatch.py --validate-retained-output _retail-staging
+
+      - name: Upload the sanitized attestation
+        if: always() && !cancelled() && steps.finalize.outcome == 'success' && steps.retained.outcome == 'success'
+        uses: actions/upload-artifact@ea165f8d65b6e75b540449e92b4886f43607fa02 # v4.6.2
+        with:
+          name: retail-zone-dispatch-attestation
+          path: _retail-staging/retail-evidence-attestation.json
+          if-no-files-found: error
+          retention-days: 30
+
+      - name: Preserve a failed evidence result
+        if: always() && !cancelled() && (steps.fetch.outcome != 'success' || steps.toolchain.outcome != 'success' || steps.analysis.outcome != 'success' || steps.finalize.outcome != 'success' || steps.retained.outcome != 'success')
+        run: exit 1

@@ -1,0 +1,586 @@
+{
+  "schemaVersion": 1,
+  "binary": {
+    "name": "ffxivgame.exe",
+    "version": "1.23b",
+    "sha256": "9341f2b4567440b310a4d494f5cc5599ca334ba51c8042247317ff466492f2e9"
+  },
+  "scope": "Independent retail-client body evidence for the 37 legacy semantic dependency rows consumed by this catalog.",
+  "rule": "Address, opcode, size, symbol, or dispatch-edge agreement alone is a cross-check. A closed row requires a body observation that supports the retained label or a narrower replacement label.",
+  "rows": [
+    {
+      "id": "c2s-00c9",
+      "dependencyOrdinal": 0,
+      "opcodeHex": "0x00c9",
+      "direction": "serverbound",
+      "function": "FUN_004DF6D0",
+      "status": "closed",
+      "supportedLabel": "0x00c9 chat-message sender with a u32 selector and a 0x200-byte text field",
+      "tool": "XIVLegacy Ghidra DecompileToText.java and analyze_payload_layouts.py",
+      "observation": "The sender writes opcode 0x00c9 and body size 0x218, writes its u32 selector argument at application offset 0, zero-fills the 0x200-byte field at application offset 4 before copying the source text into it, and enqueues through FUN_00DB3E30; these field writes independently establish a selector-tagged chat message, while captures confirm a 552-byte subpacket and 536-byte application body.",
+      "sourceRefs": [
+        "xivl-client-structs:manifests/symbols.json#BCS-Y-0309",
+        "xivl-captures:derived/payload_layouts.json#c2s.0x00c9",
+        "retail:ffxivgame.exe#sha256=9341f2b4567440b310a4d494f5cc5599ca334ba51c8042247317ff466492f2e9;va=0x004DF6D0;run=opcode-semantics-c2s-open-senders-body"
+      ]
+    },
+    {
+      "id": "c2s-00c8",
+      "dependencyOrdinal": 1,
+      "opcodeHex": "0x00c8",
+      "direction": "serverbound",
+      "function": "FUN_004E3750",
+      "status": "closed",
+      "supportedLabel": "0x00c8 builder for a 0x230-byte record with 32-byte header data and a 512-byte body block",
+      "tool": "XIVLegacy Ghidra DumpFunctionDecomp.java",
+      "observation": "The builder writes opcode 0x00c8 and size 0x230, copies four qwords and 0x80 dwords, and its sole caller forwards the record through FUN_00DB3E30.",
+      "sourceRefs": [
+        "xivl-client-structs:manifests/symbols.json#BCS-Y-0331",
+        "xivl-client-structs:manifests/c2s_coverage_synthesis.json#0x00c8"
+      ]
+    },
+    {
+      "id": "s2c-018d",
+      "dependencyOrdinal": 2,
+      "opcodeHex": "0x018d",
+      "direction": "clientbound",
+      "function": "FUN_00575550",
+      "status": "closed",
+      "supportedLabel": "Session-gated marker update with sixteen 0x28-byte records and a count byte at payload offset 0x290",
+      "tool": "XIVLegacy Ghidra DumpFunctionDecomp.java and build_data_dependency_catalog.py",
+      "observation": "The handler gates on owner offset 0x4d8, reads packet state, and the apply path consumes sixteen 0x28-byte marker rows with a u8 count at application offset 0x290.",
+      "sourceRefs": [
+        "xivl-client-structs:manifests/symbols.json#BCS-Y-0580",
+        "xivl-client-structs:manifests/data_dependency_catalog.json#s2c_0x018d"
+      ]
+    },
+    {
+      "id": "s2c-0196",
+      "dependencyOrdinal": 3,
+      "opcodeHex": "0x0196",
+      "direction": "clientbound",
+      "function": "FUN_00576050",
+      "status": "closed",
+      "supportedLabel": "Packed update containing eight one-bit flags and eight u16 values",
+      "tool": "XIVLegacy Ghidra DumpFunctionDecomp.java and build_data_dependency_catalog.py",
+      "observation": "The handler expands payload byte 1 into eight flags, reads eight u16 fields at offsets 2 through 0x10, writes the first u16 to owner offset 0x38, and forwards all sixteen values.",
+      "sourceRefs": [
+        "xivl-client-structs:manifests/symbols.json#BCS-Y-0585",
+        "xivl-client-structs:manifests/data_dependency_catalog.json#s2c_0x0196"
+      ]
+    },
+    {
+      "id": "s2c-01a3",
+      "dependencyOrdinal": 4,
+      "opcodeHex": "0x01a3",
+      "direction": "clientbound",
+      "function": "FUN_00576140",
+      "status": "closed",
+      "supportedLabel": "Cutscene and SNPC state update",
+      "tool": "XIVLegacy Ghidra DumpFunctionDecomp.java and build_data_dependency_catalog.py",
+      "observation": "The callee reads u32 control flags, an s16 actor offset, u8 skin and personality values, a 257-byte cutscene flag bitset, and a 32-byte SNPC name.",
+      "sourceRefs": [
+        "xivl-client-structs:manifests/symbols.json#BCS-Y-0587",
+        "xivl-client-structs:manifests/data_dependency_catalog.json#s2c_0x01a3"
+      ]
+    },
+    {
+      "id": "s2c-0198",
+      "dependencyOrdinal": 5,
+      "opcodeHex": "0x0198",
+      "direction": "clientbound",
+      "function": "FUN_00576150",
+      "status": "closed",
+      "supportedLabel": "Padded name-string registration update",
+      "tool": "XIVLegacy Ghidra DumpFunctionDecomp.java and build_data_dependency_catalog.py",
+      "observation": "The handler passes the payload to the shared name registrar and then applies a 32-byte padded ASCII name through the receiver worker; the imported offset-specific suffix is not retained.",
+      "sourceRefs": [
+        "xivl-client-structs:manifests/symbols.json#BCS-Y-0586",
+        "xivl-client-structs:manifests/data_dependency_catalog.json#s2c_0x0198"
+      ]
+    },
+    {
+      "id": "s2c-0143",
+      "dependencyOrdinal": 6,
+      "opcodeHex": "0x0143",
+      "direction": "clientbound",
+      "function": "FUN_00576240",
+      "status": "closed",
+      "supportedLabel": "Group-delete update carrying four u64 identifiers",
+      "tool": "XIVLegacy Ghidra DumpFunctionDecomp.java",
+      "observation": "The handler forwards zone context to FUN_006C5DE0; the reached apply path reads four u64 values named by use as control number, group id, zero group id, and confirmed group id. This does not support a generic actor-despawn label.",
+      "sourceRefs": [
+        "xivl-client-structs:manifests/symbols.json#BCS-Y-0543",
+        "xivl-client-structs:manifests/unmapped_payload_decoding.json#s2c_0x0143"
+      ]
+    },
+    {
+      "id": "s2c-017d",
+      "dependencyOrdinal": 7,
+      "opcodeHex": "0x017d",
+      "direction": "clientbound",
+      "function": "FUN_005762C0",
+      "status": "closed",
+      "supportedLabel": "Eight-byte member-delegate thunk through owner offset 0x18 to a group-begin payload path",
+      "tool": "XIVLegacy Ghidra DecompileToText.java and DumpFunctionDecomp.java",
+      "observation": "The thunk executes mov ecx,[ecx+0x18] then jumps to FUN_006C2F30; the reached body reads three u64 identifiers and a u32 count.",
+      "sourceRefs": [
+        "xivl-client-structs:manifests/symbols.json#BCS-Y-0565",
+        "xivl-client-structs:manifests/unmapped_payload_decoding.json#s2c_0x017d"
+      ]
+    },
+    {
+      "id": "s2c-017e",
+      "dependencyOrdinal": 8,
+      "opcodeHex": "0x017e",
+      "direction": "clientbound",
+      "function": "FUN_005762D0",
+      "status": "closed",
+      "supportedLabel": "Group-completion update carrying three u64 identifiers",
+      "tool": "XIVLegacy Ghidra DumpFunctionDecomp.java",
+      "observation": "The owner-offset 0x18 thunk reaches FUN_006C4180, whose body reads three u64 payload fields and applies completion gating; the imported u32 state-event label is not retained.",
+      "sourceRefs": [
+        "xivl-client-structs:manifests/symbols.json#BCS-Y-0566",
+        "xivl-client-structs:manifests/unmapped_payload_decoding.json#s2c_0x017e"
+      ]
+    },
+    {
+      "id": "s2c-017f",
+      "dependencyOrdinal": 9,
+      "opcodeHex": "0x017f",
+      "direction": "clientbound",
+      "function": "FUN_005762E0",
+      "status": "closed",
+      "supportedLabel": "Eight-entry group-member update with 0x30-byte records",
+      "tool": "XIVLegacy Ghidra DumpFunctionDecomp.java",
+      "observation": "The reached body reads location and sequence u64 values, eight 0x30-byte member records, and a member count whose low byte controls iteration.",
+      "sourceRefs": [
+        "xivl-client-structs:manifests/symbols.json#BCS-Y-0567",
+        "xivl-client-structs:manifests/unmapped_payload_decoding.json#s2c_0x017f"
+      ]
+    },
+    {
+      "id": "s2c-0180",
+      "dependencyOrdinal": 10,
+      "opcodeHex": "0x0180",
+      "direction": "clientbound",
+      "function": "FUN_005762F0",
+      "status": "closed",
+      "supportedLabel": "Sixteen keyed 0x30-byte records with conditional snapshot and delivery",
+      "tool": "XIVLegacy Ghidra DecompileToText.java",
+      "observation": "The thunk reaches FUN_006C2FE0, which reads three u32 key fields at payload offsets 0, 8, and 0x0c and passes sixteen records from offset 0x10. FUN_006C19D0 advances by 0x30 and reads u32 fields at record offsets 0, 4, and 8, u8 flags at 0x0c and 0x0d, and a trailing string at 0x0e before a keyed target lookup and virtual slot-0x40 delivery. When the active-state flags permit it, FUN_006C1040 scans the same sixteen records, allocates a 0x198-byte snapshot for the first matching record, and may suppress delivery.",
+      "sourceRefs": [
+        "xivl-client-structs:manifests/symbols.json#BCS-Y-0568",
+        "retail:ffxivgame.exe#sha256=9341f2b4567440b310a4d494f5cc5599ca334ba51c8042247317ff466492f2e9;vas=0x005762F0,0x006C2FE0;run=opcode-semantics-s2c-0180-0188-body-2",
+        "retail:ffxivgame.exe#sha256=9341f2b4567440b310a4d494f5cc5599ca334ba51c8042247317ff466492f2e9;vas=0x006C1040,0x006C19D0;run=opcode-semantics-s2c-0180-0188-helpers",
+        "retail:ffxivgame.exe#sha256=9341f2b4567440b310a4d494f5cc5599ca334ba51c8042247317ff466492f2e9;vas=0x006D04A0,0x0075BBF0;run=opcode-semantics-s2c-0180-0188-deep-helpers"
+      ]
+    },
+    {
+      "id": "s2c-0181",
+      "dependencyOrdinal": 11,
+      "opcodeHex": "0x0181",
+      "direction": "clientbound",
+      "function": "FUN_00576300",
+      "status": "closed",
+      "supportedLabel": "Thirty-two keyed 0x30-byte records with conditional snapshot and delivery",
+      "tool": "XIVLegacy Ghidra DecompileToText.java",
+      "observation": "The thunk reaches FUN_006C3040, which reads three u32 key fields at payload offsets 0, 8, and 0x0c and passes thirty-two records from offset 0x10. FUN_006C19D0 advances by 0x30 and reads u32 fields at record offsets 0, 4, and 8, u8 flags at 0x0c and 0x0d, and a trailing string at 0x0e before a keyed target lookup and virtual slot-0x40 delivery. When the active-state flags permit it, FUN_006C1040 scans the same thirty-two records, allocates a 0x198-byte snapshot for the first matching record, and may suppress delivery.",
+      "sourceRefs": [
+        "xivl-client-structs:manifests/symbols.json#BCS-Y-0569",
+        "retail:ffxivgame.exe#sha256=9341f2b4567440b310a4d494f5cc5599ca334ba51c8042247317ff466492f2e9;vas=0x00576300,0x006C3040;run=opcode-semantics-s2c-0180-0188-body-2",
+        "retail:ffxivgame.exe#sha256=9341f2b4567440b310a4d494f5cc5599ca334ba51c8042247317ff466492f2e9;vas=0x006C1040,0x006C19D0;run=opcode-semantics-s2c-0180-0188-helpers",
+        "retail:ffxivgame.exe#sha256=9341f2b4567440b310a4d494f5cc5599ca334ba51c8042247317ff466492f2e9;vas=0x006D04A0,0x0075BBF0;run=opcode-semantics-s2c-0180-0188-deep-helpers"
+      ]
+    },
+    {
+      "id": "s2c-0182",
+      "dependencyOrdinal": 12,
+      "opcodeHex": "0x0182",
+      "direction": "clientbound",
+      "function": "FUN_00576310",
+      "status": "closed",
+      "supportedLabel": "Sixty-four keyed 0x30-byte records with conditional snapshot and delivery",
+      "tool": "XIVLegacy Ghidra DecompileToText.java",
+      "observation": "The thunk reaches FUN_006C30A0, which reads three u32 key fields at payload offsets 0, 8, and 0x0c and passes sixty-four records from offset 0x10. FUN_006C19D0 advances by 0x30 and reads u32 fields at record offsets 0, 4, and 8, u8 flags at 0x0c and 0x0d, and a trailing string at 0x0e before a keyed target lookup and virtual slot-0x40 delivery. When the active-state flags permit it, FUN_006C1040 scans the same sixty-four records, allocates a 0x198-byte snapshot for the first matching record, and may suppress delivery.",
+      "sourceRefs": [
+        "xivl-client-structs:manifests/symbols.json#BCS-Y-0570",
+        "retail:ffxivgame.exe#sha256=9341f2b4567440b310a4d494f5cc5599ca334ba51c8042247317ff466492f2e9;vas=0x00576310,0x006C30A0;run=opcode-semantics-s2c-0180-0188-body-2",
+        "retail:ffxivgame.exe#sha256=9341f2b4567440b310a4d494f5cc5599ca334ba51c8042247317ff466492f2e9;vas=0x006C1040,0x006C19D0;run=opcode-semantics-s2c-0180-0188-helpers",
+        "retail:ffxivgame.exe#sha256=9341f2b4567440b310a4d494f5cc5599ca334ba51c8042247317ff466492f2e9;vas=0x006D04A0,0x0075BBF0;run=opcode-semantics-s2c-0180-0188-deep-helpers"
+      ]
+    },
+    {
+      "id": "s2c-0183",
+      "dependencyOrdinal": 13,
+      "opcodeHex": "0x0183",
+      "direction": "clientbound",
+      "function": "FUN_00576320",
+      "status": "closed",
+      "supportedLabel": "Eight-entry content-member update with 0x0c-byte records",
+      "tool": "XIVLegacy Ghidra DumpFunctionDecomp.java",
+      "observation": "The owner-offset 0x18 thunk reaches FUN_006C3100; the body reads location and sequence u64 values, eight 0x0c-byte entries, and a low-byte count.",
+      "sourceRefs": [
+        "xivl-client-structs:manifests/symbols.json#BCS-Y-0571",
+        "xivl-client-structs:manifests/unmapped_payload_decoding.json#s2c_0x0183"
+      ]
+    },
+    {
+      "id": "s2c-0184",
+      "dependencyOrdinal": 14,
+      "opcodeHex": "0x0184",
+      "direction": "clientbound",
+      "function": "FUN_00576330",
+      "status": "closed",
+      "supportedLabel": "Sixteen keyed 0x0c-byte records gated by active state",
+      "tool": "XIVLegacy Ghidra DecompileToText.java",
+      "observation": "The thunk reaches FUN_006C3150, which reads three u32 key fields at payload offsets 0, 8, and 0x0c and passes sixteen records from offset 0x10 only when no active-state object exists or its offset-8 flag is zero. FUN_006C1C00 advances by 0x0c, reads u32 fields at record offsets 0 and 4 plus a u8 flag at offset 8, resolves the keyed target through FUN_006D04A0, and delivers each record through virtual slot 0x40; no string field is read.",
+      "sourceRefs": [
+        "xivl-client-structs:manifests/symbols.json#BCS-Y-0572",
+        "retail:ffxivgame.exe#sha256=9341f2b4567440b310a4d494f5cc5599ca334ba51c8042247317ff466492f2e9;vas=0x00576330,0x006C3150;run=opcode-semantics-s2c-0180-0188-body-2",
+        "retail:ffxivgame.exe#sha256=9341f2b4567440b310a4d494f5cc5599ca334ba51c8042247317ff466492f2e9;va=0x006C1C00;run=opcode-semantics-s2c-0180-0188-helpers",
+        "retail:ffxivgame.exe#sha256=9341f2b4567440b310a4d494f5cc5599ca334ba51c8042247317ff466492f2e9;va=0x006D04A0;run=opcode-semantics-s2c-0180-0188-deep-helpers"
+      ]
+    },
+    {
+      "id": "s2c-0185",
+      "dependencyOrdinal": 15,
+      "opcodeHex": "0x0185",
+      "direction": "clientbound",
+      "function": "FUN_00576340",
+      "status": "closed",
+      "supportedLabel": "Thirty-two keyed 0x0c-byte records gated by active state",
+      "tool": "XIVLegacy Ghidra DecompileToText.java",
+      "observation": "The thunk reaches FUN_006C31A0, which reads three u32 key fields at payload offsets 0, 8, and 0x0c and passes thirty-two records from offset 0x10 only when no active-state object exists or its offset-8 flag is zero. FUN_006C1C00 advances by 0x0c, reads u32 fields at record offsets 0 and 4 plus a u8 flag at offset 8, resolves the keyed target through FUN_006D04A0, and delivers each record through virtual slot 0x40; no string field is read.",
+      "sourceRefs": [
+        "xivl-client-structs:manifests/symbols.json#BCS-Y-0573",
+        "retail:ffxivgame.exe#sha256=9341f2b4567440b310a4d494f5cc5599ca334ba51c8042247317ff466492f2e9;vas=0x00576340,0x006C31A0;run=opcode-semantics-s2c-0180-0188-body-2",
+        "retail:ffxivgame.exe#sha256=9341f2b4567440b310a4d494f5cc5599ca334ba51c8042247317ff466492f2e9;va=0x006C1C00;run=opcode-semantics-s2c-0180-0188-helpers",
+        "retail:ffxivgame.exe#sha256=9341f2b4567440b310a4d494f5cc5599ca334ba51c8042247317ff466492f2e9;va=0x006D04A0;run=opcode-semantics-s2c-0180-0188-deep-helpers"
+      ]
+    },
+    {
+      "id": "s2c-0186",
+      "dependencyOrdinal": 16,
+      "opcodeHex": "0x0186",
+      "direction": "clientbound",
+      "function": "FUN_00576350",
+      "status": "closed",
+      "supportedLabel": "Sixty-four keyed 0x0c-byte records gated by active state",
+      "tool": "XIVLegacy Ghidra DecompileToText.java",
+      "observation": "The thunk reaches FUN_006C31F0, which reads three u32 key fields at payload offsets 0, 8, and 0x0c and passes sixty-four records from offset 0x10 only when no active-state object exists or its offset-8 flag is zero. FUN_006C1C00 advances by 0x0c, reads u32 fields at record offsets 0 and 4 plus a u8 flag at offset 8, resolves the keyed target through FUN_006D04A0, and delivers each record through virtual slot 0x40; no string field is read.",
+      "sourceRefs": [
+        "xivl-client-structs:manifests/symbols.json#BCS-Y-0574",
+        "retail:ffxivgame.exe#sha256=9341f2b4567440b310a4d494f5cc5599ca334ba51c8042247317ff466492f2e9;vas=0x00576350,0x006C31F0;run=opcode-semantics-s2c-0180-0188-body-2",
+        "retail:ffxivgame.exe#sha256=9341f2b4567440b310a4d494f5cc5599ca334ba51c8042247317ff466492f2e9;va=0x006C1C00;run=opcode-semantics-s2c-0180-0188-helpers",
+        "retail:ffxivgame.exe#sha256=9341f2b4567440b310a4d494f5cc5599ca334ba51c8042247317ff466492f2e9;va=0x006D04A0;run=opcode-semantics-s2c-0180-0188-deep-helpers"
+      ]
+    },
+    {
+      "id": "s2c-0188",
+      "dependencyOrdinal": 17,
+      "opcodeHex": "0x0188",
+      "direction": "clientbound",
+      "function": "FUN_00576360",
+      "status": "closed",
+      "supportedLabel": "Single string-bearing entry factory and queue insertion",
+      "tool": "XIVLegacy Ghidra DecompileToText.java",
+      "observation": "The thunk reaches FUN_006CC390 through FUN_006CD790. The body reads u32 values at payload offsets 8 and 0x0c, consumes string objects at offsets 0x10 and 0x20, allocates one 0x40-byte entry builder, and calls FUN_006CBFB0. That factory installs the observed entry-builder vtable, allocates one 0xf8-byte child object, stores it at builder offset 0x38, clears the byte at 0x3c, replaces the prior entry through FUN_006C4330, and enqueues the new pointer through FUN_007238B0. A zero value at payload offset 0x0c selects the sentinel-id branch; there is no record loop or drop gate.",
+      "sourceRefs": [
+        "xivl-client-structs:manifests/symbols.json#BCS-Y-0576",
+        "retail:ffxivgame.exe#sha256=9341f2b4567440b310a4d494f5cc5599ca334ba51c8042247317ff466492f2e9;vas=0x00576360,0x006CD790;run=opcode-semantics-s2c-0180-0188-body-2",
+        "retail:ffxivgame.exe#sha256=9341f2b4567440b310a4d494f5cc5599ca334ba51c8042247317ff466492f2e9;va=0x006CC390;run=opcode-semantics-s2c-0180-0188-helpers",
+        "retail:ffxivgame.exe#sha256=9341f2b4567440b310a4d494f5cc5599ca334ba51c8042247317ff466492f2e9;vas=0x006CBFB0,0x006D79D0,0x006C4330,0x007238B0;run=opcode-semantics-s2c-0180-0188-deep-helpers"
+      ]
+    },
+    {
+      "id": "s2c-0189",
+      "dependencyOrdinal": 18,
+      "opcodeHex": "0x0189",
+      "direction": "clientbound",
+      "function": "FUN_00576370",
+      "status": "closed",
+      "supportedLabel": "Counted batch of eight 0x40-byte named-group records",
+      "tool": "XIVLegacy Ghidra DumpFunctionDecomp.java",
+      "observation": "The reached body consumes a 0x208-byte application payload as eight 0x40-byte records plus a low-byte group count at offset 0x200.",
+      "sourceRefs": [
+        "xivl-client-structs:manifests/symbols.json#BCS-Y-0577",
+        "xivl-client-structs:manifests/unmapped_payload_decoding.json#s2c_0x0189"
+      ]
+    },
+    {
+      "id": "s2c-018a",
+      "dependencyOrdinal": 19,
+      "opcodeHex": "0x018a",
+      "direction": "clientbound",
+      "function": "FUN_00576380",
+      "status": "closed",
+      "supportedLabel": "Eight u64/u32 pairs with a low-byte selector at payload offset 0x60",
+      "tool": "XIVLegacy Ghidra DumpFunctionDecomp.java",
+      "observation": "The reached body reads eight u64 identifiers, eight u32 type values, and the low byte of the u32 at offset 0x60 as the active index or iteration selector.",
+      "sourceRefs": [
+        "xivl-client-structs:manifests/symbols.json#BCS-Y-0578",
+        "xivl-client-structs:manifests/unmapped_payload_decoding.json#s2c_0x018a"
+      ]
+    },
+    {
+      "id": "s2c-0187",
+      "dependencyOrdinal": 20,
+      "opcodeHex": "0x0187",
+      "direction": "clientbound",
+      "function": "FUN_00576390",
+      "status": "closed",
+      "supportedLabel": "Occupancy/property update with a 0x40-byte body",
+      "tool": "XIVLegacy Ghidra DumpFunctionDecomp.java",
+      "observation": "The reached body reads a group header, two u32 occupancy-work values, a localized-name id, and a 36-byte occupancy name; the imported WorkSync label is not retained.",
+      "sourceRefs": [
+        "xivl-client-structs:manifests/symbols.json#BCS-Y-0575",
+        "xivl-client-structs:manifests/unmapped_payload_decoding.json#s2c_0x0187"
+      ]
+    },
+    {
+      "id": "s2c-018b",
+      "dependencyOrdinal": 21,
+      "opcodeHex": "0x018b",
+      "direction": "clientbound",
+      "function": "FUN_005763A0",
+      "status": "closed",
+      "supportedLabel": "Group layout/member-information update",
+      "tool": "XIVLegacy Ghidra DumpFunctionDecomp.java",
+      "observation": "The reached body reads a group header, u32 group handle and localized-name id, s32 layout id, u8 layout kind, and a 34-byte layout name.",
+      "sourceRefs": [
+        "xivl-client-structs:manifests/symbols.json#BCS-Y-0579",
+        "xivl-client-structs:manifests/unmapped_payload_decoding.json#s2c_0x018b"
+      ]
+    },
+    {
+      "id": "s2c-017a",
+      "dependencyOrdinal": 22,
+      "opcodeHex": "0x017a",
+      "direction": "clientbound",
+      "function": "FUN_005763B0",
+      "status": "closed",
+      "supportedLabel": "Shared-work property stream with list id and running-byte count",
+      "tool": "XIVLegacy Ghidra DumpFunctionDecomp.java",
+      "observation": "The thunk reaches a body that reads a u64 list id, a u8 running-byte total, and a variable tagged-property stream; the imported scalar state-event label is not retained.",
+      "sourceRefs": [
+        "xivl-client-structs:manifests/symbols.json#BCS-Y-0563",
+        "xivl-client-structs:manifests/unmapped_payload_decoding.json#s2c_0x017a"
+      ]
+    },
+    {
+      "id": "s2c-016d",
+      "dependencyOrdinal": 23,
+      "opcodeHex": "0x016d",
+      "direction": "clientbound",
+      "function": "FUN_005763C0",
+      "status": "closed",
+      "supportedLabel": "Inventory change-begin update carrying one u8 change code",
+      "tool": "XIVLegacy Ghidra DumpFunctionDecomp.java",
+      "observation": "The handler acquires the inventory manager and calls FUN_0076BAD0; the worker reads the low byte at payload offset 0 as the change code.",
+      "sourceRefs": [
+        "xivl-client-structs:manifests/symbols.json#BCS-Y-0707",
+        "xivl-client-structs:manifests/unmapped_payload_decoding.json#s2c_0x016d"
+      ]
+    },
+    {
+      "id": "s2c-016e",
+      "dependencyOrdinal": 24,
+      "opcodeHex": "0x016e",
+      "direction": "clientbound",
+      "function": "FUN_00576430",
+      "status": "closed",
+      "supportedLabel": "No-payload inventory change-finalization path",
+      "tool": "XIVLegacy Ghidra DumpFunctionDecomp.java",
+      "observation": "The handler takes no packet pointer, acquires the inventory manager, and invokes the commit/finalization worker; the imported actor-event label is not retained.",
+      "sourceRefs": [
+        "xivl-client-structs:manifests/symbols.json#BCS-Y-0708",
+        "xivl-client-structs:manifests/unmapped_payload_decoding.json#s2c_0x016e"
+      ]
+    },
+    {
+      "id": "s2c-0146",
+      "dependencyOrdinal": 25,
+      "opcodeHex": "0x0146",
+      "direction": "clientbound",
+      "function": "FUN_005764C0",
+      "status": "closed",
+      "supportedLabel": "Inventory set-begin update carrying u32/u16/u16 fields",
+      "tool": "XIVLegacy Ghidra DumpFunctionDecomp.java",
+      "observation": "The handler acquires context and calls FUN_0076BC20; the worker reads a u32 source id, u16 size, and u16 code and gates on the code's low byte.",
+      "sourceRefs": [
+        "xivl-client-structs:manifests/symbols.json#BCS-Y-0703",
+        "xivl-client-structs:manifests/unmapped_payload_decoding.json#s2c_0x0146"
+      ]
+    },
+    {
+      "id": "s2c-018f",
+      "dependencyOrdinal": 26,
+      "opcodeHex": "0x018f",
+      "direction": "clientbound",
+      "function": "FUN_00576C60",
+      "status": "closed",
+      "supportedLabel": "No-payload manager setup path",
+      "tool": "XIVLegacy Ghidra DumpFunctionDecomp.java and build_data_dependency_catalog.py",
+      "observation": "The handler enters the manager path and invokes FUN_0076BE30 without reading application payload bytes; the imported actor-trigger role is not retained.",
+      "sourceRefs": [
+        "xivl-client-structs:manifests/symbols.json#BCS-Y-0722",
+        "xivl-client-structs:manifests/data_dependency_catalog.json#s2c_0x018f"
+      ]
+    },
+    {
+      "id": "s2c-0190",
+      "dependencyOrdinal": 27,
+      "opcodeHex": "0x0190",
+      "direction": "clientbound",
+      "function": "FUN_00576CD0",
+      "status": "closed",
+      "supportedLabel": "Manager update that copies sixteen payload dwords",
+      "tool": "XIVLegacy Ghidra DumpFunctionDecomp.java and build_data_dependency_catalog.py",
+      "observation": "The manager worker copies sixteen dwords beginning at application offset 8 and leaves the final 32 bytes unread; the imported actor-event role is not retained.",
+      "sourceRefs": [
+        "xivl-client-structs:manifests/symbols.json#BCS-Y-0721",
+        "xivl-client-structs:manifests/data_dependency_catalog.json#s2c_0x0190"
+      ]
+    },
+    {
+      "id": "s2c-0191",
+      "dependencyOrdinal": 28,
+      "opcodeHex": "0x0191",
+      "direction": "clientbound",
+      "function": "FUN_00576D40",
+      "status": "closed",
+      "supportedLabel": "No-payload manager finalization path",
+      "tool": "XIVLegacy Ghidra DumpFunctionDecomp.java and build_data_dependency_catalog.py",
+      "observation": "The handler invokes the manager finalization worker without reading application payload bytes; the imported actor-ping role is not retained.",
+      "sourceRefs": [
+        "xivl-client-structs:manifests/symbols.json#BCS-Y-0723",
+        "xivl-client-structs:manifests/data_dependency_catalog.json#s2c_0x0191"
+      ]
+    },
+    {
+      "id": "s2c-0193",
+      "dependencyOrdinal": 29,
+      "opcodeHex": "0x0193",
+      "direction": "clientbound",
+      "function": "FUN_00578C90",
+      "status": "closed",
+      "supportedLabel": "Multi-subopcode dispatcher with a string-building branch",
+      "tool": "XIVLegacy Ghidra DumpFunctionDecomp.java",
+      "observation": "The 842-byte handler switches on the first payload u32, routes values below 0x10 to a generic worker, handles 0x10 through 0x16 separately, and uses a string-builder chain for subopcode 0x13. The imported system-error and exact-code-count semantics are not retained.",
+      "sourceRefs": [
+        "xivl-client-structs:manifests/symbols.json#BCS-Y-0584"
+      ]
+    },
+    {
+      "id": "c2s-012e",
+      "dependencyOrdinal": 30,
+      "opcodeHex": "0x012e",
+      "direction": "serverbound",
+      "function": "FUN_0075E670",
+      "status": "closed",
+      "supportedLabel": "0x012e builder for a 0x68-byte body containing sixteen copied dwords",
+      "tool": "XIVLegacy Ghidra FindOpcodeImmediate.java, DumpFunctionDecomp.java, and analyze_payload_layouts.py",
+      "observation": "The builder writes opcode 0x012e and body size 0x68, copies sixteen dwords from its sixth argument, and calls FUN_004D6D30 through the map send path; captures confirm a 120-byte total subpacket.",
+      "sourceRefs": [
+        "xivl-client-structs:manifests/symbols.json#BCS-Y-0981",
+        "xivl-client-structs:manifests/op012e_eventupdate_emitter.json#builder",
+        "xivl-captures:derived/payload_layouts.json#c2s.0x012e"
+      ]
+    },
+    {
+      "id": "c2s-012f",
+      "dependencyOrdinal": 31,
+      "opcodeHex": "0x012f",
+      "direction": "serverbound",
+      "function": "FUN_0075E770",
+      "status": "closed",
+      "supportedLabel": "0x012f builder for a 0x38-byte parameter/state request",
+      "tool": "XIVLegacy Ghidra FindOpcodeImmediate.java, DumpFunctionDecomp.java, and analyze_payload_layouts.py",
+      "observation": "The builder writes opcode 0x012f and body size 0x38, copies a request-id dword and 32 bytes of serialized state, and calls FUN_004D6D30; captures confirm a 72-byte total subpacket. This supports a parameter/state request rather than an ActorWorkUpdate semantic.",
+      "sourceRefs": [
+        "xivl-client-structs:manifests/symbols.json#BCS-Y-0986",
+        "xivl-client-structs:manifests/c2s_remaining_emitters.json#FUN_0075E770",
+        "xivl-captures:derived/payload_layouts.json#c2s.0x012f"
+      ]
+    },
+    {
+      "id": "c2s-0131",
+      "dependencyOrdinal": 32,
+      "opcodeHex": "0x0131",
+      "direction": "serverbound",
+      "function": "FUN_0075EA50",
+      "status": "closed",
+      "supportedLabel": "0x0131 builder for a 0x18-byte packet containing a u32 id and u8 package id",
+      "tool": "XIVLegacy Ghidra DumpFunctionDecomp.java and build_data_dependency_catalog.py",
+      "observation": "The builder writes opcode 0x0131 and size 0x18, writes a u32 actor/id field and u8 package id, and calls FUN_004D6D30 through the map send path.",
+      "sourceRefs": [
+        "xivl-client-structs:manifests/c2s_payload_decoding.json#c2s_0x0131",
+        "xivl-client-structs:manifests/data_dependency_catalog.json#c2s_0x0131"
+      ]
+    },
+    {
+      "id": "c2s-0132",
+      "dependencyOrdinal": 33,
+      "opcodeHex": "0x0132",
+      "direction": "serverbound",
+      "function": "FUN_0075EAC0",
+      "status": "closed",
+      "supportedLabel": "0x0132 builder for a 0x18-byte packet containing u32/u16/u8 fields",
+      "tool": "XIVLegacy Ghidra DumpFunctionDecomp.java and build_data_dependency_catalog.py",
+      "observation": "The builder writes opcode 0x0132 and size 0x18, writes a u32 item-or-actor id, u16 work id, and u8 work value, and calls FUN_004D6D30 through the map send path.",
+      "sourceRefs": [
+        "xivl-client-structs:manifests/c2s_payload_decoding.json#c2s_0x0132",
+        "xivl-client-structs:manifests/data_dependency_catalog.json#c2s_0x0132"
+      ]
+    },
+    {
+      "id": "c2s-0134",
+      "dependencyOrdinal": 34,
+      "opcodeHex": "0x0134",
+      "direction": "serverbound",
+      "function": "FUN_0075EBA0",
+      "status": "closed",
+      "supportedLabel": "0x0134 builder for a 0x28-byte body containing two u32 values and a 16-byte generated nonce buffer",
+      "tool": "XIVLegacy Ghidra DecompileToText.java",
+      "observation": "The builder writes opcode 0x0134 and body size 0x28, writes its u32 argument at application offset 0 and a u32 token-helper result at offset 4, writes a 16-byte nonce buffer containing 15 generated ASCII letters and a trailing NUL at offsets 8 through 0x17 as two qwords, and sends through FUN_004D6D30.",
+      "sourceRefs": [
+        "xivl-client-structs:manifests/reverse_bfs_send_helpers.json#FUN_0075EBA0",
+        "retail:ffxivgame.exe#sha256=9341f2b4567440b310a4d494f5cc5599ca334ba51c8042247317ff466492f2e9;va=0x0075EBA0;run=opcode-semantics-c2s-open-senders-body"
+      ]
+    },
+    {
+      "id": "c2s-0135",
+      "dependencyOrdinal": 35,
+      "opcodeHex": "0x0135",
+      "direction": "serverbound",
+      "function": "FUN_0075ECD0",
+      "status": "open",
+      "supportedLabel": "0x0135 builder for a 0x18-byte packet containing one u32 payload value",
+      "tool": "XIVLegacy Ghidra DecompileToText.java and FindCallers.java",
+      "observation": "The builder writes opcode 0x0135 and body size 0x18, copies its one u32 payload value to application offset 0, and calls FUN_004D6D30; its sole caller is FUN_00705EB0. Neither the builder nor the absent capture evidence establishes BindingSubscribeRequest, binding-id, or subscription-type semantics.",
+      "sourceRefs": [
+        "xivl-client-structs:manifests/reverse_bfs_send_helpers.json#FUN_0075ECD0",
+        "retail:ffxivgame.exe@FUN_0075ECD0",
+        "retail:ffxivgame.exe#sha256=9341f2b4567440b310a4d494f5cc5599ca334ba51c8042247317ff466492f2e9;va=0x0075ECD0;run=opcode-semantics-c2s-open-senders-body"
+      ],
+      "missingEvidence": "Capture or local retail-client evidence that assigns binding-id and subscription-type meanings to the one u32 payload value."
+    },
+    {
+      "id": "c2s-012d",
+      "dependencyOrdinal": 36,
+      "opcodeHex": "0x012d",
+      "direction": "serverbound",
+      "function": "FUN_00776760",
+      "status": "closed",
+      "supportedLabel": "0x012d builder for a 0xc8-byte tagged application body",
+      "tool": "XIVLegacy Ghidra FindOpcodeImmediate.java, DumpFunctionDecomp.java, and analyze_payload_layouts.py",
+      "observation": "The builder writes opcode 0x012d and body size 0xc8, stages four u32 values, one u8, 32 bytes, and 128 bytes, then sends through FUN_004D6D30, FUN_004E0240, and FUN_00DAE010; captures confirm a 216-byte total subpacket.",
+      "sourceRefs": [
+        "xivl-client-structs:manifests/symbols.json#BCS-Y-0426",
+        "xivl-client-structs:manifests/combat_action_c2s_findings.json#FUN_00776760",
+        "xivl-captures:derived/payload_layouts.json#c2s.0x012d"
+      ]
+    }
+  ]
+}

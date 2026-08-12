@@ -1,0 +1,40 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://xivlegacy.local/schemas/constants.schema.json",
+  "title": "XIVLegacy 1.23b Opcode Constants",
+  "type": "object",
+  "minProperties": 1,
+  "additionalProperties": {
+    "type": "object",
+    "required": [
+      "Version",
+      "Services",
+      "Directions",
+      "ConfidenceLabels"
+    ],
+    "additionalProperties": true,
+    "properties": {
+      "Version": {
+        "type": "string"
+      },
+      "Services": {
+        "type": "array",
+        "items": {
+          "type": "string"
+        }
+      },
+      "Directions": {
+        "type": "array",
+        "items": {
+          "type": "string"
+        }
+      },
+      "ConfidenceLabels": {
+        "type": "array",
+        "items": {
+          "type": "string"
+        }
+      }
+    }
+  }
+}

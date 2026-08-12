@@ -1,0 +1,873 @@
+{
+  "npcCaptures": [
+    "small_talk_louisoix.pcapng",
+    "accept_quest.pcapng",
+    "accept_leve.pcapng",
+    "accept_local_leve.pcapng",
+    "repair_items.pcapng",
+    "buy_square_maple_shield.pcapng",
+    "sell_item.pcapng",
+    "local_leve_complete.pcapng",
+    "return_to_inn.pcapng",
+    "cutscene_book.pcapng"
+  ],
+  "baselineCaptures": [
+    "chat_say.pcapng",
+    "chat_shout.pcapng",
+    "moving_around_gridania.pcapng",
+    "idle_in_party.pcapng",
+    "idling.pcapng",
+    "emote_dance.pcapng",
+    "emote_kneel.pcapng",
+    "inventory.pcapng"
+  ],
+  "textSheetFamilyCandidates": [
+    "0x0166",
+    "0x0167",
+    "0x0168",
+    "0x0169",
+    "0x016a"
+  ],
+  "opcodes": [
+    {
+      "opcode": 400,
+      "opcodeHex": "0x0190",
+      "npcCount": 791,
+      "npcCapturesSeen": 2,
+      "baselineCount": 0,
+      "baselineCapturesSeen": 0,
+      "npcEnrichment": 1.0,
+      "isTextSheetCandidate": false
+    },
+    {
+      "opcode": 304,
+      "opcodeHex": "0x0130",
+      "npcCount": 126,
+      "npcCapturesSeen": 9,
+      "baselineCount": 0,
+      "baselineCapturesSeen": 0,
+      "npcEnrichment": 0.999,
+      "isTextSheetCandidate": false
+    },
+    {
+      "opcode": 359,
+      "opcodeHex": "0x0167",
+      "npcCount": 63,
+      "npcCapturesSeen": 4,
+      "baselineCount": 0,
+      "baselineCapturesSeen": 0,
+      "npcEnrichment": 0.998,
+      "isTextSheetCandidate": true
+    },
+    {
+      "opcode": 313,
+      "opcodeHex": "0x0139",
+      "npcCount": 26,
+      "npcCapturesSeen": 2,
+      "baselineCount": 0,
+      "baselineCapturesSeen": 0,
+      "npcEnrichment": 0.996,
+      "isTextSheetCandidate": false
+    },
+    {
+      "opcode": 360,
+      "opcodeHex": "0x0168",
+      "npcCount": 22,
+      "npcCapturesSeen": 1,
+      "baselineCount": 0,
+      "baselineCapturesSeen": 0,
+      "npcEnrichment": 0.995,
+      "isTextSheetCandidate": true
+    },
+    {
+      "opcode": 211,
+      "opcodeHex": "0x00d3",
+      "npcCount": 21,
+      "npcCapturesSeen": 9,
+      "baselineCount": 0,
+      "baselineCapturesSeen": 0,
+      "npcEnrichment": 0.995,
+      "isTextSheetCandidate": false
+    },
+    {
+      "opcode": 210,
+      "opcodeHex": "0x00d2",
+      "npcCount": 20,
+      "npcCapturesSeen": 9,
+      "baselineCount": 0,
+      "baselineCapturesSeen": 0,
+      "npcEnrichment": 0.995,
+      "isTextSheetCandidate": false
+    },
+    {
+      "opcode": 358,
+      "opcodeHex": "0x0166",
+      "npcCount": 19,
+      "npcCapturesSeen": 2,
+      "baselineCount": 0,
+      "baselineCapturesSeen": 0,
+      "npcEnrichment": 0.995,
+      "isTextSheetCandidate": true
+    },
+    {
+      "opcode": 361,
+      "opcodeHex": "0x0169",
+      "npcCount": 17,
+      "npcCapturesSeen": 4,
+      "baselineCount": 0,
+      "baselineCapturesSeen": 0,
+      "npcEnrichment": 0.994,
+      "isTextSheetCandidate": true
+    },
+    {
+      "opcode": 316,
+      "opcodeHex": "0x013c",
+      "npcCount": 12,
+      "npcCapturesSeen": 2,
+      "baselineCount": 0,
+      "baselineCapturesSeen": 0,
+      "npcEnrichment": 0.992,
+      "isTextSheetCandidate": false
+    },
+    {
+      "opcode": 328,
+      "opcodeHex": "0x0148",
+      "npcCount": 12,
+      "npcCapturesSeen": 4,
+      "baselineCount": 0,
+      "baselineCapturesSeen": 0,
+      "npcEnrichment": 0.992,
+      "isTextSheetCandidate": false
+    },
+    {
+      "opcode": 305,
+      "opcodeHex": "0x0131",
+      "npcCount": 11,
+      "npcCapturesSeen": 9,
+      "baselineCount": 0,
+      "baselineCapturesSeen": 0,
+      "npcEnrichment": 0.991,
+      "isTextSheetCandidate": false
+    },
+    {
+      "opcode": 307,
+      "opcodeHex": "0x0133",
+      "npcCount": 8,
+      "npcCapturesSeen": 2,
+      "baselineCount": 0,
+      "baselineCapturesSeen": 0,
+      "npcEnrichment": 0.988,
+      "isTextSheetCandidate": false
+    },
+    {
+      "opcode": 12,
+      "opcodeHex": "0x000c",
+      "npcCount": 7,
+      "npcCapturesSeen": 2,
+      "baselineCount": 0,
+      "baselineCapturesSeen": 0,
+      "npcEnrichment": 0.986,
+      "isTextSheetCandidate": false
+    },
+    {
+      "opcode": 218,
+      "opcodeHex": "0x00da",
+      "npcCount": 5,
+      "npcCapturesSeen": 2,
+      "baselineCount": 0,
+      "baselineCapturesSeen": 0,
+      "npcEnrichment": 0.98,
+      "isTextSheetCandidate": false
+    },
+    {
+      "opcode": 353,
+      "opcodeHex": "0x0161",
+      "npcCount": 4,
+      "npcCapturesSeen": 1,
+      "baselineCount": 0,
+      "baselineCapturesSeen": 0,
+      "npcEnrichment": 0.976,
+      "isTextSheetCandidate": false
+    },
+    {
+      "opcode": 399,
+      "opcodeHex": "0x018f",
+      "npcCount": 4,
+      "npcCapturesSeen": 2,
+      "baselineCount": 0,
+      "baselineCapturesSeen": 0,
+      "npcEnrichment": 0.976,
+      "isTextSheetCandidate": false
+    },
+    {
+      "opcode": 401,
+      "opcodeHex": "0x0191",
+      "npcCount": 4,
+      "npcCapturesSeen": 2,
+      "baselineCount": 0,
+      "baselineCapturesSeen": 0,
+      "npcEnrichment": 0.976,
+      "isTextSheetCandidate": false
+    },
+    {
+      "opcode": 314,
+      "opcodeHex": "0x013a",
+      "npcCount": 2,
+      "npcCapturesSeen": 1,
+      "baselineCount": 0,
+      "baselineCapturesSeen": 0,
+      "npcEnrichment": 0.952,
+      "isTextSheetCandidate": false
+    },
+    {
+      "opcode": 387,
+      "opcodeHex": "0x0183",
+      "npcCount": 2,
+      "npcCapturesSeen": 1,
+      "baselineCount": 0,
+      "baselineCapturesSeen": 0,
+      "npcEnrichment": 0.952,
+      "isTextSheetCandidate": false
+    },
+    {
+      "opcode": 403,
+      "opcodeHex": "0x0193",
+      "npcCount": 2,
+      "npcCapturesSeen": 1,
+      "baselineCount": 0,
+      "baselineCapturesSeen": 0,
+      "npcEnrichment": 0.952,
+      "isTextSheetCandidate": false
+    },
+    {
+      "opcode": 339,
+      "opcodeHex": "0x0153",
+      "npcCount": 1,
+      "npcCapturesSeen": 1,
+      "baselineCount": 0,
+      "baselineCapturesSeen": 0,
+      "npcEnrichment": 0.909,
+      "isTextSheetCandidate": false
+    },
+    {
+      "opcode": 375,
+      "opcodeHex": "0x0177",
+      "npcCount": 1,
+      "npcCapturesSeen": 1,
+      "baselineCount": 0,
+      "baselineCapturesSeen": 0,
+      "npcEnrichment": 0.909,
+      "isTextSheetCandidate": false
+    },
+    {
+      "opcode": 419,
+      "opcodeHex": "0x01a3",
+      "npcCount": 1,
+      "npcCapturesSeen": 1,
+      "baselineCount": 0,
+      "baselineCapturesSeen": 0,
+      "npcEnrichment": 0.909,
+      "isTextSheetCandidate": false
+    },
+    {
+      "opcode": 226,
+      "opcodeHex": "0x00e2",
+      "npcCount": 1,
+      "npcCapturesSeen": 1,
+      "baselineCount": 0,
+      "baselineCapturesSeen": 0,
+      "npcEnrichment": 0.909,
+      "isTextSheetCandidate": false
+    },
+    {
+      "opcode": 217,
+      "opcodeHex": "0x00d9",
+      "npcCount": 5,
+      "npcCapturesSeen": 2,
+      "baselineCount": 1,
+      "baselineCapturesSeen": 1,
+      "npcEnrichment": 0.787,
+      "isTextSheetCandidate": false
+    },
+    {
+      "opcode": 365,
+      "opcodeHex": "0x016d",
+      "npcCount": 12,
+      "npcCapturesSeen": 5,
+      "baselineCount": 7,
+      "baselineCapturesSeen": 1,
+      "npcEnrichment": 0.576,
+      "isTextSheetCandidate": false
+    },
+    {
+      "opcode": 366,
+      "opcodeHex": "0x016e",
+      "npcCount": 12,
+      "npcCapturesSeen": 5,
+      "baselineCount": 7,
+      "baselineCapturesSeen": 1,
+      "npcEnrichment": 0.576,
+      "isTextSheetCandidate": false
+    },
+    {
+      "opcode": 326,
+      "opcodeHex": "0x0146",
+      "npcCount": 21,
+      "npcCapturesSeen": 5,
+      "baselineCount": 14,
+      "baselineCapturesSeen": 1,
+      "npcEnrichment": 0.544,
+      "isTextSheetCandidate": false
+    },
+    {
+      "opcode": 327,
+      "opcodeHex": "0x0147",
+      "npcCount": 21,
+      "npcCapturesSeen": 5,
+      "baselineCount": 14,
+      "baselineCapturesSeen": 1,
+      "npcEnrichment": 0.544,
+      "isTextSheetCandidate": false
+    },
+    {
+      "opcode": 378,
+      "opcodeHex": "0x017a",
+      "npcCount": 3,
+      "npcCapturesSeen": 2,
+      "baselineCount": 2,
+      "baselineCapturesSeen": 1,
+      "npcEnrichment": 0.536,
+      "isTextSheetCandidate": false
+    },
+    {
+      "opcode": 380,
+      "opcodeHex": "0x017c",
+      "npcCount": 4,
+      "npcCapturesSeen": 2,
+      "baselineCount": 4,
+      "baselineCapturesSeen": 1,
+      "npcEnrichment": 0.44,
+      "isTextSheetCandidate": false
+    },
+    {
+      "opcode": 381,
+      "opcodeHex": "0x017d",
+      "npcCount": 4,
+      "npcCapturesSeen": 2,
+      "baselineCount": 4,
+      "baselineCapturesSeen": 1,
+      "npcEnrichment": 0.44,
+      "isTextSheetCandidate": false
+    },
+    {
+      "opcode": 382,
+      "opcodeHex": "0x017e",
+      "npcCount": 4,
+      "npcCapturesSeen": 2,
+      "baselineCount": 4,
+      "baselineCapturesSeen": 1,
+      "npcEnrichment": 0.44,
+      "isTextSheetCandidate": false
+    },
+    {
+      "opcode": 207,
+      "opcodeHex": "0x00cf",
+      "npcCount": 2110,
+      "npcCapturesSeen": 10,
+      "baselineCount": 2284,
+      "baselineCapturesSeen": 8,
+      "npcEnrichment": 0.425,
+      "isTextSheetCandidate": false
+    },
+    {
+      "opcode": 1,
+      "opcodeHex": "0x0001",
+      "npcCount": 497,
+      "npcCapturesSeen": 10,
+      "baselineCount": 544,
+      "baselineCapturesSeen": 8,
+      "npcEnrichment": 0.422,
+      "isTextSheetCandidate": false
+    },
+    {
+      "opcode": 331,
+      "opcodeHex": "0x014b",
+      "npcCount": 11,
+      "npcCapturesSeen": 2,
+      "baselineCount": 12,
+      "baselineCapturesSeen": 1,
+      "npcEnrichment": 0.421,
+      "isTextSheetCandidate": false
+    },
+    {
+      "opcode": 397,
+      "opcodeHex": "0x018d",
+      "npcCount": 82,
+      "npcCapturesSeen": 9,
+      "baselineCount": 95,
+      "baselineCapturesSeen": 5,
+      "npcEnrichment": 0.408,
+      "isTextSheetCandidate": false
+    },
+    {
+      "opcode": 329,
+      "opcodeHex": "0x0149",
+      "npcCount": 5,
+      "npcCapturesSeen": 2,
+      "baselineCount": 6,
+      "baselineCapturesSeen": 1,
+      "npcEnrichment": 0.397,
+      "isTextSheetCandidate": false
+    },
+    {
+      "opcode": 334,
+      "opcodeHex": "0x014e",
+      "npcCount": 3,
+      "npcCapturesSeen": 2,
+      "baselineCount": 4,
+      "baselineCapturesSeen": 1,
+      "npcEnrichment": 0.37,
+      "isTextSheetCandidate": false
+    },
+    {
+      "opcode": 306,
+      "opcodeHex": "0x0132",
+      "npcCount": 8,
+      "npcCapturesSeen": 1,
+      "baselineCount": 16,
+      "baselineCapturesSeen": 1,
+      "npcEnrichment": 0.285,
+      "isTextSheetCandidate": false
+    },
+    {
+      "opcode": 8,
+      "opcodeHex": "0x0008",
+      "npcCount": 2,
+      "npcCapturesSeen": 1,
+      "baselineCount": 4,
+      "baselineCapturesSeen": 1,
+      "npcEnrichment": 0.282,
+      "isTextSheetCandidate": false
+    },
+    {
+      "opcode": 383,
+      "opcodeHex": "0x017f",
+      "npcCount": 2,
+      "npcCapturesSeen": 1,
+      "baselineCount": 4,
+      "baselineCapturesSeen": 1,
+      "npcEnrichment": 0.282,
+      "isTextSheetCandidate": false
+    },
+    {
+      "opcode": 391,
+      "opcodeHex": "0x0187",
+      "npcCount": 2,
+      "npcCapturesSeen": 1,
+      "baselineCount": 4,
+      "baselineCapturesSeen": 1,
+      "npcEnrichment": 0.282,
+      "isTextSheetCandidate": false
+    },
+    {
+      "opcode": 5,
+      "opcodeHex": "0x0005",
+      "npcCount": 1,
+      "npcCapturesSeen": 1,
+      "baselineCount": 2,
+      "baselineCapturesSeen": 1,
+      "npcEnrichment": 0.278,
+      "isTextSheetCandidate": false
+    },
+    {
+      "opcode": 6,
+      "opcodeHex": "0x0006",
+      "npcCount": 1,
+      "npcCapturesSeen": 1,
+      "baselineCount": 2,
+      "baselineCapturesSeen": 1,
+      "npcEnrichment": 0.278,
+      "isTextSheetCandidate": false
+    },
+    {
+      "opcode": 7,
+      "opcodeHex": "0x0007",
+      "npcCount": 1,
+      "npcCapturesSeen": 1,
+      "baselineCount": 2,
+      "baselineCapturesSeen": 1,
+      "npcEnrichment": 0.278,
+      "isTextSheetCandidate": false
+    },
+    {
+      "opcode": 15,
+      "opcodeHex": "0x000f",
+      "npcCount": 1,
+      "npcCapturesSeen": 1,
+      "baselineCount": 2,
+      "baselineCapturesSeen": 1,
+      "npcEnrichment": 0.278,
+      "isTextSheetCandidate": false
+    },
+    {
+      "opcode": 16,
+      "opcodeHex": "0x0010",
+      "npcCount": 1,
+      "npcCapturesSeen": 1,
+      "baselineCount": 2,
+      "baselineCapturesSeen": 1,
+      "npcEnrichment": 0.278,
+      "isTextSheetCandidate": false
+    },
+    {
+      "opcode": 330,
+      "opcodeHex": "0x014a",
+      "npcCount": 1,
+      "npcCapturesSeen": 1,
+      "baselineCount": 2,
+      "baselineCapturesSeen": 1,
+      "npcEnrichment": 0.278,
+      "isTextSheetCandidate": false
+    },
+    {
+      "opcode": 404,
+      "opcodeHex": "0x0194",
+      "npcCount": 1,
+      "npcCapturesSeen": 1,
+      "baselineCount": 2,
+      "baselineCapturesSeen": 1,
+      "npcEnrichment": 0.278,
+      "isTextSheetCandidate": false
+    },
+    {
+      "opcode": 406,
+      "opcodeHex": "0x0196",
+      "npcCount": 1,
+      "npcCapturesSeen": 1,
+      "baselineCount": 2,
+      "baselineCapturesSeen": 1,
+      "npcEnrichment": 0.278,
+      "isTextSheetCandidate": false
+    },
+    {
+      "opcode": 408,
+      "opcodeHex": "0x0198",
+      "npcCount": 1,
+      "npcCapturesSeen": 1,
+      "baselineCount": 2,
+      "baselineCapturesSeen": 1,
+      "npcEnrichment": 0.278,
+      "isTextSheetCandidate": false
+    },
+    {
+      "opcode": 409,
+      "opcodeHex": "0x0199",
+      "npcCount": 1,
+      "npcCapturesSeen": 1,
+      "baselineCount": 2,
+      "baselineCapturesSeen": 1,
+      "npcEnrichment": 0.278,
+      "isTextSheetCandidate": false
+    },
+    {
+      "opcode": 410,
+      "opcodeHex": "0x019a",
+      "npcCount": 1,
+      "npcCapturesSeen": 1,
+      "baselineCount": 2,
+      "baselineCapturesSeen": 1,
+      "npcEnrichment": 0.278,
+      "isTextSheetCandidate": false
+    },
+    {
+      "opcode": 411,
+      "opcodeHex": "0x019b",
+      "npcCount": 1,
+      "npcCapturesSeen": 1,
+      "baselineCount": 2,
+      "baselineCapturesSeen": 1,
+      "npcEnrichment": 0.278,
+      "isTextSheetCandidate": false
+    },
+    {
+      "opcode": 412,
+      "opcodeHex": "0x019c",
+      "npcCount": 1,
+      "npcCapturesSeen": 1,
+      "baselineCount": 2,
+      "baselineCapturesSeen": 1,
+      "npcEnrichment": 0.278,
+      "isTextSheetCandidate": false
+    },
+    {
+      "opcode": 413,
+      "opcodeHex": "0x019d",
+      "npcCount": 1,
+      "npcCapturesSeen": 1,
+      "baselineCount": 2,
+      "baselineCapturesSeen": 1,
+      "npcEnrichment": 0.278,
+      "isTextSheetCandidate": false
+    },
+    {
+      "opcode": 420,
+      "opcodeHex": "0x01a4",
+      "npcCount": 1,
+      "npcCapturesSeen": 1,
+      "baselineCount": 2,
+      "baselineCapturesSeen": 1,
+      "npcEnrichment": 0.278,
+      "isTextSheetCandidate": false
+    },
+    {
+      "opcode": 324,
+      "opcodeHex": "0x0144",
+      "npcCount": 43,
+      "npcCapturesSeen": 4,
+      "baselineCount": 281,
+      "baselineCapturesSeen": 1,
+      "npcEnrichment": 0.109,
+      "isTextSheetCandidate": false
+    },
+    {
+      "opcode": 311,
+      "opcodeHex": "0x0137",
+      "npcCount": 42,
+      "npcCapturesSeen": 6,
+      "baselineCount": 309,
+      "baselineCapturesSeen": 2,
+      "npcEnrichment": 0.098,
+      "isTextSheetCandidate": false
+    },
+    {
+      "opcode": 208,
+      "opcodeHex": "0x00d0",
+      "npcCount": 34,
+      "npcCapturesSeen": 4,
+      "baselineCount": 281,
+      "baselineCapturesSeen": 1,
+      "npcEnrichment": 0.088,
+      "isTextSheetCandidate": false
+    },
+    {
+      "opcode": 308,
+      "opcodeHex": "0x0134",
+      "npcCount": 21,
+      "npcCapturesSeen": 3,
+      "baselineCount": 281,
+      "baselineCapturesSeen": 1,
+      "npcEnrichment": 0.056,
+      "isTextSheetCandidate": false
+    },
+    {
+      "opcode": 367,
+      "opcodeHex": "0x016f",
+      "npcCount": 2,
+      "npcCapturesSeen": 1,
+      "baselineCount": 33,
+      "baselineCapturesSeen": 1,
+      "npcEnrichment": 0.046,
+      "isTextSheetCandidate": false
+    },
+    {
+      "opcode": 379,
+      "opcodeHex": "0x017b",
+      "npcCount": 14,
+      "npcCapturesSeen": 3,
+      "baselineCount": 283,
+      "baselineCapturesSeen": 1,
+      "npcEnrichment": 0.038,
+      "isTextSheetCandidate": false
+    },
+    {
+      "opcode": 317,
+      "opcodeHex": "0x013d",
+      "npcCount": 13,
+      "npcCapturesSeen": 3,
+      "baselineCount": 281,
+      "baselineCapturesSeen": 1,
+      "npcEnrichment": 0.036,
+      "isTextSheetCandidate": false
+    },
+    {
+      "opcode": 325,
+      "opcodeHex": "0x0145",
+      "npcCount": 13,
+      "npcCapturesSeen": 3,
+      "baselineCount": 281,
+      "baselineCapturesSeen": 1,
+      "npcEnrichment": 0.036,
+      "isTextSheetCandidate": false
+    },
+    {
+      "opcode": 377,
+      "opcodeHex": "0x0179",
+      "npcCount": 13,
+      "npcCapturesSeen": 3,
+      "baselineCount": 281,
+      "baselineCapturesSeen": 1,
+      "npcEnrichment": 0.036,
+      "isTextSheetCandidate": false
+    },
+    {
+      "opcode": 202,
+      "opcodeHex": "0x00ca",
+      "npcCount": 13,
+      "npcCapturesSeen": 3,
+      "baselineCount": 281,
+      "baselineCapturesSeen": 1,
+      "npcEnrichment": 0.036,
+      "isTextSheetCandidate": false
+    },
+    {
+      "opcode": 204,
+      "opcodeHex": "0x00cc",
+      "npcCount": 13,
+      "npcCapturesSeen": 3,
+      "baselineCount": 281,
+      "baselineCapturesSeen": 1,
+      "npcEnrichment": 0.036,
+      "isTextSheetCandidate": false
+    },
+    {
+      "opcode": 206,
+      "opcodeHex": "0x00ce",
+      "npcCount": 13,
+      "npcCapturesSeen": 3,
+      "baselineCount": 281,
+      "baselineCapturesSeen": 1,
+      "npcEnrichment": 0.036,
+      "isTextSheetCandidate": false
+    },
+    {
+      "opcode": 363,
+      "opcodeHex": "0x016b",
+      "npcCount": 12,
+      "npcCapturesSeen": 3,
+      "baselineCount": 284,
+      "baselineCapturesSeen": 1,
+      "npcEnrichment": 0.033,
+      "isTextSheetCandidate": false
+    },
+    {
+      "opcode": 214,
+      "opcodeHex": "0x00d6",
+      "npcCount": 9,
+      "npcCapturesSeen": 3,
+      "baselineCount": 261,
+      "baselineCapturesSeen": 1,
+      "npcEnrichment": 0.027,
+      "isTextSheetCandidate": false
+    },
+    {
+      "opcode": 310,
+      "opcodeHex": "0x0136",
+      "npcCount": 7,
+      "npcCapturesSeen": 2,
+      "baselineCount": 252,
+      "baselineCapturesSeen": 1,
+      "npcEnrichment": 0.022,
+      "isTextSheetCandidate": false
+    },
+    {
+      "opcode": 302,
+      "opcodeHex": "0x012e",
+      "npcCount": 5,
+      "npcCapturesSeen": 2,
+      "baselineCount": 214,
+      "baselineCapturesSeen": 1,
+      "npcEnrichment": 0.018,
+      "isTextSheetCandidate": false
+    },
+    {
+      "opcode": 395,
+      "opcodeHex": "0x018b",
+      "npcCount": 2,
+      "npcCapturesSeen": 2,
+      "baselineCount": 85,
+      "baselineCapturesSeen": 1,
+      "npcEnrichment": 0.018,
+      "isTextSheetCandidate": false
+    },
+    {
+      "opcode": 203,
+      "opcodeHex": "0x00cb",
+      "npcCount": 3,
+      "npcCapturesSeen": 1,
+      "baselineCount": 225,
+      "baselineCapturesSeen": 1,
+      "npcEnrichment": 0.011,
+      "isTextSheetCandidate": false
+    },
+    {
+      "opcode": 9,
+      "opcodeHex": "0x0009",
+      "npcCount": 0,
+      "npcCapturesSeen": 0,
+      "baselineCount": 1,
+      "baselineCapturesSeen": 1,
+      "npcEnrichment": 0.0,
+      "isTextSheetCandidate": false
+    },
+    {
+      "opcode": 10,
+      "opcodeHex": "0x000a",
+      "npcCount": 0,
+      "npcCapturesSeen": 0,
+      "baselineCount": 1,
+      "baselineCapturesSeen": 1,
+      "npcEnrichment": 0.0,
+      "isTextSheetCandidate": false
+    },
+    {
+      "opcode": 13,
+      "opcodeHex": "0x000d",
+      "npcCount": 0,
+      "npcCapturesSeen": 0,
+      "baselineCount": 2,
+      "baselineCapturesSeen": 1,
+      "npcEnrichment": 0.0,
+      "isTextSheetCandidate": false
+    },
+    {
+      "opcode": 368,
+      "opcodeHex": "0x0170",
+      "npcCount": 0,
+      "npcCapturesSeen": 0,
+      "baselineCount": 6,
+      "baselineCapturesSeen": 1,
+      "npcEnrichment": 0.0,
+      "isTextSheetCandidate": false
+    },
+    {
+      "opcode": 216,
+      "opcodeHex": "0x00d8",
+      "npcCount": 0,
+      "npcCapturesSeen": 0,
+      "baselineCount": 10,
+      "baselineCapturesSeen": 1,
+      "npcEnrichment": 0.0,
+      "isTextSheetCandidate": false
+    },
+    {
+      "opcode": 225,
+      "opcodeHex": "0x00e1",
+      "npcCount": 0,
+      "npcCapturesSeen": 0,
+      "baselineCount": 2,
+      "baselineCapturesSeen": 2,
+      "npcEnrichment": 0.0,
+      "isTextSheetCandidate": false
+    },
+    {
+      "opcode": 227,
+      "opcodeHex": "0x00e3",
+      "npcCount": 0,
+      "npcCapturesSeen": 0,
+      "baselineCount": 9,
+      "baselineCapturesSeen": 1,
+      "npcEnrichment": 0.0,
+      "isTextSheetCandidate": false
+    }
+  ]
+}

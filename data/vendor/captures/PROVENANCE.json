@@ -1,0 +1,23 @@
+{
+  "files": [
+    {
+      "file": "payload_layouts.json",
+      "sourceRepo": "xivl-captures",
+      "sourcePath": "derived/payload_layouts.json",
+      "sha256": "068cf0f13e9abfe43b465716d3ab9399635fcd83b7c5a9c72fe19e9dc83996f7",
+      "refreshMode": "copy",
+      "evidenceTier": "packet captures",
+      "transformation": "none (byte-identical copy)"
+    },
+    {
+      "file": "payload_samples.json",
+      "sourceRepo": "xivl-captures",
+      "sourcePath": "derived/payload_samples.json",
+      "sha256": "3d08a4ed4407738c02ce13b0fe853b6e8dba6340930e59dc94734055f8b8da38",
+      "refreshMode": "copy",
+      "evidenceTier": "packet captures",
+      "transformation": "none (byte-identical copy)"
+    }
+  ],
+  "note": "tools/generate_structs.py uses these repo-local pinned copies by default. xivl-captures owns the pcap digests; the copies are hash-gated by tools/validate_vendor.py and restored or re-pinned with tools/refresh_vendor.py."
+}

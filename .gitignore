@@ -1,0 +1,24 @@
+# Agent / AI tooling
+.claude/
+.agents/
+AGENTS.md
+CLAUDE.md
+docs/ai_agents/local/
+
+# OS/editor
+.DS_Store
+Thumbs.db
+*.swp
+*.swo
+.vscode/
+.idea/
+
+# Local tool output
+tmp/
+out/
+artifacts/
+*.log
+
+# Python bytecode
+__pycache__/
+*.pyc

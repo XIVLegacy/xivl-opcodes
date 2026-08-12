@@ -1,0 +1,35 @@
+{
+  "files": [
+    {
+      "file": "bcsy-ids.json",
+      "sourceRepo": "xivl-client-structs",
+      "sourcePath": "manifests/symbols.json",
+      "sha256": "9c3ded90e9452447cabdfc48eaf1907c4f5f385ac95c9d64bfdc2cd83361766d",
+      "refreshMode": "derive",
+      "deriver": "bcsy-ids",
+      "evidenceTier": "client ABI catalog id space; an existence index only, it carries no client facts",
+      "transformation": "sorted unique BCS-Y-NNNN ids mentioned in the cited symbols manifest"
+    },
+    {
+      "file": "bcsy-opcode-bindings.json",
+      "sourceRepo": "xivl-client-structs",
+      "sourcePath": "manifests/ir_catalog.json",
+      "sha256": "b885d434493488fe61ffadb71fbbcbce107af2ebb18c2a6921c0c34917173b55",
+      "refreshMode": "derive",
+      "deriver": "bcsy-opcode-bindings",
+      "evidenceTier": "structured client opcode relationships projected for reverse catalog sync reporting",
+      "transformation": "one candidate per distinct BCS-Y id listed on a direction-qualified opcode relationship, with its name, kind, and sorted opcode bindings"
+    },
+    {
+      "file": "payload-inner-lengths.json",
+      "sourceRepo": "xivl-client-structs",
+      "sourcePath": "manifests",
+      "sha256": "c86e4007e0f8b05fb9d3e02e328bf74bbd75b4a426f030227742f6ab8650dc57",
+      "refreshMode": "derive",
+      "deriver": "payload-inner-lengths",
+      "evidenceTier": "decomp-derived payload schemas promoted as local evidence; no freshness promise against the sibling manifests",
+      "transformation": "inner payload lengths merged across the five manifests named in audit_payload_framing.MANIFESTS, each record citing the manifest it came from"
+    }
+  ],
+  "note": "bcsy-ids gates forward BCS-Y references; bcsy-opcode-bindings supplies reverse sync candidates; payload-inner-lengths gates catalog wire framing. xivl-client-structs owns the source manifests; these are pinned consumer extracts, hash-gated by tools/validate_vendor.py and re-derived by tools/refresh_vendor.py. Do not point any gate at a live sibling checkout outside a research run."
+}

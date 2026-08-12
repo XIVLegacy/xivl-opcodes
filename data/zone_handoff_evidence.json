@@ -1,0 +1,6649 @@
+{
+  "edgeWindowMs": 5000,
+  "rareThreshold": 8,
+  "captureCount": 5,
+  "captures": {
+    "gridania_to_coerthas.pcapng": {
+      "s2c": {
+        "opcodes": {
+          "0x0001": {
+            "opcode": 1,
+            "count": 508,
+            "isRare": false,
+            "isPeriodic": false,
+            "deltaCv": 0.2946,
+            "burstRatio": 0.9981,
+            "firstOffsetMs": 0,
+            "lastOffsetMs": 476032,
+            "inStartEdge": true,
+            "inEndEdge": true,
+            "sampleTimestamps": [
+              0,
+              1070,
+              2130,
+              3160,
+              4220,
+              5270
+            ]
+          },
+          "0x00d9": {
+            "opcode": 217,
+            "count": 2,
+            "isRare": true,
+            "isPeriodic": false,
+            "deltaCv": null,
+            "burstRatio": 0.0,
+            "firstOffsetMs": 620,
+            "lastOffsetMs": 620,
+            "inStartEdge": true,
+            "inEndEdge": false,
+            "sampleTimestamps": [
+              620,
+              620
+            ]
+          },
+          "0x00cf": {
+            "opcode": 207,
+            "count": 1640,
+            "isRare": false,
+            "isPeriodic": false,
+            "deltaCv": 3.3431,
+            "burstRatio": 0.998,
+            "firstOffsetMs": 950,
+            "lastOffsetMs": 476939,
+            "inStartEdge": true,
+            "inEndEdge": true,
+            "sampleTimestamps": [
+              950,
+              950,
+              950,
+              950,
+              950,
+              950
+            ]
+          },
+          "0x018b": {
+            "opcode": 395,
+            "count": 79,
+            "isRare": false,
+            "isPeriodic": false,
+            "deltaCv": 0.3121,
+            "burstRatio": 0.9843,
+            "firstOffsetMs": 3500,
+            "lastOffsetMs": 472972,
+            "inStartEdge": true,
+            "inEndEdge": true,
+            "sampleTimestamps": [
+              3500,
+              9590,
+              15650,
+              21454,
+              27640,
+              33450
+            ]
+          },
+          "0x00cb": {
+            "opcode": 203,
+            "count": 233,
+            "isRare": false,
+            "isPeriodic": false,
+            "deltaCv": 2.8788,
+            "burstRatio": 0.9569,
+            "firstOffsetMs": 4020,
+            "lastOffsetMs": 460416,
+            "inStartEdge": true,
+            "inEndEdge": false,
+            "sampleTimestamps": [
+              4020,
+              4020,
+              5291,
+              5291,
+              5291,
+              5291
+            ]
+          },
+          "0x00ca": {
+            "opcode": 202,
+            "count": 232,
+            "isRare": false,
+            "isPeriodic": false,
+            "deltaCv": 2.5715,
+            "burstRatio": 0.9608,
+            "firstOffsetMs": 4110,
+            "lastOffsetMs": 462352,
+            "inStartEdge": true,
+            "inEndEdge": false,
+            "sampleTimestamps": [
+              4110,
+              4111,
+              5460,
+              5461,
+              5461,
+              5490
+            ]
+          },
+          "0x00d0": {
+            "opcode": 208,
+            "count": 244,
+            "isRare": false,
+            "isPeriodic": false,
+            "deltaCv": 2.5515,
+            "burstRatio": 0.9861,
+            "firstOffsetMs": 4110,
+            "lastOffsetMs": 474443,
+            "inStartEdge": true,
+            "inEndEdge": true,
+            "sampleTimestamps": [
+              4110,
+              4111,
+              5460,
+              5461,
+              5461,
+              5490
+            ]
+          },
+          "0x012e": {
+            "opcode": 302,
+            "count": 34,
+            "isRare": false,
+            "isPeriodic": false,
+            "deltaCv": 2.6443,
+            "burstRatio": 0.9394,
+            "firstOffsetMs": 4110,
+            "lastOffsetMs": 452156,
+            "inStartEdge": true,
+            "inEndEdge": false,
+            "sampleTimestamps": [
+              4110,
+              4111,
+              5460,
+              5461,
+              5461,
+              5490
+            ]
+          },
+          "0x016b": {
+            "opcode": 363,
+            "count": 252,
+            "isRare": false,
+            "isPeriodic": false,
+            "deltaCv": 2.7086,
+            "burstRatio": 0.9608,
+            "firstOffsetMs": 4110,
+            "lastOffsetMs": 462352,
+            "inStartEdge": true,
+            "inEndEdge": false,
+            "sampleTimestamps": [
+              4110,
+              4111,
+              5460,
+              5461,
+              5461,
+              5490
+            ]
+          },
+          "0x00cc": {
+            "opcode": 204,
+            "count": 232,
+            "isRare": false,
+            "isPeriodic": false,
+            "deltaCv": 2.5795,
+            "burstRatio": 0.9608,
+            "firstOffsetMs": 4111,
+            "lastOffsetMs": 462352,
+            "inStartEdge": true,
+            "inEndEdge": false,
+            "sampleTimestamps": [
+              4111,
+              4111,
+              5461,
+              5461,
+              5490,
+              5490
+            ]
+          },
+          "0x00ce": {
+            "opcode": 206,
+            "count": 232,
+            "isRare": false,
+            "isPeriodic": false,
+            "deltaCv": 2.5711,
+            "burstRatio": 0.9608,
+            "firstOffsetMs": 4111,
+            "lastOffsetMs": 462352,
+            "inStartEdge": true,
+            "inEndEdge": false,
+            "sampleTimestamps": [
+              4111,
+              4111,
+              5461,
+              5461,
+              5461,
+              5490
+            ]
+          },
+          "0x00d6": {
+            "opcode": 214,
+            "count": 216,
+            "isRare": false,
+            "isPeriodic": false,
+            "deltaCv": 2.4696,
+            "burstRatio": 0.9608,
+            "firstOffsetMs": 4111,
+            "lastOffsetMs": 462352,
+            "inStartEdge": true,
+            "inEndEdge": false,
+            "sampleTimestamps": [
+              4111,
+              4111,
+              5461,
+              5461,
+              5461,
+              5490
+            ]
+          },
+          "0x0134": {
+            "opcode": 308,
+            "count": 231,
+            "isRare": false,
+            "isPeriodic": false,
+            "deltaCv": 2.5259,
+            "burstRatio": 0.9861,
+            "firstOffsetMs": 4111,
+            "lastOffsetMs": 474443,
+            "inStartEdge": true,
+            "inEndEdge": true,
+            "sampleTimestamps": [
+              4111,
+              4111,
+              5461,
+              5461,
+              5461,
+              5490
+            ]
+          },
+          "0x0137": {
+            "opcode": 311,
+            "count": 265,
+            "isRare": false,
+            "isPeriodic": false,
+            "deltaCv": 2.783,
+            "burstRatio": 0.9608,
+            "firstOffsetMs": 4111,
+            "lastOffsetMs": 462375,
+            "inStartEdge": true,
+            "inEndEdge": false,
+            "sampleTimestamps": [
+              4111,
+              4111,
+              5461,
+              5461,
+              5490,
+              5490
+            ]
+          },
+          "0x013d": {
+            "opcode": 317,
+            "count": 232,
+            "isRare": false,
+            "isPeriodic": false,
+            "deltaCv": 2.5708,
+            "burstRatio": 0.9608,
+            "firstOffsetMs": 4111,
+            "lastOffsetMs": 462352,
+            "inStartEdge": true,
+            "inEndEdge": false,
+            "sampleTimestamps": [
+              4111,
+              4111,
+              5461,
+              5461,
+              5461,
+              5490
+            ]
+          },
+          "0x0144": {
+            "opcode": 324,
+            "count": 232,
+            "isRare": false,
+            "isPeriodic": false,
+            "deltaCv": 2.5708,
+            "burstRatio": 0.9608,
+            "firstOffsetMs": 4111,
+            "lastOffsetMs": 462352,
+            "inStartEdge": true,
+            "inEndEdge": false,
+            "sampleTimestamps": [
+              4111,
+              4111,
+              5461,
+              5461,
+              5461,
+              5490
+            ]
+          },
+          "0x0145": {
+            "opcode": 325,
+            "count": 232,
+            "isRare": false,
+            "isPeriodic": false,
+            "deltaCv": 2.5708,
+            "burstRatio": 0.9608,
+            "firstOffsetMs": 4111,
+            "lastOffsetMs": 462352,
+            "inStartEdge": true,
+            "inEndEdge": false,
+            "sampleTimestamps": [
+              4111,
+              4111,
+              5461,
+              5461,
+              5461,
+              5490
+            ]
+          },
+          "0x016d": {
+            "opcode": 365,
+            "count": 4,
+            "isRare": true,
+            "isPeriodic": false,
+            "deltaCv": 0.4974,
+            "burstRatio": 0.9595,
+            "firstOffsetMs": 4111,
+            "lastOffsetMs": 461730,
+            "inStartEdge": true,
+            "inEndEdge": false,
+            "sampleTimestamps": [
+              4111,
+              72421,
+              324639,
+              461730
+            ]
+          },
+          "0x016e": {
+            "opcode": 366,
+            "count": 4,
+            "isRare": true,
+            "isPeriodic": false,
+            "deltaCv": 0.4959,
+            "burstRatio": 0.9604,
+            "firstOffsetMs": 4111,
+            "lastOffsetMs": 462140,
+            "inStartEdge": true,
+            "inEndEdge": false,
+            "sampleTimestamps": [
+              4111,
+              72772,
+              324928,
+              462140
+            ]
+          },
+          "0x0179": {
+            "opcode": 377,
+            "count": 232,
+            "isRare": false,
+            "isPeriodic": false,
+            "deltaCv": 2.5708,
+            "burstRatio": 0.9608,
+            "firstOffsetMs": 4111,
+            "lastOffsetMs": 462352,
+            "inStartEdge": true,
+            "inEndEdge": false,
+            "sampleTimestamps": [
+              4111,
+              4111,
+              5461,
+              5461,
+              5461,
+              5490
+            ]
+          },
+          "0x017b": {
+            "opcode": 379,
+            "count": 235,
+            "isRare": false,
+            "isPeriodic": false,
+            "deltaCv": 2.5858,
+            "burstRatio": 0.9608,
+            "firstOffsetMs": 4111,
+            "lastOffsetMs": 462352,
+            "inStartEdge": true,
+            "inEndEdge": false,
+            "sampleTimestamps": [
+              4111,
+              4111,
+              5461,
+              5461,
+              5461,
+              5490
+            ]
+          },
+          "0x0136": {
+            "opcode": 310,
+            "count": 86,
+            "isRare": false,
+            "isPeriodic": false,
+            "deltaCv": 2.8261,
+            "burstRatio": 0.9395,
+            "firstOffsetMs": 4210,
+            "lastOffsetMs": 452275,
+            "inStartEdge": true,
+            "inEndEdge": false,
+            "sampleTimestamps": [
+              4210,
+              4210,
+              5490,
+              5490,
+              5490,
+              5490
+            ]
+          },
+          "0x018d": {
+            "opcode": 397,
+            "count": 94,
+            "isRare": false,
+            "isPeriodic": true,
+            "deltaCv": 0.0327,
+            "burstRatio": 0.9825,
+            "firstOffsetMs": 5040,
+            "lastOffsetMs": 473649,
+            "inStartEdge": false,
+            "inEndEdge": true,
+            "sampleTimestamps": [
+              5040,
+              10080,
+              15110,
+              20140,
+              25170,
+              30270
+            ]
+          },
+          "0x016f": {
+            "opcode": 367,
+            "count": 52,
+            "isRare": false,
+            "isPeriodic": false,
+            "deltaCv": 2.2705,
+            "burstRatio": 0.8344,
+            "firstOffsetMs": 54190,
+            "lastOffsetMs": 452156,
+            "inStartEdge": false,
+            "inEndEdge": false,
+            "sampleTimestamps": [
+              54190,
+              54190,
+              72980,
+              72980,
+              95520,
+              106400
+            ]
+          },
+          "0x0010": {
+            "opcode": 16,
+            "count": 3,
+            "isRare": true,
+            "isPeriodic": false,
+            "deltaCv": 0.2954,
+            "burstRatio": 0.8163,
+            "firstOffsetMs": 72300,
+            "lastOffsetMs": 461608,
+            "inStartEdge": false,
+            "inEndEdge": false,
+            "sampleTimestamps": [
+              72300,
+              324462,
+              461608
+            ]
+          },
+          "0x000c": {
+            "opcode": 12,
+            "count": 3,
+            "isRare": true,
+            "isPeriodic": false,
+            "deltaCv": 0.9593,
+            "burstRatio": 0.8431,
+            "firstOffsetMs": 72302,
+            "lastOffsetMs": 474415,
+            "inStartEdge": false,
+            "inEndEdge": true,
+            "sampleTimestamps": [
+              72302,
+              80494,
+              474415
+            ]
+          },
+          "0x000d": {
+            "opcode": 13,
+            "count": 3,
+            "isRare": true,
+            "isPeriodic": false,
+            "deltaCv": 0.2954,
+            "burstRatio": 0.8163,
+            "firstOffsetMs": 72302,
+            "lastOffsetMs": 461608,
+            "inStartEdge": false,
+            "inEndEdge": false,
+            "sampleTimestamps": [
+              72302,
+              324462,
+              461608
+            ]
+          },
+          "0x017c": {
+            "opcode": 380,
+            "count": 176,
+            "isRare": false,
+            "isPeriodic": false,
+            "deltaCv": 2.2385,
+            "burstRatio": 0.8178,
+            "firstOffsetMs": 72302,
+            "lastOffsetMs": 462352,
+            "inStartEdge": false,
+            "inEndEdge": false,
+            "sampleTimestamps": [
+              72302,
+              72302,
+              102120,
+              105290,
+              106400,
+              113260
+            ]
+          },
+          "0x017d": {
+            "opcode": 381,
+            "count": 176,
+            "isRare": false,
+            "isPeriodic": false,
+            "deltaCv": 2.2385,
+            "burstRatio": 0.8178,
+            "firstOffsetMs": 72302,
+            "lastOffsetMs": 462352,
+            "inStartEdge": false,
+            "inEndEdge": false,
+            "sampleTimestamps": [
+              72302,
+              72302,
+              102120,
+              105290,
+              106400,
+              113260
+            ]
+          },
+          "0x017e": {
+            "opcode": 382,
+            "count": 176,
+            "isRare": false,
+            "isPeriodic": false,
+            "deltaCv": 2.2385,
+            "burstRatio": 0.8178,
+            "firstOffsetMs": 72302,
+            "lastOffsetMs": 462352,
+            "inStartEdge": false,
+            "inEndEdge": false,
+            "sampleTimestamps": [
+              72302,
+              72302,
+              102120,
+              105290,
+              106400,
+              113260
+            ]
+          },
+          "0x017f": {
+            "opcode": 383,
+            "count": 6,
+            "isRare": true,
+            "isPeriodic": false,
+            "deltaCv": 1.3111,
+            "burstRatio": 0.8165,
+            "firstOffsetMs": 72302,
+            "lastOffsetMs": 461730,
+            "inStartEdge": false,
+            "inEndEdge": false,
+            "sampleTimestamps": [
+              72302,
+              72302,
+              324639,
+              324639,
+              461730,
+              461730
+            ]
+          },
+          "0x0187": {
+            "opcode": 391,
+            "count": 5,
+            "isRare": true,
+            "isPeriodic": false,
+            "deltaCv": 1.0761,
+            "burstRatio": 0.8178,
+            "firstOffsetMs": 72315,
+            "lastOffsetMs": 462375,
+            "inStartEdge": false,
+            "inEndEdge": false,
+            "sampleTimestamps": [
+              72315,
+              72980,
+              324568,
+              461624,
+              462375
+            ]
+          },
+          "0x0005": {
+            "opcode": 5,
+            "count": 3,
+            "isRare": true,
+            "isPeriodic": false,
+            "deltaCv": 0.2957,
+            "burstRatio": 0.8163,
+            "firstOffsetMs": 72324,
+            "lastOffsetMs": 461659,
+            "inStartEdge": false,
+            "inEndEdge": false,
+            "sampleTimestamps": [
+              72324,
+              324555,
+              461659
+            ]
+          },
+          "0x000f": {
+            "opcode": 15,
+            "count": 3,
+            "isRare": true,
+            "isPeriodic": false,
+            "deltaCv": 0.2957,
+            "burstRatio": 0.8163,
+            "firstOffsetMs": 72421,
+            "lastOffsetMs": 461730,
+            "inStartEdge": false,
+            "inEndEdge": false,
+            "sampleTimestamps": [
+              72421,
+              324639,
+              461730
+            ]
+          },
+          "0x0132": {
+            "opcode": 306,
+            "count": 24,
+            "isRare": false,
+            "isPeriodic": false,
+            "deltaCv": 3.392,
+            "burstRatio": 0.8163,
+            "firstOffsetMs": 72421,
+            "lastOffsetMs": 461730,
+            "inStartEdge": false,
+            "inEndEdge": false,
+            "sampleTimestamps": [
+              72421,
+              72421,
+              72421,
+              72421,
+              72421,
+              72421
+            ]
+          },
+          "0x0146": {
+            "opcode": 326,
+            "count": 21,
+            "isRare": false,
+            "isPeriodic": false,
+            "deltaCv": 3.1334,
+            "burstRatio": 0.8171,
+            "firstOffsetMs": 72421,
+            "lastOffsetMs": 462140,
+            "inStartEdge": false,
+            "inEndEdge": false,
+            "sampleTimestamps": [
+              72421,
+              72764,
+              72764,
+              72764,
+              72764,
+              72772
+            ]
+          },
+          "0x014b": {
+            "opcode": 331,
+            "count": 18,
+            "isRare": false,
+            "isPeriodic": false,
+            "deltaCv": 2.8646,
+            "burstRatio": 0.8168,
+            "firstOffsetMs": 72434,
+            "lastOffsetMs": 462012,
+            "inStartEdge": false,
+            "inEndEdge": false,
+            "sampleTimestamps": [
+              72434,
+              72531,
+              72546,
+              72554,
+              72658,
+              72753
+            ]
+          },
+          "0x0147": {
+            "opcode": 327,
+            "count": 21,
+            "isRare": false,
+            "isPeriodic": false,
+            "deltaCv": 3.1411,
+            "burstRatio": 0.8164,
+            "firstOffsetMs": 72764,
+            "lastOffsetMs": 462140,
+            "inStartEdge": false,
+            "inEndEdge": false,
+            "sampleTimestamps": [
+              72764,
+              72764,
+              72764,
+              72764,
+              72764,
+              72772
+            ]
+          },
+          "0x0149": {
+            "opcode": 329,
+            "count": 9,
+            "isRare": false,
+            "isPeriodic": false,
+            "deltaCv": 1.8294,
+            "burstRatio": 0.8164,
+            "firstOffsetMs": 72764,
+            "lastOffsetMs": 462140,
+            "inStartEdge": false,
+            "inEndEdge": false,
+            "sampleTimestamps": [
+              72764,
+              72764,
+              72772,
+              324872,
+              324872,
+              324928
+            ]
+          },
+          "0x014a": {
+            "opcode": 330,
+            "count": 3,
+            "isRare": true,
+            "isPeriodic": false,
+            "deltaCv": 0.295,
+            "burstRatio": 0.8163,
+            "firstOffsetMs": 72764,
+            "lastOffsetMs": 462113,
+            "inStartEdge": false,
+            "inEndEdge": false,
+            "sampleTimestamps": [
+              72764,
+              324872,
+              462113
+            ]
+          },
+          "0x014e": {
+            "opcode": 334,
+            "count": 6,
+            "isRare": true,
+            "isPeriodic": false,
+            "deltaCv": 1.3107,
+            "burstRatio": 0.8164,
+            "firstOffsetMs": 72772,
+            "lastOffsetMs": 462140,
+            "inStartEdge": false,
+            "inEndEdge": false,
+            "sampleTimestamps": [
+              72772,
+              72772,
+              324928,
+              324928,
+              462140,
+              462140
+            ]
+          },
+          "0x0194": {
+            "opcode": 404,
+            "count": 3,
+            "isRare": true,
+            "isPeriodic": false,
+            "deltaCv": 0.2952,
+            "burstRatio": 0.8164,
+            "firstOffsetMs": 72772,
+            "lastOffsetMs": 462140,
+            "inStartEdge": false,
+            "inEndEdge": false,
+            "sampleTimestamps": [
+              72772,
+              324928,
+              462140
+            ]
+          },
+          "0x0196": {
+            "opcode": 406,
+            "count": 3,
+            "isRare": true,
+            "isPeriodic": false,
+            "deltaCv": 0.2952,
+            "burstRatio": 0.8164,
+            "firstOffsetMs": 72772,
+            "lastOffsetMs": 462140,
+            "inStartEdge": false,
+            "inEndEdge": false,
+            "sampleTimestamps": [
+              72772,
+              324928,
+              462140
+            ]
+          },
+          "0x0198": {
+            "opcode": 408,
+            "count": 3,
+            "isRare": true,
+            "isPeriodic": false,
+            "deltaCv": 0.2952,
+            "burstRatio": 0.8164,
+            "firstOffsetMs": 72772,
+            "lastOffsetMs": 462140,
+            "inStartEdge": false,
+            "inEndEdge": false,
+            "sampleTimestamps": [
+              72772,
+              324928,
+              462140
+            ]
+          },
+          "0x0199": {
+            "opcode": 409,
+            "count": 3,
+            "isRare": true,
+            "isPeriodic": false,
+            "deltaCv": 0.2952,
+            "burstRatio": 0.8164,
+            "firstOffsetMs": 72772,
+            "lastOffsetMs": 462140,
+            "inStartEdge": false,
+            "inEndEdge": false,
+            "sampleTimestamps": [
+              72772,
+              324928,
+              462140
+            ]
+          },
+          "0x019a": {
+            "opcode": 410,
+            "count": 3,
+            "isRare": true,
+            "isPeriodic": false,
+            "deltaCv": 0.2952,
+            "burstRatio": 0.8164,
+            "firstOffsetMs": 72772,
+            "lastOffsetMs": 462140,
+            "inStartEdge": false,
+            "inEndEdge": false,
+            "sampleTimestamps": [
+              72772,
+              324928,
+              462140
+            ]
+          },
+          "0x019b": {
+            "opcode": 411,
+            "count": 3,
+            "isRare": true,
+            "isPeriodic": false,
+            "deltaCv": 0.2952,
+            "burstRatio": 0.8164,
+            "firstOffsetMs": 72772,
+            "lastOffsetMs": 462140,
+            "inStartEdge": false,
+            "inEndEdge": false,
+            "sampleTimestamps": [
+              72772,
+              324928,
+              462140
+            ]
+          },
+          "0x019c": {
+            "opcode": 412,
+            "count": 3,
+            "isRare": true,
+            "isPeriodic": false,
+            "deltaCv": 0.2952,
+            "burstRatio": 0.8164,
+            "firstOffsetMs": 72772,
+            "lastOffsetMs": 462140,
+            "inStartEdge": false,
+            "inEndEdge": false,
+            "sampleTimestamps": [
+              72772,
+              324928,
+              462140
+            ]
+          },
+          "0x019d": {
+            "opcode": 413,
+            "count": 3,
+            "isRare": true,
+            "isPeriodic": false,
+            "deltaCv": 0.2952,
+            "burstRatio": 0.8164,
+            "firstOffsetMs": 72772,
+            "lastOffsetMs": 462140,
+            "inStartEdge": false,
+            "inEndEdge": false,
+            "sampleTimestamps": [
+              72772,
+              324928,
+              462140
+            ]
+          },
+          "0x01a4": {
+            "opcode": 420,
+            "count": 3,
+            "isRare": true,
+            "isPeriodic": false,
+            "deltaCv": 0.2952,
+            "burstRatio": 0.8164,
+            "firstOffsetMs": 72772,
+            "lastOffsetMs": 462140,
+            "inStartEdge": false,
+            "inEndEdge": false,
+            "sampleTimestamps": [
+              72772,
+              324928,
+              462140
+            ]
+          },
+          "0x0006": {
+            "opcode": 6,
+            "count": 3,
+            "isRare": true,
+            "isPeriodic": false,
+            "deltaCv": 0.2949,
+            "burstRatio": 0.8164,
+            "firstOffsetMs": 72980,
+            "lastOffsetMs": 462352,
+            "inStartEdge": false,
+            "inEndEdge": false,
+            "sampleTimestamps": [
+              72980,
+              325079,
+              462352
+            ]
+          },
+          "0x0007": {
+            "opcode": 7,
+            "count": 3,
+            "isRare": true,
+            "isPeriodic": false,
+            "deltaCv": 0.2949,
+            "burstRatio": 0.8164,
+            "firstOffsetMs": 72980,
+            "lastOffsetMs": 462352,
+            "inStartEdge": false,
+            "inEndEdge": false,
+            "sampleTimestamps": [
+              72980,
+              325079,
+              462352
+            ]
+          },
+          "0x0008": {
+            "opcode": 8,
+            "count": 4,
+            "isRare": true,
+            "isPeriodic": false,
+            "deltaCv": 0.794,
+            "burstRatio": 0.8164,
+            "firstOffsetMs": 72980,
+            "lastOffsetMs": 462352,
+            "inStartEdge": false,
+            "inEndEdge": false,
+            "sampleTimestamps": [
+              72980,
+              325079,
+              462352,
+              462352
+            ]
+          },
+          "0x017a": {
+            "opcode": 378,
+            "count": 173,
+            "isRare": false,
+            "isPeriodic": false,
+            "deltaCv": 2.2268,
+            "burstRatio": 0.8162,
+            "firstOffsetMs": 73920,
+            "lastOffsetMs": 463212,
+            "inStartEdge": false,
+            "inEndEdge": false,
+            "sampleTimestamps": [
+              73920,
+              102929,
+              105869,
+              106870,
+              113742,
+              114082
+            ]
+          },
+          "0x0131": {
+            "opcode": 305,
+            "count": 2,
+            "isRare": true,
+            "isPeriodic": false,
+            "deltaCv": null,
+            "burstRatio": 0.7924,
+            "firstOffsetMs": 80521,
+            "lastOffsetMs": 458452,
+            "inStartEdge": false,
+            "inEndEdge": false,
+            "sampleTimestamps": [
+              80521,
+              458452
+            ]
+          },
+          "0x0139": {
+            "opcode": 313,
+            "count": 2,
+            "isRare": true,
+            "isPeriodic": false,
+            "deltaCv": null,
+            "burstRatio": 0.8259,
+            "firstOffsetMs": 80521,
+            "lastOffsetMs": 474443,
+            "inStartEdge": false,
+            "inEndEdge": true,
+            "sampleTimestamps": [
+              80521,
+              474443
+            ]
+          },
+          "0x013c": {
+            "opcode": 316,
+            "count": 4,
+            "isRare": true,
+            "isPeriodic": false,
+            "deltaCv": 0.7212,
+            "burstRatio": 0.8259,
+            "firstOffsetMs": 80521,
+            "lastOffsetMs": 474443,
+            "inStartEdge": false,
+            "inEndEdge": true,
+            "sampleTimestamps": [
+              80521,
+              325079,
+              461659,
+              474443
+            ]
+          },
+          "0x0157": {
+            "opcode": 343,
+            "count": 2,
+            "isRare": true,
+            "isPeriodic": false,
+            "deltaCv": null,
+            "burstRatio": 0.8259,
+            "firstOffsetMs": 80521,
+            "lastOffsetMs": 474443,
+            "inStartEdge": false,
+            "inEndEdge": true,
+            "sampleTimestamps": [
+              80521,
+              474443
+            ]
+          },
+          "0x0197": {
+            "opcode": 407,
+            "count": 3,
+            "isRare": true,
+            "isPeriodic": false,
+            "deltaCv": 0.2808,
+            "burstRatio": 0.7993,
+            "firstOffsetMs": 80521,
+            "lastOffsetMs": 461730,
+            "inStartEdge": false,
+            "inEndEdge": false,
+            "sampleTimestamps": [
+              80521,
+              324639,
+              461730
+            ]
+          },
+          "0x0183": {
+            "opcode": 387,
+            "count": 170,
+            "isRare": false,
+            "isPeriodic": false,
+            "deltaCv": 2.5361,
+            "burstRatio": 0.7553,
+            "firstOffsetMs": 102120,
+            "lastOffsetMs": 462352,
+            "inStartEdge": false,
+            "inEndEdge": false,
+            "sampleTimestamps": [
+              102120,
+              105290,
+              106400,
+              113260,
+              113260,
+              114299
+            ]
+          },
+          "0x00d8": {
+            "opcode": 216,
+            "count": 1,
+            "isRare": true,
+            "isPeriodic": false,
+            "deltaCv": null,
+            "burstRatio": 0.0,
+            "firstOffsetMs": 420449,
+            "lastOffsetMs": 420449,
+            "inStartEdge": false,
+            "inEndEdge": false,
+            "sampleTimestamps": [
+              420449
+            ]
+          },
+          "0x00e2": {
+            "opcode": 226,
+            "count": 1,
+            "isRare": true,
+            "isPeriodic": false,
+            "deltaCv": null,
+            "burstRatio": 0.0,
+            "firstOffsetMs": 455198,
+            "lastOffsetMs": 455198,
+            "inStartEdge": false,
+            "inEndEdge": false,
+            "sampleTimestamps": [
+              455198
+            ]
+          },
+          "0x0193": {
+            "opcode": 403,
+            "count": 1,
+            "isRare": true,
+            "isPeriodic": false,
+            "deltaCv": null,
+            "burstRatio": 0.0,
+            "firstOffsetMs": 455198,
+            "lastOffsetMs": 455198,
+            "inStartEdge": false,
+            "inEndEdge": false,
+            "sampleTimestamps": [
+              455198
+            ]
+          }
+        },
+        "tsStartMs": 1356919499560,
+        "tsEndMs": 1356919976499,
+        "durationMs": 476939
+      },
+      "c2s": {
+        "opcodes": {
+          "0x00ca": {
+            "opcode": 202,
+            "count": 2563,
+            "isRare": false,
+            "isPeriodic": false,
+            "deltaCv": 1.46,
+            "burstRatio": 1.0,
+            "firstOffsetMs": 0,
+            "lastOffsetMs": 476682,
+            "inStartEdge": true,
+            "inEndEdge": true,
+            "sampleTimestamps": [
+              0,
+              0,
+              367,
+              367,
+              701,
+              701
+            ]
+          },
+          "0x0001": {
+            "opcode": 1,
+            "count": 477,
+            "isRare": false,
+            "isPeriodic": true,
+            "deltaCv": 0.1502,
+            "burstRatio": 0.9985,
+            "firstOffsetMs": 701,
+            "lastOffsetMs": 476682,
+            "inStartEdge": true,
+            "inEndEdge": true,
+            "sampleTimestamps": [
+              701,
+              1701,
+              2732,
+              3828,
+              4859,
+              5574
+            ]
+          },
+          "0x012d": {
+            "opcode": 301,
+            "count": 6,
+            "isRare": true,
+            "isPeriodic": false,
+            "deltaCv": 1.5973,
+            "burstRatio": 0.9431,
+            "firstOffsetMs": 24378,
+            "lastOffsetMs": 473924,
+            "inStartEdge": false,
+            "inEndEdge": true,
+            "sampleTimestamps": [
+              24378,
+              26505,
+              80036,
+              454745,
+              457933,
+              473924
+            ]
+          },
+          "0x0133": {
+            "opcode": 307,
+            "count": 173,
+            "isRare": false,
+            "isPeriodic": false,
+            "deltaCv": 2.2268,
+            "burstRatio": 0.8166,
+            "firstOffsetMs": 73552,
+            "lastOffsetMs": 462828,
+            "inStartEdge": false,
+            "inEndEdge": false,
+            "sampleTimestamps": [
+              73552,
+              102557,
+              105446,
+              106508,
+              113327,
+              113716
+            ]
+          },
+          "0x0007": {
+            "opcode": 7,
+            "count": 1,
+            "isRare": true,
+            "isPeriodic": false,
+            "deltaCv": null,
+            "burstRatio": 0.0,
+            "firstOffsetMs": 469908,
+            "lastOffsetMs": 469908,
+            "inStartEdge": false,
+            "inEndEdge": false,
+            "sampleTimestamps": [
+              469908
+            ]
+          }
+        },
+        "tsStartMs": 1356919499460,
+        "tsEndMs": 1356919976142,
+        "durationMs": 476682
+      },
+      "s2cEventCount": 6855,
+      "c2sEventCount": 3220
+    },
+    "from_gridania_to_blackshroud.pcapng": {
+      "s2c": {
+        "opcodes": {
+          "0x018d": {
+            "opcode": 397,
+            "count": 22,
+            "isRare": false,
+            "isPeriodic": true,
+            "deltaCv": 0.0091,
+            "burstRatio": 0.9668,
+            "firstOffsetMs": 0,
+            "lastOffsetMs": 106199,
+            "inStartEdge": true,
+            "inEndEdge": true,
+            "sampleTimestamps": [
+              0,
+              5040,
+              10080,
+              15129,
+              20179,
+              25239
+            ]
+          },
+          "0x0001": {
+            "opcode": 1,
+            "count": 135,
+            "isRare": false,
+            "isPeriodic": false,
+            "deltaCv": 0.4864,
+            "burstRatio": 0.9934,
+            "firstOffsetMs": 730,
+            "lastOffsetMs": 109851,
+            "inStartEdge": true,
+            "inEndEdge": true,
+            "sampleTimestamps": [
+              730,
+              1780,
+              2520,
+              3570,
+              4630,
+              5670
+            ]
+          },
+          "0x00cf": {
+            "opcode": 207,
+            "count": 217,
+            "isRare": false,
+            "isPeriodic": false,
+            "deltaCv": 2.9313,
+            "burstRatio": 0.9218,
+            "firstOffsetMs": 954,
+            "lastOffsetMs": 102219,
+            "inStartEdge": true,
+            "inEndEdge": false,
+            "sampleTimestamps": [
+              954,
+              954,
+              954,
+              954,
+              954,
+              954
+            ]
+          },
+          "0x00cb": {
+            "opcode": 203,
+            "count": 58,
+            "isRare": false,
+            "isPeriodic": false,
+            "deltaCv": 3.8269,
+            "burstRatio": 0.9145,
+            "firstOffsetMs": 2220,
+            "lastOffsetMs": 102678,
+            "inStartEdge": true,
+            "inEndEdge": false,
+            "sampleTimestamps": [
+              2220,
+              3270,
+              3270,
+              5780,
+              7880,
+              11060
+            ]
+          },
+          "0x00ca": {
+            "opcode": 202,
+            "count": 27,
+            "isRare": false,
+            "isPeriodic": false,
+            "deltaCv": 3.0391,
+            "burstRatio": 0.7877,
+            "firstOffsetMs": 2390,
+            "lastOffsetMs": 88923,
+            "inStartEdge": true,
+            "inEndEdge": false,
+            "sampleTimestamps": [
+              2390,
+              3440,
+              3440,
+              5860,
+              6900,
+              10080
+            ]
+          },
+          "0x00cc": {
+            "opcode": 204,
+            "count": 27,
+            "isRare": false,
+            "isPeriodic": false,
+            "deltaCv": 3.049,
+            "burstRatio": 0.7877,
+            "firstOffsetMs": 2390,
+            "lastOffsetMs": 88923,
+            "inStartEdge": true,
+            "inEndEdge": false,
+            "sampleTimestamps": [
+              2390,
+              3440,
+              3440,
+              5860,
+              6900,
+              10080
+            ]
+          },
+          "0x00ce": {
+            "opcode": 206,
+            "count": 27,
+            "isRare": false,
+            "isPeriodic": false,
+            "deltaCv": 3.0391,
+            "burstRatio": 0.7877,
+            "firstOffsetMs": 2390,
+            "lastOffsetMs": 88923,
+            "inStartEdge": true,
+            "inEndEdge": false,
+            "sampleTimestamps": [
+              2390,
+              3440,
+              3440,
+              5860,
+              6900,
+              10080
+            ]
+          },
+          "0x00d0": {
+            "opcode": 208,
+            "count": 27,
+            "isRare": false,
+            "isPeriodic": false,
+            "deltaCv": 3.0391,
+            "burstRatio": 0.7877,
+            "firstOffsetMs": 2390,
+            "lastOffsetMs": 88923,
+            "inStartEdge": true,
+            "inEndEdge": false,
+            "sampleTimestamps": [
+              2390,
+              3440,
+              3440,
+              5860,
+              6900,
+              10080
+            ]
+          },
+          "0x00d6": {
+            "opcode": 214,
+            "count": 22,
+            "isRare": false,
+            "isPeriodic": false,
+            "deltaCv": 2.6958,
+            "burstRatio": 0.7877,
+            "firstOffsetMs": 2390,
+            "lastOffsetMs": 88923,
+            "inStartEdge": true,
+            "inEndEdge": false,
+            "sampleTimestamps": [
+              2390,
+              3440,
+              3440,
+              5860,
+              6900,
+              10080
+            ]
+          },
+          "0x012e": {
+            "opcode": 302,
+            "count": 17,
+            "isRare": false,
+            "isPeriodic": false,
+            "deltaCv": 1.1479,
+            "burstRatio": 0.1515,
+            "firstOffsetMs": 2390,
+            "lastOffsetMs": 19030,
+            "inStartEdge": true,
+            "inEndEdge": false,
+            "sampleTimestamps": [
+              2390,
+              3440,
+              3440,
+              6900,
+              10080,
+              11240
+            ]
+          },
+          "0x0134": {
+            "opcode": 308,
+            "count": 27,
+            "isRare": false,
+            "isPeriodic": false,
+            "deltaCv": 3.0391,
+            "burstRatio": 0.7877,
+            "firstOffsetMs": 2390,
+            "lastOffsetMs": 88923,
+            "inStartEdge": true,
+            "inEndEdge": false,
+            "sampleTimestamps": [
+              2390,
+              3440,
+              3440,
+              5860,
+              6900,
+              10080
+            ]
+          },
+          "0x0137": {
+            "opcode": 311,
+            "count": 37,
+            "isRare": false,
+            "isPeriodic": false,
+            "deltaCv": 3.6288,
+            "burstRatio": 0.7877,
+            "firstOffsetMs": 2390,
+            "lastOffsetMs": 88923,
+            "inStartEdge": true,
+            "inEndEdge": false,
+            "sampleTimestamps": [
+              2390,
+              3440,
+              3440,
+              5860,
+              6900,
+              10080
+            ]
+          },
+          "0x013d": {
+            "opcode": 317,
+            "count": 27,
+            "isRare": false,
+            "isPeriodic": false,
+            "deltaCv": 3.0391,
+            "burstRatio": 0.7877,
+            "firstOffsetMs": 2390,
+            "lastOffsetMs": 88923,
+            "inStartEdge": true,
+            "inEndEdge": false,
+            "sampleTimestamps": [
+              2390,
+              3440,
+              3440,
+              5860,
+              6900,
+              10080
+            ]
+          },
+          "0x0144": {
+            "opcode": 324,
+            "count": 27,
+            "isRare": false,
+            "isPeriodic": false,
+            "deltaCv": 3.0391,
+            "burstRatio": 0.7877,
+            "firstOffsetMs": 2390,
+            "lastOffsetMs": 88923,
+            "inStartEdge": true,
+            "inEndEdge": false,
+            "sampleTimestamps": [
+              2390,
+              3440,
+              3440,
+              5860,
+              6900,
+              10080
+            ]
+          },
+          "0x0145": {
+            "opcode": 325,
+            "count": 27,
+            "isRare": false,
+            "isPeriodic": false,
+            "deltaCv": 3.0391,
+            "burstRatio": 0.7877,
+            "firstOffsetMs": 2390,
+            "lastOffsetMs": 88923,
+            "inStartEdge": true,
+            "inEndEdge": false,
+            "sampleTimestamps": [
+              2390,
+              3440,
+              3440,
+              5860,
+              6900,
+              10080
+            ]
+          },
+          "0x016b": {
+            "opcode": 363,
+            "count": 27,
+            "isRare": false,
+            "isPeriodic": false,
+            "deltaCv": 3.0494,
+            "burstRatio": 0.7877,
+            "firstOffsetMs": 2390,
+            "lastOffsetMs": 88923,
+            "inStartEdge": true,
+            "inEndEdge": false,
+            "sampleTimestamps": [
+              2390,
+              3440,
+              3440,
+              5860,
+              6900,
+              10080
+            ]
+          },
+          "0x0179": {
+            "opcode": 377,
+            "count": 27,
+            "isRare": false,
+            "isPeriodic": false,
+            "deltaCv": 3.0391,
+            "burstRatio": 0.7877,
+            "firstOffsetMs": 2390,
+            "lastOffsetMs": 88923,
+            "inStartEdge": true,
+            "inEndEdge": false,
+            "sampleTimestamps": [
+              2390,
+              3440,
+              3440,
+              5860,
+              6900,
+              10080
+            ]
+          },
+          "0x017b": {
+            "opcode": 379,
+            "count": 28,
+            "isRare": false,
+            "isPeriodic": false,
+            "deltaCv": 3.1,
+            "burstRatio": 0.7877,
+            "firstOffsetMs": 2390,
+            "lastOffsetMs": 88923,
+            "inStartEdge": true,
+            "inEndEdge": false,
+            "sampleTimestamps": [
+              2390,
+              3440,
+              3440,
+              5860,
+              6900,
+              10080
+            ]
+          },
+          "0x0136": {
+            "opcode": 310,
+            "count": 23,
+            "isRare": false,
+            "isPeriodic": false,
+            "deltaCv": 2.7822,
+            "burstRatio": 0.7875,
+            "firstOffsetMs": 2410,
+            "lastOffsetMs": 88923,
+            "inStartEdge": true,
+            "inEndEdge": false,
+            "sampleTimestamps": [
+              2410,
+              3460,
+              3460,
+              7009,
+              10179,
+              11250
+            ]
+          },
+          "0x018b": {
+            "opcode": 395,
+            "count": 20,
+            "isRare": false,
+            "isPeriodic": false,
+            "deltaCv": 0.3237,
+            "burstRatio": 0.9452,
+            "firstOffsetMs": 4220,
+            "lastOffsetMs": 108051,
+            "inStartEdge": true,
+            "inEndEdge": true,
+            "sampleTimestamps": [
+              4220,
+              5350,
+              10299,
+              16299,
+              22290,
+              28059
+            ]
+          },
+          "0x016d": {
+            "opcode": 365,
+            "count": 3,
+            "isRare": true,
+            "isPeriodic": false,
+            "deltaCv": 0.9141,
+            "burstRatio": 0.6911,
+            "firstOffsetMs": 12511,
+            "lastOffsetMs": 88434,
+            "inStartEdge": false,
+            "inEndEdge": false,
+            "sampleTimestamps": [
+              12511,
+              15770,
+              88434
+            ]
+          },
+          "0x016e": {
+            "opcode": 366,
+            "count": 3,
+            "isRare": true,
+            "isPeriodic": false,
+            "deltaCv": 0.9147,
+            "burstRatio": 0.6954,
+            "firstOffsetMs": 12511,
+            "lastOffsetMs": 88899,
+            "inStartEdge": false,
+            "inEndEdge": false,
+            "sampleTimestamps": [
+              12511,
+              15770,
+              88899
+            ]
+          },
+          "0x016f": {
+            "opcode": 367,
+            "count": 6,
+            "isRare": true,
+            "isPeriodic": false,
+            "deltaCv": 1.453,
+            "burstRatio": 0.6956,
+            "firstOffsetMs": 12511,
+            "lastOffsetMs": 88923,
+            "inStartEdge": false,
+            "inEndEdge": false,
+            "sampleTimestamps": [
+              12511,
+              12511,
+              69609,
+              69609,
+              88923,
+              88923
+            ]
+          },
+          "0x000c": {
+            "opcode": 12,
+            "count": 1,
+            "isRare": true,
+            "isPeriodic": false,
+            "deltaCv": null,
+            "burstRatio": 0.0,
+            "firstOffsetMs": 88288,
+            "lastOffsetMs": 88288,
+            "inStartEdge": false,
+            "inEndEdge": false,
+            "sampleTimestamps": [
+              88288
+            ]
+          },
+          "0x000d": {
+            "opcode": 13,
+            "count": 1,
+            "isRare": true,
+            "isPeriodic": false,
+            "deltaCv": null,
+            "burstRatio": 0.0,
+            "firstOffsetMs": 88288,
+            "lastOffsetMs": 88288,
+            "inStartEdge": false,
+            "inEndEdge": false,
+            "sampleTimestamps": [
+              88288
+            ]
+          },
+          "0x0010": {
+            "opcode": 16,
+            "count": 1,
+            "isRare": true,
+            "isPeriodic": false,
+            "deltaCv": null,
+            "burstRatio": 0.0,
+            "firstOffsetMs": 88288,
+            "lastOffsetMs": 88288,
+            "inStartEdge": false,
+            "inEndEdge": false,
+            "sampleTimestamps": [
+              88288
+            ]
+          },
+          "0x0187": {
+            "opcode": 391,
+            "count": 2,
+            "isRare": true,
+            "isPeriodic": false,
+            "deltaCv": null,
+            "burstRatio": 0.0011,
+            "firstOffsetMs": 88301,
+            "lastOffsetMs": 88421,
+            "inStartEdge": false,
+            "inEndEdge": false,
+            "sampleTimestamps": [
+              88301,
+              88421
+            ]
+          },
+          "0x0005": {
+            "opcode": 5,
+            "count": 1,
+            "isRare": true,
+            "isPeriodic": false,
+            "deltaCv": null,
+            "burstRatio": 0.0,
+            "firstOffsetMs": 88410,
+            "lastOffsetMs": 88410,
+            "inStartEdge": false,
+            "inEndEdge": false,
+            "sampleTimestamps": [
+              88410
+            ]
+          },
+          "0x000f": {
+            "opcode": 15,
+            "count": 1,
+            "isRare": true,
+            "isPeriodic": false,
+            "deltaCv": null,
+            "burstRatio": 0.0,
+            "firstOffsetMs": 88434,
+            "lastOffsetMs": 88434,
+            "inStartEdge": false,
+            "inEndEdge": false,
+            "sampleTimestamps": [
+              88434
+            ]
+          },
+          "0x0132": {
+            "opcode": 306,
+            "count": 8,
+            "isRare": true,
+            "isPeriodic": false,
+            "deltaCv": null,
+            "burstRatio": 0.0,
+            "firstOffsetMs": 88434,
+            "lastOffsetMs": 88434,
+            "inStartEdge": false,
+            "inEndEdge": false,
+            "sampleTimestamps": [
+              88434,
+              88434,
+              88434,
+              88434,
+              88434,
+              88434
+            ]
+          },
+          "0x0146": {
+            "opcode": 326,
+            "count": 7,
+            "isRare": true,
+            "isPeriodic": false,
+            "deltaCv": 1.6791,
+            "burstRatio": 0.0042,
+            "firstOffsetMs": 88434,
+            "lastOffsetMs": 88899,
+            "inStartEdge": false,
+            "inEndEdge": false,
+            "sampleTimestamps": [
+              88434,
+              88788,
+              88788,
+              88788,
+              88788,
+              88899
+            ]
+          },
+          "0x017c": {
+            "opcode": 380,
+            "count": 2,
+            "isRare": true,
+            "isPeriodic": false,
+            "deltaCv": null,
+            "burstRatio": 0.0,
+            "firstOffsetMs": 88434,
+            "lastOffsetMs": 88434,
+            "inStartEdge": false,
+            "inEndEdge": false,
+            "sampleTimestamps": [
+              88434,
+              88434
+            ]
+          },
+          "0x017d": {
+            "opcode": 381,
+            "count": 2,
+            "isRare": true,
+            "isPeriodic": false,
+            "deltaCv": null,
+            "burstRatio": 0.0,
+            "firstOffsetMs": 88434,
+            "lastOffsetMs": 88434,
+            "inStartEdge": false,
+            "inEndEdge": false,
+            "sampleTimestamps": [
+              88434,
+              88434
+            ]
+          },
+          "0x017e": {
+            "opcode": 382,
+            "count": 2,
+            "isRare": true,
+            "isPeriodic": false,
+            "deltaCv": null,
+            "burstRatio": 0.0,
+            "firstOffsetMs": 88434,
+            "lastOffsetMs": 88434,
+            "inStartEdge": false,
+            "inEndEdge": false,
+            "sampleTimestamps": [
+              88434,
+              88434
+            ]
+          },
+          "0x017f": {
+            "opcode": 383,
+            "count": 2,
+            "isRare": true,
+            "isPeriodic": false,
+            "deltaCv": null,
+            "burstRatio": 0.0,
+            "firstOffsetMs": 88434,
+            "lastOffsetMs": 88434,
+            "inStartEdge": false,
+            "inEndEdge": false,
+            "sampleTimestamps": [
+              88434,
+              88434
+            ]
+          },
+          "0x014b": {
+            "opcode": 331,
+            "count": 6,
+            "isRare": true,
+            "isPeriodic": false,
+            "deltaCv": 0.9339,
+            "burstRatio": 0.0022,
+            "firstOffsetMs": 88439,
+            "lastOffsetMs": 88681,
+            "inStartEdge": false,
+            "inEndEdge": false,
+            "sampleTimestamps": [
+              88439,
+              88549,
+              88562,
+              88659,
+              88672,
+              88681
+            ]
+          },
+          "0x0147": {
+            "opcode": 327,
+            "count": 7,
+            "isRare": true,
+            "isPeriodic": false,
+            "deltaCv": 2.2361,
+            "burstRatio": 0.001,
+            "firstOffsetMs": 88788,
+            "lastOffsetMs": 88899,
+            "inStartEdge": false,
+            "inEndEdge": false,
+            "sampleTimestamps": [
+              88788,
+              88788,
+              88788,
+              88788,
+              88788,
+              88899
+            ]
+          },
+          "0x0149": {
+            "opcode": 329,
+            "count": 3,
+            "isRare": true,
+            "isPeriodic": false,
+            "deltaCv": 1.0,
+            "burstRatio": 0.001,
+            "firstOffsetMs": 88788,
+            "lastOffsetMs": 88899,
+            "inStartEdge": false,
+            "inEndEdge": false,
+            "sampleTimestamps": [
+              88788,
+              88788,
+              88899
+            ]
+          },
+          "0x014a": {
+            "opcode": 330,
+            "count": 1,
+            "isRare": true,
+            "isPeriodic": false,
+            "deltaCv": null,
+            "burstRatio": 0.0,
+            "firstOffsetMs": 88788,
+            "lastOffsetMs": 88788,
+            "inStartEdge": false,
+            "inEndEdge": false,
+            "sampleTimestamps": [
+              88788
+            ]
+          },
+          "0x014e": {
+            "opcode": 334,
+            "count": 2,
+            "isRare": true,
+            "isPeriodic": false,
+            "deltaCv": null,
+            "burstRatio": 0.0,
+            "firstOffsetMs": 88899,
+            "lastOffsetMs": 88899,
+            "inStartEdge": false,
+            "inEndEdge": false,
+            "sampleTimestamps": [
+              88899,
+              88899
+            ]
+          },
+          "0x0194": {
+            "opcode": 404,
+            "count": 1,
+            "isRare": true,
+            "isPeriodic": false,
+            "deltaCv": null,
+            "burstRatio": 0.0,
+            "firstOffsetMs": 88899,
+            "lastOffsetMs": 88899,
+            "inStartEdge": false,
+            "inEndEdge": false,
+            "sampleTimestamps": [
+              88899
+            ]
+          },
+          "0x0196": {
+            "opcode": 406,
+            "count": 1,
+            "isRare": true,
+            "isPeriodic": false,
+            "deltaCv": null,
+            "burstRatio": 0.0,
+            "firstOffsetMs": 88899,
+            "lastOffsetMs": 88899,
+            "inStartEdge": false,
+            "inEndEdge": false,
+            "sampleTimestamps": [
+              88899
+            ]
+          },
+          "0x0198": {
+            "opcode": 408,
+            "count": 1,
+            "isRare": true,
+            "isPeriodic": false,
+            "deltaCv": null,
+            "burstRatio": 0.0,
+            "firstOffsetMs": 88899,
+            "lastOffsetMs": 88899,
+            "inStartEdge": false,
+            "inEndEdge": false,
+            "sampleTimestamps": [
+              88899
+            ]
+          },
+          "0x0199": {
+            "opcode": 409,
+            "count": 1,
+            "isRare": true,
+            "isPeriodic": false,
+            "deltaCv": null,
+            "burstRatio": 0.0,
+            "firstOffsetMs": 88899,
+            "lastOffsetMs": 88899,
+            "inStartEdge": false,
+            "inEndEdge": false,
+            "sampleTimestamps": [
+              88899
+            ]
+          },
+          "0x019a": {
+            "opcode": 410,
+            "count": 1,
+            "isRare": true,
+            "isPeriodic": false,
+            "deltaCv": null,
+            "burstRatio": 0.0,
+            "firstOffsetMs": 88899,
+            "lastOffsetMs": 88899,
+            "inStartEdge": false,
+            "inEndEdge": false,
+            "sampleTimestamps": [
+              88899
+            ]
+          },
+          "0x019b": {
+            "opcode": 411,
+            "count": 1,
+            "isRare": true,
+            "isPeriodic": false,
+            "deltaCv": null,
+            "burstRatio": 0.0,
+            "firstOffsetMs": 88899,
+            "lastOffsetMs": 88899,
+            "inStartEdge": false,
+            "inEndEdge": false,
+            "sampleTimestamps": [
+              88899
+            ]
+          },
+          "0x019c": {
+            "opcode": 412,
+            "count": 1,
+            "isRare": true,
+            "isPeriodic": false,
+            "deltaCv": null,
+            "burstRatio": 0.0,
+            "firstOffsetMs": 88899,
+            "lastOffsetMs": 88899,
+            "inStartEdge": false,
+            "inEndEdge": false,
+            "sampleTimestamps": [
+              88899
+            ]
+          },
+          "0x019d": {
+            "opcode": 413,
+            "count": 1,
+            "isRare": true,
+            "isPeriodic": false,
+            "deltaCv": null,
+            "burstRatio": 0.0,
+            "firstOffsetMs": 88899,
+            "lastOffsetMs": 88899,
+            "inStartEdge": false,
+            "inEndEdge": false,
+            "sampleTimestamps": [
+              88899
+            ]
+          },
+          "0x01a4": {
+            "opcode": 420,
+            "count": 1,
+            "isRare": true,
+            "isPeriodic": false,
+            "deltaCv": null,
+            "burstRatio": 0.0,
+            "firstOffsetMs": 88899,
+            "lastOffsetMs": 88899,
+            "inStartEdge": false,
+            "inEndEdge": false,
+            "sampleTimestamps": [
+              88899
+            ]
+          },
+          "0x0006": {
+            "opcode": 6,
+            "count": 1,
+            "isRare": true,
+            "isPeriodic": false,
+            "deltaCv": null,
+            "burstRatio": 0.0,
+            "firstOffsetMs": 88923,
+            "lastOffsetMs": 88923,
+            "inStartEdge": false,
+            "inEndEdge": false,
+            "sampleTimestamps": [
+              88923
+            ]
+          },
+          "0x0007": {
+            "opcode": 7,
+            "count": 1,
+            "isRare": true,
+            "isPeriodic": false,
+            "deltaCv": null,
+            "burstRatio": 0.0,
+            "firstOffsetMs": 88923,
+            "lastOffsetMs": 88923,
+            "inStartEdge": false,
+            "inEndEdge": false,
+            "sampleTimestamps": [
+              88923
+            ]
+          },
+          "0x0008": {
+            "opcode": 8,
+            "count": 1,
+            "isRare": true,
+            "isPeriodic": false,
+            "deltaCv": null,
+            "burstRatio": 0.0,
+            "firstOffsetMs": 88923,
+            "lastOffsetMs": 88923,
+            "inStartEdge": false,
+            "inEndEdge": false,
+            "sampleTimestamps": [
+              88923
+            ]
+          },
+          "0x017a": {
+            "opcode": 378,
+            "count": 1,
+            "isRare": true,
+            "isPeriodic": false,
+            "deltaCv": null,
+            "burstRatio": 0.0,
+            "firstOffsetMs": 89722,
+            "lastOffsetMs": 89722,
+            "inStartEdge": false,
+            "inEndEdge": false,
+            "sampleTimestamps": [
+              89722
+            ]
+          }
+        },
+        "tsStartMs": 1356917289078,
+        "tsEndMs": 1356917398929,
+        "durationMs": 109851
+      },
+      "c2s": {
+        "opcodes": {
+          "0x00ca": {
+            "opcode": 202,
+            "count": 617,
+            "isRare": false,
+            "isPeriodic": false,
+            "deltaCv": 1.0053,
+            "burstRatio": 1.0,
+            "firstOffsetMs": 0,
+            "lastOffsetMs": 110165,
+            "inStartEdge": true,
+            "inEndEdge": true,
+            "sampleTimestamps": [
+              0,
+              0,
+              366,
+              366,
+              732,
+              732
+            ]
+          },
+          "0x0001": {
+            "opcode": 1,
+            "count": 110,
+            "isRare": false,
+            "isPeriodic": true,
+            "deltaCv": 0.1466,
+            "burstRatio": 0.9901,
+            "firstOffsetMs": 732,
+            "lastOffsetMs": 109801,
+            "inStartEdge": true,
+            "inEndEdge": true,
+            "sampleTimestamps": [
+              732,
+              1763,
+              2495,
+              3528,
+              4565,
+              5661
+            ]
+          },
+          "0x012d": {
+            "opcode": 301,
+            "count": 2,
+            "isRare": true,
+            "isPeriodic": false,
+            "deltaCv": null,
+            "burstRatio": 0.0199,
+            "firstOffsetMs": 36666,
+            "lastOffsetMs": 38854,
+            "inStartEdge": false,
+            "inEndEdge": false,
+            "sampleTimestamps": [
+              36666,
+              38854
+            ]
+          },
+          "0x0133": {
+            "opcode": 307,
+            "count": 1,
+            "isRare": true,
+            "isPeriodic": false,
+            "deltaCv": null,
+            "burstRatio": 0.0,
+            "firstOffsetMs": 89668,
+            "lastOffsetMs": 89668,
+            "inStartEdge": false,
+            "inEndEdge": false,
+            "sampleTimestamps": [
+              89668
+            ]
+          }
+        },
+        "tsStartMs": 1356917288592,
+        "tsEndMs": 1356917398757,
+        "durationMs": 110165
+      },
+      "s2cEventCount": 923,
+      "c2sEventCount": 730
+    },
+    "teleport_to_camp_nine_ivies.pcapng": {
+      "s2c": {
+        "opcodes": {
+          "0x00cf": {
+            "opcode": 207,
+            "count": 109,
+            "isRare": false,
+            "isPeriodic": false,
+            "deltaCv": 2.0559,
+            "burstRatio": 1.0,
+            "firstOffsetMs": 0,
+            "lastOffsetMs": 42441,
+            "inStartEdge": true,
+            "inEndEdge": true,
+            "sampleTimestamps": [
+              0,
+              0,
+              0,
+              2010,
+              2010,
+              2010
+            ]
+          },
+          "0x0001": {
+            "opcode": 1,
+            "count": 45,
+            "isRare": false,
+            "isPeriodic": false,
+            "deltaCv": 0.2897,
+            "burstRatio": 0.964,
+            "firstOffsetMs": 1062,
+            "lastOffsetMs": 41974,
+            "inStartEdge": true,
+            "inEndEdge": true,
+            "sampleTimestamps": [
+              1062,
+              1793,
+              2802,
+              3882,
+              4979,
+              6068
+            ]
+          },
+          "0x018d": {
+            "opcode": 397,
+            "count": 8,
+            "isRare": true,
+            "isPeriodic": true,
+            "deltaCv": 0.0177,
+            "burstRatio": 0.837,
+            "firstOffsetMs": 4690,
+            "lastOffsetMs": 40211,
+            "inStartEdge": true,
+            "inEndEdge": true,
+            "sampleTimestamps": [
+              4690,
+              9739,
+              14779,
+              19780,
+              24839,
+              29880
+            ]
+          },
+          "0x0130": {
+            "opcode": 304,
+            "count": 5,
+            "isRare": true,
+            "isPeriodic": false,
+            "deltaCv": 0.3756,
+            "burstRatio": 0.4064,
+            "firstOffsetMs": 5060,
+            "lastOffsetMs": 22310,
+            "inStartEdge": false,
+            "inEndEdge": false,
+            "sampleTimestamps": [
+              5060,
+              9333,
+              12933,
+              15419,
+              22310
+            ]
+          },
+          "0x00da": {
+            "opcode": 218,
+            "count": 2,
+            "isRare": true,
+            "isPeriodic": false,
+            "deltaCv": null,
+            "burstRatio": 0.0683,
+            "firstOffsetMs": 22310,
+            "lastOffsetMs": 25210,
+            "inStartEdge": false,
+            "inEndEdge": false,
+            "sampleTimestamps": [
+              22310,
+              25210
+            ]
+          },
+          "0x0169": {
+            "opcode": 361,
+            "count": 1,
+            "isRare": true,
+            "isPeriodic": false,
+            "deltaCv": null,
+            "burstRatio": 0.0,
+            "firstOffsetMs": 22310,
+            "lastOffsetMs": 22310,
+            "inStartEdge": false,
+            "inEndEdge": false,
+            "sampleTimestamps": [
+              22310
+            ]
+          },
+          "0x0193": {
+            "opcode": 403,
+            "count": 1,
+            "isRare": true,
+            "isPeriodic": false,
+            "deltaCv": null,
+            "burstRatio": 0.0,
+            "firstOffsetMs": 27245,
+            "lastOffsetMs": 27245,
+            "inStartEdge": false,
+            "inEndEdge": false,
+            "sampleTimestamps": [
+              27245
+            ]
+          },
+          "0x00e2": {
+            "opcode": 226,
+            "count": 1,
+            "isRare": true,
+            "isPeriodic": false,
+            "deltaCv": null,
+            "burstRatio": 0.0,
+            "firstOffsetMs": 27333,
+            "lastOffsetMs": 27333,
+            "inStartEdge": false,
+            "inEndEdge": false,
+            "sampleTimestamps": [
+              27333
+            ]
+          },
+          "0x0131": {
+            "opcode": 305,
+            "count": 1,
+            "isRare": true,
+            "isPeriodic": false,
+            "deltaCv": null,
+            "burstRatio": 0.0,
+            "firstOffsetMs": 27333,
+            "lastOffsetMs": 27333,
+            "inStartEdge": false,
+            "inEndEdge": false,
+            "sampleTimestamps": [
+              27333
+            ]
+          },
+          "0x0166": {
+            "opcode": 358,
+            "count": 1,
+            "isRare": true,
+            "isPeriodic": false,
+            "deltaCv": null,
+            "burstRatio": 0.0,
+            "firstOffsetMs": 27333,
+            "lastOffsetMs": 27333,
+            "inStartEdge": false,
+            "inEndEdge": false,
+            "sampleTimestamps": [
+              27333
+            ]
+          },
+          "0x000c": {
+            "opcode": 12,
+            "count": 1,
+            "isRare": true,
+            "isPeriodic": false,
+            "deltaCv": null,
+            "burstRatio": 0.0,
+            "firstOffsetMs": 33260,
+            "lastOffsetMs": 33260,
+            "inStartEdge": false,
+            "inEndEdge": false,
+            "sampleTimestamps": [
+              33260
+            ]
+          },
+          "0x000d": {
+            "opcode": 13,
+            "count": 1,
+            "isRare": true,
+            "isPeriodic": false,
+            "deltaCv": null,
+            "burstRatio": 0.0,
+            "firstOffsetMs": 33260,
+            "lastOffsetMs": 33260,
+            "inStartEdge": false,
+            "inEndEdge": false,
+            "sampleTimestamps": [
+              33260
+            ]
+          },
+          "0x0010": {
+            "opcode": 16,
+            "count": 1,
+            "isRare": true,
+            "isPeriodic": false,
+            "deltaCv": null,
+            "burstRatio": 0.0,
+            "firstOffsetMs": 33260,
+            "lastOffsetMs": 33260,
+            "inStartEdge": false,
+            "inEndEdge": false,
+            "sampleTimestamps": [
+              33260
+            ]
+          },
+          "0x017b": {
+            "opcode": 379,
+            "count": 16,
+            "isRare": false,
+            "isPeriodic": false,
+            "deltaCv": 1.911,
+            "burstRatio": 0.0185,
+            "firstOffsetMs": 33260,
+            "lastOffsetMs": 34047,
+            "inStartEdge": false,
+            "inEndEdge": false,
+            "sampleTimestamps": [
+              33260,
+              33392,
+              33788,
+              33788,
+              33788,
+              33821
+            ]
+          },
+          "0x0187": {
+            "opcode": 391,
+            "count": 2,
+            "isRare": true,
+            "isPeriodic": false,
+            "deltaCv": null,
+            "burstRatio": 0.0182,
+            "firstOffsetMs": 33274,
+            "lastOffsetMs": 34047,
+            "inStartEdge": false,
+            "inEndEdge": false,
+            "sampleTimestamps": [
+              33274,
+              34047
+            ]
+          },
+          "0x0005": {
+            "opcode": 5,
+            "count": 1,
+            "isRare": true,
+            "isPeriodic": false,
+            "deltaCv": null,
+            "burstRatio": 0.0,
+            "firstOffsetMs": 33286,
+            "lastOffsetMs": 33286,
+            "inStartEdge": false,
+            "inEndEdge": false,
+            "sampleTimestamps": [
+              33286
+            ]
+          },
+          "0x000f": {
+            "opcode": 15,
+            "count": 1,
+            "isRare": true,
+            "isPeriodic": false,
+            "deltaCv": null,
+            "burstRatio": 0.0,
+            "firstOffsetMs": 33392,
+            "lastOffsetMs": 33392,
+            "inStartEdge": false,
+            "inEndEdge": false,
+            "sampleTimestamps": [
+              33392
+            ]
+          },
+          "0x00ca": {
+            "opcode": 202,
+            "count": 15,
+            "isRare": false,
+            "isPeriodic": false,
+            "deltaCv": 2.2197,
+            "burstRatio": 0.0151,
+            "firstOffsetMs": 33392,
+            "lastOffsetMs": 34034,
+            "inStartEdge": false,
+            "inEndEdge": false,
+            "sampleTimestamps": [
+              33392,
+              33788,
+              33788,
+              33788,
+              33788,
+              33821
+            ]
+          },
+          "0x00ce": {
+            "opcode": 206,
+            "count": 15,
+            "isRare": false,
+            "isPeriodic": false,
+            "deltaCv": 2.2197,
+            "burstRatio": 0.0151,
+            "firstOffsetMs": 33392,
+            "lastOffsetMs": 34034,
+            "inStartEdge": false,
+            "inEndEdge": false,
+            "sampleTimestamps": [
+              33392,
+              33788,
+              33788,
+              33788,
+              33821,
+              33821
+            ]
+          },
+          "0x00d0": {
+            "opcode": 208,
+            "count": 15,
+            "isRare": false,
+            "isPeriodic": false,
+            "deltaCv": 2.2197,
+            "burstRatio": 0.0151,
+            "firstOffsetMs": 33392,
+            "lastOffsetMs": 34034,
+            "inStartEdge": false,
+            "inEndEdge": false,
+            "sampleTimestamps": [
+              33392,
+              33788,
+              33788,
+              33788,
+              33788,
+              33821
+            ]
+          },
+          "0x00d6": {
+            "opcode": 214,
+            "count": 10,
+            "isRare": false,
+            "isPeriodic": false,
+            "deltaCv": 1.7923,
+            "burstRatio": 0.0154,
+            "firstOffsetMs": 33392,
+            "lastOffsetMs": 34047,
+            "inStartEdge": false,
+            "inEndEdge": false,
+            "sampleTimestamps": [
+              33392,
+              33821,
+              33904,
+              33904,
+              33904,
+              33994
+            ]
+          },
+          "0x0132": {
+            "opcode": 306,
+            "count": 8,
+            "isRare": true,
+            "isPeriodic": false,
+            "deltaCv": null,
+            "burstRatio": 0.0,
+            "firstOffsetMs": 33392,
+            "lastOffsetMs": 33392,
+            "inStartEdge": false,
+            "inEndEdge": false,
+            "sampleTimestamps": [
+              33392,
+              33392,
+              33392,
+              33392,
+              33392,
+              33392
+            ]
+          },
+          "0x0134": {
+            "opcode": 308,
+            "count": 15,
+            "isRare": false,
+            "isPeriodic": false,
+            "deltaCv": 2.1679,
+            "burstRatio": 0.0154,
+            "firstOffsetMs": 33392,
+            "lastOffsetMs": 34047,
+            "inStartEdge": false,
+            "inEndEdge": false,
+            "sampleTimestamps": [
+              33392,
+              33788,
+              33788,
+              33788,
+              33821,
+              33821
+            ]
+          },
+          "0x013d": {
+            "opcode": 317,
+            "count": 15,
+            "isRare": false,
+            "isPeriodic": false,
+            "deltaCv": 2.1679,
+            "burstRatio": 0.0154,
+            "firstOffsetMs": 33392,
+            "lastOffsetMs": 34047,
+            "inStartEdge": false,
+            "inEndEdge": false,
+            "sampleTimestamps": [
+              33392,
+              33788,
+              33788,
+              33788,
+              33821,
+              33821
+            ]
+          },
+          "0x0144": {
+            "opcode": 324,
+            "count": 15,
+            "isRare": false,
+            "isPeriodic": false,
+            "deltaCv": 2.1679,
+            "burstRatio": 0.0154,
+            "firstOffsetMs": 33392,
+            "lastOffsetMs": 34047,
+            "inStartEdge": false,
+            "inEndEdge": false,
+            "sampleTimestamps": [
+              33392,
+              33788,
+              33788,
+              33788,
+              33821,
+              33821
+            ]
+          },
+          "0x0145": {
+            "opcode": 325,
+            "count": 15,
+            "isRare": false,
+            "isPeriodic": false,
+            "deltaCv": 2.1679,
+            "burstRatio": 0.0154,
+            "firstOffsetMs": 33392,
+            "lastOffsetMs": 34047,
+            "inStartEdge": false,
+            "inEndEdge": false,
+            "sampleTimestamps": [
+              33392,
+              33788,
+              33788,
+              33788,
+              33821,
+              33821
+            ]
+          },
+          "0x0146": {
+            "opcode": 326,
+            "count": 7,
+            "isRare": true,
+            "isPeriodic": false,
+            "deltaCv": 2.1869,
+            "burstRatio": 0.0089,
+            "firstOffsetMs": 33392,
+            "lastOffsetMs": 33771,
+            "inStartEdge": false,
+            "inEndEdge": false,
+            "sampleTimestamps": [
+              33392,
+              33764,
+              33764,
+              33764,
+              33764,
+              33771
+            ]
+          },
+          "0x016d": {
+            "opcode": 365,
+            "count": 1,
+            "isRare": true,
+            "isPeriodic": false,
+            "deltaCv": null,
+            "burstRatio": 0.0,
+            "firstOffsetMs": 33392,
+            "lastOffsetMs": 33392,
+            "inStartEdge": false,
+            "inEndEdge": false,
+            "sampleTimestamps": [
+              33392
+            ]
+          },
+          "0x0179": {
+            "opcode": 377,
+            "count": 15,
+            "isRare": false,
+            "isPeriodic": false,
+            "deltaCv": 2.1679,
+            "burstRatio": 0.0154,
+            "firstOffsetMs": 33392,
+            "lastOffsetMs": 34047,
+            "inStartEdge": false,
+            "inEndEdge": false,
+            "sampleTimestamps": [
+              33392,
+              33788,
+              33788,
+              33788,
+              33821,
+              33821
+            ]
+          },
+          "0x017c": {
+            "opcode": 380,
+            "count": 5,
+            "isRare": true,
+            "isPeriodic": false,
+            "deltaCv": 1.6865,
+            "burstRatio": 0.0154,
+            "firstOffsetMs": 33392,
+            "lastOffsetMs": 34047,
+            "inStartEdge": false,
+            "inEndEdge": false,
+            "sampleTimestamps": [
+              33392,
+              33392,
+              34034,
+              34034,
+              34047
+            ]
+          },
+          "0x017d": {
+            "opcode": 381,
+            "count": 5,
+            "isRare": true,
+            "isPeriodic": false,
+            "deltaCv": 1.6865,
+            "burstRatio": 0.0154,
+            "firstOffsetMs": 33392,
+            "lastOffsetMs": 34047,
+            "inStartEdge": false,
+            "inEndEdge": false,
+            "sampleTimestamps": [
+              33392,
+              33392,
+              34034,
+              34034,
+              34047
+            ]
+          },
+          "0x017e": {
+            "opcode": 382,
+            "count": 5,
+            "isRare": true,
+            "isPeriodic": false,
+            "deltaCv": 1.6865,
+            "burstRatio": 0.0154,
+            "firstOffsetMs": 33392,
+            "lastOffsetMs": 34047,
+            "inStartEdge": false,
+            "inEndEdge": false,
+            "sampleTimestamps": [
+              33392,
+              33392,
+              34034,
+              34034,
+              34047
+            ]
+          },
+          "0x017f": {
+            "opcode": 383,
+            "count": 2,
+            "isRare": true,
+            "isPeriodic": false,
+            "deltaCv": null,
+            "burstRatio": 0.0,
+            "firstOffsetMs": 33392,
+            "lastOffsetMs": 33392,
+            "inStartEdge": false,
+            "inEndEdge": false,
+            "sampleTimestamps": [
+              33392,
+              33392
+            ]
+          },
+          "0x014b": {
+            "opcode": 331,
+            "count": 6,
+            "isRare": true,
+            "isPeriodic": false,
+            "deltaCv": 0.774,
+            "burstRatio": 0.006,
+            "firstOffsetMs": 33410,
+            "lastOffsetMs": 33666,
+            "inStartEdge": false,
+            "inEndEdge": false,
+            "sampleTimestamps": [
+              33410,
+              33511,
+              33524,
+              33549,
+              33568,
+              33666
+            ]
+          },
+          "0x0147": {
+            "opcode": 327,
+            "count": 7,
+            "isRare": true,
+            "isPeriodic": false,
+            "deltaCv": 2.2361,
+            "burstRatio": 0.0002,
+            "firstOffsetMs": 33764,
+            "lastOffsetMs": 33771,
+            "inStartEdge": false,
+            "inEndEdge": false,
+            "sampleTimestamps": [
+              33764,
+              33764,
+              33764,
+              33764,
+              33764,
+              33771
+            ]
+          },
+          "0x0149": {
+            "opcode": 329,
+            "count": 3,
+            "isRare": true,
+            "isPeriodic": false,
+            "deltaCv": 1.0,
+            "burstRatio": 0.0002,
+            "firstOffsetMs": 33764,
+            "lastOffsetMs": 33771,
+            "inStartEdge": false,
+            "inEndEdge": false,
+            "sampleTimestamps": [
+              33764,
+              33764,
+              33771
+            ]
+          },
+          "0x014a": {
+            "opcode": 330,
+            "count": 1,
+            "isRare": true,
+            "isPeriodic": false,
+            "deltaCv": null,
+            "burstRatio": 0.0,
+            "firstOffsetMs": 33764,
+            "lastOffsetMs": 33764,
+            "inStartEdge": false,
+            "inEndEdge": false,
+            "sampleTimestamps": [
+              33764
+            ]
+          },
+          "0x00cc": {
+            "opcode": 204,
+            "count": 15,
+            "isRare": false,
+            "isPeriodic": false,
+            "deltaCv": 1.5275,
+            "burstRatio": 0.0065,
+            "firstOffsetMs": 33771,
+            "lastOffsetMs": 34047,
+            "inStartEdge": false,
+            "inEndEdge": false,
+            "sampleTimestamps": [
+              33771,
+              33788,
+              33788,
+              33788,
+              33821,
+              33821
+            ]
+          },
+          "0x0137": {
+            "opcode": 311,
+            "count": 26,
+            "isRare": false,
+            "isPeriodic": false,
+            "deltaCv": 2.2253,
+            "burstRatio": 0.0065,
+            "firstOffsetMs": 33771,
+            "lastOffsetMs": 34047,
+            "inStartEdge": false,
+            "inEndEdge": false,
+            "sampleTimestamps": [
+              33771,
+              33771,
+              33771,
+              33771,
+              33771,
+              33771
+            ]
+          },
+          "0x014e": {
+            "opcode": 334,
+            "count": 2,
+            "isRare": true,
+            "isPeriodic": false,
+            "deltaCv": null,
+            "burstRatio": 0.0,
+            "firstOffsetMs": 33771,
+            "lastOffsetMs": 33771,
+            "inStartEdge": false,
+            "inEndEdge": false,
+            "sampleTimestamps": [
+              33771,
+              33771
+            ]
+          },
+          "0x016e": {
+            "opcode": 366,
+            "count": 1,
+            "isRare": true,
+            "isPeriodic": false,
+            "deltaCv": null,
+            "burstRatio": 0.0,
+            "firstOffsetMs": 33771,
+            "lastOffsetMs": 33771,
+            "inStartEdge": false,
+            "inEndEdge": false,
+            "sampleTimestamps": [
+              33771
+            ]
+          },
+          "0x0194": {
+            "opcode": 404,
+            "count": 1,
+            "isRare": true,
+            "isPeriodic": false,
+            "deltaCv": null,
+            "burstRatio": 0.0,
+            "firstOffsetMs": 33771,
+            "lastOffsetMs": 33771,
+            "inStartEdge": false,
+            "inEndEdge": false,
+            "sampleTimestamps": [
+              33771
+            ]
+          },
+          "0x0196": {
+            "opcode": 406,
+            "count": 1,
+            "isRare": true,
+            "isPeriodic": false,
+            "deltaCv": null,
+            "burstRatio": 0.0,
+            "firstOffsetMs": 33771,
+            "lastOffsetMs": 33771,
+            "inStartEdge": false,
+            "inEndEdge": false,
+            "sampleTimestamps": [
+              33771
+            ]
+          },
+          "0x0198": {
+            "opcode": 408,
+            "count": 1,
+            "isRare": true,
+            "isPeriodic": false,
+            "deltaCv": null,
+            "burstRatio": 0.0,
+            "firstOffsetMs": 33771,
+            "lastOffsetMs": 33771,
+            "inStartEdge": false,
+            "inEndEdge": false,
+            "sampleTimestamps": [
+              33771
+            ]
+          },
+          "0x0199": {
+            "opcode": 409,
+            "count": 1,
+            "isRare": true,
+            "isPeriodic": false,
+            "deltaCv": null,
+            "burstRatio": 0.0,
+            "firstOffsetMs": 33771,
+            "lastOffsetMs": 33771,
+            "inStartEdge": false,
+            "inEndEdge": false,
+            "sampleTimestamps": [
+              33771
+            ]
+          },
+          "0x019a": {
+            "opcode": 410,
+            "count": 1,
+            "isRare": true,
+            "isPeriodic": false,
+            "deltaCv": null,
+            "burstRatio": 0.0,
+            "firstOffsetMs": 33771,
+            "lastOffsetMs": 33771,
+            "inStartEdge": false,
+            "inEndEdge": false,
+            "sampleTimestamps": [
+              33771
+            ]
+          },
+          "0x019b": {
+            "opcode": 411,
+            "count": 1,
+            "isRare": true,
+            "isPeriodic": false,
+            "deltaCv": null,
+            "burstRatio": 0.0,
+            "firstOffsetMs": 33771,
+            "lastOffsetMs": 33771,
+            "inStartEdge": false,
+            "inEndEdge": false,
+            "sampleTimestamps": [
+              33771
+            ]
+          },
+          "0x019c": {
+            "opcode": 412,
+            "count": 1,
+            "isRare": true,
+            "isPeriodic": false,
+            "deltaCv": null,
+            "burstRatio": 0.0,
+            "firstOffsetMs": 33771,
+            "lastOffsetMs": 33771,
+            "inStartEdge": false,
+            "inEndEdge": false,
+            "sampleTimestamps": [
+              33771
+            ]
+          },
+          "0x019d": {
+            "opcode": 413,
+            "count": 1,
+            "isRare": true,
+            "isPeriodic": false,
+            "deltaCv": null,
+            "burstRatio": 0.0,
+            "firstOffsetMs": 33771,
+            "lastOffsetMs": 33771,
+            "inStartEdge": false,
+            "inEndEdge": false,
+            "sampleTimestamps": [
+              33771
+            ]
+          },
+          "0x01a4": {
+            "opcode": 420,
+            "count": 1,
+            "isRare": true,
+            "isPeriodic": false,
+            "deltaCv": null,
+            "burstRatio": 0.0,
+            "firstOffsetMs": 33771,
+            "lastOffsetMs": 33771,
+            "inStartEdge": false,
+            "inEndEdge": false,
+            "sampleTimestamps": [
+              33771
+            ]
+          },
+          "0x016b": {
+            "opcode": 363,
+            "count": 16,
+            "isRare": false,
+            "isPeriodic": false,
+            "deltaCv": 1.839,
+            "burstRatio": 0.0058,
+            "firstOffsetMs": 33788,
+            "lastOffsetMs": 34034,
+            "inStartEdge": false,
+            "inEndEdge": false,
+            "sampleTimestamps": [
+              33788,
+              33788,
+              33788,
+              33788,
+              33788,
+              33788
+            ]
+          },
+          "0x012e": {
+            "opcode": 302,
+            "count": 5,
+            "isRare": true,
+            "isPeriodic": false,
+            "deltaCv": 1.0016,
+            "burstRatio": 0.0041,
+            "firstOffsetMs": 33821,
+            "lastOffsetMs": 33994,
+            "inStartEdge": false,
+            "inEndEdge": false,
+            "sampleTimestamps": [
+              33821,
+              33821,
+              33904,
+              33904,
+              33994
+            ]
+          },
+          "0x016f": {
+            "opcode": 367,
+            "count": 3,
+            "isRare": true,
+            "isPeriodic": false,
+            "deltaCv": 1.0,
+            "burstRatio": 0.0041,
+            "firstOffsetMs": 33821,
+            "lastOffsetMs": 33994,
+            "inStartEdge": false,
+            "inEndEdge": false,
+            "sampleTimestamps": [
+              33821,
+              33821,
+              33994
+            ]
+          },
+          "0x0183": {
+            "opcode": 387,
+            "count": 3,
+            "isRare": true,
+            "isPeriodic": false,
+            "deltaCv": 1.0,
+            "burstRatio": 0.0003,
+            "firstOffsetMs": 34034,
+            "lastOffsetMs": 34047,
+            "inStartEdge": false,
+            "inEndEdge": false,
+            "sampleTimestamps": [
+              34034,
+              34034,
+              34047
+            ]
+          },
+          "0x0006": {
+            "opcode": 6,
+            "count": 1,
+            "isRare": true,
+            "isPeriodic": false,
+            "deltaCv": null,
+            "burstRatio": 0.0,
+            "firstOffsetMs": 34047,
+            "lastOffsetMs": 34047,
+            "inStartEdge": false,
+            "inEndEdge": false,
+            "sampleTimestamps": [
+              34047
+            ]
+          },
+          "0x0007": {
+            "opcode": 7,
+            "count": 1,
+            "isRare": true,
+            "isPeriodic": false,
+            "deltaCv": null,
+            "burstRatio": 0.0,
+            "firstOffsetMs": 34047,
+            "lastOffsetMs": 34047,
+            "inStartEdge": false,
+            "inEndEdge": false,
+            "sampleTimestamps": [
+              34047
+            ]
+          },
+          "0x0008": {
+            "opcode": 8,
+            "count": 2,
+            "isRare": true,
+            "isPeriodic": false,
+            "deltaCv": null,
+            "burstRatio": 0.0,
+            "firstOffsetMs": 34047,
+            "lastOffsetMs": 34047,
+            "inStartEdge": false,
+            "inEndEdge": false,
+            "sampleTimestamps": [
+              34047,
+              34047
+            ]
+          },
+          "0x0136": {
+            "opcode": 310,
+            "count": 8,
+            "isRare": true,
+            "isPeriodic": false,
+            "deltaCv": null,
+            "burstRatio": 0.0,
+            "firstOffsetMs": 34047,
+            "lastOffsetMs": 34047,
+            "inStartEdge": false,
+            "inEndEdge": false,
+            "sampleTimestamps": [
+              34047,
+              34047,
+              34047,
+              34047,
+              34047,
+              34047
+            ]
+          },
+          "0x017a": {
+            "opcode": 378,
+            "count": 4,
+            "isRare": true,
+            "isPeriodic": false,
+            "deltaCv": 0.6207,
+            "burstRatio": 0.0426,
+            "firstOffsetMs": 34524,
+            "lastOffsetMs": 36334,
+            "inStartEdge": false,
+            "inEndEdge": false,
+            "sampleTimestamps": [
+              34524,
+              35654,
+              35946,
+              36334
+            ]
+          }
+        },
+        "tsStartMs": 1356920790787,
+        "tsEndMs": 1356920833228,
+        "durationMs": 42441
+      },
+      "c2s": {
+        "opcodes": {
+          "0x00ca": {
+            "opcode": 202,
+            "count": 175,
+            "isRare": false,
+            "isPeriodic": false,
+            "deltaCv": 2.6465,
+            "burstRatio": 1.0,
+            "firstOffsetMs": 0,
+            "lastOffsetMs": 42349,
+            "inStartEdge": true,
+            "inEndEdge": true,
+            "sampleTimestamps": [
+              0,
+              0,
+              365,
+              365,
+              730,
+              730
+            ]
+          },
+          "0x0001": {
+            "opcode": 1,
+            "count": 43,
+            "isRare": false,
+            "isPeriodic": true,
+            "deltaCv": 0.1336,
+            "burstRatio": 0.9914,
+            "firstOffsetMs": 365,
+            "lastOffsetMs": 42349,
+            "inStartEdge": true,
+            "inEndEdge": true,
+            "sampleTimestamps": [
+              365,
+              1064,
+              2158,
+              3221,
+              4316,
+              5348
+            ]
+          },
+          "0x012d": {
+            "opcode": 301,
+            "count": 1,
+            "isRare": true,
+            "isPeriodic": false,
+            "deltaCv": null,
+            "burstRatio": 0.0,
+            "firstOffsetMs": 4316,
+            "lastOffsetMs": 4316,
+            "inStartEdge": true,
+            "inEndEdge": false,
+            "sampleTimestamps": [
+              4316
+            ]
+          },
+          "0x012e": {
+            "opcode": 302,
+            "count": 5,
+            "isRare": true,
+            "isPeriodic": false,
+            "deltaCv": 0.4302,
+            "burstRatio": 0.3734,
+            "firstOffsetMs": 8602,
+            "lastOffsetMs": 24414,
+            "inStartEdge": false,
+            "inEndEdge": false,
+            "sampleTimestamps": [
+              8602,
+              12222,
+              14682,
+              21492,
+              24414
+            ]
+          },
+          "0x0133": {
+            "opcode": 307,
+            "count": 4,
+            "isRare": true,
+            "isPeriodic": false,
+            "deltaCv": 0.5584,
+            "burstRatio": 0.0427,
+            "firstOffsetMs": 33862,
+            "lastOffsetMs": 35669,
+            "inStartEdge": false,
+            "inEndEdge": false,
+            "sampleTimestamps": [
+              33862,
+              34940,
+              35303,
+              35669
+            ]
+          },
+          "0x0007": {
+            "opcode": 7,
+            "count": 1,
+            "isRare": true,
+            "isPeriodic": false,
+            "deltaCv": null,
+            "burstRatio": 0.0,
+            "firstOffsetMs": 38729,
+            "lastOffsetMs": 38729,
+            "inStartEdge": false,
+            "inEndEdge": true,
+            "sampleTimestamps": [
+              38729
+            ]
+          }
+        },
+        "tsStartMs": 1356920790952,
+        "tsEndMs": 1356920833301,
+        "durationMs": 42349
+      },
+      "s2cEventCount": 473,
+      "c2sEventCount": 229
+    },
+    "teleport_to_camp_tranquil.pcapng": {
+      "s2c": {
+        "opcodes": {
+          "0x0001": {
+            "opcode": 1,
+            "count": 40,
+            "isRare": false,
+            "isPeriodic": false,
+            "deltaCv": 0.3615,
+            "burstRatio": 1.0,
+            "firstOffsetMs": 0,
+            "lastOffsetMs": 34834,
+            "inStartEdge": true,
+            "inEndEdge": true,
+            "sampleTimestamps": [
+              0,
+              1140,
+              2160,
+              2860,
+              4000,
+              5117
+            ]
+          },
+          "0x0130": {
+            "opcode": 304,
+            "count": 3,
+            "isRare": true,
+            "isPeriodic": false,
+            "deltaCv": 0.5445,
+            "burstRatio": 0.329,
+            "firstOffsetMs": 2958,
+            "lastOffsetMs": 14418,
+            "inStartEdge": true,
+            "inEndEdge": false,
+            "sampleTimestamps": [
+              2958,
+              5568,
+              14418
+            ]
+          },
+          "0x018d": {
+            "opcode": 397,
+            "count": 7,
+            "isRare": true,
+            "isPeriodic": true,
+            "deltaCv": 0.1054,
+            "burstRatio": 0.8281,
+            "firstOffsetMs": 3168,
+            "lastOffsetMs": 32013,
+            "inStartEdge": true,
+            "inEndEdge": true,
+            "sampleTimestamps": [
+              3168,
+              8267,
+              13297,
+              18311,
+              23317,
+              26993
+            ]
+          },
+          "0x00da": {
+            "opcode": 218,
+            "count": 2,
+            "isRare": true,
+            "isPeriodic": false,
+            "deltaCv": null,
+            "burstRatio": 0.0724,
+            "firstOffsetMs": 14418,
+            "lastOffsetMs": 16941,
+            "inStartEdge": false,
+            "inEndEdge": false,
+            "sampleTimestamps": [
+              14418,
+              16941
+            ]
+          },
+          "0x0169": {
+            "opcode": 361,
+            "count": 1,
+            "isRare": true,
+            "isPeriodic": false,
+            "deltaCv": null,
+            "burstRatio": 0.0,
+            "firstOffsetMs": 14418,
+            "lastOffsetMs": 14418,
+            "inStartEdge": false,
+            "inEndEdge": false,
+            "sampleTimestamps": [
+              14418
+            ]
+          },
+          "0x0193": {
+            "opcode": 403,
+            "count": 1,
+            "isRare": true,
+            "isPeriodic": false,
+            "deltaCv": null,
+            "burstRatio": 0.0,
+            "firstOffsetMs": 18981,
+            "lastOffsetMs": 18981,
+            "inStartEdge": false,
+            "inEndEdge": false,
+            "sampleTimestamps": [
+              18981
+            ]
+          },
+          "0x00e2": {
+            "opcode": 226,
+            "count": 1,
+            "isRare": true,
+            "isPeriodic": false,
+            "deltaCv": null,
+            "burstRatio": 0.0,
+            "firstOffsetMs": 18989,
+            "lastOffsetMs": 18989,
+            "inStartEdge": false,
+            "inEndEdge": false,
+            "sampleTimestamps": [
+              18989
+            ]
+          },
+          "0x0131": {
+            "opcode": 305,
+            "count": 1,
+            "isRare": true,
+            "isPeriodic": false,
+            "deltaCv": null,
+            "burstRatio": 0.0,
+            "firstOffsetMs": 18989,
+            "lastOffsetMs": 18989,
+            "inStartEdge": false,
+            "inEndEdge": false,
+            "sampleTimestamps": [
+              18989
+            ]
+          },
+          "0x0166": {
+            "opcode": 358,
+            "count": 1,
+            "isRare": true,
+            "isPeriodic": false,
+            "deltaCv": null,
+            "burstRatio": 0.0,
+            "firstOffsetMs": 18989,
+            "lastOffsetMs": 18989,
+            "inStartEdge": false,
+            "inEndEdge": false,
+            "sampleTimestamps": [
+              18989
+            ]
+          },
+          "0x000d": {
+            "opcode": 13,
+            "count": 1,
+            "isRare": true,
+            "isPeriodic": false,
+            "deltaCv": null,
+            "burstRatio": 0.0,
+            "firstOffsetMs": 25072,
+            "lastOffsetMs": 25072,
+            "inStartEdge": false,
+            "inEndEdge": false,
+            "sampleTimestamps": [
+              25072
+            ]
+          },
+          "0x0010": {
+            "opcode": 16,
+            "count": 1,
+            "isRare": true,
+            "isPeriodic": false,
+            "deltaCv": null,
+            "burstRatio": 0.0,
+            "firstOffsetMs": 25072,
+            "lastOffsetMs": 25072,
+            "inStartEdge": false,
+            "inEndEdge": false,
+            "sampleTimestamps": [
+              25072
+            ]
+          },
+          "0x017b": {
+            "opcode": 379,
+            "count": 20,
+            "isRare": false,
+            "isPeriodic": false,
+            "deltaCv": 2.3846,
+            "burstRatio": 0.0245,
+            "firstOffsetMs": 25072,
+            "lastOffsetMs": 25926,
+            "inStartEdge": false,
+            "inEndEdge": false,
+            "sampleTimestamps": [
+              25072,
+              25208,
+              25676,
+              25676,
+              25676,
+              25690
+            ]
+          },
+          "0x0187": {
+            "opcode": 391,
+            "count": 2,
+            "isRare": true,
+            "isPeriodic": false,
+            "deltaCv": null,
+            "burstRatio": 0.003,
+            "firstOffsetMs": 25084,
+            "lastOffsetMs": 25189,
+            "inStartEdge": false,
+            "inEndEdge": false,
+            "sampleTimestamps": [
+              25084,
+              25189
+            ]
+          },
+          "0x0005": {
+            "opcode": 5,
+            "count": 1,
+            "isRare": true,
+            "isPeriodic": false,
+            "deltaCv": null,
+            "burstRatio": 0.0,
+            "firstOffsetMs": 25176,
+            "lastOffsetMs": 25176,
+            "inStartEdge": false,
+            "inEndEdge": false,
+            "sampleTimestamps": [
+              25176
+            ]
+          },
+          "0x0137": {
+            "opcode": 311,
+            "count": 29,
+            "isRare": false,
+            "isPeriodic": false,
+            "deltaCv": 3.3156,
+            "burstRatio": 0.0215,
+            "firstOffsetMs": 25176,
+            "lastOffsetMs": 25926,
+            "inStartEdge": false,
+            "inEndEdge": false,
+            "sampleTimestamps": [
+              25176,
+              25176,
+              25646,
+              25646,
+              25646,
+              25646
+            ]
+          },
+          "0x000f": {
+            "opcode": 15,
+            "count": 1,
+            "isRare": true,
+            "isPeriodic": false,
+            "deltaCv": null,
+            "burstRatio": 0.0,
+            "firstOffsetMs": 25208,
+            "lastOffsetMs": 25208,
+            "inStartEdge": false,
+            "inEndEdge": false,
+            "sampleTimestamps": [
+              25208
+            ]
+          },
+          "0x00ca": {
+            "opcode": 202,
+            "count": 19,
+            "isRare": false,
+            "isPeriodic": false,
+            "deltaCv": 2.7048,
+            "burstRatio": 0.0206,
+            "firstOffsetMs": 25208,
+            "lastOffsetMs": 25926,
+            "inStartEdge": false,
+            "inEndEdge": false,
+            "sampleTimestamps": [
+              25208,
+              25676,
+              25676,
+              25676,
+              25676,
+              25690
+            ]
+          },
+          "0x00ce": {
+            "opcode": 206,
+            "count": 19,
+            "isRare": false,
+            "isPeriodic": false,
+            "deltaCv": 2.7048,
+            "burstRatio": 0.0206,
+            "firstOffsetMs": 25208,
+            "lastOffsetMs": 25926,
+            "inStartEdge": false,
+            "inEndEdge": false,
+            "sampleTimestamps": [
+              25208,
+              25676,
+              25676,
+              25676,
+              25676,
+              25690
+            ]
+          },
+          "0x00d0": {
+            "opcode": 208,
+            "count": 19,
+            "isRare": false,
+            "isPeriodic": false,
+            "deltaCv": 2.7048,
+            "burstRatio": 0.0206,
+            "firstOffsetMs": 25208,
+            "lastOffsetMs": 25926,
+            "inStartEdge": false,
+            "inEndEdge": false,
+            "sampleTimestamps": [
+              25208,
+              25676,
+              25676,
+              25676,
+              25676,
+              25690
+            ]
+          },
+          "0x00d6": {
+            "opcode": 214,
+            "count": 14,
+            "isRare": false,
+            "isPeriodic": false,
+            "deltaCv": 2.31,
+            "burstRatio": 0.0206,
+            "firstOffsetMs": 25208,
+            "lastOffsetMs": 25926,
+            "inStartEdge": false,
+            "inEndEdge": false,
+            "sampleTimestamps": [
+              25208,
+              25690,
+              25767,
+              25767,
+              25767,
+              25877
+            ]
+          },
+          "0x0132": {
+            "opcode": 306,
+            "count": 8,
+            "isRare": true,
+            "isPeriodic": false,
+            "deltaCv": null,
+            "burstRatio": 0.0,
+            "firstOffsetMs": 25208,
+            "lastOffsetMs": 25208,
+            "inStartEdge": false,
+            "inEndEdge": false,
+            "sampleTimestamps": [
+              25208,
+              25208,
+              25208,
+              25208,
+              25208,
+              25208
+            ]
+          },
+          "0x0134": {
+            "opcode": 308,
+            "count": 19,
+            "isRare": false,
+            "isPeriodic": false,
+            "deltaCv": 2.7048,
+            "burstRatio": 0.0206,
+            "firstOffsetMs": 25208,
+            "lastOffsetMs": 25926,
+            "inStartEdge": false,
+            "inEndEdge": false,
+            "sampleTimestamps": [
+              25208,
+              25676,
+              25676,
+              25676,
+              25690,
+              25690
+            ]
+          },
+          "0x013d": {
+            "opcode": 317,
+            "count": 19,
+            "isRare": false,
+            "isPeriodic": false,
+            "deltaCv": 2.7048,
+            "burstRatio": 0.0206,
+            "firstOffsetMs": 25208,
+            "lastOffsetMs": 25926,
+            "inStartEdge": false,
+            "inEndEdge": false,
+            "sampleTimestamps": [
+              25208,
+              25676,
+              25676,
+              25676,
+              25690,
+              25690
+            ]
+          },
+          "0x0144": {
+            "opcode": 324,
+            "count": 19,
+            "isRare": false,
+            "isPeriodic": false,
+            "deltaCv": 2.7048,
+            "burstRatio": 0.0206,
+            "firstOffsetMs": 25208,
+            "lastOffsetMs": 25926,
+            "inStartEdge": false,
+            "inEndEdge": false,
+            "sampleTimestamps": [
+              25208,
+              25676,
+              25676,
+              25676,
+              25690,
+              25690
+            ]
+          },
+          "0x0145": {
+            "opcode": 325,
+            "count": 19,
+            "isRare": false,
+            "isPeriodic": false,
+            "deltaCv": 2.7048,
+            "burstRatio": 0.0206,
+            "firstOffsetMs": 25208,
+            "lastOffsetMs": 25926,
+            "inStartEdge": false,
+            "inEndEdge": false,
+            "sampleTimestamps": [
+              25208,
+              25676,
+              25676,
+              25676,
+              25690,
+              25690
+            ]
+          },
+          "0x0146": {
+            "opcode": 326,
+            "count": 7,
+            "isRare": true,
+            "isPeriodic": false,
+            "deltaCv": 1.6687,
+            "burstRatio": 0.0126,
+            "firstOffsetMs": 25208,
+            "lastOffsetMs": 25646,
+            "inStartEdge": false,
+            "inEndEdge": false,
+            "sampleTimestamps": [
+              25208,
+              25539,
+              25539,
+              25539,
+              25539,
+              25646
+            ]
+          },
+          "0x016d": {
+            "opcode": 365,
+            "count": 1,
+            "isRare": true,
+            "isPeriodic": false,
+            "deltaCv": null,
+            "burstRatio": 0.0,
+            "firstOffsetMs": 25208,
+            "lastOffsetMs": 25208,
+            "inStartEdge": false,
+            "inEndEdge": false,
+            "sampleTimestamps": [
+              25208
+            ]
+          },
+          "0x0179": {
+            "opcode": 377,
+            "count": 19,
+            "isRare": false,
+            "isPeriodic": false,
+            "deltaCv": 2.7048,
+            "burstRatio": 0.0206,
+            "firstOffsetMs": 25208,
+            "lastOffsetMs": 25926,
+            "inStartEdge": false,
+            "inEndEdge": false,
+            "sampleTimestamps": [
+              25208,
+              25676,
+              25676,
+              25676,
+              25690,
+              25690
+            ]
+          },
+          "0x017c": {
+            "opcode": 380,
+            "count": 3,
+            "isRare": true,
+            "isPeriodic": false,
+            "deltaCv": 1.0,
+            "burstRatio": 0.0206,
+            "firstOffsetMs": 25208,
+            "lastOffsetMs": 25926,
+            "inStartEdge": false,
+            "inEndEdge": false,
+            "sampleTimestamps": [
+              25208,
+              25208,
+              25926
+            ]
+          },
+          "0x017d": {
+            "opcode": 381,
+            "count": 3,
+            "isRare": true,
+            "isPeriodic": false,
+            "deltaCv": 1.0,
+            "burstRatio": 0.0206,
+            "firstOffsetMs": 25208,
+            "lastOffsetMs": 25926,
+            "inStartEdge": false,
+            "inEndEdge": false,
+            "sampleTimestamps": [
+              25208,
+              25208,
+              25926
+            ]
+          },
+          "0x017e": {
+            "opcode": 382,
+            "count": 3,
+            "isRare": true,
+            "isPeriodic": false,
+            "deltaCv": 1.0,
+            "burstRatio": 0.0206,
+            "firstOffsetMs": 25208,
+            "lastOffsetMs": 25926,
+            "inStartEdge": false,
+            "inEndEdge": false,
+            "sampleTimestamps": [
+              25208,
+              25208,
+              25926
+            ]
+          },
+          "0x017f": {
+            "opcode": 383,
+            "count": 2,
+            "isRare": true,
+            "isPeriodic": false,
+            "deltaCv": null,
+            "burstRatio": 0.0,
+            "firstOffsetMs": 25208,
+            "lastOffsetMs": 25208,
+            "inStartEdge": false,
+            "inEndEdge": false,
+            "sampleTimestamps": [
+              25208,
+              25208
+            ]
+          },
+          "0x014b": {
+            "opcode": 331,
+            "count": 6,
+            "isRare": true,
+            "isPeriodic": false,
+            "deltaCv": 0.9014,
+            "burstRatio": 0.0069,
+            "firstOffsetMs": 25217,
+            "lastOffsetMs": 25456,
+            "inStartEdge": false,
+            "inEndEdge": false,
+            "sampleTimestamps": [
+              25217,
+              25316,
+              25325,
+              25427,
+              25441,
+              25456
+            ]
+          },
+          "0x0147": {
+            "opcode": 327,
+            "count": 7,
+            "isRare": true,
+            "isPeriodic": false,
+            "deltaCv": 2.2361,
+            "burstRatio": 0.0031,
+            "firstOffsetMs": 25539,
+            "lastOffsetMs": 25646,
+            "inStartEdge": false,
+            "inEndEdge": false,
+            "sampleTimestamps": [
+              25539,
+              25539,
+              25539,
+              25539,
+              25539,
+              25646
+            ]
+          },
+          "0x0149": {
+            "opcode": 329,
+            "count": 3,
+            "isRare": true,
+            "isPeriodic": false,
+            "deltaCv": 1.0,
+            "burstRatio": 0.0031,
+            "firstOffsetMs": 25539,
+            "lastOffsetMs": 25646,
+            "inStartEdge": false,
+            "inEndEdge": false,
+            "sampleTimestamps": [
+              25539,
+              25539,
+              25646
+            ]
+          },
+          "0x014a": {
+            "opcode": 330,
+            "count": 1,
+            "isRare": true,
+            "isPeriodic": false,
+            "deltaCv": null,
+            "burstRatio": 0.0,
+            "firstOffsetMs": 25539,
+            "lastOffsetMs": 25539,
+            "inStartEdge": false,
+            "inEndEdge": false,
+            "sampleTimestamps": [
+              25539
+            ]
+          },
+          "0x00cc": {
+            "opcode": 204,
+            "count": 19,
+            "isRare": false,
+            "isPeriodic": false,
+            "deltaCv": 1.8976,
+            "burstRatio": 0.008,
+            "firstOffsetMs": 25646,
+            "lastOffsetMs": 25926,
+            "inStartEdge": false,
+            "inEndEdge": false,
+            "sampleTimestamps": [
+              25646,
+              25676,
+              25676,
+              25676,
+              25690,
+              25690
+            ]
+          },
+          "0x014e": {
+            "opcode": 334,
+            "count": 2,
+            "isRare": true,
+            "isPeriodic": false,
+            "deltaCv": null,
+            "burstRatio": 0.0,
+            "firstOffsetMs": 25646,
+            "lastOffsetMs": 25646,
+            "inStartEdge": false,
+            "inEndEdge": false,
+            "sampleTimestamps": [
+              25646,
+              25646
+            ]
+          },
+          "0x016e": {
+            "opcode": 366,
+            "count": 1,
+            "isRare": true,
+            "isPeriodic": false,
+            "deltaCv": null,
+            "burstRatio": 0.0,
+            "firstOffsetMs": 25646,
+            "lastOffsetMs": 25646,
+            "inStartEdge": false,
+            "inEndEdge": false,
+            "sampleTimestamps": [
+              25646
+            ]
+          },
+          "0x0194": {
+            "opcode": 404,
+            "count": 1,
+            "isRare": true,
+            "isPeriodic": false,
+            "deltaCv": null,
+            "burstRatio": 0.0,
+            "firstOffsetMs": 25646,
+            "lastOffsetMs": 25646,
+            "inStartEdge": false,
+            "inEndEdge": false,
+            "sampleTimestamps": [
+              25646
+            ]
+          },
+          "0x0196": {
+            "opcode": 406,
+            "count": 1,
+            "isRare": true,
+            "isPeriodic": false,
+            "deltaCv": null,
+            "burstRatio": 0.0,
+            "firstOffsetMs": 25646,
+            "lastOffsetMs": 25646,
+            "inStartEdge": false,
+            "inEndEdge": false,
+            "sampleTimestamps": [
+              25646
+            ]
+          },
+          "0x0198": {
+            "opcode": 408,
+            "count": 1,
+            "isRare": true,
+            "isPeriodic": false,
+            "deltaCv": null,
+            "burstRatio": 0.0,
+            "firstOffsetMs": 25646,
+            "lastOffsetMs": 25646,
+            "inStartEdge": false,
+            "inEndEdge": false,
+            "sampleTimestamps": [
+              25646
+            ]
+          },
+          "0x0199": {
+            "opcode": 409,
+            "count": 1,
+            "isRare": true,
+            "isPeriodic": false,
+            "deltaCv": null,
+            "burstRatio": 0.0,
+            "firstOffsetMs": 25646,
+            "lastOffsetMs": 25646,
+            "inStartEdge": false,
+            "inEndEdge": false,
+            "sampleTimestamps": [
+              25646
+            ]
+          },
+          "0x019a": {
+            "opcode": 410,
+            "count": 1,
+            "isRare": true,
+            "isPeriodic": false,
+            "deltaCv": null,
+            "burstRatio": 0.0,
+            "firstOffsetMs": 25646,
+            "lastOffsetMs": 25646,
+            "inStartEdge": false,
+            "inEndEdge": false,
+            "sampleTimestamps": [
+              25646
+            ]
+          },
+          "0x019b": {
+            "opcode": 411,
+            "count": 1,
+            "isRare": true,
+            "isPeriodic": false,
+            "deltaCv": null,
+            "burstRatio": 0.0,
+            "firstOffsetMs": 25646,
+            "lastOffsetMs": 25646,
+            "inStartEdge": false,
+            "inEndEdge": false,
+            "sampleTimestamps": [
+              25646
+            ]
+          },
+          "0x019c": {
+            "opcode": 412,
+            "count": 1,
+            "isRare": true,
+            "isPeriodic": false,
+            "deltaCv": null,
+            "burstRatio": 0.0,
+            "firstOffsetMs": 25646,
+            "lastOffsetMs": 25646,
+            "inStartEdge": false,
+            "inEndEdge": false,
+            "sampleTimestamps": [
+              25646
+            ]
+          },
+          "0x019d": {
+            "opcode": 413,
+            "count": 1,
+            "isRare": true,
+            "isPeriodic": false,
+            "deltaCv": null,
+            "burstRatio": 0.0,
+            "firstOffsetMs": 25646,
+            "lastOffsetMs": 25646,
+            "inStartEdge": false,
+            "inEndEdge": false,
+            "sampleTimestamps": [
+              25646
+            ]
+          },
+          "0x01a4": {
+            "opcode": 420,
+            "count": 1,
+            "isRare": true,
+            "isPeriodic": false,
+            "deltaCv": null,
+            "burstRatio": 0.0,
+            "firstOffsetMs": 25646,
+            "lastOffsetMs": 25646,
+            "inStartEdge": false,
+            "inEndEdge": false,
+            "sampleTimestamps": [
+              25646
+            ]
+          },
+          "0x00cf": {
+            "opcode": 207,
+            "count": 68,
+            "isRare": false,
+            "isPeriodic": false,
+            "deltaCv": 3.773,
+            "burstRatio": 0.2463,
+            "firstOffsetMs": 25676,
+            "lastOffsetMs": 34254,
+            "inStartEdge": false,
+            "inEndEdge": true,
+            "sampleTimestamps": [
+              25676,
+              25676,
+              25676,
+              25676,
+              25690,
+              25690
+            ]
+          },
+          "0x016b": {
+            "opcode": 363,
+            "count": 22,
+            "isRare": false,
+            "isPeriodic": false,
+            "deltaCv": 2.3305,
+            "burstRatio": 0.0072,
+            "firstOffsetMs": 25676,
+            "lastOffsetMs": 25926,
+            "inStartEdge": false,
+            "inEndEdge": false,
+            "sampleTimestamps": [
+              25676,
+              25676,
+              25676,
+              25676,
+              25676,
+              25676
+            ]
+          },
+          "0x012e": {
+            "opcode": 302,
+            "count": 11,
+            "isRare": false,
+            "isPeriodic": false,
+            "deltaCv": 1.5496,
+            "burstRatio": 0.0068,
+            "firstOffsetMs": 25690,
+            "lastOffsetMs": 25926,
+            "inStartEdge": false,
+            "inEndEdge": false,
+            "sampleTimestamps": [
+              25690,
+              25690,
+              25767,
+              25767,
+              25877,
+              25877
+            ]
+          },
+          "0x016f": {
+            "opcode": 367,
+            "count": 7,
+            "isRare": true,
+            "isPeriodic": false,
+            "deltaCv": 1.819,
+            "burstRatio": 0.0068,
+            "firstOffsetMs": 25690,
+            "lastOffsetMs": 25926,
+            "inStartEdge": false,
+            "inEndEdge": false,
+            "sampleTimestamps": [
+              25690,
+              25690,
+              25888,
+              25913,
+              25913,
+              25926
+            ]
+          },
+          "0x0006": {
+            "opcode": 6,
+            "count": 1,
+            "isRare": true,
+            "isPeriodic": false,
+            "deltaCv": null,
+            "burstRatio": 0.0,
+            "firstOffsetMs": 25926,
+            "lastOffsetMs": 25926,
+            "inStartEdge": false,
+            "inEndEdge": false,
+            "sampleTimestamps": [
+              25926
+            ]
+          },
+          "0x0007": {
+            "opcode": 7,
+            "count": 1,
+            "isRare": true,
+            "isPeriodic": false,
+            "deltaCv": null,
+            "burstRatio": 0.0,
+            "firstOffsetMs": 25926,
+            "lastOffsetMs": 25926,
+            "inStartEdge": false,
+            "inEndEdge": false,
+            "sampleTimestamps": [
+              25926
+            ]
+          },
+          "0x0008": {
+            "opcode": 8,
+            "count": 1,
+            "isRare": true,
+            "isPeriodic": false,
+            "deltaCv": null,
+            "burstRatio": 0.0,
+            "firstOffsetMs": 25926,
+            "lastOffsetMs": 25926,
+            "inStartEdge": false,
+            "inEndEdge": false,
+            "sampleTimestamps": [
+              25926
+            ]
+          },
+          "0x0009": {
+            "opcode": 9,
+            "count": 1,
+            "isRare": true,
+            "isPeriodic": false,
+            "deltaCv": null,
+            "burstRatio": 0.0,
+            "firstOffsetMs": 25926,
+            "lastOffsetMs": 25926,
+            "inStartEdge": false,
+            "inEndEdge": false,
+            "sampleTimestamps": [
+              25926
+            ]
+          },
+          "0x0136": {
+            "opcode": 310,
+            "count": 18,
+            "isRare": false,
+            "isPeriodic": false,
+            "deltaCv": 4.0,
+            "burstRatio": 0.002,
+            "firstOffsetMs": 25926,
+            "lastOffsetMs": 25997,
+            "inStartEdge": false,
+            "inEndEdge": false,
+            "sampleTimestamps": [
+              25926,
+              25926,
+              25926,
+              25926,
+              25926,
+              25926
+            ]
+          },
+          "0x0183": {
+            "opcode": 387,
+            "count": 1,
+            "isRare": true,
+            "isPeriodic": false,
+            "deltaCv": null,
+            "burstRatio": 0.0,
+            "firstOffsetMs": 25926,
+            "lastOffsetMs": 25926,
+            "inStartEdge": false,
+            "inEndEdge": false,
+            "sampleTimestamps": [
+              25926
+            ]
+          },
+          "0x017a": {
+            "opcode": 378,
+            "count": 2,
+            "isRare": true,
+            "isPeriodic": false,
+            "deltaCv": null,
+            "burstRatio": 0.0572,
+            "firstOffsetMs": 26237,
+            "lastOffsetMs": 28228,
+            "inStartEdge": false,
+            "inEndEdge": false,
+            "sampleTimestamps": [
+              26237,
+              28228
+            ]
+          }
+        },
+        "tsStartMs": 1356917502668,
+        "tsEndMs": 1356917537502,
+        "durationMs": 34834
+      },
+      "c2s": {
+        "opcodes": {
+          "0x00ca": {
+            "opcode": 202,
+            "count": 145,
+            "isRare": false,
+            "isPeriodic": false,
+            "deltaCv": 2.5436,
+            "burstRatio": 1.0,
+            "firstOffsetMs": 0,
+            "lastOffsetMs": 35571,
+            "inStartEdge": true,
+            "inEndEdge": true,
+            "sampleTimestamps": [
+              0,
+              0,
+              362,
+              362,
+              727,
+              727
+            ]
+          },
+          "0x0001": {
+            "opcode": 1,
+            "count": 36,
+            "isRare": false,
+            "isPeriodic": true,
+            "deltaCv": 0.1346,
+            "burstRatio": 0.9796,
+            "firstOffsetMs": 362,
+            "lastOffsetMs": 35206,
+            "inStartEdge": true,
+            "inEndEdge": true,
+            "sampleTimestamps": [
+              362,
+              1426,
+              2487,
+              3217,
+              4312,
+              5402
+            ]
+          },
+          "0x012d": {
+            "opcode": 301,
+            "count": 1,
+            "isRare": true,
+            "isPeriodic": false,
+            "deltaCv": null,
+            "burstRatio": 0.0,
+            "firstOffsetMs": 3217,
+            "lastOffsetMs": 3217,
+            "inStartEdge": true,
+            "inEndEdge": false,
+            "sampleTimestamps": [
+              3217
+            ]
+          },
+          "0x012e": {
+            "opcode": 302,
+            "count": 3,
+            "isRare": true,
+            "isPeriodic": false,
+            "deltaCv": 0.563,
+            "burstRatio": 0.3238,
+            "firstOffsetMs": 5764,
+            "lastOffsetMs": 17283,
+            "inStartEdge": false,
+            "inEndEdge": false,
+            "sampleTimestamps": [
+              5764,
+              14766,
+              17283
+            ]
+          },
+          "0x0133": {
+            "opcode": 307,
+            "count": 2,
+            "isRare": true,
+            "isPeriodic": false,
+            "deltaCv": null,
+            "burstRatio": 0.0563,
+            "firstOffsetMs": 26562,
+            "lastOffsetMs": 28563,
+            "inStartEdge": false,
+            "inEndEdge": false,
+            "sampleTimestamps": [
+              26562,
+              28563
+            ]
+          },
+          "0x0007": {
+            "opcode": 7,
+            "count": 1,
+            "isRare": true,
+            "isPeriodic": false,
+            "deltaCv": null,
+            "burstRatio": 0.0,
+            "firstOffsetMs": 30555,
+            "lastOffsetMs": 30555,
+            "inStartEdge": false,
+            "inEndEdge": false,
+            "sampleTimestamps": [
+              30555
+            ]
+          }
+        },
+        "tsStartMs": 1356917501848,
+        "tsEndMs": 1356917537419,
+        "durationMs": 35571
+      },
+      "s2cEventCount": 486,
+      "c2sEventCount": 188
+    },
+    "teleport_to_gridania.pcapng": {
+      "s2c": {
+        "opcodes": {
+          "0x0001": {
+            "opcode": 1,
+            "count": 38,
+            "isRare": false,
+            "isPeriodic": false,
+            "deltaCv": 0.3584,
+            "burstRatio": 0.994,
+            "firstOffsetMs": 0,
+            "lastOffsetMs": 32923,
+            "inStartEdge": true,
+            "inEndEdge": true,
+            "sampleTimestamps": [
+              0,
+              1050,
+              2061,
+              3111,
+              4147,
+              4950
+            ]
+          },
+          "0x00cf": {
+            "opcode": 207,
+            "count": 155,
+            "isRare": false,
+            "isPeriodic": false,
+            "deltaCv": 2.7831,
+            "burstRatio": 0.9684,
+            "firstOffsetMs": 227,
+            "lastOffsetMs": 32304,
+            "inStartEdge": true,
+            "inEndEdge": true,
+            "sampleTimestamps": [
+              227,
+              808,
+              1027,
+              1027,
+              1027,
+              1027
+            ]
+          },
+          "0x018d": {
+            "opcode": 397,
+            "count": 7,
+            "isRare": true,
+            "isPeriodic": true,
+            "deltaCv": 0.0663,
+            "burstRatio": 0.9415,
+            "firstOffsetMs": 1937,
+            "lastOffsetMs": 33123,
+            "inStartEdge": true,
+            "inEndEdge": true,
+            "sampleTimestamps": [
+              1937,
+              6941,
+              11997,
+              17077,
+              23043,
+              28093
+            ]
+          },
+          "0x0130": {
+            "opcode": 304,
+            "count": 3,
+            "isRare": true,
+            "isPeriodic": false,
+            "deltaCv": 0.2291,
+            "burstRatio": 0.1704,
+            "firstOffsetMs": 4622,
+            "lastOffsetMs": 10267,
+            "inStartEdge": true,
+            "inEndEdge": false,
+            "sampleTimestamps": [
+              4622,
+              8091,
+              10267
+            ]
+          },
+          "0x00ca": {
+            "opcode": 202,
+            "count": 13,
+            "isRare": false,
+            "isPeriodic": false,
+            "deltaCv": 3.1286,
+            "burstRatio": 0.3644,
+            "firstOffsetMs": 9917,
+            "lastOffsetMs": 21987,
+            "inStartEdge": false,
+            "inEndEdge": false,
+            "sampleTimestamps": [
+              9917,
+              21349,
+              21875,
+              21875,
+              21875,
+              21886
+            ]
+          },
+          "0x00cc": {
+            "opcode": 204,
+            "count": 13,
+            "isRare": false,
+            "isPeriodic": false,
+            "deltaCv": 3.2536,
+            "burstRatio": 0.3648,
+            "firstOffsetMs": 9917,
+            "lastOffsetMs": 21999,
+            "inStartEdge": false,
+            "inEndEdge": false,
+            "sampleTimestamps": [
+              9917,
+              21788,
+              21875,
+              21875,
+              21886,
+              21886
+            ]
+          },
+          "0x00ce": {
+            "opcode": 206,
+            "count": 13,
+            "isRare": false,
+            "isPeriodic": false,
+            "deltaCv": 3.1286,
+            "burstRatio": 0.3644,
+            "firstOffsetMs": 9917,
+            "lastOffsetMs": 21987,
+            "inStartEdge": false,
+            "inEndEdge": false,
+            "sampleTimestamps": [
+              9917,
+              21349,
+              21875,
+              21875,
+              21875,
+              21886
+            ]
+          },
+          "0x00d0": {
+            "opcode": 208,
+            "count": 13,
+            "isRare": false,
+            "isPeriodic": false,
+            "deltaCv": 3.1286,
+            "burstRatio": 0.3644,
+            "firstOffsetMs": 9917,
+            "lastOffsetMs": 21987,
+            "inStartEdge": false,
+            "inEndEdge": false,
+            "sampleTimestamps": [
+              9917,
+              21349,
+              21875,
+              21875,
+              21875,
+              21886
+            ]
+          },
+          "0x00d6": {
+            "opcode": 214,
+            "count": 8,
+            "isRare": true,
+            "isPeriodic": false,
+            "deltaCv": 2.3008,
+            "burstRatio": 0.3644,
+            "firstOffsetMs": 9917,
+            "lastOffsetMs": 21987,
+            "inStartEdge": false,
+            "inEndEdge": false,
+            "sampleTimestamps": [
+              9917,
+              21349,
+              21886,
+              21975,
+              21975,
+              21987
+            ]
+          },
+          "0x0134": {
+            "opcode": 308,
+            "count": 13,
+            "isRare": false,
+            "isPeriodic": false,
+            "deltaCv": 3.1286,
+            "burstRatio": 0.3644,
+            "firstOffsetMs": 9917,
+            "lastOffsetMs": 21987,
+            "inStartEdge": false,
+            "inEndEdge": false,
+            "sampleTimestamps": [
+              9917,
+              21349,
+              21875,
+              21875,
+              21886,
+              21886
+            ]
+          },
+          "0x0137": {
+            "opcode": 311,
+            "count": 24,
+            "isRare": false,
+            "isPeriodic": false,
+            "deltaCv": 4.3849,
+            "burstRatio": 0.3648,
+            "firstOffsetMs": 9917,
+            "lastOffsetMs": 21999,
+            "inStartEdge": false,
+            "inEndEdge": false,
+            "sampleTimestamps": [
+              9917,
+              21233,
+              21233,
+              21788,
+              21788,
+              21788
+            ]
+          },
+          "0x013d": {
+            "opcode": 317,
+            "count": 13,
+            "isRare": false,
+            "isPeriodic": false,
+            "deltaCv": 3.1286,
+            "burstRatio": 0.3644,
+            "firstOffsetMs": 9917,
+            "lastOffsetMs": 21987,
+            "inStartEdge": false,
+            "inEndEdge": false,
+            "sampleTimestamps": [
+              9917,
+              21349,
+              21875,
+              21875,
+              21886,
+              21886
+            ]
+          },
+          "0x0144": {
+            "opcode": 324,
+            "count": 13,
+            "isRare": false,
+            "isPeriodic": false,
+            "deltaCv": 3.1286,
+            "burstRatio": 0.3644,
+            "firstOffsetMs": 9917,
+            "lastOffsetMs": 21987,
+            "inStartEdge": false,
+            "inEndEdge": false,
+            "sampleTimestamps": [
+              9917,
+              21349,
+              21875,
+              21875,
+              21886,
+              21886
+            ]
+          },
+          "0x0145": {
+            "opcode": 325,
+            "count": 13,
+            "isRare": false,
+            "isPeriodic": false,
+            "deltaCv": 3.1286,
+            "burstRatio": 0.3644,
+            "firstOffsetMs": 9917,
+            "lastOffsetMs": 21987,
+            "inStartEdge": false,
+            "inEndEdge": false,
+            "sampleTimestamps": [
+              9917,
+              21349,
+              21875,
+              21875,
+              21886,
+              21886
+            ]
+          },
+          "0x016b": {
+            "opcode": 363,
+            "count": 14,
+            "isRare": false,
+            "isPeriodic": false,
+            "deltaCv": 3.4294,
+            "burstRatio": 0.3644,
+            "firstOffsetMs": 9917,
+            "lastOffsetMs": 21987,
+            "inStartEdge": false,
+            "inEndEdge": false,
+            "sampleTimestamps": [
+              9917,
+              21875,
+              21875,
+              21875,
+              21886,
+              21886
+            ]
+          },
+          "0x0179": {
+            "opcode": 377,
+            "count": 13,
+            "isRare": false,
+            "isPeriodic": false,
+            "deltaCv": 3.1286,
+            "burstRatio": 0.3644,
+            "firstOffsetMs": 9917,
+            "lastOffsetMs": 21987,
+            "inStartEdge": false,
+            "inEndEdge": false,
+            "sampleTimestamps": [
+              9917,
+              21349,
+              21875,
+              21875,
+              21886,
+              21886
+            ]
+          },
+          "0x017b": {
+            "opcode": 379,
+            "count": 14,
+            "isRare": false,
+            "isPeriodic": false,
+            "deltaCv": 3.2331,
+            "burstRatio": 0.3644,
+            "firstOffsetMs": 9917,
+            "lastOffsetMs": 21987,
+            "inStartEdge": false,
+            "inEndEdge": false,
+            "sampleTimestamps": [
+              9917,
+              21233,
+              21349,
+              21875,
+              21875,
+              21886
+            ]
+          },
+          "0x017c": {
+            "opcode": 380,
+            "count": 3,
+            "isRare": true,
+            "isPeriodic": false,
+            "deltaCv": 1.0,
+            "burstRatio": 0.3451,
+            "firstOffsetMs": 9917,
+            "lastOffsetMs": 21349,
+            "inStartEdge": false,
+            "inEndEdge": false,
+            "sampleTimestamps": [
+              9917,
+              21349,
+              21349
+            ]
+          },
+          "0x017d": {
+            "opcode": 381,
+            "count": 3,
+            "isRare": true,
+            "isPeriodic": false,
+            "deltaCv": 1.0,
+            "burstRatio": 0.3451,
+            "firstOffsetMs": 9917,
+            "lastOffsetMs": 21349,
+            "inStartEdge": false,
+            "inEndEdge": false,
+            "sampleTimestamps": [
+              9917,
+              21349,
+              21349
+            ]
+          },
+          "0x017e": {
+            "opcode": 382,
+            "count": 3,
+            "isRare": true,
+            "isPeriodic": false,
+            "deltaCv": 1.0,
+            "burstRatio": 0.3451,
+            "firstOffsetMs": 9917,
+            "lastOffsetMs": 21349,
+            "inStartEdge": false,
+            "inEndEdge": false,
+            "sampleTimestamps": [
+              9917,
+              21349,
+              21349
+            ]
+          },
+          "0x0183": {
+            "opcode": 387,
+            "count": 1,
+            "isRare": true,
+            "isPeriodic": false,
+            "deltaCv": null,
+            "burstRatio": 0.0,
+            "firstOffsetMs": 9917,
+            "lastOffsetMs": 9917,
+            "inStartEdge": false,
+            "inEndEdge": false,
+            "sampleTimestamps": [
+              9917
+            ]
+          },
+          "0x00da": {
+            "opcode": 218,
+            "count": 2,
+            "isRare": true,
+            "isPeriodic": false,
+            "deltaCv": null,
+            "burstRatio": 0.0856,
+            "firstOffsetMs": 10267,
+            "lastOffsetMs": 13101,
+            "inStartEdge": false,
+            "inEndEdge": false,
+            "sampleTimestamps": [
+              10267,
+              13101
+            ]
+          },
+          "0x0169": {
+            "opcode": 361,
+            "count": 1,
+            "isRare": true,
+            "isPeriodic": false,
+            "deltaCv": null,
+            "burstRatio": 0.0,
+            "firstOffsetMs": 10267,
+            "lastOffsetMs": 10267,
+            "inStartEdge": false,
+            "inEndEdge": false,
+            "sampleTimestamps": [
+              10267
+            ]
+          },
+          "0x017a": {
+            "opcode": 378,
+            "count": 2,
+            "isRare": true,
+            "isPeriodic": false,
+            "deltaCv": null,
+            "burstRatio": 0.3659,
+            "firstOffsetMs": 10527,
+            "lastOffsetMs": 22646,
+            "inStartEdge": false,
+            "inEndEdge": false,
+            "sampleTimestamps": [
+              10527,
+              22646
+            ]
+          },
+          "0x0193": {
+            "opcode": 403,
+            "count": 1,
+            "isRare": true,
+            "isPeriodic": false,
+            "deltaCv": null,
+            "burstRatio": 0.0,
+            "firstOffsetMs": 15180,
+            "lastOffsetMs": 15180,
+            "inStartEdge": false,
+            "inEndEdge": false,
+            "sampleTimestamps": [
+              15180
+            ]
+          },
+          "0x00e2": {
+            "opcode": 226,
+            "count": 1,
+            "isRare": true,
+            "isPeriodic": false,
+            "deltaCv": null,
+            "burstRatio": 0.0,
+            "firstOffsetMs": 15194,
+            "lastOffsetMs": 15194,
+            "inStartEdge": false,
+            "inEndEdge": false,
+            "sampleTimestamps": [
+              15194
+            ]
+          },
+          "0x0131": {
+            "opcode": 305,
+            "count": 1,
+            "isRare": true,
+            "isPeriodic": false,
+            "deltaCv": null,
+            "burstRatio": 0.0,
+            "firstOffsetMs": 15194,
+            "lastOffsetMs": 15194,
+            "inStartEdge": false,
+            "inEndEdge": false,
+            "sampleTimestamps": [
+              15194
+            ]
+          },
+          "0x0166": {
+            "opcode": 358,
+            "count": 3,
+            "isRare": true,
+            "isPeriodic": false,
+            "deltaCv": 1.0,
+            "burstRatio": 0.333,
+            "firstOffsetMs": 15194,
+            "lastOffsetMs": 26224,
+            "inStartEdge": false,
+            "inEndEdge": false,
+            "sampleTimestamps": [
+              15194,
+              26224,
+              26224
+            ]
+          },
+          "0x000c": {
+            "opcode": 12,
+            "count": 1,
+            "isRare": true,
+            "isPeriodic": false,
+            "deltaCv": null,
+            "burstRatio": 0.0,
+            "firstOffsetMs": 21233,
+            "lastOffsetMs": 21233,
+            "inStartEdge": false,
+            "inEndEdge": false,
+            "sampleTimestamps": [
+              21233
+            ]
+          },
+          "0x000d": {
+            "opcode": 13,
+            "count": 1,
+            "isRare": true,
+            "isPeriodic": false,
+            "deltaCv": null,
+            "burstRatio": 0.0,
+            "firstOffsetMs": 21233,
+            "lastOffsetMs": 21233,
+            "inStartEdge": false,
+            "inEndEdge": false,
+            "sampleTimestamps": [
+              21233
+            ]
+          },
+          "0x0010": {
+            "opcode": 16,
+            "count": 1,
+            "isRare": true,
+            "isPeriodic": false,
+            "deltaCv": null,
+            "burstRatio": 0.0,
+            "firstOffsetMs": 21233,
+            "lastOffsetMs": 21233,
+            "inStartEdge": false,
+            "inEndEdge": false,
+            "sampleTimestamps": [
+              21233
+            ]
+          },
+          "0x0187": {
+            "opcode": 391,
+            "count": 2,
+            "isRare": true,
+            "isPeriodic": false,
+            "deltaCv": null,
+            "burstRatio": 0.003,
+            "firstOffsetMs": 21235,
+            "lastOffsetMs": 21336,
+            "inStartEdge": false,
+            "inEndEdge": false,
+            "sampleTimestamps": [
+              21235,
+              21336
+            ]
+          },
+          "0x0005": {
+            "opcode": 5,
+            "count": 1,
+            "isRare": true,
+            "isPeriodic": false,
+            "deltaCv": null,
+            "burstRatio": 0.0,
+            "firstOffsetMs": 21336,
+            "lastOffsetMs": 21336,
+            "inStartEdge": false,
+            "inEndEdge": false,
+            "sampleTimestamps": [
+              21336
+            ]
+          },
+          "0x000f": {
+            "opcode": 15,
+            "count": 1,
+            "isRare": true,
+            "isPeriodic": false,
+            "deltaCv": null,
+            "burstRatio": 0.0,
+            "firstOffsetMs": 21349,
+            "lastOffsetMs": 21349,
+            "inStartEdge": false,
+            "inEndEdge": false,
+            "sampleTimestamps": [
+              21349
+            ]
+          },
+          "0x0132": {
+            "opcode": 306,
+            "count": 8,
+            "isRare": true,
+            "isPeriodic": false,
+            "deltaCv": null,
+            "burstRatio": 0.0,
+            "firstOffsetMs": 21349,
+            "lastOffsetMs": 21349,
+            "inStartEdge": false,
+            "inEndEdge": false,
+            "sampleTimestamps": [
+              21349,
+              21349,
+              21349,
+              21349,
+              21349,
+              21349
+            ]
+          },
+          "0x0146": {
+            "opcode": 326,
+            "count": 9,
+            "isRare": false,
+            "isPeriodic": false,
+            "deltaCv": 2.3842,
+            "burstRatio": 0.147,
+            "firstOffsetMs": 21349,
+            "lastOffsetMs": 26218,
+            "inStartEdge": false,
+            "inEndEdge": false,
+            "sampleTimestamps": [
+              21349,
+              21777,
+              21777,
+              21777,
+              21777,
+              21788
+            ]
+          },
+          "0x016d": {
+            "opcode": 365,
+            "count": 3,
+            "isRare": true,
+            "isPeriodic": false,
+            "deltaCv": 1.0,
+            "burstRatio": 0.147,
+            "firstOffsetMs": 21349,
+            "lastOffsetMs": 26218,
+            "inStartEdge": false,
+            "inEndEdge": false,
+            "sampleTimestamps": [
+              21349,
+              26218,
+              26218
+            ]
+          },
+          "0x017f": {
+            "opcode": 383,
+            "count": 2,
+            "isRare": true,
+            "isPeriodic": false,
+            "deltaCv": null,
+            "burstRatio": 0.0,
+            "firstOffsetMs": 21349,
+            "lastOffsetMs": 21349,
+            "inStartEdge": false,
+            "inEndEdge": false,
+            "sampleTimestamps": [
+              21349,
+              21349
+            ]
+          },
+          "0x014b": {
+            "opcode": 331,
+            "count": 6,
+            "isRare": true,
+            "isPeriodic": false,
+            "deltaCv": 0.6147,
+            "burstRatio": 0.0091,
+            "firstOffsetMs": 21465,
+            "lastOffsetMs": 21765,
+            "inStartEdge": false,
+            "inEndEdge": false,
+            "sampleTimestamps": [
+              21465,
+              21555,
+              21565,
+              21585,
+              21676,
+              21765
+            ]
+          },
+          "0x0147": {
+            "opcode": 327,
+            "count": 9,
+            "isRare": false,
+            "isPeriodic": false,
+            "deltaCv": 2.6383,
+            "burstRatio": 0.1341,
+            "firstOffsetMs": 21777,
+            "lastOffsetMs": 26218,
+            "inStartEdge": false,
+            "inEndEdge": false,
+            "sampleTimestamps": [
+              21777,
+              21777,
+              21777,
+              21777,
+              21788,
+              21788
+            ]
+          },
+          "0x0149": {
+            "opcode": 329,
+            "count": 4,
+            "isRare": true,
+            "isPeriodic": false,
+            "deltaCv": 1.4142,
+            "burstRatio": 0.0003,
+            "firstOffsetMs": 21777,
+            "lastOffsetMs": 21788,
+            "inStartEdge": false,
+            "inEndEdge": false,
+            "sampleTimestamps": [
+              21777,
+              21777,
+              21788,
+              21788
+            ]
+          },
+          "0x014a": {
+            "opcode": 330,
+            "count": 1,
+            "isRare": true,
+            "isPeriodic": false,
+            "deltaCv": null,
+            "burstRatio": 0.0,
+            "firstOffsetMs": 21777,
+            "lastOffsetMs": 21777,
+            "inStartEdge": false,
+            "inEndEdge": false,
+            "sampleTimestamps": [
+              21777
+            ]
+          },
+          "0x014e": {
+            "opcode": 334,
+            "count": 2,
+            "isRare": true,
+            "isPeriodic": false,
+            "deltaCv": null,
+            "burstRatio": 0.0,
+            "firstOffsetMs": 21788,
+            "lastOffsetMs": 21788,
+            "inStartEdge": false,
+            "inEndEdge": false,
+            "sampleTimestamps": [
+              21788,
+              21788
+            ]
+          },
+          "0x016e": {
+            "opcode": 366,
+            "count": 3,
+            "isRare": true,
+            "isPeriodic": false,
+            "deltaCv": 1.0,
+            "burstRatio": 0.1337,
+            "firstOffsetMs": 21788,
+            "lastOffsetMs": 26218,
+            "inStartEdge": false,
+            "inEndEdge": false,
+            "sampleTimestamps": [
+              21788,
+              26218,
+              26218
+            ]
+          },
+          "0x0194": {
+            "opcode": 404,
+            "count": 1,
+            "isRare": true,
+            "isPeriodic": false,
+            "deltaCv": null,
+            "burstRatio": 0.0,
+            "firstOffsetMs": 21788,
+            "lastOffsetMs": 21788,
+            "inStartEdge": false,
+            "inEndEdge": false,
+            "sampleTimestamps": [
+              21788
+            ]
+          },
+          "0x0196": {
+            "opcode": 406,
+            "count": 1,
+            "isRare": true,
+            "isPeriodic": false,
+            "deltaCv": null,
+            "burstRatio": 0.0,
+            "firstOffsetMs": 21788,
+            "lastOffsetMs": 21788,
+            "inStartEdge": false,
+            "inEndEdge": false,
+            "sampleTimestamps": [
+              21788
+            ]
+          },
+          "0x0198": {
+            "opcode": 408,
+            "count": 1,
+            "isRare": true,
+            "isPeriodic": false,
+            "deltaCv": null,
+            "burstRatio": 0.0,
+            "firstOffsetMs": 21788,
+            "lastOffsetMs": 21788,
+            "inStartEdge": false,
+            "inEndEdge": false,
+            "sampleTimestamps": [
+              21788
+            ]
+          },
+          "0x0199": {
+            "opcode": 409,
+            "count": 1,
+            "isRare": true,
+            "isPeriodic": false,
+            "deltaCv": null,
+            "burstRatio": 0.0,
+            "firstOffsetMs": 21788,
+            "lastOffsetMs": 21788,
+            "inStartEdge": false,
+            "inEndEdge": false,
+            "sampleTimestamps": [
+              21788
+            ]
+          },
+          "0x019a": {
+            "opcode": 410,
+            "count": 1,
+            "isRare": true,
+            "isPeriodic": false,
+            "deltaCv": null,
+            "burstRatio": 0.0,
+            "firstOffsetMs": 21788,
+            "lastOffsetMs": 21788,
+            "inStartEdge": false,
+            "inEndEdge": false,
+            "sampleTimestamps": [
+              21788
+            ]
+          },
+          "0x019b": {
+            "opcode": 411,
+            "count": 1,
+            "isRare": true,
+            "isPeriodic": false,
+            "deltaCv": null,
+            "burstRatio": 0.0,
+            "firstOffsetMs": 21788,
+            "lastOffsetMs": 21788,
+            "inStartEdge": false,
+            "inEndEdge": false,
+            "sampleTimestamps": [
+              21788
+            ]
+          },
+          "0x019c": {
+            "opcode": 412,
+            "count": 1,
+            "isRare": true,
+            "isPeriodic": false,
+            "deltaCv": null,
+            "burstRatio": 0.0,
+            "firstOffsetMs": 21788,
+            "lastOffsetMs": 21788,
+            "inStartEdge": false,
+            "inEndEdge": false,
+            "sampleTimestamps": [
+              21788
+            ]
+          },
+          "0x019d": {
+            "opcode": 413,
+            "count": 1,
+            "isRare": true,
+            "isPeriodic": false,
+            "deltaCv": null,
+            "burstRatio": 0.0,
+            "firstOffsetMs": 21788,
+            "lastOffsetMs": 21788,
+            "inStartEdge": false,
+            "inEndEdge": false,
+            "sampleTimestamps": [
+              21788
+            ]
+          },
+          "0x01a4": {
+            "opcode": 420,
+            "count": 1,
+            "isRare": true,
+            "isPeriodic": false,
+            "deltaCv": null,
+            "burstRatio": 0.0,
+            "firstOffsetMs": 21788,
+            "lastOffsetMs": 21788,
+            "inStartEdge": false,
+            "inEndEdge": false,
+            "sampleTimestamps": [
+              21788
+            ]
+          },
+          "0x012e": {
+            "opcode": 302,
+            "count": 4,
+            "isRare": true,
+            "isPeriodic": false,
+            "deltaCv": 1.4142,
+            "burstRatio": 0.0027,
+            "firstOffsetMs": 21886,
+            "lastOffsetMs": 21975,
+            "inStartEdge": false,
+            "inEndEdge": false,
+            "sampleTimestamps": [
+              21886,
+              21975,
+              21975,
+              21975
+            ]
+          },
+          "0x016f": {
+            "opcode": 367,
+            "count": 3,
+            "isRare": true,
+            "isPeriodic": false,
+            "deltaCv": 1.0,
+            "burstRatio": 0.003,
+            "firstOffsetMs": 21886,
+            "lastOffsetMs": 21987,
+            "inStartEdge": false,
+            "inEndEdge": false,
+            "sampleTimestamps": [
+              21886,
+              21886,
+              21987
+            ]
+          },
+          "0x0006": {
+            "opcode": 6,
+            "count": 1,
+            "isRare": true,
+            "isPeriodic": false,
+            "deltaCv": null,
+            "burstRatio": 0.0,
+            "firstOffsetMs": 21999,
+            "lastOffsetMs": 21999,
+            "inStartEdge": false,
+            "inEndEdge": false,
+            "sampleTimestamps": [
+              21999
+            ]
+          },
+          "0x0007": {
+            "opcode": 7,
+            "count": 1,
+            "isRare": true,
+            "isPeriodic": false,
+            "deltaCv": null,
+            "burstRatio": 0.0,
+            "firstOffsetMs": 21999,
+            "lastOffsetMs": 21999,
+            "inStartEdge": false,
+            "inEndEdge": false,
+            "sampleTimestamps": [
+              21999
+            ]
+          },
+          "0x0008": {
+            "opcode": 8,
+            "count": 2,
+            "isRare": true,
+            "isPeriodic": false,
+            "deltaCv": null,
+            "burstRatio": 0.0,
+            "firstOffsetMs": 21999,
+            "lastOffsetMs": 21999,
+            "inStartEdge": false,
+            "inEndEdge": false,
+            "sampleTimestamps": [
+              21999,
+              21999
+            ]
+          },
+          "0x0136": {
+            "opcode": 310,
+            "count": 7,
+            "isRare": true,
+            "isPeriodic": false,
+            "deltaCv": null,
+            "burstRatio": 0.0,
+            "firstOffsetMs": 21999,
+            "lastOffsetMs": 21999,
+            "inStartEdge": false,
+            "inEndEdge": false,
+            "sampleTimestamps": [
+              21999,
+              21999,
+              21999,
+              21999,
+              21999,
+              21999
+            ]
+          },
+          "0x0148": {
+            "opcode": 328,
+            "count": 1,
+            "isRare": true,
+            "isPeriodic": false,
+            "deltaCv": null,
+            "burstRatio": 0.0,
+            "firstOffsetMs": 26218,
+            "lastOffsetMs": 26218,
+            "inStartEdge": false,
+            "inEndEdge": false,
+            "sampleTimestamps": [
+              26218
+            ]
+          },
+          "0x0152": {
+            "opcode": 338,
+            "count": 1,
+            "isRare": true,
+            "isPeriodic": false,
+            "deltaCv": null,
+            "burstRatio": 0.0,
+            "firstOffsetMs": 26218,
+            "lastOffsetMs": 26218,
+            "inStartEdge": false,
+            "inEndEdge": false,
+            "sampleTimestamps": [
+              26218
+            ]
+          },
+          "0x0153": {
+            "opcode": 339,
+            "count": 1,
+            "isRare": true,
+            "isPeriodic": false,
+            "deltaCv": null,
+            "burstRatio": 0.0,
+            "firstOffsetMs": 26218,
+            "lastOffsetMs": 26218,
+            "inStartEdge": false,
+            "inEndEdge": false,
+            "sampleTimestamps": [
+              26218
+            ]
+          },
+          "0x0168": {
+            "opcode": 360,
+            "count": 2,
+            "isRare": true,
+            "isPeriodic": false,
+            "deltaCv": null,
+            "burstRatio": 0.0,
+            "firstOffsetMs": 26224,
+            "lastOffsetMs": 26224,
+            "inStartEdge": false,
+            "inEndEdge": false,
+            "sampleTimestamps": [
+              26224,
+              26224
+            ]
+          }
+        },
+        "tsStartMs": 1356917845657,
+        "tsEndMs": 1356917878780,
+        "durationMs": 33123
+      },
+      "c2s": {
+        "opcodes": {
+          "0x00ca": {
+            "opcode": 202,
+            "count": 136,
+            "isRare": false,
+            "isPeriodic": false,
+            "deltaCv": 2.6181,
+            "burstRatio": 1.0,
+            "firstOffsetMs": 0,
+            "lastOffsetMs": 33634,
+            "inStartEdge": true,
+            "inEndEdge": true,
+            "sampleTimestamps": [
+              0,
+              0,
+              365,
+              365,
+              698,
+              698
+            ]
+          },
+          "0x0001": {
+            "opcode": 1,
+            "count": 34,
+            "isRare": false,
+            "isPeriodic": true,
+            "deltaCv": 0.1141,
+            "burstRatio": 0.9792,
+            "firstOffsetMs": 698,
+            "lastOffsetMs": 33634,
+            "inStartEdge": true,
+            "inEndEdge": true,
+            "sampleTimestamps": [
+              698,
+              1699,
+              2760,
+              3851,
+              4550,
+              5614
+            ]
+          },
+          "0x012d": {
+            "opcode": 301,
+            "count": 1,
+            "isRare": true,
+            "isPeriodic": false,
+            "deltaCv": null,
+            "burstRatio": 0.0,
+            "firstOffsetMs": 4216,
+            "lastOffsetMs": 4216,
+            "inStartEdge": true,
+            "inEndEdge": false,
+            "sampleTimestamps": [
+              4216
+            ]
+          },
+          "0x012e": {
+            "opcode": 302,
+            "count": 3,
+            "isRare": true,
+            "isPeriodic": true,
+            "deltaCv": 0.1537,
+            "burstRatio": 0.1471,
+            "firstOffsetMs": 7774,
+            "lastOffsetMs": 12720,
+            "inStartEdge": false,
+            "inEndEdge": false,
+            "sampleTimestamps": [
+              7774,
+              9867,
+              12720
+            ]
+          },
+          "0x0133": {
+            "opcode": 307,
+            "count": 2,
+            "isRare": true,
+            "isPeriodic": false,
+            "deltaCv": null,
+            "burstRatio": 0.3552,
+            "firstOffsetMs": 10206,
+            "lastOffsetMs": 22153,
+            "inStartEdge": false,
+            "inEndEdge": false,
+            "sampleTimestamps": [
+              10206,
+              22153
+            ]
+          },
+          "0x0007": {
+            "opcode": 7,
+            "count": 1,
+            "isRare": true,
+            "isPeriodic": false,
+            "deltaCv": null,
+            "burstRatio": 0.0,
+            "firstOffsetMs": 25878,
+            "lastOffsetMs": 25878,
+            "inStartEdge": false,
+            "inEndEdge": false,
+            "sampleTimestamps": [
+              25878
+            ]
+          }
+        },
+        "tsStartMs": 1356917845498,
+        "tsEndMs": 1356917879132,
+        "durationMs": 33634
+      },
+      "s2cEventCount": 487,
+      "c2sEventCount": 177
+    }
+  },
+  "crossCaptureRareS2c": [
+    {
+      "opcode": 16,
+      "opcodeHex": "0x0010",
+      "capturesHit": 5,
+      "captures": [
+        "from_gridania_to_blackshroud.pcapng",
+        "gridania_to_coerthas.pcapng",
+        "teleport_to_camp_nine_ivies.pcapng",
+        "teleport_to_camp_tranquil.pcapng",
+        "teleport_to_gridania.pcapng"
+      ],
+      "totalCount": 7,
+      "avgBurstRatio": 0.1633,
+      "edgeHitsStart": 0,
+      "edgeHitsEnd": 0,
+      "edgeScore": 0
+    },
+    {
+      "opcode": 13,
+      "opcodeHex": "0x000d",
+      "capturesHit": 5,
+      "captures": [
+        "from_gridania_to_blackshroud.pcapng",
+        "gridania_to_coerthas.pcapng",
+        "teleport_to_camp_nine_ivies.pcapng",
+        "teleport_to_camp_tranquil.pcapng",
+        "teleport_to_gridania.pcapng"
+      ],
+      "totalCount": 7,
+      "avgBurstRatio": 0.1633,
+      "edgeHitsStart": 0,
+      "edgeHitsEnd": 0,
+      "edgeScore": 0
+    },
+    {
+      "opcode": 383,
+      "opcodeHex": "0x017f",
+      "capturesHit": 5,
+      "captures": [
+        "from_gridania_to_blackshroud.pcapng",
+        "gridania_to_coerthas.pcapng",
+        "teleport_to_camp_nine_ivies.pcapng",
+        "teleport_to_camp_tranquil.pcapng",
+        "teleport_to_gridania.pcapng"
+      ],
+      "totalCount": 14,
+      "avgBurstRatio": 0.1633,
+      "edgeHitsStart": 0,
+      "edgeHitsEnd": 0,
+      "edgeScore": 0
+    },
+    {
+      "opcode": 5,
+      "opcodeHex": "0x0005",
+      "capturesHit": 5,
+      "captures": [
+        "from_gridania_to_blackshroud.pcapng",
+        "gridania_to_coerthas.pcapng",
+        "teleport_to_camp_nine_ivies.pcapng",
+        "teleport_to_camp_tranquil.pcapng",
+        "teleport_to_gridania.pcapng"
+      ],
+      "totalCount": 7,
+      "avgBurstRatio": 0.1633,
+      "edgeHitsStart": 0,
+      "edgeHitsEnd": 0,
+      "edgeScore": 0
+    },
+    {
+      "opcode": 15,
+      "opcodeHex": "0x000f",
+      "capturesHit": 5,
+      "captures": [
+        "from_gridania_to_blackshroud.pcapng",
+        "gridania_to_coerthas.pcapng",
+        "teleport_to_camp_nine_ivies.pcapng",
+        "teleport_to_camp_tranquil.pcapng",
+        "teleport_to_gridania.pcapng"
+      ],
+      "totalCount": 7,
+      "avgBurstRatio": 0.1633,
+      "edgeHitsStart": 0,
+      "edgeHitsEnd": 0,
+      "edgeScore": 0
+    },
+    {
+      "opcode": 330,
+      "opcodeHex": "0x014a",
+      "capturesHit": 5,
+      "captures": [
+        "from_gridania_to_blackshroud.pcapng",
+        "gridania_to_coerthas.pcapng",
+        "teleport_to_camp_nine_ivies.pcapng",
+        "teleport_to_camp_tranquil.pcapng",
+        "teleport_to_gridania.pcapng"
+      ],
+      "totalCount": 7,
+      "avgBurstRatio": 0.1633,
+      "edgeHitsStart": 0,
+      "edgeHitsEnd": 0,
+      "edgeScore": 0
+    },
+    {
+      "opcode": 334,
+      "opcodeHex": "0x014e",
+      "capturesHit": 5,
+      "captures": [
+        "from_gridania_to_blackshroud.pcapng",
+        "gridania_to_coerthas.pcapng",
+        "teleport_to_camp_nine_ivies.pcapng",
+        "teleport_to_camp_tranquil.pcapng",
+        "teleport_to_gridania.pcapng"
+      ],
+      "totalCount": 14,
+      "avgBurstRatio": 0.1633,
+      "edgeHitsStart": 0,
+      "edgeHitsEnd": 0,
+      "edgeScore": 0
+    },
+    {
+      "opcode": 404,
+      "opcodeHex": "0x0194",
+      "capturesHit": 5,
+      "captures": [
+        "from_gridania_to_blackshroud.pcapng",
+        "gridania_to_coerthas.pcapng",
+        "teleport_to_camp_nine_ivies.pcapng",
+        "teleport_to_camp_tranquil.pcapng",
+        "teleport_to_gridania.pcapng"
+      ],
+      "totalCount": 7,
+      "avgBurstRatio": 0.1633,
+      "edgeHitsStart": 0,
+      "edgeHitsEnd": 0,
+      "edgeScore": 0
+    },
+    {
+      "opcode": 406,
+      "opcodeHex": "0x0196",
+      "capturesHit": 5,
+      "captures": [
+        "from_gridania_to_blackshroud.pcapng",
+        "gridania_to_coerthas.pcapng",
+        "teleport_to_camp_nine_ivies.pcapng",
+        "teleport_to_camp_tranquil.pcapng",
+        "teleport_to_gridania.pcapng"
+      ],
+      "totalCount": 7,
+      "avgBurstRatio": 0.1633,
+      "edgeHitsStart": 0,
+      "edgeHitsEnd": 0,
+      "edgeScore": 0
+    },
+    {
+      "opcode": 408,
+      "opcodeHex": "0x0198",
+      "capturesHit": 5,
+      "captures": [
+        "from_gridania_to_blackshroud.pcapng",
+        "gridania_to_coerthas.pcapng",
+        "teleport_to_camp_nine_ivies.pcapng",
+        "teleport_to_camp_tranquil.pcapng",
+        "teleport_to_gridania.pcapng"
+      ],
+      "totalCount": 7,
+      "avgBurstRatio": 0.1633,
+      "edgeHitsStart": 0,
+      "edgeHitsEnd": 0,
+      "edgeScore": 0
+    },
+    {
+      "opcode": 409,
+      "opcodeHex": "0x0199",
+      "capturesHit": 5,
+      "captures": [
+        "from_gridania_to_blackshroud.pcapng",
+        "gridania_to_coerthas.pcapng",
+        "teleport_to_camp_nine_ivies.pcapng",
+        "teleport_to_camp_tranquil.pcapng",
+        "teleport_to_gridania.pcapng"
+      ],
+      "totalCount": 7,
+      "avgBurstRatio": 0.1633,
+      "edgeHitsStart": 0,
+      "edgeHitsEnd": 0,
+      "edgeScore": 0
+    },
+    {
+      "opcode": 410,
+      "opcodeHex": "0x019a",
+      "capturesHit": 5,
+      "captures": [
+        "from_gridania_to_blackshroud.pcapng",
+        "gridania_to_coerthas.pcapng",
+        "teleport_to_camp_nine_ivies.pcapng",
+        "teleport_to_camp_tranquil.pcapng",
+        "teleport_to_gridania.pcapng"
+      ],
+      "totalCount": 7,
+      "avgBurstRatio": 0.1633,
+      "edgeHitsStart": 0,
+      "edgeHitsEnd": 0,
+      "edgeScore": 0
+    },
+    {
+      "opcode": 411,
+      "opcodeHex": "0x019b",
+      "capturesHit": 5,
+      "captures": [
+        "from_gridania_to_blackshroud.pcapng",
+        "gridania_to_coerthas.pcapng",
+        "teleport_to_camp_nine_ivies.pcapng",
+        "teleport_to_camp_tranquil.pcapng",
+        "teleport_to_gridania.pcapng"
+      ],
+      "totalCount": 7,
+      "avgBurstRatio": 0.1633,
+      "edgeHitsStart": 0,
+      "edgeHitsEnd": 0,
+      "edgeScore": 0
+    },
+    {
+      "opcode": 412,
+      "opcodeHex": "0x019c",
+      "capturesHit": 5,
+      "captures": [
+        "from_gridania_to_blackshroud.pcapng",
+        "gridania_to_coerthas.pcapng",
+        "teleport_to_camp_nine_ivies.pcapng",
+        "teleport_to_camp_tranquil.pcapng",
+        "teleport_to_gridania.pcapng"
+      ],
+      "totalCount": 7,
+      "avgBurstRatio": 0.1633,
+      "edgeHitsStart": 0,
+      "edgeHitsEnd": 0,
+      "edgeScore": 0
+    },
+    {
+      "opcode": 413,
+      "opcodeHex": "0x019d",
+      "capturesHit": 5,
+      "captures": [
+        "from_gridania_to_blackshroud.pcapng",
+        "gridania_to_coerthas.pcapng",
+        "teleport_to_camp_nine_ivies.pcapng",
+        "teleport_to_camp_tranquil.pcapng",
+        "teleport_to_gridania.pcapng"
+      ],
+      "totalCount": 7,
+      "avgBurstRatio": 0.1633,
+      "edgeHitsStart": 0,
+      "edgeHitsEnd": 0,
+      "edgeScore": 0
+    },
+    {
+      "opcode": 420,
+      "opcodeHex": "0x01a4",
+      "capturesHit": 5,
+      "captures": [
+        "from_gridania_to_blackshroud.pcapng",
+        "gridania_to_coerthas.pcapng",
+        "teleport_to_camp_nine_ivies.pcapng",
+        "teleport_to_camp_tranquil.pcapng",
+        "teleport_to_gridania.pcapng"
+      ],
+      "totalCount": 7,
+      "avgBurstRatio": 0.1633,
+      "edgeHitsStart": 0,
+      "edgeHitsEnd": 0,
+      "edgeScore": 0
+    },
+    {
+      "opcode": 6,
+      "opcodeHex": "0x0006",
+      "capturesHit": 5,
+      "captures": [
+        "from_gridania_to_blackshroud.pcapng",
+        "gridania_to_coerthas.pcapng",
+        "teleport_to_camp_nine_ivies.pcapng",
+        "teleport_to_camp_tranquil.pcapng",
+        "teleport_to_gridania.pcapng"
+      ],
+      "totalCount": 7,
+      "avgBurstRatio": 0.1633,
+      "edgeHitsStart": 0,
+      "edgeHitsEnd": 0,
+      "edgeScore": 0
+    },
+    {
+      "opcode": 7,
+      "opcodeHex": "0x0007",
+      "capturesHit": 5,
+      "captures": [
+        "from_gridania_to_blackshroud.pcapng",
+        "gridania_to_coerthas.pcapng",
+        "teleport_to_camp_nine_ivies.pcapng",
+        "teleport_to_camp_tranquil.pcapng",
+        "teleport_to_gridania.pcapng"
+      ],
+      "totalCount": 7,
+      "avgBurstRatio": 0.1633,
+      "edgeHitsStart": 0,
+      "edgeHitsEnd": 0,
+      "edgeScore": 0
+    },
+    {
+      "opcode": 8,
+      "opcodeHex": "0x0008",
+      "capturesHit": 5,
+      "captures": [
+        "from_gridania_to_blackshroud.pcapng",
+        "gridania_to_coerthas.pcapng",
+        "teleport_to_camp_nine_ivies.pcapng",
+        "teleport_to_camp_tranquil.pcapng",
+        "teleport_to_gridania.pcapng"
+      ],
+      "totalCount": 10,
+      "avgBurstRatio": 0.1633,
+      "edgeHitsStart": 0,
+      "edgeHitsEnd": 0,
+      "edgeScore": 0
+    },
+    {
+      "opcode": 391,
+      "opcodeHex": "0x0187",
+      "capturesHit": 5,
+      "captures": [
+        "from_gridania_to_blackshroud.pcapng",
+        "gridania_to_coerthas.pcapng",
+        "teleport_to_camp_nine_ivies.pcapng",
+        "teleport_to_camp_tranquil.pcapng",
+        "teleport_to_gridania.pcapng"
+      ],
+      "totalCount": 13,
+      "avgBurstRatio": 0.1686,
+      "edgeHitsStart": 0,
+      "edgeHitsEnd": 0,
+      "edgeScore": 0
+    },
+    {
+      "opcode": 366,
+      "opcodeHex": "0x016e",
+      "capturesHit": 5,
+      "captures": [
+        "from_gridania_to_blackshroud.pcapng",
+        "gridania_to_coerthas.pcapng",
+        "teleport_to_camp_nine_ivies.pcapng",
+        "teleport_to_camp_tranquil.pcapng",
+        "teleport_to_gridania.pcapng"
+      ],
+      "totalCount": 12,
+      "avgBurstRatio": 0.3579,
+      "edgeHitsStart": 1,
+      "edgeHitsEnd": 0,
+      "edgeScore": 1
+    },
+    {
+      "opcode": 365,
+      "opcodeHex": "0x016d",
+      "capturesHit": 5,
+      "captures": [
+        "from_gridania_to_blackshroud.pcapng",
+        "gridania_to_coerthas.pcapng",
+        "teleport_to_camp_nine_ivies.pcapng",
+        "teleport_to_camp_tranquil.pcapng",
+        "teleport_to_gridania.pcapng"
+      ],
+      "totalCount": 12,
+      "avgBurstRatio": 0.3595,
+      "edgeHitsStart": 1,
+      "edgeHitsEnd": 0,
+      "edgeScore": 1
+    },
+    {
+      "opcode": 226,
+      "opcodeHex": "0x00e2",
+      "capturesHit": 4,
+      "captures": [
+        "gridania_to_coerthas.pcapng",
+        "teleport_to_camp_nine_ivies.pcapng",
+        "teleport_to_camp_tranquil.pcapng",
+        "teleport_to_gridania.pcapng"
+      ],
+      "totalCount": 4,
+      "avgBurstRatio": 0.0,
+      "edgeHitsStart": 0,
+      "edgeHitsEnd": 0,
+      "edgeScore": 0
+    },
+    {
+      "opcode": 403,
+      "opcodeHex": "0x0193",
+      "capturesHit": 4,
+      "captures": [
+        "gridania_to_coerthas.pcapng",
+        "teleport_to_camp_nine_ivies.pcapng",
+        "teleport_to_camp_tranquil.pcapng",
+        "teleport_to_gridania.pcapng"
+      ],
+      "totalCount": 4,
+      "avgBurstRatio": 0.0,
+      "edgeHitsStart": 0,
+      "edgeHitsEnd": 0,
+      "edgeScore": 0
+    },
+    {
+      "opcode": 306,
+      "opcodeHex": "0x0132",
+      "capturesHit": 4,
+      "captures": [
+        "from_gridania_to_blackshroud.pcapng",
+        "teleport_to_camp_nine_ivies.pcapng",
+        "teleport_to_camp_tranquil.pcapng",
+        "teleport_to_gridania.pcapng"
+      ],
+      "totalCount": 32,
+      "avgBurstRatio": 0.0,
+      "edgeHitsStart": 0,
+      "edgeHitsEnd": 0,
+      "edgeScore": 0
+    },
+    {
+      "opcode": 329,
+      "opcodeHex": "0x0149",
+      "capturesHit": 4,
+      "captures": [
+        "from_gridania_to_blackshroud.pcapng",
+        "teleport_to_camp_nine_ivies.pcapng",
+        "teleport_to_camp_tranquil.pcapng",
+        "teleport_to_gridania.pcapng"
+      ],
+      "totalCount": 13,
+      "avgBurstRatio": 0.0011,
+      "edgeHitsStart": 0,
+      "edgeHitsEnd": 0,
+      "edgeScore": 0
+    },
+    {
+      "opcode": 331,
+      "opcodeHex": "0x014b",
+      "capturesHit": 4,
+      "captures": [
+        "from_gridania_to_blackshroud.pcapng",
+        "teleport_to_camp_nine_ivies.pcapng",
+        "teleport_to_camp_tranquil.pcapng",
+        "teleport_to_gridania.pcapng"
+      ],
+      "totalCount": 24,
+      "avgBurstRatio": 0.006,
+      "edgeHitsStart": 0,
+      "edgeHitsEnd": 0,
+      "edgeScore": 0
+    },
+    {
+      "opcode": 380,
+      "opcodeHex": "0x017c",
+      "capturesHit": 4,
+      "captures": [
+        "from_gridania_to_blackshroud.pcapng",
+        "teleport_to_camp_nine_ivies.pcapng",
+        "teleport_to_camp_tranquil.pcapng",
+        "teleport_to_gridania.pcapng"
+      ],
+      "totalCount": 13,
+      "avgBurstRatio": 0.0953,
+      "edgeHitsStart": 0,
+      "edgeHitsEnd": 0,
+      "edgeScore": 0
+    },
+    {
+      "opcode": 381,
+      "opcodeHex": "0x017d",
+      "capturesHit": 4,
+      "captures": [
+        "from_gridania_to_blackshroud.pcapng",
+        "teleport_to_camp_nine_ivies.pcapng",
+        "teleport_to_camp_tranquil.pcapng",
+        "teleport_to_gridania.pcapng"
+      ],
+      "totalCount": 13,
+      "avgBurstRatio": 0.0953,
+      "edgeHitsStart": 0,
+      "edgeHitsEnd": 0,
+      "edgeScore": 0
+    },
+    {
+      "opcode": 382,
+      "opcodeHex": "0x017e",
+      "capturesHit": 4,
+      "captures": [
+        "from_gridania_to_blackshroud.pcapng",
+        "teleport_to_camp_nine_ivies.pcapng",
+        "teleport_to_camp_tranquil.pcapng",
+        "teleport_to_gridania.pcapng"
+      ],
+      "totalCount": 13,
+      "avgBurstRatio": 0.0953,
+      "edgeHitsStart": 0,
+      "edgeHitsEnd": 0,
+      "edgeScore": 0
+    },
+    {
+      "opcode": 378,
+      "opcodeHex": "0x017a",
+      "capturesHit": 4,
+      "captures": [
+        "from_gridania_to_blackshroud.pcapng",
+        "teleport_to_camp_nine_ivies.pcapng",
+        "teleport_to_camp_tranquil.pcapng",
+        "teleport_to_gridania.pcapng"
+      ],
+      "totalCount": 9,
+      "avgBurstRatio": 0.1164,
+      "edgeHitsStart": 0,
+      "edgeHitsEnd": 0,
+      "edgeScore": 0
+    },
+    {
+      "opcode": 367,
+      "opcodeHex": "0x016f",
+      "capturesHit": 4,
+      "captures": [
+        "from_gridania_to_blackshroud.pcapng",
+        "teleport_to_camp_nine_ivies.pcapng",
+        "teleport_to_camp_tranquil.pcapng",
+        "teleport_to_gridania.pcapng"
+      ],
+      "totalCount": 19,
+      "avgBurstRatio": 0.1774,
+      "edgeHitsStart": 0,
+      "edgeHitsEnd": 0,
+      "edgeScore": 0
+    },
+    {
+      "opcode": 305,
+      "opcodeHex": "0x0131",
+      "capturesHit": 4,
+      "captures": [
+        "gridania_to_coerthas.pcapng",
+        "teleport_to_camp_nine_ivies.pcapng",
+        "teleport_to_camp_tranquil.pcapng",
+        "teleport_to_gridania.pcapng"
+      ],
+      "totalCount": 5,
+      "avgBurstRatio": 0.1981,
+      "edgeHitsStart": 0,
+      "edgeHitsEnd": 0,
+      "edgeScore": 0
+    },
+    {
+      "opcode": 12,
+      "opcodeHex": "0x000c",
+      "capturesHit": 4,
+      "captures": [
+        "from_gridania_to_blackshroud.pcapng",
+        "gridania_to_coerthas.pcapng",
+        "teleport_to_camp_nine_ivies.pcapng",
+        "teleport_to_gridania.pcapng"
+      ],
+      "totalCount": 6,
+      "avgBurstRatio": 0.2108,
+      "edgeHitsStart": 0,
+      "edgeHitsEnd": 1,
+      "edgeScore": 1
+    },
+    {
+      "opcode": 361,
+      "opcodeHex": "0x0169",
+      "capturesHit": 3,
+      "captures": [
+        "teleport_to_camp_nine_ivies.pcapng",
+        "teleport_to_camp_tranquil.pcapng",
+        "teleport_to_gridania.pcapng"
+      ],
+      "totalCount": 3,
+      "avgBurstRatio": 0.0,
+      "edgeHitsStart": 0,
+      "edgeHitsEnd": 0,
+      "edgeScore": 0
+    },
+    {
+      "opcode": 387,
+      "opcodeHex": "0x0183",
+      "capturesHit": 3,
+      "captures": [
+        "teleport_to_camp_nine_ivies.pcapng",
+        "teleport_to_camp_tranquil.pcapng",
+        "teleport_to_gridania.pcapng"
+      ],
+      "totalCount": 5,
+      "avgBurstRatio": 0.0001,
+      "edgeHitsStart": 0,
+      "edgeHitsEnd": 0,
+      "edgeScore": 0
+    },
+    {
+      "opcode": 327,
+      "opcodeHex": "0x0147",
+      "capturesHit": 3,
+      "captures": [
+        "from_gridania_to_blackshroud.pcapng",
+        "teleport_to_camp_nine_ivies.pcapng",
+        "teleport_to_camp_tranquil.pcapng"
+      ],
+      "totalCount": 21,
+      "avgBurstRatio": 0.0014,
+      "edgeHitsStart": 0,
+      "edgeHitsEnd": 0,
+      "edgeScore": 0
+    },
+    {
+      "opcode": 326,
+      "opcodeHex": "0x0146",
+      "capturesHit": 3,
+      "captures": [
+        "from_gridania_to_blackshroud.pcapng",
+        "teleport_to_camp_nine_ivies.pcapng",
+        "teleport_to_camp_tranquil.pcapng"
+      ],
+      "totalCount": 21,
+      "avgBurstRatio": 0.0086,
+      "edgeHitsStart": 0,
+      "edgeHitsEnd": 0,
+      "edgeScore": 0
+    },
+    {
+      "opcode": 218,
+      "opcodeHex": "0x00da",
+      "capturesHit": 3,
+      "captures": [
+        "teleport_to_camp_nine_ivies.pcapng",
+        "teleport_to_camp_tranquil.pcapng",
+        "teleport_to_gridania.pcapng"
+      ],
+      "totalCount": 6,
+      "avgBurstRatio": 0.0754,
+      "edgeHitsStart": 0,
+      "edgeHitsEnd": 0,
+      "edgeScore": 0
+    },
+    {
+      "opcode": 358,
+      "opcodeHex": "0x0166",
+      "capturesHit": 3,
+      "captures": [
+        "teleport_to_camp_nine_ivies.pcapng",
+        "teleport_to_camp_tranquil.pcapng",
+        "teleport_to_gridania.pcapng"
+      ],
+      "totalCount": 5,
+      "avgBurstRatio": 0.111,
+      "edgeHitsStart": 0,
+      "edgeHitsEnd": 0,
+      "edgeScore": 0
+    },
+    {
+      "opcode": 304,
+      "opcodeHex": "0x0130",
+      "capturesHit": 3,
+      "captures": [
+        "teleport_to_camp_nine_ivies.pcapng",
+        "teleport_to_camp_tranquil.pcapng",
+        "teleport_to_gridania.pcapng"
+      ],
+      "totalCount": 11,
+      "avgBurstRatio": 0.3019,
+      "edgeHitsStart": 2,
+      "edgeHitsEnd": 0,
+      "edgeScore": 2
+    },
+    {
+      "opcode": 310,
+      "opcodeHex": "0x0136",
+      "capturesHit": 2,
+      "captures": [
+        "teleport_to_camp_nine_ivies.pcapng",
+        "teleport_to_gridania.pcapng"
+      ],
+      "totalCount": 15,
+      "avgBurstRatio": 0.0,
+      "edgeHitsStart": 0,
+      "edgeHitsEnd": 0,
+      "edgeScore": 0
+    },
+    {
+      "opcode": 302,
+      "opcodeHex": "0x012e",
+      "capturesHit": 2,
+      "captures": [
+        "teleport_to_camp_nine_ivies.pcapng",
+        "teleport_to_gridania.pcapng"
+      ],
+      "totalCount": 9,
+      "avgBurstRatio": 0.0034,
+      "edgeHitsStart": 0,
+      "edgeHitsEnd": 0,
+      "edgeScore": 0
+    },
+    {
+      "opcode": 217,
+      "opcodeHex": "0x00d9",
+      "capturesHit": 1,
+      "captures": [
+        "gridania_to_coerthas.pcapng"
+      ],
+      "totalCount": 2,
+      "avgBurstRatio": 0.0,
+      "edgeHitsStart": 1,
+      "edgeHitsEnd": 0,
+      "edgeScore": 1
+    },
+    {
+      "opcode": 216,
+      "opcodeHex": "0x00d8",
+      "capturesHit": 1,
+      "captures": [
+        "gridania_to_coerthas.pcapng"
+      ],
+      "totalCount": 1,
+      "avgBurstRatio": 0.0,
+      "edgeHitsStart": 0,
+      "edgeHitsEnd": 0,
+      "edgeScore": 0
+    },
+    {
+      "opcode": 9,
+      "opcodeHex": "0x0009",
+      "capturesHit": 1,
+      "captures": [
+        "teleport_to_camp_tranquil.pcapng"
+      ],
+      "totalCount": 1,
+      "avgBurstRatio": 0.0,
+      "edgeHitsStart": 0,
+      "edgeHitsEnd": 0,
+      "edgeScore": 0
+    },
+    {
+      "opcode": 328,
+      "opcodeHex": "0x0148",
+      "capturesHit": 1,
+      "captures": [
+        "teleport_to_gridania.pcapng"
+      ],
+      "totalCount": 1,
+      "avgBurstRatio": 0.0,
+      "edgeHitsStart": 0,
+      "edgeHitsEnd": 0,
+      "edgeScore": 0
+    },
+    {
+      "opcode": 338,
+      "opcodeHex": "0x0152",
+      "capturesHit": 1,
+      "captures": [
+        "teleport_to_gridania.pcapng"
+      ],
+      "totalCount": 1,
+      "avgBurstRatio": 0.0,
+      "edgeHitsStart": 0,
+      "edgeHitsEnd": 0,
+      "edgeScore": 0
+    },
+    {
+      "opcode": 339,
+      "opcodeHex": "0x0153",
+      "capturesHit": 1,
+      "captures": [
+        "teleport_to_gridania.pcapng"
+      ],
+      "totalCount": 1,
+      "avgBurstRatio": 0.0,
+      "edgeHitsStart": 0,
+      "edgeHitsEnd": 0,
+      "edgeScore": 0
+    },
+    {
+      "opcode": 360,
+      "opcodeHex": "0x0168",
+      "capturesHit": 1,
+      "captures": [
+        "teleport_to_gridania.pcapng"
+      ],
+      "totalCount": 2,
+      "avgBurstRatio": 0.0,
+      "edgeHitsStart": 0,
+      "edgeHitsEnd": 0,
+      "edgeScore": 0
+    },
+    {
+      "opcode": 214,
+      "opcodeHex": "0x00d6",
+      "capturesHit": 1,
+      "captures": [
+        "teleport_to_gridania.pcapng"
+      ],
+      "totalCount": 8,
+      "avgBurstRatio": 0.3644,
+      "edgeHitsStart": 0,
+      "edgeHitsEnd": 0,
+      "edgeScore": 0
+    },
+    {
+      "opcode": 407,
+      "opcodeHex": "0x0197",
+      "capturesHit": 1,
+      "captures": [
+        "gridania_to_coerthas.pcapng"
+      ],
+      "totalCount": 3,
+      "avgBurstRatio": 0.7993,
+      "edgeHitsStart": 0,
+      "edgeHitsEnd": 0,
+      "edgeScore": 0
+    },
+    {
+      "opcode": 313,
+      "opcodeHex": "0x0139",
+      "capturesHit": 1,
+      "captures": [
+        "gridania_to_coerthas.pcapng"
+      ],
+      "totalCount": 2,
+      "avgBurstRatio": 0.8259,
+      "edgeHitsStart": 0,
+      "edgeHitsEnd": 1,
+      "edgeScore": 1
+    },
+    {
+      "opcode": 316,
+      "opcodeHex": "0x013c",
+      "capturesHit": 1,
+      "captures": [
+        "gridania_to_coerthas.pcapng"
+      ],
+      "totalCount": 4,
+      "avgBurstRatio": 0.8259,
+      "edgeHitsStart": 0,
+      "edgeHitsEnd": 1,
+      "edgeScore": 1
+    },
+    {
+      "opcode": 343,
+      "opcodeHex": "0x0157",
+      "capturesHit": 1,
+      "captures": [
+        "gridania_to_coerthas.pcapng"
+      ],
+      "totalCount": 2,
+      "avgBurstRatio": 0.8259,
+      "edgeHitsStart": 0,
+      "edgeHitsEnd": 1,
+      "edgeScore": 1
+    }
+  ]
+}

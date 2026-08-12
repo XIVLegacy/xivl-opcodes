@@ -1,0 +1,7098 @@
+{
+  "syncCandidates": [
+    {
+      "bcsyId": "BCS-Y-0017",
+      "name": "ServiceLoginOperation::vtable[1]",
+      "kind": "function",
+      "opcodeBindings": [
+        {
+          "direction": "c2s",
+          "opcodeHex": "0x0003"
+        }
+      ]
+    },
+    {
+      "bcsyId": "BCS-Y-0018",
+      "name": "CharaMakeOperation::vtable[1]",
+      "kind": "function",
+      "opcodeBindings": [
+        {
+          "direction": "c2s",
+          "opcodeHex": "0x000b"
+        },
+        {
+          "direction": "c2s",
+          "opcodeHex": "0x000f"
+        }
+      ]
+    },
+    {
+      "bcsyId": "BCS-Y-0026",
+      "name": "CharaMakeOperation::vtable",
+      "kind": "vtable",
+      "opcodeBindings": [
+        {
+          "direction": "c2s",
+          "opcodeHex": "0x000b"
+        },
+        {
+          "direction": "c2s",
+          "opcodeHex": "0x000f"
+        }
+      ]
+    },
+    {
+      "bcsyId": "BCS-Y-0027",
+      "name": "CharaMakeOperation::scalar_deleting_destructor_FUN_00DA8650",
+      "kind": "function",
+      "opcodeBindings": [
+        {
+          "direction": "c2s",
+          "opcodeHex": "0x000b"
+        },
+        {
+          "direction": "c2s",
+          "opcodeHex": "0x000f"
+        }
+      ]
+    },
+    {
+      "bcsyId": "BCS-Y-0028",
+      "name": "Application::Lua::Script::Client::Command::Network::KickClientOrderEventReceiver",
+      "kind": "rtti",
+      "opcodeBindings": [
+        {
+          "direction": "s2c",
+          "opcodeHex": "0x012f"
+        }
+      ]
+    },
+    {
+      "bcsyId": "BCS-Y-0029",
+      "name": "KickClientOrderEventReceiver::slot1_FUN_0089F530",
+      "kind": "function",
+      "opcodeBindings": [
+        {
+          "direction": "s2c",
+          "opcodeHex": "0x012f"
+        }
+      ]
+    },
+    {
+      "bcsyId": "BCS-Y-0030",
+      "name": "Application::Lua::Script::Client::Command::Network::StartServerOrderEventFunctionReceiver",
+      "kind": "rtti",
+      "opcodeBindings": [
+        {
+          "direction": "s2c",
+          "opcodeHex": "0x0130"
+        }
+      ]
+    },
+    {
+      "bcsyId": "BCS-Y-0031",
+      "name": "StartServerOrderEventFunctionReceiver::slot1_FUN_0089F430",
+      "kind": "function",
+      "opcodeBindings": [
+        {
+          "direction": "s2c",
+          "opcodeHex": "0x0130"
+        }
+      ]
+    },
+    {
+      "bcsyId": "BCS-Y-0032",
+      "name": "Application::Lua::Script::Client::Command::Network::EndClientOrderEventReceiver",
+      "kind": "rtti",
+      "opcodeBindings": [
+        {
+          "direction": "s2c",
+          "opcodeHex": "0x0131"
+        }
+      ]
+    },
+    {
+      "bcsyId": "BCS-Y-0033",
+      "name": "EndClientOrderEventReceiver::slot1_FUN_0089D180",
+      "kind": "function",
+      "opcodeBindings": [
+        {
+          "direction": "s2c",
+          "opcodeHex": "0x0131"
+        }
+      ]
+    },
+    {
+      "bcsyId": "BCS-Y-0034",
+      "name": "Application::Lua::Script::Client::Command::Network::AchievementPointReceiver",
+      "kind": "rtti",
+      "opcodeBindings": [
+        {
+          "direction": "s2c",
+          "opcodeHex": "0x019c"
+        }
+      ]
+    },
+    {
+      "bcsyId": "BCS-Y-0035",
+      "name": "AchievementPointReceiver::apply_FUN_0089C510",
+      "kind": "function",
+      "opcodeBindings": [
+        {
+          "direction": "s2c",
+          "opcodeHex": "0x019c"
+        }
+      ]
+    },
+    {
+      "bcsyId": "BCS-Y-0036",
+      "name": "Application::Lua::Script::Client::Command::Network::AchievementTitleReceiver",
+      "kind": "rtti",
+      "opcodeBindings": [
+        {
+          "direction": "s2c",
+          "opcodeHex": "0x019d"
+        }
+      ]
+    },
+    {
+      "bcsyId": "BCS-Y-0037",
+      "name": "AchievementTitleReceiver::apply_FUN_0089C5F0",
+      "kind": "function",
+      "opcodeBindings": [
+        {
+          "direction": "s2c",
+          "opcodeHex": "0x019d"
+        }
+      ]
+    },
+    {
+      "bcsyId": "BCS-Y-0038",
+      "name": "Application::Lua::Script::Client::Command::Network::AchievementIdReceiver",
+      "kind": "rtti",
+      "opcodeBindings": [
+        {
+          "direction": "s2c",
+          "opcodeHex": "0x019e"
+        }
+      ]
+    },
+    {
+      "bcsyId": "BCS-Y-0039",
+      "name": "AchievementIdReceiver::slot1_FUN_0089C6D0",
+      "kind": "function",
+      "opcodeBindings": [
+        {
+          "direction": "s2c",
+          "opcodeHex": "0x019e"
+        }
+      ]
+    },
+    {
+      "bcsyId": "BCS-Y-0040",
+      "name": "Application::Lua::Script::Client::Command::Network::AchievementAchievedCountReceiver",
+      "kind": "rtti",
+      "opcodeBindings": [
+        {
+          "direction": "s2c",
+          "opcodeHex": "0x019f"
+        }
+      ]
+    },
+    {
+      "bcsyId": "BCS-Y-0041",
+      "name": "AchievementAchievedCountReceiver::slot1_FUN_0089C7C0",
+      "kind": "function",
+      "opcodeBindings": [
+        {
+          "direction": "s2c",
+          "opcodeHex": "0x019f"
+        }
+      ]
+    },
+    {
+      "bcsyId": "BCS-Y-0042",
+      "name": "Application::Lua::Script::Client::Command::Network::HateStatusReceiver",
+      "kind": "rtti",
+      "opcodeBindings": [
+        {
+          "direction": "s2c",
+          "opcodeHex": "0x0195"
+        }
+      ]
+    },
+    {
+      "bcsyId": "BCS-Y-0043",
+      "name": "HateStatusReceiver::apply_FUN_0089D030",
+      "kind": "function",
+      "opcodeBindings": [
+        {
+          "direction": "s2c",
+          "opcodeHex": "0x0195"
+        }
+      ]
+    },
+    {
+      "bcsyId": "BCS-Y-0044",
+      "name": "Application::Lua::Script::Client::Command::Network::ChangeActorExtraStatReceiver",
+      "kind": "rtti",
+      "opcodeBindings": [
+        {
+          "direction": "s2c",
+          "opcodeHex": "0x0145"
+        }
+      ]
+    },
+    {
+      "bcsyId": "BCS-Y-0045",
+      "name": "ChangeActorExtraStatReceiver::slot1_FUN_0089C990",
+      "kind": "function",
+      "opcodeBindings": [
+        {
+          "direction": "s2c",
+          "opcodeHex": "0x0145"
+        }
+      ]
+    },
+    {
+      "bcsyId": "BCS-Y-0046",
+      "name": "Application::Lua::Script::Client::Command::Network::JobChangeReceiver",
+      "kind": "rtti",
+      "opcodeBindings": [
+        {
+          "direction": "s2c",
+          "opcodeHex": "0x01a4"
+        }
+      ]
+    },
+    {
+      "bcsyId": "BCS-Y-0047",
+      "name": "JobChangeReceiver::slot1_FUN_0089CB60",
+      "kind": "function",
+      "opcodeBindings": [
+        {
+          "direction": "s2c",
+          "opcodeHex": "0x01a4"
+        }
+      ]
+    },
+    {
+      "bcsyId": "BCS-Y-0048",
+      "name": "Application::Lua::Script::Client::Command::Network::SetTargetTimeReceiver",
+      "kind": "rtti",
+      "opcodeBindings": [
+        {
+          "direction": "s2c",
+          "opcodeHex": "0x00d3"
+        }
+      ]
+    },
+    {
+      "bcsyId": "BCS-Y-0049",
+      "name": "SetTargetTimeReceiver::slot1_FUN_008A04B0",
+      "kind": "function",
+      "opcodeBindings": [
+        {
+          "direction": "s2c",
+          "opcodeHex": "0x00d3"
+        }
+      ]
+    },
+    {
+      "bcsyId": "BCS-Y-0050",
+      "name": "Application::Lua::Script::Client::Command::System::ChangeActorSubStatStatusReceiver",
+      "kind": "rtti",
+      "opcodeBindings": [
+        {
+          "direction": "s2c",
+          "opcodeHex": "0x0179"
+        }
+      ]
+    },
+    {
+      "bcsyId": "BCS-Y-0051",
+      "name": "ChangeActorSubStatStatusReceiver::slot1_FUN_008A34D0",
+      "kind": "function",
+      "opcodeBindings": [
+        {
+          "direction": "s2c",
+          "opcodeHex": "0x0179"
+        }
+      ]
+    },
+    {
+      "bcsyId": "BCS-Y-0082",
+      "name": "AchievementTitleReceiver::ctor_FUN_0089C540",
+      "kind": "function",
+      "opcodeBindings": [
+        {
+          "direction": "s2c",
+          "opcodeHex": "0x019d"
+        }
+      ]
+    },
+    {
+      "bcsyId": "BCS-Y-0083",
+      "name": "AchievementTitleReceiver::dtor_FUN_0089C5A0",
+      "kind": "function",
+      "opcodeBindings": [
+        {
+          "direction": "s2c",
+          "opcodeHex": "0x019d"
+        }
+      ]
+    },
+    {
+      "bcsyId": "BCS-Y-0085",
+      "name": "AchievementPointReceiver::ctor_FUN_0089C460",
+      "kind": "function",
+      "opcodeBindings": [
+        {
+          "direction": "s2c",
+          "opcodeHex": "0x019c"
+        }
+      ]
+    },
+    {
+      "bcsyId": "BCS-Y-0086",
+      "name": "AchievementPointReceiver::dtor_FUN_0089C4C0",
+      "kind": "function",
+      "opcodeBindings": [
+        {
+          "direction": "s2c",
+          "opcodeHex": "0x019c"
+        }
+      ]
+    },
+    {
+      "bcsyId": "BCS-Y-0088",
+      "name": "HateStatusReceiver::ctor_FUN_0089CF60",
+      "kind": "function",
+      "opcodeBindings": [
+        {
+          "direction": "s2c",
+          "opcodeHex": "0x0195"
+        }
+      ]
+    },
+    {
+      "bcsyId": "BCS-Y-0089",
+      "name": "HateStatusReceiver::dtor_FUN_0089CFD0",
+      "kind": "function",
+      "opcodeBindings": [
+        {
+          "direction": "s2c",
+          "opcodeHex": "0x0195"
+        }
+      ]
+    },
+    {
+      "bcsyId": "BCS-Y-0093",
+      "name": "AchievementTitleReceiver::deleting_dtor_FUN_008A0BD0",
+      "kind": "function",
+      "opcodeBindings": [
+        {
+          "direction": "s2c",
+          "opcodeHex": "0x019d"
+        }
+      ]
+    },
+    {
+      "bcsyId": "BCS-Y-0098",
+      "name": "JobChangeReceiver::ctor_FUN_0089CAB0",
+      "kind": "function",
+      "opcodeBindings": [
+        {
+          "direction": "s2c",
+          "opcodeHex": "0x01a4"
+        }
+      ]
+    },
+    {
+      "bcsyId": "BCS-Y-0099",
+      "name": "JobChangeReceiver::nondelete_dtor_FUN_0089CB10",
+      "kind": "function",
+      "opcodeBindings": [
+        {
+          "direction": "s2c",
+          "opcodeHex": "0x01a4"
+        }
+      ]
+    },
+    {
+      "bcsyId": "BCS-Y-0100",
+      "name": "JobChangeReceiver::apply_FUN_0089CB60",
+      "kind": "function",
+      "opcodeBindings": [
+        {
+          "direction": "s2c",
+          "opcodeHex": "0x01a4"
+        }
+      ]
+    },
+    {
+      "bcsyId": "BCS-Y-0101",
+      "name": "JobChangeReceiver::deleting_dtor_FUN_008A0E70",
+      "kind": "function",
+      "opcodeBindings": [
+        {
+          "direction": "s2c",
+          "opcodeHex": "0x01a4"
+        }
+      ]
+    },
+    {
+      "bcsyId": "BCS-Y-0103",
+      "name": "PlayerBase::setJob_FUN_00706DC0",
+      "kind": "function",
+      "opcodeBindings": [
+        {
+          "direction": "s2c",
+          "opcodeHex": "0x01a4"
+        }
+      ]
+    },
+    {
+      "bcsyId": "BCS-Y-0108",
+      "name": "AddictionLimitMessageUIHandler_FUN_00704230",
+      "kind": "function",
+      "opcodeBindings": [
+        {
+          "direction": "s2c",
+          "opcodeHex": "0x0192"
+        }
+      ]
+    },
+    {
+      "bcsyId": "BCS-Y-0109",
+      "name": "AddictLoginTimeKindReceiver::ApplyWrapper_FUN_0075A0E0",
+      "kind": "function",
+      "opcodeBindings": [
+        {
+          "direction": "s2c",
+          "opcodeHex": "0x0192"
+        }
+      ]
+    },
+    {
+      "bcsyId": "BCS-Y-0110",
+      "name": "AddictLoginTimeKindReceiver::ctor_FUN_0089C800",
+      "kind": "function",
+      "opcodeBindings": [
+        {
+          "direction": "s2c",
+          "opcodeHex": "0x0192"
+        }
+      ]
+    },
+    {
+      "bcsyId": "BCS-Y-0111",
+      "name": "AddictLoginTimeKindReceiver::Receive_FUN_0089C8B0",
+      "kind": "function",
+      "opcodeBindings": [
+        {
+          "direction": "s2c",
+          "opcodeHex": "0x0192"
+        }
+      ]
+    },
+    {
+      "bcsyId": "BCS-Y-0115",
+      "name": "SetTargetTimeReceiver::ctor_FUN_0089DFA0",
+      "kind": "function",
+      "opcodeBindings": [
+        {
+          "direction": "s2c",
+          "opcodeHex": "0x00d3"
+        }
+      ]
+    },
+    {
+      "bcsyId": "BCS-Y-0116",
+      "name": "SetTargetTimeReceiver::apply_FUN_008A04B0",
+      "kind": "function",
+      "opcodeBindings": [
+        {
+          "direction": "s2c",
+          "opcodeHex": "0x00d3"
+        }
+      ]
+    },
+    {
+      "bcsyId": "BCS-Y-0117",
+      "name": "SetTargetTimeReceiver::dtor_FUN_0089E010",
+      "kind": "function",
+      "opcodeBindings": [
+        {
+          "direction": "s2c",
+          "opcodeHex": "0x00d3"
+        }
+      ]
+    },
+    {
+      "bcsyId": "BCS-Y-0118",
+      "name": "ChangeActorExtraStatReceiver::ctor_FUN_0089C8E0",
+      "kind": "function",
+      "opcodeBindings": [
+        {
+          "direction": "s2c",
+          "opcodeHex": "0x0145"
+        }
+      ]
+    },
+    {
+      "bcsyId": "BCS-Y-0119",
+      "name": "ChangeActorExtraStatReceiver::apply_FUN_0089C990",
+      "kind": "function",
+      "opcodeBindings": [
+        {
+          "direction": "s2c",
+          "opcodeHex": "0x0145"
+        }
+      ]
+    },
+    {
+      "bcsyId": "BCS-Y-0120",
+      "name": "ChangeActorExtraStatReceiver::dtor_FUN_0089C940",
+      "kind": "function",
+      "opcodeBindings": [
+        {
+          "direction": "s2c",
+          "opcodeHex": "0x0145"
+        }
+      ]
+    },
+    {
+      "bcsyId": "BCS-Y-0121",
+      "name": "ChangeActorSubStatModeBorderReceiver::ctor_FUN_008A3210",
+      "kind": "function",
+      "opcodeBindings": [
+        {
+          "direction": "s2c",
+          "opcodeHex": "0x0144"
+        }
+      ]
+    },
+    {
+      "bcsyId": "BCS-Y-0122",
+      "name": "ChangeActorSubStatModeBorderReceiver::apply_FUN_008A32C0",
+      "kind": "function",
+      "opcodeBindings": [
+        {
+          "direction": "s2c",
+          "opcodeHex": "0x0144"
+        }
+      ]
+    },
+    {
+      "bcsyId": "BCS-Y-0123",
+      "name": "ChangeActorSubStatModeBorderReceiver::dtor_FUN_008A3270",
+      "kind": "function",
+      "opcodeBindings": [
+        {
+          "direction": "s2c",
+          "opcodeHex": "0x0144"
+        }
+      ]
+    },
+    {
+      "bcsyId": "BCS-Y-0124",
+      "name": "ChangeActorSubStatStatusReceiver::apply_FUN_008A3350",
+      "kind": "function",
+      "opcodeBindings": [
+        {
+          "direction": "s2c",
+          "opcodeHex": "0x0179"
+        }
+      ]
+    },
+    {
+      "bcsyId": "BCS-Y-0125",
+      "name": "ChangeActorSubStatStatusReceiver::dtor_FUN_008A3460",
+      "kind": "function",
+      "opcodeBindings": [
+        {
+          "direction": "s2c",
+          "opcodeHex": "0x0179"
+        }
+      ]
+    },
+    {
+      "bcsyId": "BCS-Y-0141",
+      "name": "LuaCallbackNameHarvest_76_OnXxx_strings",
+      "kind": "global",
+      "opcodeBindings": [
+        {
+          "direction": "s2c",
+          "opcodeHex": "0x0145"
+        },
+        {
+          "direction": "s2c",
+          "opcodeHex": "0x0179"
+        },
+        {
+          "direction": "s2c",
+          "opcodeHex": "0x019e"
+        },
+        {
+          "direction": "s2c",
+          "opcodeHex": "0x019f"
+        },
+        {
+          "direction": "s2c",
+          "opcodeHex": "0x01a4"
+        }
+      ]
+    },
+    {
+      "bcsyId": "BCS-Y-0142",
+      "name": "LuaActorImpl::vftable_slot76_onReceiveAchievementId_FUN_0075A5B0",
+      "kind": "function",
+      "opcodeBindings": [
+        {
+          "direction": "s2c",
+          "opcodeHex": "0x019e"
+        },
+        {
+          "direction": "s2c",
+          "opcodeHex": "0x019f"
+        }
+      ]
+    },
+    {
+      "bcsyId": "BCS-Y-0143",
+      "name": "LuaActorImpl::vftable_slot77_onReceiveAchievementRate_FUN_0075A630",
+      "kind": "function",
+      "opcodeBindings": [
+        {
+          "direction": "s2c",
+          "opcodeHex": "0x019f"
+        }
+      ]
+    },
+    {
+      "bcsyId": "BCS-Y-0144",
+      "name": "LuaActorImpl::vftable_slot87_onChangeSubStatMode_FUN_0075AA20",
+      "kind": "function",
+      "opcodeBindings": [
+        {
+          "direction": "s2c",
+          "opcodeHex": "0x0179"
+        }
+      ]
+    },
+    {
+      "bcsyId": "BCS-Y-0146",
+      "name": "LuaActorImpl::vftable_slot85_onChangeNetStat_FUN_0075A920",
+      "kind": "function",
+      "opcodeBindings": [
+        {
+          "direction": "s2c",
+          "opcodeHex": "0x0145"
+        }
+      ]
+    },
+    {
+      "bcsyId": "BCS-Y-0147",
+      "name": "LuaActorImpl::vftable_slot88_onChangeSubStatStatus_indirect_FUN_0076C720",
+      "kind": "function",
+      "opcodeBindings": [
+        {
+          "direction": "s2c",
+          "opcodeHex": "0x0179"
+        }
+      ]
+    },
+    {
+      "bcsyId": "BCS-Y-0148",
+      "name": "ExtraStatPollingRefresh_FUN_007080F0",
+      "kind": "function",
+      "opcodeBindings": [
+        {
+          "direction": "s2c",
+          "opcodeHex": "0x0145"
+        }
+      ]
+    },
+    {
+      "bcsyId": "BCS-Y-0149",
+      "name": "ChangeActorSubStatStatusReceiver_LuaFiringSlot_FUN_008A3630",
+      "kind": "function",
+      "opcodeBindings": [
+        {
+          "direction": "s2c",
+          "opcodeHex": "0x0179"
+        }
+      ]
+    },
+    {
+      "bcsyId": "BCS-Y-0152",
+      "name": "LuaActorImpl::vftable_slot59_onReceiveDataPacket_FUN_00759E50",
+      "kind": "function",
+      "opcodeBindings": [
+        {
+          "direction": "s2c",
+          "opcodeHex": "0x0133"
+        }
+      ]
+    },
+    {
+      "bcsyId": "BCS-Y-0154",
+      "name": "EventClassFamily_16_vftables_at_01056C5C",
+      "kind": "global",
+      "opcodeBindings": [
+        {
+          "direction": "s2c",
+          "opcodeHex": "0x012e"
+        },
+        {
+          "direction": "s2c",
+          "opcodeHex": "0x016b"
+        },
+        {
+          "direction": "s2c",
+          "opcodeHex": "0x016f"
+        }
+      ]
+    },
+    {
+      "bcsyId": "BCS-Y-0155",
+      "name": "UserDataReceiver::vftable",
+      "kind": "global",
+      "opcodeBindings": [
+        {
+          "direction": "s2c",
+          "opcodeHex": "0x0133"
+        }
+      ]
+    },
+    {
+      "bcsyId": "BCS-Y-0160",
+      "name": "LuaActorImpl::vftable_slot62_onUpdateDisplayName_FUN_0076C4D0",
+      "kind": "function",
+      "opcodeBindings": [
+        {
+          "direction": "s2c",
+          "opcodeHex": "0x013d"
+        }
+      ]
+    },
+    {
+      "bcsyId": "BCS-Y-0161",
+      "name": "LuaActorImpl::vftable_slot65_onReceiveLimitAddicted_FUN_0075A0E0",
+      "kind": "function",
+      "opcodeBindings": [
+        {
+          "direction": "s2c",
+          "opcodeHex": "0x0192"
+        }
+      ]
+    },
+    {
+      "bcsyId": "BCS-Y-0162",
+      "name": "NullActorImpl::vftable",
+      "kind": "global",
+      "opcodeBindings": [
+        {
+          "direction": "s2c",
+          "opcodeHex": "0x012e"
+        },
+        {
+          "direction": "s2c",
+          "opcodeHex": "0x0132"
+        },
+        {
+          "direction": "s2c",
+          "opcodeHex": "0x016b"
+        },
+        {
+          "direction": "s2c",
+          "opcodeHex": "0x016c"
+        },
+        {
+          "direction": "s2c",
+          "opcodeHex": "0x016f"
+        },
+        {
+          "direction": "s2c",
+          "opcodeHex": "0x0170"
+        },
+        {
+          "direction": "s2c",
+          "opcodeHex": "0x0175"
+        }
+      ]
+    },
+    {
+      "bcsyId": "BCS-Y-0166",
+      "name": "AddictLoginTimeKindReceiver::vftable",
+      "kind": "global",
+      "opcodeBindings": [
+        {
+          "direction": "s2c",
+          "opcodeHex": "0x0192"
+        }
+      ]
+    },
+    {
+      "bcsyId": "BCS-Y-0167",
+      "name": "SetDisplayNameReceiver::vftable",
+      "kind": "global",
+      "opcodeBindings": [
+        {
+          "direction": "s2c",
+          "opcodeHex": "0x013d"
+        }
+      ]
+    },
+    {
+      "bcsyId": "BCS-Y-0168",
+      "name": "SyncMemoryReceiver::constructor_FUN_0089F4C0",
+      "kind": "function",
+      "opcodeBindings": [
+        {
+          "direction": "s2c",
+          "opcodeHex": "0x0137"
+        }
+      ]
+    },
+    {
+      "bcsyId": "BCS-Y-0169",
+      "name": "SyncMemoryReceiver::destructor_FUN_0089E6E0",
+      "kind": "function",
+      "opcodeBindings": [
+        {
+          "direction": "s2c",
+          "opcodeHex": "0x0137"
+        }
+      ]
+    },
+    {
+      "bcsyId": "BCS-Y-0170",
+      "name": "SyncMemoryReceiver::apply_FUN_0089E550",
+      "kind": "function",
+      "opcodeBindings": [
+        {
+          "direction": "s2c",
+          "opcodeHex": "0x0137"
+        }
+      ]
+    },
+    {
+      "bcsyId": "BCS-Y-0179",
+      "name": "LuaActorImpl::vftable_slot70_onGetGoobbue_FUN_0075A380",
+      "kind": "function",
+      "opcodeBindings": [
+        {
+          "direction": "s2c",
+          "opcodeHex": "0x01a1"
+        }
+      ]
+    },
+    {
+      "bcsyId": "BCS-Y-0180",
+      "name": "VehicleGradeReceiver::vftable",
+      "kind": "global",
+      "opcodeBindings": [
+        {
+          "direction": "s2c",
+          "opcodeHex": "0x01a1"
+        }
+      ]
+    },
+    {
+      "bcsyId": "BCS-Y-0182",
+      "name": "LuaActorImpl::vftable_slot64_onChangeSystemFlag_FUN_0075A060",
+      "kind": "function",
+      "opcodeBindings": [
+        {
+          "direction": "s2c",
+          "opcodeHex": "0x018e"
+        }
+      ]
+    },
+    {
+      "bcsyId": "BCS-Y-0183",
+      "name": "ChangeSystemStatReceiver::vftable",
+      "kind": "global",
+      "opcodeBindings": [
+        {
+          "direction": "s2c",
+          "opcodeHex": "0x018e"
+        }
+      ]
+    },
+    {
+      "bcsyId": "BCS-Y-0188",
+      "name": "Group::EntryLinkShellBuilder::vftable_slot12_GroupInformationDispatcher_FUN_006C5750",
+      "kind": "function",
+      "opcodeBindings": [
+        {
+          "direction": "s2c",
+          "opcodeHex": "0x0137"
+        }
+      ]
+    },
+    {
+      "bcsyId": "BCS-Y-0189",
+      "name": "Event::Push_slot10_onPushEvent_onPushRequest_FUN_00892A80_FUN_00892C30",
+      "kind": "function",
+      "opcodeBindings": [
+        {
+          "direction": "s2c",
+          "opcodeHex": "0x012e"
+        },
+        {
+          "direction": "s2c",
+          "opcodeHex": "0x016f"
+        }
+      ]
+    },
+    {
+      "bcsyId": "BCS-Y-0193",
+      "name": "Control::CharaBase::vftable_slot12_onUpdateWork_FUN_006E18B0",
+      "kind": "function",
+      "opcodeBindings": [
+        {
+          "direction": "s2c",
+          "opcodeHex": "0x0137"
+        }
+      ]
+    },
+    {
+      "bcsyId": "BCS-Y-0196",
+      "name": "Event::Family_slot10_firer_matrix_complete",
+      "kind": "function",
+      "opcodeBindings": [
+        {
+          "direction": "s2c",
+          "opcodeHex": "0x012e"
+        },
+        {
+          "direction": "s2c",
+          "opcodeHex": "0x016f"
+        }
+      ]
+    },
+    {
+      "bcsyId": "BCS-Y-0198",
+      "name": "Control::CharaBase::vftable_full_slot_inventory",
+      "kind": "global",
+      "opcodeBindings": [
+        {
+          "direction": "s2c",
+          "opcodeHex": "0x0137"
+        }
+      ]
+    },
+    {
+      "bcsyId": "BCS-Y-0199",
+      "name": "SyncMemory_third_path_fires_onUpdateWork_FUN_00773F10",
+      "kind": "function",
+      "opcodeBindings": [
+        {
+          "direction": "s2c",
+          "opcodeHex": "0x0137"
+        }
+      ]
+    },
+    {
+      "bcsyId": "BCS-Y-0206",
+      "name": "LuaActorImpl::vftable_slot61_onReceiveTimingPacket_FUN_00759F50",
+      "kind": "function",
+      "opcodeBindings": [
+        {
+          "direction": "s2c",
+          "opcodeHex": "0x00d3"
+        }
+      ]
+    },
+    {
+      "bcsyId": "BCS-Y-0207",
+      "name": "LuaActorImpl::vftable_slot79_onChangeJob_FUN_0075A6B0",
+      "kind": "function",
+      "opcodeBindings": [
+        {
+          "direction": "s2c",
+          "opcodeHex": "0x01a4"
+        }
+      ]
+    },
+    {
+      "bcsyId": "BCS-Y-0208",
+      "name": "Control::DirectorBase::vftable",
+      "kind": "global",
+      "opcodeBindings": [
+        {
+          "direction": "s2c",
+          "opcodeHex": "0x0137"
+        }
+      ]
+    },
+    {
+      "bcsyId": "BCS-Y-0213",
+      "name": "Group::EntryLinkShellBuilder::vftable_slot8_onUpdateDisplayName_FUN_006CD690",
+      "kind": "function",
+      "opcodeBindings": [
+        {
+          "direction": "s2c",
+          "opcodeHex": "0x013d"
+        }
+      ]
+    },
+    {
+      "bcsyId": "BCS-Y-0214",
+      "name": "Control::CharaBase::vftable_slot11_onUpdateWork_paired_FUN_006E17E0",
+      "kind": "function",
+      "opcodeBindings": [
+        {
+          "direction": "s2c",
+          "opcodeHex": "0x0137"
+        }
+      ]
+    },
+    {
+      "bcsyId": "BCS-Y-0215",
+      "name": "Control::PlayerBase::vftable_slot30_override_onChangeSubStatStatus_FUN_006F0220",
+      "kind": "function",
+      "opcodeBindings": [
+        {
+          "direction": "s2c",
+          "opcodeHex": "0x0179"
+        }
+      ]
+    },
+    {
+      "bcsyId": "BCS-Y-0216",
+      "name": "Control::MyPlayer::vftable_slot30_override_onChangeSubStatStatus_FUN_006F3420",
+      "kind": "function",
+      "opcodeBindings": [
+        {
+          "direction": "s2c",
+          "opcodeHex": "0x0179"
+        }
+      ]
+    },
+    {
+      "bcsyId": "BCS-Y-0218",
+      "name": "Control_PlayerBase_NpcBase_full_vftable_inventories",
+      "kind": "global",
+      "opcodeBindings": [
+        {
+          "direction": "s2c",
+          "opcodeHex": "0x0137"
+        },
+        {
+          "direction": "s2c",
+          "opcodeHex": "0x0179"
+        }
+      ]
+    },
+    {
+      "bcsyId": "BCS-Y-0219",
+      "name": "Event_family_full_slot_inventory_slots_5to9_pure_backend",
+      "kind": "global",
+      "opcodeBindings": [
+        {
+          "direction": "s2c",
+          "opcodeHex": "0x012e"
+        },
+        {
+          "direction": "s2c",
+          "opcodeHex": "0x016b"
+        },
+        {
+          "direction": "s2c",
+          "opcodeHex": "0x016f"
+        }
+      ]
+    },
+    {
+      "bcsyId": "BCS-Y-0220",
+      "name": "MyPlayer_BootupManager_unmapped_slots_pure_backend_negative_finding",
+      "kind": "global",
+      "opcodeBindings": [
+        {
+          "direction": "s2c",
+          "opcodeHex": "0x0179"
+        }
+      ]
+    },
+    {
+      "bcsyId": "BCS-Y-0237",
+      "name": "LuaActorImpl::vftable_slot60_onUpdateWork_5th_call_path_FUN_00759ED0",
+      "kind": "function",
+      "opcodeBindings": [
+        {
+          "direction": "s2c",
+          "opcodeHex": "0x0137"
+        }
+      ]
+    },
+    {
+      "bcsyId": "BCS-Y-0238",
+      "name": "LuaActorImpl::vftable_slot63_onUpdateDisplayName_paired_FUN_00759FD0",
+      "kind": "function",
+      "opcodeBindings": [
+        {
+          "direction": "s2c",
+          "opcodeHex": "0x013d"
+        }
+      ]
+    },
+    {
+      "bcsyId": "BCS-Y-0241",
+      "name": "LuaActorImpl_cumulative_slot_mapping_45_of_90",
+      "kind": "global",
+      "opcodeBindings": [
+        {
+          "direction": "s2c",
+          "opcodeHex": "0x00d3"
+        },
+        {
+          "direction": "s2c",
+          "opcodeHex": "0x0133"
+        },
+        {
+          "direction": "s2c",
+          "opcodeHex": "0x0137"
+        },
+        {
+          "direction": "s2c",
+          "opcodeHex": "0x013d"
+        },
+        {
+          "direction": "s2c",
+          "opcodeHex": "0x0145"
+        },
+        {
+          "direction": "s2c",
+          "opcodeHex": "0x0179"
+        },
+        {
+          "direction": "s2c",
+          "opcodeHex": "0x018e"
+        },
+        {
+          "direction": "s2c",
+          "opcodeHex": "0x0192"
+        },
+        {
+          "direction": "s2c",
+          "opcodeHex": "0x019e"
+        },
+        {
+          "direction": "s2c",
+          "opcodeHex": "0x019f"
+        },
+        {
+          "direction": "s2c",
+          "opcodeHex": "0x01a1"
+        },
+        {
+          "direction": "s2c",
+          "opcodeHex": "0x01a4"
+        }
+      ]
+    },
+    {
+      "bcsyId": "BCS-Y-0248",
+      "name": "Application::Lua::Script::Client::Command::Network::SendLogReceiver",
+      "kind": "class",
+      "opcodeBindings": [
+        {
+          "direction": "s2c",
+          "opcodeHex": "0x0157"
+        },
+        {
+          "direction": "s2c",
+          "opcodeHex": "0x0158"
+        },
+        {
+          "direction": "s2c",
+          "opcodeHex": "0x0159"
+        },
+        {
+          "direction": "s2c",
+          "opcodeHex": "0x015a"
+        },
+        {
+          "direction": "s2c",
+          "opcodeHex": "0x015b"
+        },
+        {
+          "direction": "s2c",
+          "opcodeHex": "0x015c"
+        },
+        {
+          "direction": "s2c",
+          "opcodeHex": "0x015d"
+        },
+        {
+          "direction": "s2c",
+          "opcodeHex": "0x015e"
+        },
+        {
+          "direction": "s2c",
+          "opcodeHex": "0x015f"
+        },
+        {
+          "direction": "s2c",
+          "opcodeHex": "0x0160"
+        },
+        {
+          "direction": "s2c",
+          "opcodeHex": "0x0161"
+        },
+        {
+          "direction": "s2c",
+          "opcodeHex": "0x0162"
+        },
+        {
+          "direction": "s2c",
+          "opcodeHex": "0x0163"
+        },
+        {
+          "direction": "s2c",
+          "opcodeHex": "0x0164"
+        },
+        {
+          "direction": "s2c",
+          "opcodeHex": "0x0165"
+        },
+        {
+          "direction": "s2c",
+          "opcodeHex": "0x0166"
+        },
+        {
+          "direction": "s2c",
+          "opcodeHex": "0x0167"
+        },
+        {
+          "direction": "s2c",
+          "opcodeHex": "0x0168"
+        },
+        {
+          "direction": "s2c",
+          "opcodeHex": "0x0169"
+        },
+        {
+          "direction": "s2c",
+          "opcodeHex": "0x016a"
+        }
+      ]
+    },
+    {
+      "bcsyId": "BCS-Y-0249",
+      "name": "SendLogReceiver::ctor_FUN_0089F5B0",
+      "kind": "function",
+      "opcodeBindings": [
+        {
+          "direction": "s2c",
+          "opcodeHex": "0x0157"
+        },
+        {
+          "direction": "s2c",
+          "opcodeHex": "0x0158"
+        },
+        {
+          "direction": "s2c",
+          "opcodeHex": "0x0159"
+        },
+        {
+          "direction": "s2c",
+          "opcodeHex": "0x015a"
+        },
+        {
+          "direction": "s2c",
+          "opcodeHex": "0x015b"
+        },
+        {
+          "direction": "s2c",
+          "opcodeHex": "0x015c"
+        },
+        {
+          "direction": "s2c",
+          "opcodeHex": "0x015d"
+        },
+        {
+          "direction": "s2c",
+          "opcodeHex": "0x015e"
+        },
+        {
+          "direction": "s2c",
+          "opcodeHex": "0x015f"
+        },
+        {
+          "direction": "s2c",
+          "opcodeHex": "0x0160"
+        },
+        {
+          "direction": "s2c",
+          "opcodeHex": "0x0161"
+        },
+        {
+          "direction": "s2c",
+          "opcodeHex": "0x0162"
+        },
+        {
+          "direction": "s2c",
+          "opcodeHex": "0x0163"
+        },
+        {
+          "direction": "s2c",
+          "opcodeHex": "0x0164"
+        },
+        {
+          "direction": "s2c",
+          "opcodeHex": "0x0165"
+        },
+        {
+          "direction": "s2c",
+          "opcodeHex": "0x0166"
+        },
+        {
+          "direction": "s2c",
+          "opcodeHex": "0x0167"
+        },
+        {
+          "direction": "s2c",
+          "opcodeHex": "0x0168"
+        },
+        {
+          "direction": "s2c",
+          "opcodeHex": "0x0169"
+        },
+        {
+          "direction": "s2c",
+          "opcodeHex": "0x016a"
+        }
+      ]
+    },
+    {
+      "bcsyId": "BCS-Y-0250",
+      "name": "SendLogReceiver::dtor_FUN_0089FB50",
+      "kind": "function",
+      "opcodeBindings": [
+        {
+          "direction": "s2c",
+          "opcodeHex": "0x0157"
+        },
+        {
+          "direction": "s2c",
+          "opcodeHex": "0x0158"
+        },
+        {
+          "direction": "s2c",
+          "opcodeHex": "0x0159"
+        },
+        {
+          "direction": "s2c",
+          "opcodeHex": "0x015a"
+        },
+        {
+          "direction": "s2c",
+          "opcodeHex": "0x015b"
+        },
+        {
+          "direction": "s2c",
+          "opcodeHex": "0x015c"
+        },
+        {
+          "direction": "s2c",
+          "opcodeHex": "0x015d"
+        },
+        {
+          "direction": "s2c",
+          "opcodeHex": "0x015e"
+        },
+        {
+          "direction": "s2c",
+          "opcodeHex": "0x015f"
+        },
+        {
+          "direction": "s2c",
+          "opcodeHex": "0x0160"
+        },
+        {
+          "direction": "s2c",
+          "opcodeHex": "0x0161"
+        },
+        {
+          "direction": "s2c",
+          "opcodeHex": "0x0162"
+        },
+        {
+          "direction": "s2c",
+          "opcodeHex": "0x0163"
+        },
+        {
+          "direction": "s2c",
+          "opcodeHex": "0x0164"
+        },
+        {
+          "direction": "s2c",
+          "opcodeHex": "0x0165"
+        },
+        {
+          "direction": "s2c",
+          "opcodeHex": "0x0166"
+        },
+        {
+          "direction": "s2c",
+          "opcodeHex": "0x0167"
+        },
+        {
+          "direction": "s2c",
+          "opcodeHex": "0x0168"
+        },
+        {
+          "direction": "s2c",
+          "opcodeHex": "0x0169"
+        },
+        {
+          "direction": "s2c",
+          "opcodeHex": "0x016a"
+        }
+      ]
+    },
+    {
+      "bcsyId": "BCS-Y-0251",
+      "name": "SendLogReceiver::apply_FUN_0089FBF0",
+      "kind": "function",
+      "opcodeBindings": [
+        {
+          "direction": "s2c",
+          "opcodeHex": "0x0157"
+        },
+        {
+          "direction": "s2c",
+          "opcodeHex": "0x0158"
+        },
+        {
+          "direction": "s2c",
+          "opcodeHex": "0x0159"
+        },
+        {
+          "direction": "s2c",
+          "opcodeHex": "0x015a"
+        },
+        {
+          "direction": "s2c",
+          "opcodeHex": "0x015b"
+        },
+        {
+          "direction": "s2c",
+          "opcodeHex": "0x015c"
+        },
+        {
+          "direction": "s2c",
+          "opcodeHex": "0x015d"
+        },
+        {
+          "direction": "s2c",
+          "opcodeHex": "0x015e"
+        },
+        {
+          "direction": "s2c",
+          "opcodeHex": "0x015f"
+        },
+        {
+          "direction": "s2c",
+          "opcodeHex": "0x0160"
+        },
+        {
+          "direction": "s2c",
+          "opcodeHex": "0x0161"
+        },
+        {
+          "direction": "s2c",
+          "opcodeHex": "0x0162"
+        },
+        {
+          "direction": "s2c",
+          "opcodeHex": "0x0163"
+        },
+        {
+          "direction": "s2c",
+          "opcodeHex": "0x0164"
+        },
+        {
+          "direction": "s2c",
+          "opcodeHex": "0x0165"
+        },
+        {
+          "direction": "s2c",
+          "opcodeHex": "0x0166"
+        },
+        {
+          "direction": "s2c",
+          "opcodeHex": "0x0167"
+        },
+        {
+          "direction": "s2c",
+          "opcodeHex": "0x0168"
+        },
+        {
+          "direction": "s2c",
+          "opcodeHex": "0x0169"
+        },
+        {
+          "direction": "s2c",
+          "opcodeHex": "0x016a"
+        }
+      ]
+    },
+    {
+      "bcsyId": "BCS-Y-0252",
+      "name": "SendLogReceiver::dispatch_wrapper_FUN_00759FD0",
+      "kind": "function",
+      "opcodeBindings": [
+        {
+          "direction": "s2c",
+          "opcodeHex": "0x0157"
+        },
+        {
+          "direction": "s2c",
+          "opcodeHex": "0x0158"
+        },
+        {
+          "direction": "s2c",
+          "opcodeHex": "0x0159"
+        },
+        {
+          "direction": "s2c",
+          "opcodeHex": "0x015a"
+        },
+        {
+          "direction": "s2c",
+          "opcodeHex": "0x015b"
+        },
+        {
+          "direction": "s2c",
+          "opcodeHex": "0x015c"
+        },
+        {
+          "direction": "s2c",
+          "opcodeHex": "0x015d"
+        },
+        {
+          "direction": "s2c",
+          "opcodeHex": "0x015e"
+        },
+        {
+          "direction": "s2c",
+          "opcodeHex": "0x015f"
+        },
+        {
+          "direction": "s2c",
+          "opcodeHex": "0x0160"
+        },
+        {
+          "direction": "s2c",
+          "opcodeHex": "0x0161"
+        },
+        {
+          "direction": "s2c",
+          "opcodeHex": "0x0162"
+        },
+        {
+          "direction": "s2c",
+          "opcodeHex": "0x0163"
+        },
+        {
+          "direction": "s2c",
+          "opcodeHex": "0x0164"
+        },
+        {
+          "direction": "s2c",
+          "opcodeHex": "0x0165"
+        },
+        {
+          "direction": "s2c",
+          "opcodeHex": "0x0166"
+        },
+        {
+          "direction": "s2c",
+          "opcodeHex": "0x0167"
+        },
+        {
+          "direction": "s2c",
+          "opcodeHex": "0x0168"
+        },
+        {
+          "direction": "s2c",
+          "opcodeHex": "0x0169"
+        },
+        {
+          "direction": "s2c",
+          "opcodeHex": "0x016a"
+        }
+      ]
+    },
+    {
+      "bcsyId": "BCS-Y-0280",
+      "name": "Option2_event_family_dispatcher_FUN_004d8860",
+      "kind": "function",
+      "opcodeBindings": [
+        {
+          "direction": "s2c",
+          "opcodeHex": "0x00cc"
+        },
+        {
+          "direction": "s2c",
+          "opcodeHex": "0x0132"
+        },
+        {
+          "direction": "s2c",
+          "opcodeHex": "0x016b"
+        },
+        {
+          "direction": "s2c",
+          "opcodeHex": "0x016c"
+        }
+      ]
+    },
+    {
+      "bcsyId": "BCS-Y-0285",
+      "name": "LobbyLoginOperation::vftable",
+      "kind": "vtable",
+      "opcodeBindings": [
+        {
+          "direction": "c2s",
+          "opcodeHex": "0x0005"
+        },
+        {
+          "direction": "c2s",
+          "opcodeHex": "0x0006"
+        },
+        {
+          "direction": "c2s",
+          "opcodeHex": "0x01f5"
+        },
+        {
+          "direction": "c2s",
+          "opcodeHex": "0x01f6"
+        }
+      ]
+    },
+    {
+      "bcsyId": "BCS-Y-0286",
+      "name": "LobbyLoginOperation::vftable[0]_SendRequest_FUN_00DA9880",
+      "kind": "function",
+      "opcodeBindings": [
+        {
+          "direction": "c2s",
+          "opcodeHex": "0x0005"
+        },
+        {
+          "direction": "c2s",
+          "opcodeHex": "0x0006"
+        },
+        {
+          "direction": "c2s",
+          "opcodeHex": "0x01f5"
+        },
+        {
+          "direction": "c2s",
+          "opcodeHex": "0x01f6"
+        }
+      ]
+    },
+    {
+      "bcsyId": "BCS-Y-0287",
+      "name": "LobbyLoginOperation::vftable[1]_ReceiveDispatcher_FUN_00DA9EC0",
+      "kind": "function",
+      "opcodeBindings": [
+        {
+          "direction": "c2s",
+          "opcodeHex": "0x0005"
+        },
+        {
+          "direction": "c2s",
+          "opcodeHex": "0x0006"
+        },
+        {
+          "direction": "c2s",
+          "opcodeHex": "0x01f5"
+        },
+        {
+          "direction": "c2s",
+          "opcodeHex": "0x01f6"
+        }
+      ]
+    },
+    {
+      "bcsyId": "BCS-Y-0288",
+      "name": "LobbyLoginOperation::scalar_deleting_destructor_FUN_00DA85C0",
+      "kind": "function",
+      "opcodeBindings": [
+        {
+          "direction": "c2s",
+          "opcodeHex": "0x0005"
+        },
+        {
+          "direction": "c2s",
+          "opcodeHex": "0x0006"
+        },
+        {
+          "direction": "c2s",
+          "opcodeHex": "0x01f5"
+        },
+        {
+          "direction": "c2s",
+          "opcodeHex": "0x01f6"
+        }
+      ]
+    },
+    {
+      "bcsyId": "BCS-Y-0289",
+      "name": "ServiceLoginOperation::vftable",
+      "kind": "vtable",
+      "opcodeBindings": [
+        {
+          "direction": "c2s",
+          "opcodeHex": "0x0003"
+        }
+      ]
+    },
+    {
+      "bcsyId": "BCS-Y-0290",
+      "name": "ServiceLoginOperation::vftable[0]_SendRequest_FUN_00DAA070",
+      "kind": "function",
+      "opcodeBindings": [
+        {
+          "direction": "c2s",
+          "opcodeHex": "0x0003"
+        }
+      ]
+    },
+    {
+      "bcsyId": "BCS-Y-0291",
+      "name": "ServiceLoginOperation::scalar_deleting_destructor_FUN_00DA8620",
+      "kind": "function",
+      "opcodeBindings": [
+        {
+          "direction": "c2s",
+          "opcodeHex": "0x0003"
+        }
+      ]
+    },
+    {
+      "bcsyId": "BCS-Y-0292",
+      "name": "GameLoginOperation::vftable",
+      "kind": "vtable",
+      "opcodeBindings": [
+        {
+          "direction": "c2s",
+          "opcodeHex": "0x0004"
+        }
+      ]
+    },
+    {
+      "bcsyId": "BCS-Y-0293",
+      "name": "GameLoginOperation::vftable[0]_SendRequest_FUN_00DAA740",
+      "kind": "function",
+      "opcodeBindings": [
+        {
+          "direction": "c2s",
+          "opcodeHex": "0x0004"
+        }
+      ]
+    },
+    {
+      "bcsyId": "BCS-Y-0294",
+      "name": "GameLoginOperation::vftable[1]_ReceiveDispatcher_FUN_00DAA950",
+      "kind": "function",
+      "opcodeBindings": [
+        {
+          "direction": "c2s",
+          "opcodeHex": "0x0004"
+        }
+      ]
+    },
+    {
+      "bcsyId": "BCS-Y-0295",
+      "name": "GameLoginOperation::scalar_deleting_destructor_FUN_00DA8680",
+      "kind": "function",
+      "opcodeBindings": [
+        {
+          "direction": "c2s",
+          "opcodeHex": "0x0004"
+        }
+      ]
+    },
+    {
+      "bcsyId": "BCS-Y-0309",
+      "name": "ChatOutbound_PartyChat_emitter_FUN_004DF6D0",
+      "kind": "function",
+      "opcodeBindings": [
+        {
+          "direction": "c2s",
+          "opcodeHex": "0x00c9"
+        }
+      ]
+    },
+    {
+      "bcsyId": "BCS-Y-0311",
+      "name": "std_string_ctor_FUN_00447260",
+      "kind": "function",
+      "opcodeBindings": [
+        {
+          "direction": "s2c",
+          "opcodeHex": "0x0137"
+        }
+      ]
+    },
+    {
+      "bcsyId": "BCS-Y-0321",
+      "name": "ZoneOutbound_TierD_HelperBuilt_0x00CA_FUN_004DC690",
+      "kind": "function",
+      "opcodeBindings": [
+        {
+          "direction": "c2s",
+          "opcodeHex": "0x00ca"
+        }
+      ]
+    },
+    {
+      "bcsyId": "BCS-Y-0323",
+      "name": "ZoneOutbound_TierD_GatingThunks_FUN_004D6D10_family",
+      "kind": "function",
+      "opcodeBindings": [
+        {
+          "direction": "c2s",
+          "opcodeHex": "0x00cc"
+        },
+        {
+          "direction": "c2s",
+          "opcodeHex": "0x00cd"
+        }
+      ]
+    },
+    {
+      "bcsyId": "BCS-Y-0325",
+      "name": "ZoneOutbound_TierD_0x01DD_emitter_FUN_004C7300",
+      "kind": "function",
+      "opcodeBindings": [
+        {
+          "direction": "c2s",
+          "opcodeHex": "0x01dd"
+        }
+      ]
+    },
+    {
+      "bcsyId": "BCS-Y-0328",
+      "name": "ZoneOutbound_TierD_0x00CA_secondSite_FUN_00589030",
+      "kind": "function",
+      "opcodeBindings": [
+        {
+          "direction": "c2s",
+          "opcodeHex": "0x00ca"
+        }
+      ]
+    },
+    {
+      "bcsyId": "BCS-Y-0330",
+      "name": "ZoneOutbound_TierD_0x0007_emitters_FUN_00586F40_and_FUN_00586FB0",
+      "kind": "function",
+      "opcodeBindings": [
+        {
+          "direction": "c2s",
+          "opcodeHex": "0x0007"
+        }
+      ]
+    },
+    {
+      "bcsyId": "BCS-Y-0333",
+      "name": "LuaActorImpl_direct_dispatch_classification",
+      "kind": "finding",
+      "opcodeBindings": [
+        {
+          "direction": "s2c",
+          "opcodeHex": "0x0179"
+        }
+      ]
+    },
+    {
+      "bcsyId": "BCS-Y-0349",
+      "name": "receive_side_apply_decomp_7_receivers",
+      "kind": "finding",
+      "opcodeBindings": [
+        {
+          "direction": "s2c",
+          "opcodeHex": "0x013d"
+        },
+        {
+          "direction": "s2c",
+          "opcodeHex": "0x0145"
+        }
+      ]
+    },
+    {
+      "bcsyId": "BCS-Y-0351",
+      "name": "bridge_apply_chain_firers_admit_3",
+      "kind": "finding",
+      "opcodeBindings": [
+        {
+          "direction": "s2c",
+          "opcodeHex": "0x013d"
+        },
+        {
+          "direction": "s2c",
+          "opcodeHex": "0x0145"
+        }
+      ]
+    },
+    {
+      "bcsyId": "BCS-Y-0352",
+      "name": "substruct_cross_ref_4_new_indirect_bindings",
+      "kind": "finding",
+      "opcodeBindings": [
+        {
+          "direction": "s2c",
+          "opcodeHex": "0x0145"
+        }
+      ]
+    },
+    {
+      "bcsyId": "BCS-Y-0353",
+      "name": "FUN_00707D60_decomp_closes_0x0179_open_question",
+      "kind": "function",
+      "opcodeBindings": [
+        {
+          "direction": "s2c",
+          "opcodeHex": "0x013d"
+        },
+        {
+          "direction": "s2c",
+          "opcodeHex": "0x0179"
+        }
+      ]
+    },
+    {
+      "bcsyId": "BCS-Y-0354",
+      "name": "FUN_006EEC00_ECX_this_verified",
+      "kind": "function",
+      "opcodeBindings": [
+        {
+          "direction": "s2c",
+          "opcodeHex": "0x013d"
+        }
+      ]
+    },
+    {
+      "bcsyId": "BCS-Y-0355",
+      "name": "remaining_9_receivers_structural_classification",
+      "kind": "finding",
+      "opcodeBindings": [
+        {
+          "direction": "s2c",
+          "opcodeHex": "0x00d3"
+        },
+        {
+          "direction": "s2c",
+          "opcodeHex": "0x0133"
+        }
+      ]
+    },
+    {
+      "bcsyId": "BCS-Y-0356",
+      "name": "event_condition_consumer_tracing",
+      "kind": "finding",
+      "opcodeBindings": [
+        {
+          "direction": "s2c",
+          "opcodeHex": "0x012e"
+        },
+        {
+          "direction": "s2c",
+          "opcodeHex": "0x016b"
+        },
+        {
+          "direction": "s2c",
+          "opcodeHex": "0x016f"
+        }
+      ]
+    },
+    {
+      "bcsyId": "BCS-Y-0357",
+      "name": "event_condition_no_cpp_chain_key_writes",
+      "kind": "finding",
+      "opcodeBindings": [
+        {
+          "direction": "s2c",
+          "opcodeHex": "0x012e"
+        },
+        {
+          "direction": "s2c",
+          "opcodeHex": "0x016b"
+        },
+        {
+          "direction": "s2c",
+          "opcodeHex": "0x016f"
+        }
+      ]
+    },
+    {
+      "bcsyId": "BCS-Y-0358",
+      "name": "deferred_lua_napi_mutator_attribution",
+      "kind": "finding",
+      "opcodeBindings": [
+        {
+          "direction": "s2c",
+          "opcodeHex": "0x012e"
+        },
+        {
+          "direction": "s2c",
+          "opcodeHex": "0x016b"
+        },
+        {
+          "direction": "s2c",
+          "opcodeHex": "0x016f"
+        }
+      ]
+    },
+    {
+      "bcsyId": "BCS-Y-0360",
+      "name": "WS_H_deferred_lua_napi_mutator_catalog",
+      "kind": "finding",
+      "opcodeBindings": [
+        {
+          "direction": "s2c",
+          "opcodeHex": "0x012e"
+        },
+        {
+          "direction": "s2c",
+          "opcodeHex": "0x016b"
+        },
+        {
+          "direction": "s2c",
+          "opcodeHex": "0x016f"
+        }
+      ]
+    },
+    {
+      "bcsyId": "BCS-Y-0362",
+      "name": "event_family_sibling_opcode_negative_finding",
+      "kind": "finding",
+      "opcodeBindings": [
+        {
+          "direction": "s2c",
+          "opcodeHex": "0x00d3"
+        },
+        {
+          "direction": "s2c",
+          "opcodeHex": "0x0133"
+        }
+      ]
+    },
+    {
+      "bcsyId": "BCS-Y-0366",
+      "name": "WS_D_unobserved_receiver_apply_decomp",
+      "kind": "finding",
+      "opcodeBindings": [
+        {
+          "direction": "s2c",
+          "opcodeHex": "0x018e"
+        },
+        {
+          "direction": "s2c",
+          "opcodeHex": "0x019e"
+        },
+        {
+          "direction": "s2c",
+          "opcodeHex": "0x019f"
+        }
+      ]
+    },
+    {
+      "bcsyId": "BCS-Y-0373",
+      "name": "pcap_empirical_validation_of_bridge_opcodes",
+      "kind": "finding",
+      "opcodeBindings": [
+        {
+          "direction": "s2c",
+          "opcodeHex": "0x01a4"
+        }
+      ]
+    },
+    {
+      "bcsyId": "BCS-Y-0375",
+      "name": "c2s_PositionUpdate_setPosition_verification",
+      "kind": "finding",
+      "opcodeBindings": [
+        {
+          "direction": "c2s",
+          "opcodeHex": "0x00ca"
+        }
+      ]
+    },
+    {
+      "bcsyId": "BCS-Y-0376",
+      "name": "c2s_scene_record_choke_point_sweep",
+      "kind": "finding",
+      "opcodeBindings": [
+        {
+          "direction": "c2s",
+          "opcodeHex": "0x00ca"
+        }
+      ]
+    },
+    {
+      "bcsyId": "BCS-Y-0382",
+      "name": "c2s_reverse_bfs_send_helpers",
+      "kind": "finding",
+      "opcodeBindings": [
+        {
+          "direction": "c2s",
+          "opcodeHex": "0x00cc"
+        },
+        {
+          "direction": "c2s",
+          "opcodeHex": "0x00cd"
+        },
+        {
+          "direction": "c2s",
+          "opcodeHex": "0x0131"
+        }
+      ]
+    },
+    {
+      "bcsyId": "BCS-Y-0383",
+      "name": "c2s_catalog_gap_0x0132",
+      "kind": "finding",
+      "opcodeBindings": [
+        {
+          "direction": "c2s",
+          "opcodeHex": "0x0132"
+        }
+      ]
+    },
+    {
+      "bcsyId": "BCS-Y-0399",
+      "name": "LuaCallbackDispatcher_FUN_00CC7A90",
+      "kind": "function",
+      "opcodeBindings": [
+        {
+          "direction": "s2c",
+          "opcodeHex": "0x0137"
+        },
+        {
+          "direction": "s2c",
+          "opcodeHex": "0x0145"
+        }
+      ]
+    },
+    {
+      "bcsyId": "BCS-Y-0402",
+      "name": "LuaPrototypeCallbackAssignments_ActorCharaPlayerNpc",
+      "kind": "finding",
+      "opcodeBindings": [
+        {
+          "direction": "s2c",
+          "opcodeHex": "0x00d3"
+        },
+        {
+          "direction": "s2c",
+          "opcodeHex": "0x012e"
+        },
+        {
+          "direction": "s2c",
+          "opcodeHex": "0x0133"
+        },
+        {
+          "direction": "s2c",
+          "opcodeHex": "0x0137"
+        },
+        {
+          "direction": "s2c",
+          "opcodeHex": "0x013d"
+        },
+        {
+          "direction": "s2c",
+          "opcodeHex": "0x0145"
+        },
+        {
+          "direction": "s2c",
+          "opcodeHex": "0x016b"
+        },
+        {
+          "direction": "s2c",
+          "opcodeHex": "0x016f"
+        },
+        {
+          "direction": "s2c",
+          "opcodeHex": "0x0179"
+        },
+        {
+          "direction": "s2c",
+          "opcodeHex": "0x01a4"
+        }
+      ]
+    },
+    {
+      "bcsyId": "BCS-Y-0408",
+      "name": "BattleResultQueueEntryBaseStager_FUN_00587210",
+      "kind": "function",
+      "opcodeBindings": [
+        {
+          "direction": "s2c",
+          "opcodeHex": "0x0139"
+        },
+        {
+          "direction": "s2c",
+          "opcodeHex": "0x013a"
+        },
+        {
+          "direction": "s2c",
+          "opcodeHex": "0x013c"
+        }
+      ]
+    },
+    {
+      "bcsyId": "BCS-Y-0409",
+      "name": "BattleResultSingleTargetStager_FUN_00587370",
+      "kind": "function",
+      "opcodeBindings": [
+        {
+          "direction": "s2c",
+          "opcodeHex": "0x0139"
+        }
+      ]
+    },
+    {
+      "bcsyId": "BCS-Y-0410",
+      "name": "BattleResultTenTargetStager_FUN_005873E0",
+      "kind": "function",
+      "opcodeBindings": [
+        {
+          "direction": "s2c",
+          "opcodeHex": "0x013a"
+        }
+      ]
+    },
+    {
+      "bcsyId": "BCS-Y-0411",
+      "name": "BattleResultEffectVisualClassSelector_FUN_00585800",
+      "kind": "function",
+      "opcodeBindings": [
+        {
+          "direction": "s2c",
+          "opcodeHex": "0x0139"
+        },
+        {
+          "direction": "s2c",
+          "opcodeHex": "0x013a"
+        },
+        {
+          "direction": "s2c",
+          "opcodeHex": "0x013c"
+        }
+      ]
+    },
+    {
+      "bcsyId": "BCS-Y-0412",
+      "name": "BattleEffectEntryProcess_FUN_005901D0",
+      "kind": "function",
+      "opcodeBindings": [
+        {
+          "direction": "s2c",
+          "opcodeHex": "0x00e1"
+        },
+        {
+          "direction": "s2c",
+          "opcodeHex": "0x0139"
+        },
+        {
+          "direction": "s2c",
+          "opcodeHex": "0x013a"
+        },
+        {
+          "direction": "s2c",
+          "opcodeHex": "0x013c"
+        }
+      ]
+    },
+    {
+      "bcsyId": "BCS-Y-0426",
+      "name": "MapEventStartPacketBuilder_FUN_00776760",
+      "kind": "function",
+      "opcodeBindings": [
+        {
+          "direction": "c2s",
+          "opcodeHex": "0x012d"
+        }
+      ]
+    },
+    {
+      "bcsyId": "BCS-Y-0427",
+      "name": "EventStartServerCallWrapper_FUN_0075E230",
+      "kind": "function",
+      "opcodeBindings": [
+        {
+          "direction": "c2s",
+          "opcodeHex": "0x012d"
+        }
+      ]
+    },
+    {
+      "bcsyId": "BCS-Y-0428",
+      "name": "EventStartRawRecordWrapper_FUN_0075E1C0_FUN_0089E0D0",
+      "kind": "function",
+      "opcodeBindings": [
+        {
+          "direction": "c2s",
+          "opcodeHex": "0x012d"
+        }
+      ]
+    },
+    {
+      "bcsyId": "BCS-Y-0429",
+      "name": "EventStartRouteWrapper_FUN_0075E3A0",
+      "kind": "function",
+      "opcodeBindings": [
+        {
+          "direction": "c2s",
+          "opcodeHex": "0x012d"
+        }
+      ]
+    },
+    {
+      "bcsyId": "BCS-Y-0442",
+      "name": "SubStat_setActorExtraStatImpl_FUN_007080F0",
+      "kind": "function",
+      "opcodeBindings": [
+        {
+          "direction": "s2c",
+          "opcodeHex": "0x0145"
+        }
+      ]
+    },
+    {
+      "bcsyId": "BCS-Y-0525",
+      "name": "S2cDispatcher_AddActor_CaseCA_FUN_004DC690",
+      "kind": "function_case",
+      "opcodeBindings": [
+        {
+          "direction": "s2c",
+          "opcodeHex": "0x00ca"
+        }
+      ]
+    },
+    {
+      "bcsyId": "BCS-Y-0526",
+      "name": "S2cDispatcher_RemoveActor_CaseCB_FUN_004DC690",
+      "kind": "function_case",
+      "opcodeBindings": [
+        {
+          "direction": "s2c",
+          "opcodeHex": "0x00cb"
+        }
+      ]
+    },
+    {
+      "bcsyId": "BCS-Y-0527",
+      "name": "S2cDispatcher_ActorVtable9_GenericFallthrough_FUN_004DC690",
+      "kind": "function_case",
+      "opcodeBindings": [
+        {
+          "direction": "s2c",
+          "opcodeHex": "0x016b"
+        }
+      ]
+    },
+    {
+      "bcsyId": "BCS-Y-0530",
+      "name": "GenericIndexedMethodInvoker_WithResultCache_FUN_00537620",
+      "kind": "function",
+      "opcodeBindings": [
+        {
+          "direction": "s2c",
+          "opcodeHex": "0x00ca"
+        }
+      ]
+    },
+    {
+      "bcsyId": "BCS-Y-0531",
+      "name": "ZoneActor_CreateOrGetById_FUN_004d90c0",
+      "kind": "function",
+      "opcodeBindings": [
+        {
+          "direction": "s2c",
+          "opcodeHex": "0x00ca"
+        }
+      ]
+    },
+    {
+      "bcsyId": "BCS-Y-0533",
+      "name": "ZoneActorClassId_Validate_FUN_004d9030",
+      "kind": "function",
+      "opcodeBindings": [
+        {
+          "direction": "s2c",
+          "opcodeHex": "0x00ca"
+        }
+      ]
+    },
+    {
+      "bcsyId": "BCS-Y-0534",
+      "name": "ZoneActorMap_FindById_FUN_004d9910",
+      "kind": "function",
+      "opcodeBindings": [
+        {
+          "direction": "s2c",
+          "opcodeHex": "0x000f"
+        },
+        {
+          "direction": "s2c",
+          "opcodeHex": "0x00ca"
+        },
+        {
+          "direction": "s2c",
+          "opcodeHex": "0x00cb"
+        }
+      ]
+    },
+    {
+      "bcsyId": "BCS-Y-0540",
+      "name": "CharaElement_Vftable9_Apply_FUN_0058CCA0",
+      "kind": "function",
+      "opcodeBindings": [
+        {
+          "direction": "s2c",
+          "opcodeHex": "0x00cc"
+        },
+        {
+          "direction": "s2c",
+          "opcodeHex": "0x00d0"
+        },
+        {
+          "direction": "s2c",
+          "opcodeHex": "0x00d6"
+        },
+        {
+          "direction": "s2c",
+          "opcodeHex": "0x00d8"
+        },
+        {
+          "direction": "s2c",
+          "opcodeHex": "0x00da"
+        },
+        {
+          "direction": "s2c",
+          "opcodeHex": "0x00db"
+        },
+        {
+          "direction": "s2c",
+          "opcodeHex": "0x00de"
+        },
+        {
+          "direction": "s2c",
+          "opcodeHex": "0x00e1"
+        },
+        {
+          "direction": "s2c",
+          "opcodeHex": "0x00e2"
+        },
+        {
+          "direction": "s2c",
+          "opcodeHex": "0x00e3"
+        },
+        {
+          "direction": "s2c",
+          "opcodeHex": "0x0132"
+        },
+        {
+          "direction": "s2c",
+          "opcodeHex": "0x016b"
+        },
+        {
+          "direction": "s2c",
+          "opcodeHex": "0x0199"
+        },
+        {
+          "direction": "s2c",
+          "opcodeHex": "0x019a"
+        },
+        {
+          "direction": "s2c",
+          "opcodeHex": "0x019b"
+        },
+        {
+          "direction": "s2c",
+          "opcodeHex": "0x01a7"
+        }
+      ]
+    },
+    {
+      "bcsyId": "BCS-Y-0543",
+      "name": "S2cDispatcher_HighSwitch_Case143_FUN_00576240",
+      "kind": "function",
+      "opcodeBindings": [
+        {
+          "direction": "s2c",
+          "opcodeHex": "0x0143"
+        }
+      ]
+    },
+    {
+      "bcsyId": "BCS-Y-0544",
+      "name": "S2cDispatcher_HighSwitch_Case146_FUN_005764C0",
+      "kind": "function",
+      "opcodeBindings": [
+        {
+          "direction": "s2c",
+          "opcodeHex": "0x0146"
+        }
+      ]
+    },
+    {
+      "bcsyId": "BCS-Y-0545",
+      "name": "S2cDispatcher_HighSwitch_Case148_FUN_00576560",
+      "kind": "function",
+      "opcodeBindings": [
+        {
+          "direction": "s2c",
+          "opcodeHex": "0x0148"
+        }
+      ]
+    },
+    {
+      "bcsyId": "BCS-Y-0546",
+      "name": "S2cDispatcher_HighSwitch_Case149_FUN_005765D0",
+      "kind": "function",
+      "opcodeBindings": [
+        {
+          "direction": "s2c",
+          "opcodeHex": "0x0149"
+        }
+      ]
+    },
+    {
+      "bcsyId": "BCS-Y-0547",
+      "name": "S2cDispatcher_HighSwitch_Case14A_FUN_00576640",
+      "kind": "function",
+      "opcodeBindings": [
+        {
+          "direction": "s2c",
+          "opcodeHex": "0x014a"
+        }
+      ]
+    },
+    {
+      "bcsyId": "BCS-Y-0548",
+      "name": "S2cDispatcher_HighSwitch_Case14B_FUN_005766B0",
+      "kind": "function",
+      "opcodeBindings": [
+        {
+          "direction": "s2c",
+          "opcodeHex": "0x014b"
+        }
+      ]
+    },
+    {
+      "bcsyId": "BCS-Y-0550",
+      "name": "S2cDispatcher_HighSwitch_Case14D_FUN_00576790",
+      "kind": "function",
+      "opcodeBindings": [
+        {
+          "direction": "s2c",
+          "opcodeHex": "0x014d"
+        }
+      ]
+    },
+    {
+      "bcsyId": "BCS-Y-0551",
+      "name": "S2cDispatcher_HighSwitch_Case14E_FUN_00576800",
+      "kind": "function",
+      "opcodeBindings": [
+        {
+          "direction": "s2c",
+          "opcodeHex": "0x014e"
+        }
+      ]
+    },
+    {
+      "bcsyId": "BCS-Y-0555",
+      "name": "S2cDispatcher_HighSwitch_Case152_FUN_005769C0",
+      "kind": "function",
+      "opcodeBindings": [
+        {
+          "direction": "s2c",
+          "opcodeHex": "0x0152"
+        }
+      ]
+    },
+    {
+      "bcsyId": "BCS-Y-0560",
+      "name": "S2cDispatcher_HighSwitch_Case16D_FUN_005763C0",
+      "kind": "function",
+      "opcodeBindings": [
+        {
+          "direction": "s2c",
+          "opcodeHex": "0x016d"
+        }
+      ]
+    },
+    {
+      "bcsyId": "BCS-Y-0561",
+      "name": "S2cDispatcher_HighSwitch_Case16E_FUN_00576430",
+      "kind": "function",
+      "opcodeBindings": [
+        {
+          "direction": "s2c",
+          "opcodeHex": "0x016e"
+        }
+      ]
+    },
+    {
+      "bcsyId": "BCS-Y-0563",
+      "name": "S2cDispatcher_HighSwitch_Case17A_FUN_005763B0",
+      "kind": "function",
+      "opcodeBindings": [
+        {
+          "direction": "s2c",
+          "opcodeHex": "0x017a"
+        }
+      ]
+    },
+    {
+      "bcsyId": "BCS-Y-0564",
+      "name": "S2cDispatcher_HighSwitch_Case17C_FUN_00576250",
+      "kind": "function",
+      "opcodeBindings": [
+        {
+          "direction": "s2c",
+          "opcodeHex": "0x017c"
+        }
+      ]
+    },
+    {
+      "bcsyId": "BCS-Y-0565",
+      "name": "S2cDispatcher_HighSwitch_Case17D_FUN_005762C0",
+      "kind": "function",
+      "opcodeBindings": [
+        {
+          "direction": "s2c",
+          "opcodeHex": "0x00cf"
+        },
+        {
+          "direction": "s2c",
+          "opcodeHex": "0x017d"
+        }
+      ]
+    },
+    {
+      "bcsyId": "BCS-Y-0566",
+      "name": "S2cDispatcher_HighSwitch_Case17E_FUN_005762D0",
+      "kind": "function",
+      "opcodeBindings": [
+        {
+          "direction": "s2c",
+          "opcodeHex": "0x017e"
+        }
+      ]
+    },
+    {
+      "bcsyId": "BCS-Y-0567",
+      "name": "S2cDispatcher_HighSwitch_Case17F_FUN_005762E0",
+      "kind": "function",
+      "opcodeBindings": [
+        {
+          "direction": "s2c",
+          "opcodeHex": "0x017f"
+        }
+      ]
+    },
+    {
+      "bcsyId": "BCS-Y-0571",
+      "name": "S2cDispatcher_HighSwitch_Case183_FUN_00576320",
+      "kind": "function",
+      "opcodeBindings": [
+        {
+          "direction": "s2c",
+          "opcodeHex": "0x0183"
+        }
+      ]
+    },
+    {
+      "bcsyId": "BCS-Y-0575",
+      "name": "S2cDispatcher_HighSwitch_Case187_FUN_00576390",
+      "kind": "function",
+      "opcodeBindings": [
+        {
+          "direction": "s2c",
+          "opcodeHex": "0x0187"
+        }
+      ]
+    },
+    {
+      "bcsyId": "BCS-Y-0577",
+      "name": "S2cDispatcher_HighSwitch_Case189_FUN_00576370",
+      "kind": "function",
+      "opcodeBindings": [
+        {
+          "direction": "s2c",
+          "opcodeHex": "0x0189"
+        }
+      ]
+    },
+    {
+      "bcsyId": "BCS-Y-0578",
+      "name": "S2cDispatcher_HighSwitch_Case18A_FUN_00576380",
+      "kind": "function",
+      "opcodeBindings": [
+        {
+          "direction": "s2c",
+          "opcodeHex": "0x018a"
+        }
+      ]
+    },
+    {
+      "bcsyId": "BCS-Y-0579",
+      "name": "S2cDispatcher_HighSwitch_Case18B_FUN_005763A0",
+      "kind": "function",
+      "opcodeBindings": [
+        {
+          "direction": "s2c",
+          "opcodeHex": "0x018b"
+        }
+      ]
+    },
+    {
+      "bcsyId": "BCS-Y-0580",
+      "name": "S2cDispatcher_HighSwitch_Case18D_Composite_FUN_00575550_0055CF70_00573F70",
+      "kind": "function_case",
+      "opcodeBindings": [
+        {
+          "direction": "s2c",
+          "opcodeHex": "0x018d"
+        }
+      ]
+    },
+    {
+      "bcsyId": "BCS-Y-0581",
+      "name": "S2cDispatcher_HighSwitch_Case18F_FUN_00576C60",
+      "kind": "function",
+      "opcodeBindings": [
+        {
+          "direction": "s2c",
+          "opcodeHex": "0x018f"
+        }
+      ]
+    },
+    {
+      "bcsyId": "BCS-Y-0583",
+      "name": "S2cDispatcher_HighSwitch_Case191_FUN_00576D40",
+      "kind": "function",
+      "opcodeBindings": [
+        {
+          "direction": "s2c",
+          "opcodeHex": "0x0191"
+        }
+      ]
+    },
+    {
+      "bcsyId": "BCS-Y-0584",
+      "name": "S2cDispatcher_HighSwitch_Case193_SubDispatcher_FUN_00578C90",
+      "kind": "function",
+      "opcodeBindings": [
+        {
+          "direction": "s2c",
+          "opcodeHex": "0x0193"
+        }
+      ]
+    },
+    {
+      "bcsyId": "BCS-Y-0585",
+      "name": "S2cDispatcher_HighSwitch_Case196_FUN_00576050",
+      "kind": "function",
+      "opcodeBindings": [
+        {
+          "direction": "s2c",
+          "opcodeHex": "0x0196"
+        }
+      ]
+    },
+    {
+      "bcsyId": "BCS-Y-0587",
+      "name": "S2cDispatcher_HighSwitch_Case1A3_FUN_00576140",
+      "kind": "function",
+      "opcodeBindings": [
+        {
+          "direction": "s2c",
+          "opcodeHex": "0x01a3"
+        }
+      ]
+    },
+    {
+      "bcsyId": "BCS-Y-0588",
+      "name": "EventFamilyDispatcher_Case0xCC_FUN_00574780",
+      "kind": "function",
+      "opcodeBindings": [
+        {
+          "direction": "s2c",
+          "opcodeHex": "0x00cc"
+        }
+      ]
+    },
+    {
+      "bcsyId": "BCS-Y-0590",
+      "name": "NullActorImpl_Slot50Bridge_Case0x12E_FUN_00574fd0",
+      "kind": "function",
+      "opcodeBindings": [
+        {
+          "direction": "s2c",
+          "opcodeHex": "0x012e"
+        }
+      ]
+    },
+    {
+      "bcsyId": "BCS-Y-0591",
+      "name": "KickClientOrderEventReceiverTrampoline_Case0x12F_FUN_00575030",
+      "kind": "function",
+      "opcodeBindings": [
+        {
+          "direction": "s2c",
+          "opcodeHex": "0x012f"
+        }
+      ]
+    },
+    {
+      "bcsyId": "BCS-Y-0594",
+      "name": "NullActorImpl_Slot49Bridge_Case0x132_FUN_00574fc0",
+      "kind": "function",
+      "opcodeBindings": [
+        {
+          "direction": "s2c",
+          "opcodeHex": "0x0132"
+        }
+      ]
+    },
+    {
+      "bcsyId": "BCS-Y-0595",
+      "name": "UserDataReceiverTrampoline_Case0x133_FUN_00575060",
+      "kind": "function",
+      "opcodeBindings": [
+        {
+          "direction": "s2c",
+          "opcodeHex": "0x0133"
+        }
+      ]
+    },
+    {
+      "bcsyId": "BCS-Y-0596",
+      "name": "SetEventStatusReceiverTrampoline_Case0x136_FUN_00574fb0",
+      "kind": "function",
+      "opcodeBindings": [
+        {
+          "direction": "s2c",
+          "opcodeHex": "0x0136"
+        }
+      ]
+    },
+    {
+      "bcsyId": "BCS-Y-0601",
+      "name": "NullActorImpl_Slot51Bridge_Case0x16B_FUN_00574fe0",
+      "kind": "function",
+      "opcodeBindings": [
+        {
+          "direction": "s2c",
+          "opcodeHex": "0x016b"
+        }
+      ]
+    },
+    {
+      "bcsyId": "BCS-Y-0602",
+      "name": "NullActorImpl_Slot52Bridge_Case0x16C_FUN_00574ff0",
+      "kind": "function",
+      "opcodeBindings": [
+        {
+          "direction": "s2c",
+          "opcodeHex": "0x016c"
+        }
+      ]
+    },
+    {
+      "bcsyId": "BCS-Y-0603",
+      "name": "NullActorImpl_Slot53Bridge_Case0x16F_FUN_00575000",
+      "kind": "function",
+      "opcodeBindings": [
+        {
+          "direction": "s2c",
+          "opcodeHex": "0x016f"
+        }
+      ]
+    },
+    {
+      "bcsyId": "BCS-Y-0604",
+      "name": "NullActorImpl_Slot54Bridge_Case0x170_FUN_00575010",
+      "kind": "function",
+      "opcodeBindings": [
+        {
+          "direction": "s2c",
+          "opcodeHex": "0x0170"
+        }
+      ]
+    },
+    {
+      "bcsyId": "BCS-Y-0605",
+      "name": "NullActorImpl_Slot55Bridge_Case0x175_FUN_00575020",
+      "kind": "function",
+      "opcodeBindings": [
+        {
+          "direction": "s2c",
+          "opcodeHex": "0x0175"
+        }
+      ]
+    },
+    {
+      "bcsyId": "BCS-Y-0613",
+      "name": "EventFamilyDispatcher_Case0xCCAlt_FUN_00575860",
+      "kind": "function",
+      "opcodeBindings": [
+        {
+          "direction": "s2c",
+          "opcodeHex": "0x00cc"
+        }
+      ]
+    },
+    {
+      "bcsyId": "BCS-Y-0617",
+      "name": "ThirdRouter_Case0xCE_ActionAnimationSubDispatcher_FUN_0058B2A0",
+      "kind": "function",
+      "opcodeBindings": [
+        {
+          "direction": "s2c",
+          "opcodeHex": "0x00ce"
+        }
+      ]
+    },
+    {
+      "bcsyId": "BCS-Y-0619",
+      "name": "ThirdRouter_Case0xD0_RecordTableInit_FUN_0058ECB0",
+      "kind": "function",
+      "opcodeBindings": [
+        {
+          "direction": "s2c",
+          "opcodeHex": "0x00d0"
+        }
+      ]
+    },
+    {
+      "bcsyId": "BCS-Y-0622",
+      "name": "ThirdRouter_Cases0xD6_0xD7_RecordLoopAndStateUpdate_FUN_00586870",
+      "kind": "function",
+      "opcodeBindings": [
+        {
+          "direction": "s2c",
+          "opcodeHex": "0x00d6"
+        }
+      ]
+    },
+    {
+      "bcsyId": "BCS-Y-0623",
+      "name": "ThirdRouter_Case0xD8_LazyInitDispatchHelper_FUN_0058BF60",
+      "kind": "function",
+      "opcodeBindings": [
+        {
+          "direction": "s2c",
+          "opcodeHex": "0x00d8"
+        }
+      ]
+    },
+    {
+      "bcsyId": "BCS-Y-0624",
+      "name": "ThirdRouter_Case0xD9_GatedForwardHelper_FUN_00585320",
+      "kind": "function",
+      "opcodeBindings": [
+        {
+          "direction": "s2c",
+          "opcodeHex": "0x00d9"
+        }
+      ]
+    },
+    {
+      "bcsyId": "BCS-Y-0625",
+      "name": "ThirdRouter_Case0xDA_DefaultsForwardWrapper_FUN_0058CAD0",
+      "kind": "function",
+      "opcodeBindings": [
+        {
+          "direction": "s2c",
+          "opcodeHex": "0x00da"
+        }
+      ]
+    },
+    {
+      "bcsyId": "BCS-Y-0626",
+      "name": "ThirdRouter_Case0xDB_SentinelGuardedForward_FUN_00589290",
+      "kind": "function",
+      "opcodeBindings": [
+        {
+          "direction": "s2c",
+          "opcodeHex": "0x00db"
+        }
+      ]
+    },
+    {
+      "bcsyId": "BCS-Y-0629",
+      "name": "ThirdRouter_Case0xDE_RecordPairReset_FUN_00587EF0",
+      "kind": "function",
+      "opcodeBindings": [
+        {
+          "direction": "s2c",
+          "opcodeHex": "0x00de"
+        }
+      ]
+    },
+    {
+      "bcsyId": "BCS-Y-0631",
+      "name": "ThirdRouter_Cases0xE0_0xE1_0xDA_ActionRecordStageDispatch_FUN_0058C690",
+      "kind": "function",
+      "opcodeBindings": [
+        {
+          "direction": "s2c",
+          "opcodeHex": "0x00da"
+        },
+        {
+          "direction": "s2c",
+          "opcodeHex": "0x00e1"
+        }
+      ]
+    },
+    {
+      "bcsyId": "BCS-Y-0632",
+      "name": "ThirdRouter_Case0xE2_StateSetWithGuards_FUN_004D7390",
+      "kind": "function",
+      "opcodeBindings": [
+        {
+          "direction": "s2c",
+          "opcodeHex": "0x00e2"
+        }
+      ]
+    },
+    {
+      "bcsyId": "BCS-Y-0633",
+      "name": "ThirdRouter_Case0xE3_StateMachineWithVtableExit_FUN_00588A20",
+      "kind": "function",
+      "opcodeBindings": [
+        {
+          "direction": "s2c",
+          "opcodeHex": "0x00e3"
+        }
+      ]
+    },
+    {
+      "bcsyId": "BCS-Y-0636",
+      "name": "ThirdRouter_Case0x134_PrimaryStateSet_FUN_00588BA0",
+      "kind": "function",
+      "opcodeBindings": [
+        {
+          "direction": "s2c",
+          "opcodeHex": "0x0134"
+        }
+      ]
+    },
+    {
+      "bcsyId": "BCS-Y-0638",
+      "name": "ThirdRouter_Case0x139_CommandResultX01Wrapper_FUN_0058C880",
+      "kind": "function",
+      "opcodeBindings": [
+        {
+          "direction": "s2c",
+          "opcodeHex": "0x0139"
+        }
+      ]
+    },
+    {
+      "bcsyId": "BCS-Y-0639",
+      "name": "ThirdRouter_Case0x13A_CommandResultX02Wrapper_FUN_0058C930",
+      "kind": "function",
+      "opcodeBindings": [
+        {
+          "direction": "s2c",
+          "opcodeHex": "0x013a"
+        }
+      ]
+    },
+    {
+      "bcsyId": "BCS-Y-0640",
+      "name": "ThirdRouter_Case0x13C_CommandResultX00Wrapper_FUN_0058C7D0",
+      "kind": "function",
+      "opcodeBindings": [
+        {
+          "direction": "s2c",
+          "opcodeHex": "0x013c"
+        }
+      ]
+    },
+    {
+      "bcsyId": "BCS-Y-0643",
+      "name": "ThirdRouter_Cases0x177_0x179_StatusStreamForward_FUN_00588D20",
+      "kind": "function",
+      "opcodeBindings": [
+        {
+          "direction": "s2c",
+          "opcodeHex": "0x0179"
+        }
+      ]
+    },
+    {
+      "bcsyId": "BCS-Y-0646",
+      "name": "ThirdRouter_Case0x199_ChocoboGradeTrampoline_FUN_00575160",
+      "kind": "function",
+      "opcodeBindings": [
+        {
+          "direction": "s2c",
+          "opcodeHex": "0x0199"
+        }
+      ]
+    },
+    {
+      "bcsyId": "BCS-Y-0647",
+      "name": "ThirdRouter_Case0x19A_NullStub72Trampoline_FUN_005751A0",
+      "kind": "function",
+      "opcodeBindings": [
+        {
+          "direction": "s2c",
+          "opcodeHex": "0x019a"
+        }
+      ]
+    },
+    {
+      "bcsyId": "BCS-Y-0648",
+      "name": "ThirdRouter_Case0x19B_NullStub73Trampoline_FUN_005751B0",
+      "kind": "function",
+      "opcodeBindings": [
+        {
+          "direction": "s2c",
+          "opcodeHex": "0x019b"
+        }
+      ]
+    },
+    {
+      "bcsyId": "BCS-Y-0658",
+      "name": "ThirdRouter_Case0x1A7_NullStub81PlusStateSet_FUN_005751C0",
+      "kind": "function",
+      "opcodeBindings": [
+        {
+          "direction": "s2c",
+          "opcodeHex": "0x01a7"
+        }
+      ]
+    },
+    {
+      "bcsyId": "BCS-Y-0661",
+      "name": "MapLayoutElement_DispatcherCase0x10_ModeByteSet_FUN_0059CED0",
+      "kind": "function",
+      "opcodeBindings": [
+        {
+          "direction": "s2c",
+          "opcodeHex": "0x0010"
+        }
+      ]
+    },
+    {
+      "bcsyId": "BCS-Y-0662",
+      "name": "MapLayoutElement_DispatcherCases0xD8_0xD9_NoOp_FUN_0059CED0",
+      "kind": "function",
+      "opcodeBindings": [
+        {
+          "direction": "s2c",
+          "opcodeHex": "0x00d8"
+        },
+        {
+          "direction": "s2c",
+          "opcodeHex": "0x00d9"
+        }
+      ]
+    },
+    {
+      "bcsyId": "BCS-Y-0664",
+      "name": "MapLayoutElement_StateTransitionLogger_FUN_00586F40",
+      "kind": "function",
+      "opcodeBindings": [
+        {
+          "direction": "s2c",
+          "opcodeHex": "0x00e2"
+        }
+      ]
+    },
+    {
+      "bcsyId": "BCS-Y-0667",
+      "name": "S2cDispatcher_StringCommand_Case3_FUN_004DC690",
+      "kind": "function_case",
+      "opcodeBindings": [
+        {
+          "direction": "s2c",
+          "opcodeHex": "0x0003"
+        }
+      ]
+    },
+    {
+      "bcsyId": "BCS-Y-0669",
+      "name": "S2cDispatcher_SubObjectVftable9_Case5_D_10_FUN_004DC690",
+      "kind": "function_case",
+      "opcodeBindings": [
+        {
+          "direction": "s2c",
+          "opcodeHex": "0x0005"
+        }
+      ]
+    },
+    {
+      "bcsyId": "BCS-Y-0670",
+      "name": "S2cDispatcher_FlushPendingVector_Case6_FUN_004DC690",
+      "kind": "function_case",
+      "opcodeBindings": [
+        {
+          "direction": "s2c",
+          "opcodeHex": "0x0006"
+        }
+      ]
+    },
+    {
+      "bcsyId": "BCS-Y-0671",
+      "name": "PendingOpVector_AppendPair_FUN_0081f090",
+      "kind": "function",
+      "opcodeBindings": [
+        {
+          "direction": "s2c",
+          "opcodeHex": "0x0008"
+        },
+        {
+          "direction": "s2c",
+          "opcodeHex": "0x0009"
+        },
+        {
+          "direction": "s2c",
+          "opcodeHex": "0x000a"
+        }
+      ]
+    },
+    {
+      "bcsyId": "BCS-Y-0672",
+      "name": "S2cDispatcher_VariableArrayAppend_Case8_FUN_004DC690",
+      "kind": "function_case",
+      "opcodeBindings": [
+        {
+          "direction": "s2c",
+          "opcodeHex": "0x0008"
+        }
+      ]
+    },
+    {
+      "bcsyId": "BCS-Y-0673",
+      "name": "S2cDispatcher_Fixed16ArrayAppend_Case9_FUN_004DC690",
+      "kind": "function_case",
+      "opcodeBindings": [
+        {
+          "direction": "s2c",
+          "opcodeHex": "0x0009"
+        }
+      ]
+    },
+    {
+      "bcsyId": "BCS-Y-0674",
+      "name": "S2cDispatcher_Fixed32ArrayAppend_CaseA_FUN_004DC690",
+      "kind": "function_case",
+      "opcodeBindings": [
+        {
+          "direction": "s2c",
+          "opcodeHex": "0x000a"
+        }
+      ]
+    },
+    {
+      "bcsyId": "BCS-Y-0676",
+      "name": "S2cDispatcher_AudioCueStateMachine_CaseC_FUN_004DC690",
+      "kind": "function_case",
+      "opcodeBindings": [
+        {
+          "direction": "s2c",
+          "opcodeHex": "0x000c"
+        }
+      ]
+    },
+    {
+      "bcsyId": "BCS-Y-0701",
+      "name": "InventoryChangeCommit_FUN_0076BB00",
+      "kind": "function",
+      "opcodeBindings": [
+        {
+          "direction": "s2c",
+          "opcodeHex": "0x016e"
+        }
+      ]
+    },
+    {
+      "bcsyId": "BCS-Y-0703",
+      "name": "EquipmentDispatcher_Opcode0x0146_FUN_005764C0",
+      "kind": "function",
+      "opcodeBindings": [
+        {
+          "direction": "s2c",
+          "opcodeHex": "0x0146"
+        }
+      ]
+    },
+    {
+      "bcsyId": "BCS-Y-0704",
+      "name": "EquipmentDispatcher_Opcode0x0148_FUN_00576560",
+      "kind": "function",
+      "opcodeBindings": [
+        {
+          "direction": "s2c",
+          "opcodeHex": "0x0148"
+        }
+      ]
+    },
+    {
+      "bcsyId": "BCS-Y-0705",
+      "name": "EquipmentDispatcher_Opcode0x0149_FUN_005765D0",
+      "kind": "function",
+      "opcodeBindings": [
+        {
+          "direction": "s2c",
+          "opcodeHex": "0x0149"
+        }
+      ]
+    },
+    {
+      "bcsyId": "BCS-Y-0706",
+      "name": "EquipmentDispatcher_Opcode0x014E_FUN_00576800",
+      "kind": "function",
+      "opcodeBindings": [
+        {
+          "direction": "s2c",
+          "opcodeHex": "0x014e"
+        }
+      ]
+    },
+    {
+      "bcsyId": "BCS-Y-0707",
+      "name": "EquipmentDispatcher_Opcode0x016D_FUN_005763C0",
+      "kind": "function",
+      "opcodeBindings": [
+        {
+          "direction": "s2c",
+          "opcodeHex": "0x016d"
+        }
+      ]
+    },
+    {
+      "bcsyId": "BCS-Y-0708",
+      "name": "EquipmentDispatcher_Opcode0x016E_FUN_00576430",
+      "kind": "function",
+      "opcodeBindings": [
+        {
+          "direction": "s2c",
+          "opcodeHex": "0x016e"
+        }
+      ]
+    },
+    {
+      "bcsyId": "BCS-Y-0709",
+      "name": "EquipmentDispatcher_Opcode0x014A_FUN_00576640",
+      "kind": "function",
+      "opcodeBindings": [
+        {
+          "direction": "s2c",
+          "opcodeHex": "0x014a"
+        }
+      ]
+    },
+    {
+      "bcsyId": "BCS-Y-0710",
+      "name": "EquipmentDispatcher_Opcode0x014B_FUN_005766B0",
+      "kind": "function",
+      "opcodeBindings": [
+        {
+          "direction": "s2c",
+          "opcodeHex": "0x014b"
+        }
+      ]
+    },
+    {
+      "bcsyId": "BCS-Y-0712",
+      "name": "EquipmentDispatcher_Opcode0x014D_FUN_00576790",
+      "kind": "function",
+      "opcodeBindings": [
+        {
+          "direction": "s2c",
+          "opcodeHex": "0x014d"
+        }
+      ]
+    },
+    {
+      "bcsyId": "BCS-Y-0716",
+      "name": "EquipmentDispatcher_Opcode0x0152_FUN_005769C0",
+      "kind": "function",
+      "opcodeBindings": [
+        {
+          "direction": "s2c",
+          "opcodeHex": "0x0152"
+        }
+      ]
+    },
+    {
+      "bcsyId": "BCS-Y-0717",
+      "name": "EquipmentDispatcher_Opcode0x0153_FUN_00576A30",
+      "kind": "function",
+      "opcodeBindings": [
+        {
+          "direction": "s2c",
+          "opcodeHex": "0x0153"
+        }
+      ]
+    },
+    {
+      "bcsyId": "BCS-Y-0722",
+      "name": "EquipmentDispatcher_Opcode0x018F_FUN_00576C60",
+      "kind": "function",
+      "opcodeBindings": [
+        {
+          "direction": "s2c",
+          "opcodeHex": "0x018f"
+        }
+      ]
+    },
+    {
+      "bcsyId": "BCS-Y-0723",
+      "name": "EquipmentDispatcher_Opcode0x0191_FUN_00576D40",
+      "kind": "function",
+      "opcodeBindings": [
+        {
+          "direction": "s2c",
+          "opcodeHex": "0x0191"
+        }
+      ]
+    },
+    {
+      "bcsyId": "BCS-Y-0724",
+      "name": "KickClientOrderEventReceiver_Receive_slot2_FUN_0089E450",
+      "kind": "function",
+      "opcodeBindings": [
+        {
+          "direction": "s2c",
+          "opcodeHex": "0x012f"
+        }
+      ]
+    },
+    {
+      "bcsyId": "BCS-Y-0725",
+      "name": "KickEvent_BodyParser_FUN_0089F180",
+      "kind": "function",
+      "opcodeBindings": [
+        {
+          "direction": "s2c",
+          "opcodeHex": "0x012f"
+        }
+      ]
+    },
+    {
+      "bcsyId": "BCS-Y-0726",
+      "name": "KickEvent_NoticeFlag_SetterHelper_FUN_0089E200",
+      "kind": "function",
+      "opcodeBindings": [
+        {
+          "direction": "s2c",
+          "opcodeHex": "0x012f"
+        }
+      ]
+    },
+    {
+      "bcsyId": "BCS-Y-0728",
+      "name": "Application::Lua::Script::Client::Command::Network::SetEventStatusReceiver",
+      "kind": "rtti",
+      "opcodeBindings": [
+        {
+          "direction": "s2c",
+          "opcodeHex": "0x0136"
+        }
+      ]
+    },
+    {
+      "bcsyId": "BCS-Y-0731",
+      "name": "Application::Lua::Script::Client::Command::Network::SetDisplayNameReceiver",
+      "kind": "rtti",
+      "opcodeBindings": [
+        {
+          "direction": "s2c",
+          "opcodeHex": "0x013d"
+        }
+      ]
+    },
+    {
+      "bcsyId": "BCS-Y-0733",
+      "name": "Application::Lua::Script::Client::Command::Network::SetNoticeEventConditionReceiver",
+      "kind": "rtti",
+      "opcodeBindings": [
+        {
+          "direction": "s2c",
+          "opcodeHex": "0x016b"
+        }
+      ]
+    },
+    {
+      "bcsyId": "BCS-Y-0734",
+      "name": "SetNoticeEventConditionReceiver_slot1_Receive_FUN_0089D980",
+      "kind": "function",
+      "opcodeBindings": [
+        {
+          "direction": "s2c",
+          "opcodeHex": "0x016b"
+        }
+      ]
+    },
+    {
+      "bcsyId": "BCS-Y-0735",
+      "name": "Application::Lua::Script::Client::Command::Network::SetEmoteEventConditionReceiver",
+      "kind": "rtti",
+      "opcodeBindings": [
+        {
+          "direction": "s2c",
+          "opcodeHex": "0x016c"
+        }
+      ]
+    },
+    {
+      "bcsyId": "BCS-Y-0736",
+      "name": "SetEmoteEventConditionReceiver_slot1_Receive_FUN_0089D750",
+      "kind": "function",
+      "opcodeBindings": [
+        {
+          "direction": "s2c",
+          "opcodeHex": "0x016c"
+        }
+      ]
+    },
+    {
+      "bcsyId": "BCS-Y-0737",
+      "name": "Application::Lua::Script::Client::Command::Network::SetPushEventConditionWithCircleReceiver",
+      "kind": "rtti",
+      "opcodeBindings": [
+        {
+          "direction": "s2c",
+          "opcodeHex": "0x016f"
+        }
+      ]
+    },
+    {
+      "bcsyId": "BCS-Y-0739",
+      "name": "Application::Lua::Script::Client::Command::Network::SetPushEventConditionWithFanReceiver",
+      "kind": "rtti",
+      "opcodeBindings": [
+        {
+          "direction": "s2c",
+          "opcodeHex": "0x0170"
+        }
+      ]
+    },
+    {
+      "bcsyId": "BCS-Y-0741",
+      "name": "Application::Lua::Script::Client::Command::Network::SetPushEventConditionWithTriggerBoxReceiver",
+      "kind": "rtti",
+      "opcodeBindings": [
+        {
+          "direction": "s2c",
+          "opcodeHex": "0x0175"
+        }
+      ]
+    },
+    {
+      "bcsyId": "BCS-Y-0743",
+      "name": "Application::Lua::Script::Client::Command::Network::SetTalkEventConditionReceiver",
+      "kind": "rtti",
+      "opcodeBindings": [
+        {
+          "direction": "s2c",
+          "opcodeHex": "0x012e"
+        }
+      ]
+    },
+    {
+      "bcsyId": "BCS-Y-0873",
+      "name": "GroupPacketProcessor_OnSynchGroupWorkValues_FUN_006C9910",
+      "kind": "function",
+      "opcodeBindings": [
+        {
+          "direction": "s2c",
+          "opcodeHex": "0x017a"
+        }
+      ]
+    },
+    {
+      "bcsyId": "BCS-Y-0874",
+      "name": "GroupPacketProcessor_OnHeader_FUN_006CC620",
+      "kind": "function",
+      "opcodeBindings": [
+        {
+          "direction": "s2c",
+          "opcodeHex": "0x017c"
+        }
+      ]
+    },
+    {
+      "bcsyId": "BCS-Y-0875",
+      "name": "GroupPacketProcessor_OnMembersBegin_FUN_006C2F30",
+      "kind": "function",
+      "opcodeBindings": [
+        {
+          "direction": "s2c",
+          "opcodeHex": "0x017d"
+        }
+      ]
+    },
+    {
+      "bcsyId": "BCS-Y-0876",
+      "name": "GroupPacketProcessor_OnMembersEnd_FUN_006C4180",
+      "kind": "function",
+      "opcodeBindings": [
+        {
+          "direction": "s2c",
+          "opcodeHex": "0x017e"
+        }
+      ]
+    },
+    {
+      "bcsyId": "BCS-Y-0877",
+      "name": "GroupSharedWork_AppendMembersX08_FUN_006C2F70",
+      "kind": "function",
+      "opcodeBindings": [
+        {
+          "direction": "s2c",
+          "opcodeHex": "0x017f"
+        }
+      ]
+    },
+    {
+      "bcsyId": "BCS-Y-0881",
+      "name": "GroupSharedWork_AppendContentMembersX08_FUN_006C3100",
+      "kind": "function",
+      "opcodeBindings": [
+        {
+          "direction": "s2c",
+          "opcodeHex": "0x0183"
+        }
+      ]
+    },
+    {
+      "bcsyId": "BCS-Y-0885",
+      "name": "GroupSharedWork_SetOccupancy_FUN_006C8340",
+      "kind": "function",
+      "opcodeBindings": [
+        {
+          "direction": "s2c",
+          "opcodeHex": "0x0187"
+        }
+      ]
+    },
+    {
+      "bcsyId": "BCS-Y-0887",
+      "name": "GroupRegistry_CreateNamedGroupMultiple_FUN_006CD7B0",
+      "kind": "function",
+      "opcodeBindings": [
+        {
+          "direction": "s2c",
+          "opcodeHex": "0x0189"
+        }
+      ]
+    },
+    {
+      "bcsyId": "BCS-Y-0888",
+      "name": "LinkshellManager_SetActive_FUN_006C82A0",
+      "kind": "function",
+      "opcodeBindings": [
+        {
+          "direction": "s2c",
+          "opcodeHex": "0x018a"
+        }
+      ]
+    },
+    {
+      "bcsyId": "BCS-Y-0889",
+      "name": "GroupPropertyUpdater_SetLayoutId_FUN_006C5DF0",
+      "kind": "function",
+      "opcodeBindings": [
+        {
+          "direction": "s2c",
+          "opcodeHex": "0x018b"
+        }
+      ]
+    },
+    {
+      "bcsyId": "BCS-Y-0891",
+      "name": "GroupPropertyUpdater_UnnamedOp0143_FUN_006C5DE0",
+      "kind": "function",
+      "opcodeBindings": [
+        {
+          "direction": "s2c",
+          "opcodeHex": "0x0143"
+        }
+      ]
+    },
+    {
+      "bcsyId": "BCS-Y-0930",
+      "name": "SetTalkEventConditionReceiver::slot1_FUN_0089DF60",
+      "kind": "function",
+      "opcodeBindings": [
+        {
+          "direction": "s2c",
+          "opcodeHex": "0x012e"
+        }
+      ]
+    },
+    {
+      "bcsyId": "BCS-Y-0932",
+      "name": "GrandCompanyReceiver::slot1_FUN_0089CD60",
+      "kind": "function",
+      "opcodeBindings": [
+        {
+          "direction": "s2c",
+          "opcodeHex": "0x0194"
+        }
+      ]
+    },
+    {
+      "bcsyId": "BCS-Y-0934",
+      "name": "ChocoboGradeReceiver::slot1_FUN_008A3020",
+      "kind": "function",
+      "opcodeBindings": [
+        {
+          "direction": "s2c",
+          "opcodeHex": "0x0197"
+        }
+      ]
+    },
+    {
+      "bcsyId": "BCS-Y-0936",
+      "name": "GoobbueReceiver::slot1_FUN_008A3100",
+      "kind": "function",
+      "opcodeBindings": [
+        {
+          "direction": "s2c",
+          "opcodeHex": "0x01a0"
+        }
+      ]
+    },
+    {
+      "bcsyId": "BCS-Y-0938",
+      "name": "ChocoboReceiver::slot1_FUN_008A2F30",
+      "kind": "function",
+      "opcodeBindings": [
+        {
+          "direction": "s2c",
+          "opcodeHex": "0x0198"
+        }
+      ]
+    },
+    {
+      "bcsyId": "BCS-Y-0940",
+      "name": "EntrustItemReceiver::slot1_FUN_0089CB90",
+      "kind": "function",
+      "opcodeBindings": [
+        {
+          "direction": "s2c",
+          "opcodeHex": "0x01a5"
+        }
+      ]
+    },
+    {
+      "bcsyId": "BCS-Y-0944",
+      "name": "ChangeShadowActorFlagReceiver::slot1_FUN_0089CC70",
+      "kind": "function",
+      "opcodeBindings": [
+        {
+          "direction": "s2c",
+          "opcodeHex": "0x017b"
+        }
+      ]
+    },
+    {
+      "bcsyId": "BCS-Y-0948",
+      "name": "HamletSupplyRankingReceiver::slot1_FUN_0089CE70",
+      "kind": "function",
+      "opcodeBindings": [
+        {
+          "direction": "s2c",
+          "opcodeHex": "0x01a6"
+        }
+      ]
+    },
+    {
+      "bcsyId": "BCS-Y-0950",
+      "name": "HamletDefenseScoreReceiver::slot1_FUN_0089E420",
+      "kind": "function",
+      "opcodeBindings": [
+        {
+          "direction": "s2c",
+          "opcodeHex": "0x01a8"
+        }
+      ]
+    },
+    {
+      "bcsyId": "BCS-Y-0951",
+      "name": "MassSetItemModifier_Op0190_Worker_FUN_0076BE60",
+      "kind": "function",
+      "opcodeBindings": [
+        {
+          "direction": "s2c",
+          "opcodeHex": "0x0190"
+        }
+      ]
+    },
+    {
+      "bcsyId": "BCS-Y-0952",
+      "name": "MassSetItemModifier_RecordWriter_FUN_00768C40",
+      "kind": "function",
+      "opcodeBindings": [
+        {
+          "direction": "s2c",
+          "opcodeHex": "0x0190"
+        }
+      ]
+    },
+    {
+      "bcsyId": "BCS-Y-0953",
+      "name": "MassSetItemModifier_RecordCleanup_FUN_00766920",
+      "kind": "function",
+      "opcodeBindings": [
+        {
+          "direction": "s2c",
+          "opcodeHex": "0x0190"
+        }
+      ]
+    },
+    {
+      "bcsyId": "BCS-Y-0954",
+      "name": "MassSetItemModifierBegin_Op018F_Worker_FUN_0076BE30",
+      "kind": "function",
+      "opcodeBindings": [
+        {
+          "direction": "s2c",
+          "opcodeHex": "0x018f"
+        },
+        {
+          "direction": "s2c",
+          "opcodeHex": "0x0190"
+        }
+      ]
+    },
+    {
+      "bcsyId": "BCS-Y-0955",
+      "name": "MassSetItemModifierEnd_Op0191_Worker_FUN_0076BF10",
+      "kind": "function",
+      "opcodeBindings": [
+        {
+          "direction": "s2c",
+          "opcodeHex": "0x0190"
+        },
+        {
+          "direction": "s2c",
+          "opcodeHex": "0x0191"
+        }
+      ]
+    },
+    {
+      "bcsyId": "BCS-Y-0956",
+      "name": "SendLogReceiver::body_parser_0x157_0x161_FUN_008a0ae0",
+      "kind": "function",
+      "opcodeBindings": [
+        {
+          "direction": "s2c",
+          "opcodeHex": "0x0157"
+        },
+        {
+          "direction": "s2c",
+          "opcodeHex": "0x0158"
+        },
+        {
+          "direction": "s2c",
+          "opcodeHex": "0x0159"
+        },
+        {
+          "direction": "s2c",
+          "opcodeHex": "0x015a"
+        },
+        {
+          "direction": "s2c",
+          "opcodeHex": "0x015b"
+        },
+        {
+          "direction": "s2c",
+          "opcodeHex": "0x015c"
+        },
+        {
+          "direction": "s2c",
+          "opcodeHex": "0x015d"
+        },
+        {
+          "direction": "s2c",
+          "opcodeHex": "0x015e"
+        },
+        {
+          "direction": "s2c",
+          "opcodeHex": "0x015f"
+        },
+        {
+          "direction": "s2c",
+          "opcodeHex": "0x0160"
+        },
+        {
+          "direction": "s2c",
+          "opcodeHex": "0x0161"
+        },
+        {
+          "direction": "s2c",
+          "opcodeHex": "0x0162"
+        },
+        {
+          "direction": "s2c",
+          "opcodeHex": "0x0163"
+        },
+        {
+          "direction": "s2c",
+          "opcodeHex": "0x0164"
+        },
+        {
+          "direction": "s2c",
+          "opcodeHex": "0x0165"
+        },
+        {
+          "direction": "s2c",
+          "opcodeHex": "0x0166"
+        },
+        {
+          "direction": "s2c",
+          "opcodeHex": "0x0167"
+        },
+        {
+          "direction": "s2c",
+          "opcodeHex": "0x0168"
+        },
+        {
+          "direction": "s2c",
+          "opcodeHex": "0x0169"
+        },
+        {
+          "direction": "s2c",
+          "opcodeHex": "0x016a"
+        }
+      ]
+    },
+    {
+      "bcsyId": "BCS-Y-0957",
+      "name": "SendLogReceiver::body_parser_0x158_0x162_FUN_008a1e10",
+      "kind": "function",
+      "opcodeBindings": [
+        {
+          "direction": "s2c",
+          "opcodeHex": "0x0157"
+        },
+        {
+          "direction": "s2c",
+          "opcodeHex": "0x0158"
+        },
+        {
+          "direction": "s2c",
+          "opcodeHex": "0x0159"
+        },
+        {
+          "direction": "s2c",
+          "opcodeHex": "0x015a"
+        },
+        {
+          "direction": "s2c",
+          "opcodeHex": "0x015b"
+        },
+        {
+          "direction": "s2c",
+          "opcodeHex": "0x015c"
+        },
+        {
+          "direction": "s2c",
+          "opcodeHex": "0x015d"
+        },
+        {
+          "direction": "s2c",
+          "opcodeHex": "0x015e"
+        },
+        {
+          "direction": "s2c",
+          "opcodeHex": "0x015f"
+        },
+        {
+          "direction": "s2c",
+          "opcodeHex": "0x0160"
+        },
+        {
+          "direction": "s2c",
+          "opcodeHex": "0x0161"
+        },
+        {
+          "direction": "s2c",
+          "opcodeHex": "0x0162"
+        },
+        {
+          "direction": "s2c",
+          "opcodeHex": "0x0163"
+        },
+        {
+          "direction": "s2c",
+          "opcodeHex": "0x0164"
+        },
+        {
+          "direction": "s2c",
+          "opcodeHex": "0x0165"
+        },
+        {
+          "direction": "s2c",
+          "opcodeHex": "0x0166"
+        },
+        {
+          "direction": "s2c",
+          "opcodeHex": "0x0167"
+        },
+        {
+          "direction": "s2c",
+          "opcodeHex": "0x0168"
+        },
+        {
+          "direction": "s2c",
+          "opcodeHex": "0x0169"
+        },
+        {
+          "direction": "s2c",
+          "opcodeHex": "0x016a"
+        }
+      ]
+    },
+    {
+      "bcsyId": "BCS-Y-0958",
+      "name": "SendLogReceiver::body_parser_0x159_0x163_FUN_008a1ed0",
+      "kind": "function",
+      "opcodeBindings": [
+        {
+          "direction": "s2c",
+          "opcodeHex": "0x0157"
+        },
+        {
+          "direction": "s2c",
+          "opcodeHex": "0x0158"
+        },
+        {
+          "direction": "s2c",
+          "opcodeHex": "0x0159"
+        },
+        {
+          "direction": "s2c",
+          "opcodeHex": "0x015a"
+        },
+        {
+          "direction": "s2c",
+          "opcodeHex": "0x015b"
+        },
+        {
+          "direction": "s2c",
+          "opcodeHex": "0x015c"
+        },
+        {
+          "direction": "s2c",
+          "opcodeHex": "0x015d"
+        },
+        {
+          "direction": "s2c",
+          "opcodeHex": "0x015e"
+        },
+        {
+          "direction": "s2c",
+          "opcodeHex": "0x015f"
+        },
+        {
+          "direction": "s2c",
+          "opcodeHex": "0x0160"
+        },
+        {
+          "direction": "s2c",
+          "opcodeHex": "0x0161"
+        },
+        {
+          "direction": "s2c",
+          "opcodeHex": "0x0162"
+        },
+        {
+          "direction": "s2c",
+          "opcodeHex": "0x0163"
+        },
+        {
+          "direction": "s2c",
+          "opcodeHex": "0x0164"
+        },
+        {
+          "direction": "s2c",
+          "opcodeHex": "0x0165"
+        },
+        {
+          "direction": "s2c",
+          "opcodeHex": "0x0166"
+        },
+        {
+          "direction": "s2c",
+          "opcodeHex": "0x0167"
+        },
+        {
+          "direction": "s2c",
+          "opcodeHex": "0x0168"
+        },
+        {
+          "direction": "s2c",
+          "opcodeHex": "0x0169"
+        },
+        {
+          "direction": "s2c",
+          "opcodeHex": "0x016a"
+        }
+      ]
+    },
+    {
+      "bcsyId": "BCS-Y-0959",
+      "name": "SendLogReceiver::body_parser_0x15A_0x164_FUN_008a1f90",
+      "kind": "function",
+      "opcodeBindings": [
+        {
+          "direction": "s2c",
+          "opcodeHex": "0x0157"
+        },
+        {
+          "direction": "s2c",
+          "opcodeHex": "0x0158"
+        },
+        {
+          "direction": "s2c",
+          "opcodeHex": "0x0159"
+        },
+        {
+          "direction": "s2c",
+          "opcodeHex": "0x015a"
+        },
+        {
+          "direction": "s2c",
+          "opcodeHex": "0x015b"
+        },
+        {
+          "direction": "s2c",
+          "opcodeHex": "0x015c"
+        },
+        {
+          "direction": "s2c",
+          "opcodeHex": "0x015d"
+        },
+        {
+          "direction": "s2c",
+          "opcodeHex": "0x015e"
+        },
+        {
+          "direction": "s2c",
+          "opcodeHex": "0x015f"
+        },
+        {
+          "direction": "s2c",
+          "opcodeHex": "0x0160"
+        },
+        {
+          "direction": "s2c",
+          "opcodeHex": "0x0161"
+        },
+        {
+          "direction": "s2c",
+          "opcodeHex": "0x0162"
+        },
+        {
+          "direction": "s2c",
+          "opcodeHex": "0x0163"
+        },
+        {
+          "direction": "s2c",
+          "opcodeHex": "0x0164"
+        },
+        {
+          "direction": "s2c",
+          "opcodeHex": "0x0165"
+        },
+        {
+          "direction": "s2c",
+          "opcodeHex": "0x0166"
+        },
+        {
+          "direction": "s2c",
+          "opcodeHex": "0x0167"
+        },
+        {
+          "direction": "s2c",
+          "opcodeHex": "0x0168"
+        },
+        {
+          "direction": "s2c",
+          "opcodeHex": "0x0169"
+        },
+        {
+          "direction": "s2c",
+          "opcodeHex": "0x016a"
+        }
+      ]
+    },
+    {
+      "bcsyId": "BCS-Y-0960",
+      "name": "SendLogReceiver::body_parser_0x15B_0x165_FUN_008a2360",
+      "kind": "function",
+      "opcodeBindings": [
+        {
+          "direction": "s2c",
+          "opcodeHex": "0x0157"
+        },
+        {
+          "direction": "s2c",
+          "opcodeHex": "0x0158"
+        },
+        {
+          "direction": "s2c",
+          "opcodeHex": "0x0159"
+        },
+        {
+          "direction": "s2c",
+          "opcodeHex": "0x015a"
+        },
+        {
+          "direction": "s2c",
+          "opcodeHex": "0x015b"
+        },
+        {
+          "direction": "s2c",
+          "opcodeHex": "0x015c"
+        },
+        {
+          "direction": "s2c",
+          "opcodeHex": "0x015d"
+        },
+        {
+          "direction": "s2c",
+          "opcodeHex": "0x015e"
+        },
+        {
+          "direction": "s2c",
+          "opcodeHex": "0x015f"
+        },
+        {
+          "direction": "s2c",
+          "opcodeHex": "0x0160"
+        },
+        {
+          "direction": "s2c",
+          "opcodeHex": "0x0161"
+        },
+        {
+          "direction": "s2c",
+          "opcodeHex": "0x0162"
+        },
+        {
+          "direction": "s2c",
+          "opcodeHex": "0x0163"
+        },
+        {
+          "direction": "s2c",
+          "opcodeHex": "0x0164"
+        },
+        {
+          "direction": "s2c",
+          "opcodeHex": "0x0165"
+        },
+        {
+          "direction": "s2c",
+          "opcodeHex": "0x0166"
+        },
+        {
+          "direction": "s2c",
+          "opcodeHex": "0x0167"
+        },
+        {
+          "direction": "s2c",
+          "opcodeHex": "0x0168"
+        },
+        {
+          "direction": "s2c",
+          "opcodeHex": "0x0169"
+        },
+        {
+          "direction": "s2c",
+          "opcodeHex": "0x016a"
+        }
+      ]
+    },
+    {
+      "bcsyId": "BCS-Y-0961",
+      "name": "SendLogReceiver::body_parser_0x15C_0x166_FUN_008a0a60",
+      "kind": "function",
+      "opcodeBindings": [
+        {
+          "direction": "s2c",
+          "opcodeHex": "0x0157"
+        },
+        {
+          "direction": "s2c",
+          "opcodeHex": "0x0158"
+        },
+        {
+          "direction": "s2c",
+          "opcodeHex": "0x0159"
+        },
+        {
+          "direction": "s2c",
+          "opcodeHex": "0x015a"
+        },
+        {
+          "direction": "s2c",
+          "opcodeHex": "0x015b"
+        },
+        {
+          "direction": "s2c",
+          "opcodeHex": "0x015c"
+        },
+        {
+          "direction": "s2c",
+          "opcodeHex": "0x015d"
+        },
+        {
+          "direction": "s2c",
+          "opcodeHex": "0x015e"
+        },
+        {
+          "direction": "s2c",
+          "opcodeHex": "0x015f"
+        },
+        {
+          "direction": "s2c",
+          "opcodeHex": "0x0160"
+        },
+        {
+          "direction": "s2c",
+          "opcodeHex": "0x0161"
+        },
+        {
+          "direction": "s2c",
+          "opcodeHex": "0x0162"
+        },
+        {
+          "direction": "s2c",
+          "opcodeHex": "0x0163"
+        },
+        {
+          "direction": "s2c",
+          "opcodeHex": "0x0164"
+        },
+        {
+          "direction": "s2c",
+          "opcodeHex": "0x0165"
+        },
+        {
+          "direction": "s2c",
+          "opcodeHex": "0x0166"
+        },
+        {
+          "direction": "s2c",
+          "opcodeHex": "0x0167"
+        },
+        {
+          "direction": "s2c",
+          "opcodeHex": "0x0168"
+        },
+        {
+          "direction": "s2c",
+          "opcodeHex": "0x0169"
+        },
+        {
+          "direction": "s2c",
+          "opcodeHex": "0x016a"
+        }
+      ]
+    },
+    {
+      "bcsyId": "BCS-Y-0962",
+      "name": "SendLogReceiver::body_parser_0x15D_FUN_008a2060",
+      "kind": "function",
+      "opcodeBindings": [
+        {
+          "direction": "s2c",
+          "opcodeHex": "0x0157"
+        },
+        {
+          "direction": "s2c",
+          "opcodeHex": "0x0158"
+        },
+        {
+          "direction": "s2c",
+          "opcodeHex": "0x0159"
+        },
+        {
+          "direction": "s2c",
+          "opcodeHex": "0x015a"
+        },
+        {
+          "direction": "s2c",
+          "opcodeHex": "0x015b"
+        },
+        {
+          "direction": "s2c",
+          "opcodeHex": "0x015c"
+        },
+        {
+          "direction": "s2c",
+          "opcodeHex": "0x015d"
+        },
+        {
+          "direction": "s2c",
+          "opcodeHex": "0x015e"
+        },
+        {
+          "direction": "s2c",
+          "opcodeHex": "0x015f"
+        },
+        {
+          "direction": "s2c",
+          "opcodeHex": "0x0160"
+        },
+        {
+          "direction": "s2c",
+          "opcodeHex": "0x0161"
+        },
+        {
+          "direction": "s2c",
+          "opcodeHex": "0x0162"
+        },
+        {
+          "direction": "s2c",
+          "opcodeHex": "0x0163"
+        },
+        {
+          "direction": "s2c",
+          "opcodeHex": "0x0164"
+        },
+        {
+          "direction": "s2c",
+          "opcodeHex": "0x0165"
+        },
+        {
+          "direction": "s2c",
+          "opcodeHex": "0x0166"
+        },
+        {
+          "direction": "s2c",
+          "opcodeHex": "0x0167"
+        },
+        {
+          "direction": "s2c",
+          "opcodeHex": "0x0168"
+        },
+        {
+          "direction": "s2c",
+          "opcodeHex": "0x0169"
+        },
+        {
+          "direction": "s2c",
+          "opcodeHex": "0x016a"
+        }
+      ]
+    },
+    {
+      "bcsyId": "BCS-Y-0963",
+      "name": "SendLogReceiver::body_parser_0x15E_FUN_008a2120",
+      "kind": "function",
+      "opcodeBindings": [
+        {
+          "direction": "s2c",
+          "opcodeHex": "0x0157"
+        },
+        {
+          "direction": "s2c",
+          "opcodeHex": "0x0158"
+        },
+        {
+          "direction": "s2c",
+          "opcodeHex": "0x0159"
+        },
+        {
+          "direction": "s2c",
+          "opcodeHex": "0x015a"
+        },
+        {
+          "direction": "s2c",
+          "opcodeHex": "0x015b"
+        },
+        {
+          "direction": "s2c",
+          "opcodeHex": "0x015c"
+        },
+        {
+          "direction": "s2c",
+          "opcodeHex": "0x015d"
+        },
+        {
+          "direction": "s2c",
+          "opcodeHex": "0x015e"
+        },
+        {
+          "direction": "s2c",
+          "opcodeHex": "0x015f"
+        },
+        {
+          "direction": "s2c",
+          "opcodeHex": "0x0160"
+        },
+        {
+          "direction": "s2c",
+          "opcodeHex": "0x0161"
+        },
+        {
+          "direction": "s2c",
+          "opcodeHex": "0x0162"
+        },
+        {
+          "direction": "s2c",
+          "opcodeHex": "0x0163"
+        },
+        {
+          "direction": "s2c",
+          "opcodeHex": "0x0164"
+        },
+        {
+          "direction": "s2c",
+          "opcodeHex": "0x0165"
+        },
+        {
+          "direction": "s2c",
+          "opcodeHex": "0x0166"
+        },
+        {
+          "direction": "s2c",
+          "opcodeHex": "0x0167"
+        },
+        {
+          "direction": "s2c",
+          "opcodeHex": "0x0168"
+        },
+        {
+          "direction": "s2c",
+          "opcodeHex": "0x0169"
+        },
+        {
+          "direction": "s2c",
+          "opcodeHex": "0x016a"
+        }
+      ]
+    },
+    {
+      "bcsyId": "BCS-Y-0964",
+      "name": "SendLogReceiver::body_parser_0x15F_FUN_008a21e0",
+      "kind": "function",
+      "opcodeBindings": [
+        {
+          "direction": "s2c",
+          "opcodeHex": "0x0157"
+        },
+        {
+          "direction": "s2c",
+          "opcodeHex": "0x0158"
+        },
+        {
+          "direction": "s2c",
+          "opcodeHex": "0x0159"
+        },
+        {
+          "direction": "s2c",
+          "opcodeHex": "0x015a"
+        },
+        {
+          "direction": "s2c",
+          "opcodeHex": "0x015b"
+        },
+        {
+          "direction": "s2c",
+          "opcodeHex": "0x015c"
+        },
+        {
+          "direction": "s2c",
+          "opcodeHex": "0x015d"
+        },
+        {
+          "direction": "s2c",
+          "opcodeHex": "0x015e"
+        },
+        {
+          "direction": "s2c",
+          "opcodeHex": "0x015f"
+        },
+        {
+          "direction": "s2c",
+          "opcodeHex": "0x0160"
+        },
+        {
+          "direction": "s2c",
+          "opcodeHex": "0x0161"
+        },
+        {
+          "direction": "s2c",
+          "opcodeHex": "0x0162"
+        },
+        {
+          "direction": "s2c",
+          "opcodeHex": "0x0163"
+        },
+        {
+          "direction": "s2c",
+          "opcodeHex": "0x0164"
+        },
+        {
+          "direction": "s2c",
+          "opcodeHex": "0x0165"
+        },
+        {
+          "direction": "s2c",
+          "opcodeHex": "0x0166"
+        },
+        {
+          "direction": "s2c",
+          "opcodeHex": "0x0167"
+        },
+        {
+          "direction": "s2c",
+          "opcodeHex": "0x0168"
+        },
+        {
+          "direction": "s2c",
+          "opcodeHex": "0x0169"
+        },
+        {
+          "direction": "s2c",
+          "opcodeHex": "0x016a"
+        }
+      ]
+    },
+    {
+      "bcsyId": "BCS-Y-0965",
+      "name": "SendLogReceiver::body_parser_0x160_FUN_008a22b0",
+      "kind": "function",
+      "opcodeBindings": [
+        {
+          "direction": "s2c",
+          "opcodeHex": "0x0157"
+        },
+        {
+          "direction": "s2c",
+          "opcodeHex": "0x0158"
+        },
+        {
+          "direction": "s2c",
+          "opcodeHex": "0x0159"
+        },
+        {
+          "direction": "s2c",
+          "opcodeHex": "0x015a"
+        },
+        {
+          "direction": "s2c",
+          "opcodeHex": "0x015b"
+        },
+        {
+          "direction": "s2c",
+          "opcodeHex": "0x015c"
+        },
+        {
+          "direction": "s2c",
+          "opcodeHex": "0x015d"
+        },
+        {
+          "direction": "s2c",
+          "opcodeHex": "0x015e"
+        },
+        {
+          "direction": "s2c",
+          "opcodeHex": "0x015f"
+        },
+        {
+          "direction": "s2c",
+          "opcodeHex": "0x0160"
+        },
+        {
+          "direction": "s2c",
+          "opcodeHex": "0x0161"
+        },
+        {
+          "direction": "s2c",
+          "opcodeHex": "0x0162"
+        },
+        {
+          "direction": "s2c",
+          "opcodeHex": "0x0163"
+        },
+        {
+          "direction": "s2c",
+          "opcodeHex": "0x0164"
+        },
+        {
+          "direction": "s2c",
+          "opcodeHex": "0x0165"
+        },
+        {
+          "direction": "s2c",
+          "opcodeHex": "0x0166"
+        },
+        {
+          "direction": "s2c",
+          "opcodeHex": "0x0167"
+        },
+        {
+          "direction": "s2c",
+          "opcodeHex": "0x0168"
+        },
+        {
+          "direction": "s2c",
+          "opcodeHex": "0x0169"
+        },
+        {
+          "direction": "s2c",
+          "opcodeHex": "0x016a"
+        }
+      ]
+    },
+    {
+      "bcsyId": "BCS-Y-0966",
+      "name": "SendLogReceiver::body_parser_0x167_FUN_008a2410",
+      "kind": "function",
+      "opcodeBindings": [
+        {
+          "direction": "s2c",
+          "opcodeHex": "0x0157"
+        },
+        {
+          "direction": "s2c",
+          "opcodeHex": "0x0158"
+        },
+        {
+          "direction": "s2c",
+          "opcodeHex": "0x0159"
+        },
+        {
+          "direction": "s2c",
+          "opcodeHex": "0x015a"
+        },
+        {
+          "direction": "s2c",
+          "opcodeHex": "0x015b"
+        },
+        {
+          "direction": "s2c",
+          "opcodeHex": "0x015c"
+        },
+        {
+          "direction": "s2c",
+          "opcodeHex": "0x015d"
+        },
+        {
+          "direction": "s2c",
+          "opcodeHex": "0x015e"
+        },
+        {
+          "direction": "s2c",
+          "opcodeHex": "0x015f"
+        },
+        {
+          "direction": "s2c",
+          "opcodeHex": "0x0160"
+        },
+        {
+          "direction": "s2c",
+          "opcodeHex": "0x0161"
+        },
+        {
+          "direction": "s2c",
+          "opcodeHex": "0x0162"
+        },
+        {
+          "direction": "s2c",
+          "opcodeHex": "0x0163"
+        },
+        {
+          "direction": "s2c",
+          "opcodeHex": "0x0164"
+        },
+        {
+          "direction": "s2c",
+          "opcodeHex": "0x0165"
+        },
+        {
+          "direction": "s2c",
+          "opcodeHex": "0x0166"
+        },
+        {
+          "direction": "s2c",
+          "opcodeHex": "0x0167"
+        },
+        {
+          "direction": "s2c",
+          "opcodeHex": "0x0168"
+        },
+        {
+          "direction": "s2c",
+          "opcodeHex": "0x0169"
+        },
+        {
+          "direction": "s2c",
+          "opcodeHex": "0x016a"
+        }
+      ]
+    },
+    {
+      "bcsyId": "BCS-Y-0967",
+      "name": "SendLogReceiver::body_parser_0x168_FUN_008a24d0",
+      "kind": "function",
+      "opcodeBindings": [
+        {
+          "direction": "s2c",
+          "opcodeHex": "0x0157"
+        },
+        {
+          "direction": "s2c",
+          "opcodeHex": "0x0158"
+        },
+        {
+          "direction": "s2c",
+          "opcodeHex": "0x0159"
+        },
+        {
+          "direction": "s2c",
+          "opcodeHex": "0x015a"
+        },
+        {
+          "direction": "s2c",
+          "opcodeHex": "0x015b"
+        },
+        {
+          "direction": "s2c",
+          "opcodeHex": "0x015c"
+        },
+        {
+          "direction": "s2c",
+          "opcodeHex": "0x015d"
+        },
+        {
+          "direction": "s2c",
+          "opcodeHex": "0x015e"
+        },
+        {
+          "direction": "s2c",
+          "opcodeHex": "0x015f"
+        },
+        {
+          "direction": "s2c",
+          "opcodeHex": "0x0160"
+        },
+        {
+          "direction": "s2c",
+          "opcodeHex": "0x0161"
+        },
+        {
+          "direction": "s2c",
+          "opcodeHex": "0x0162"
+        },
+        {
+          "direction": "s2c",
+          "opcodeHex": "0x0163"
+        },
+        {
+          "direction": "s2c",
+          "opcodeHex": "0x0164"
+        },
+        {
+          "direction": "s2c",
+          "opcodeHex": "0x0165"
+        },
+        {
+          "direction": "s2c",
+          "opcodeHex": "0x0166"
+        },
+        {
+          "direction": "s2c",
+          "opcodeHex": "0x0167"
+        },
+        {
+          "direction": "s2c",
+          "opcodeHex": "0x0168"
+        },
+        {
+          "direction": "s2c",
+          "opcodeHex": "0x0169"
+        },
+        {
+          "direction": "s2c",
+          "opcodeHex": "0x016a"
+        }
+      ]
+    },
+    {
+      "bcsyId": "BCS-Y-0968",
+      "name": "SendLogReceiver::body_parser_0x169_FUN_008a2590",
+      "kind": "function",
+      "opcodeBindings": [
+        {
+          "direction": "s2c",
+          "opcodeHex": "0x0157"
+        },
+        {
+          "direction": "s2c",
+          "opcodeHex": "0x0158"
+        },
+        {
+          "direction": "s2c",
+          "opcodeHex": "0x0159"
+        },
+        {
+          "direction": "s2c",
+          "opcodeHex": "0x015a"
+        },
+        {
+          "direction": "s2c",
+          "opcodeHex": "0x015b"
+        },
+        {
+          "direction": "s2c",
+          "opcodeHex": "0x015c"
+        },
+        {
+          "direction": "s2c",
+          "opcodeHex": "0x015d"
+        },
+        {
+          "direction": "s2c",
+          "opcodeHex": "0x015e"
+        },
+        {
+          "direction": "s2c",
+          "opcodeHex": "0x015f"
+        },
+        {
+          "direction": "s2c",
+          "opcodeHex": "0x0160"
+        },
+        {
+          "direction": "s2c",
+          "opcodeHex": "0x0161"
+        },
+        {
+          "direction": "s2c",
+          "opcodeHex": "0x0162"
+        },
+        {
+          "direction": "s2c",
+          "opcodeHex": "0x0163"
+        },
+        {
+          "direction": "s2c",
+          "opcodeHex": "0x0164"
+        },
+        {
+          "direction": "s2c",
+          "opcodeHex": "0x0165"
+        },
+        {
+          "direction": "s2c",
+          "opcodeHex": "0x0166"
+        },
+        {
+          "direction": "s2c",
+          "opcodeHex": "0x0167"
+        },
+        {
+          "direction": "s2c",
+          "opcodeHex": "0x0168"
+        },
+        {
+          "direction": "s2c",
+          "opcodeHex": "0x0169"
+        },
+        {
+          "direction": "s2c",
+          "opcodeHex": "0x016a"
+        }
+      ]
+    },
+    {
+      "bcsyId": "BCS-Y-0969",
+      "name": "SendLogReceiver::body_parser_0x16A_FUN_008a2660",
+      "kind": "function",
+      "opcodeBindings": [
+        {
+          "direction": "s2c",
+          "opcodeHex": "0x0157"
+        },
+        {
+          "direction": "s2c",
+          "opcodeHex": "0x0158"
+        },
+        {
+          "direction": "s2c",
+          "opcodeHex": "0x0159"
+        },
+        {
+          "direction": "s2c",
+          "opcodeHex": "0x015a"
+        },
+        {
+          "direction": "s2c",
+          "opcodeHex": "0x015b"
+        },
+        {
+          "direction": "s2c",
+          "opcodeHex": "0x015c"
+        },
+        {
+          "direction": "s2c",
+          "opcodeHex": "0x015d"
+        },
+        {
+          "direction": "s2c",
+          "opcodeHex": "0x015e"
+        },
+        {
+          "direction": "s2c",
+          "opcodeHex": "0x015f"
+        },
+        {
+          "direction": "s2c",
+          "opcodeHex": "0x0160"
+        },
+        {
+          "direction": "s2c",
+          "opcodeHex": "0x0161"
+        },
+        {
+          "direction": "s2c",
+          "opcodeHex": "0x0162"
+        },
+        {
+          "direction": "s2c",
+          "opcodeHex": "0x0163"
+        },
+        {
+          "direction": "s2c",
+          "opcodeHex": "0x0164"
+        },
+        {
+          "direction": "s2c",
+          "opcodeHex": "0x0165"
+        },
+        {
+          "direction": "s2c",
+          "opcodeHex": "0x0166"
+        },
+        {
+          "direction": "s2c",
+          "opcodeHex": "0x0167"
+        },
+        {
+          "direction": "s2c",
+          "opcodeHex": "0x0168"
+        },
+        {
+          "direction": "s2c",
+          "opcodeHex": "0x0169"
+        },
+        {
+          "direction": "s2c",
+          "opcodeHex": "0x016a"
+        }
+      ]
+    },
+    {
+      "bcsyId": "BCS-Y-0970",
+      "name": "SendLogReceiver::install_actor_id_FUN_008a28c0",
+      "kind": "function",
+      "opcodeBindings": [
+        {
+          "direction": "s2c",
+          "opcodeHex": "0x0157"
+        },
+        {
+          "direction": "s2c",
+          "opcodeHex": "0x0158"
+        },
+        {
+          "direction": "s2c",
+          "opcodeHex": "0x0159"
+        },
+        {
+          "direction": "s2c",
+          "opcodeHex": "0x015a"
+        },
+        {
+          "direction": "s2c",
+          "opcodeHex": "0x015b"
+        },
+        {
+          "direction": "s2c",
+          "opcodeHex": "0x015c"
+        },
+        {
+          "direction": "s2c",
+          "opcodeHex": "0x015d"
+        },
+        {
+          "direction": "s2c",
+          "opcodeHex": "0x015e"
+        },
+        {
+          "direction": "s2c",
+          "opcodeHex": "0x015f"
+        },
+        {
+          "direction": "s2c",
+          "opcodeHex": "0x0160"
+        },
+        {
+          "direction": "s2c",
+          "opcodeHex": "0x0161"
+        },
+        {
+          "direction": "s2c",
+          "opcodeHex": "0x0162"
+        },
+        {
+          "direction": "s2c",
+          "opcodeHex": "0x0163"
+        },
+        {
+          "direction": "s2c",
+          "opcodeHex": "0x0164"
+        },
+        {
+          "direction": "s2c",
+          "opcodeHex": "0x0165"
+        },
+        {
+          "direction": "s2c",
+          "opcodeHex": "0x0166"
+        },
+        {
+          "direction": "s2c",
+          "opcodeHex": "0x0167"
+        },
+        {
+          "direction": "s2c",
+          "opcodeHex": "0x0168"
+        },
+        {
+          "direction": "s2c",
+          "opcodeHex": "0x0169"
+        },
+        {
+          "direction": "s2c",
+          "opcodeHex": "0x016a"
+        }
+      ]
+    },
+    {
+      "bcsyId": "BCS-Y-0971",
+      "name": "SendLogReceiver::install_without_actor_FUN_008a2940",
+      "kind": "function",
+      "opcodeBindings": [
+        {
+          "direction": "s2c",
+          "opcodeHex": "0x0157"
+        },
+        {
+          "direction": "s2c",
+          "opcodeHex": "0x0158"
+        },
+        {
+          "direction": "s2c",
+          "opcodeHex": "0x0159"
+        },
+        {
+          "direction": "s2c",
+          "opcodeHex": "0x015a"
+        },
+        {
+          "direction": "s2c",
+          "opcodeHex": "0x015b"
+        },
+        {
+          "direction": "s2c",
+          "opcodeHex": "0x015c"
+        },
+        {
+          "direction": "s2c",
+          "opcodeHex": "0x015d"
+        },
+        {
+          "direction": "s2c",
+          "opcodeHex": "0x015e"
+        },
+        {
+          "direction": "s2c",
+          "opcodeHex": "0x015f"
+        },
+        {
+          "direction": "s2c",
+          "opcodeHex": "0x0160"
+        },
+        {
+          "direction": "s2c",
+          "opcodeHex": "0x0161"
+        },
+        {
+          "direction": "s2c",
+          "opcodeHex": "0x0162"
+        },
+        {
+          "direction": "s2c",
+          "opcodeHex": "0x0163"
+        },
+        {
+          "direction": "s2c",
+          "opcodeHex": "0x0164"
+        },
+        {
+          "direction": "s2c",
+          "opcodeHex": "0x0165"
+        },
+        {
+          "direction": "s2c",
+          "opcodeHex": "0x0166"
+        },
+        {
+          "direction": "s2c",
+          "opcodeHex": "0x0167"
+        },
+        {
+          "direction": "s2c",
+          "opcodeHex": "0x0168"
+        },
+        {
+          "direction": "s2c",
+          "opcodeHex": "0x0169"
+        },
+        {
+          "direction": "s2c",
+          "opcodeHex": "0x016a"
+        }
+      ]
+    },
+    {
+      "bcsyId": "BCS-Y-0972",
+      "name": "SendLogReceiver::install_display_id_FUN_008a29b0",
+      "kind": "function",
+      "opcodeBindings": [
+        {
+          "direction": "s2c",
+          "opcodeHex": "0x0157"
+        },
+        {
+          "direction": "s2c",
+          "opcodeHex": "0x0158"
+        },
+        {
+          "direction": "s2c",
+          "opcodeHex": "0x0159"
+        },
+        {
+          "direction": "s2c",
+          "opcodeHex": "0x015a"
+        },
+        {
+          "direction": "s2c",
+          "opcodeHex": "0x015b"
+        },
+        {
+          "direction": "s2c",
+          "opcodeHex": "0x015c"
+        },
+        {
+          "direction": "s2c",
+          "opcodeHex": "0x015d"
+        },
+        {
+          "direction": "s2c",
+          "opcodeHex": "0x015e"
+        },
+        {
+          "direction": "s2c",
+          "opcodeHex": "0x015f"
+        },
+        {
+          "direction": "s2c",
+          "opcodeHex": "0x0160"
+        },
+        {
+          "direction": "s2c",
+          "opcodeHex": "0x0161"
+        },
+        {
+          "direction": "s2c",
+          "opcodeHex": "0x0162"
+        },
+        {
+          "direction": "s2c",
+          "opcodeHex": "0x0163"
+        },
+        {
+          "direction": "s2c",
+          "opcodeHex": "0x0164"
+        },
+        {
+          "direction": "s2c",
+          "opcodeHex": "0x0165"
+        },
+        {
+          "direction": "s2c",
+          "opcodeHex": "0x0166"
+        },
+        {
+          "direction": "s2c",
+          "opcodeHex": "0x0167"
+        },
+        {
+          "direction": "s2c",
+          "opcodeHex": "0x0168"
+        },
+        {
+          "direction": "s2c",
+          "opcodeHex": "0x0169"
+        },
+        {
+          "direction": "s2c",
+          "opcodeHex": "0x016a"
+        }
+      ]
+    },
+    {
+      "bcsyId": "BCS-Y-0973",
+      "name": "SendLogReceiver::apply_case0x01_ctx_resolver_FUN_008a1510",
+      "kind": "function",
+      "opcodeBindings": [
+        {
+          "direction": "s2c",
+          "opcodeHex": "0x0157"
+        },
+        {
+          "direction": "s2c",
+          "opcodeHex": "0x0158"
+        },
+        {
+          "direction": "s2c",
+          "opcodeHex": "0x0159"
+        },
+        {
+          "direction": "s2c",
+          "opcodeHex": "0x015a"
+        },
+        {
+          "direction": "s2c",
+          "opcodeHex": "0x015b"
+        },
+        {
+          "direction": "s2c",
+          "opcodeHex": "0x015c"
+        },
+        {
+          "direction": "s2c",
+          "opcodeHex": "0x015d"
+        },
+        {
+          "direction": "s2c",
+          "opcodeHex": "0x015e"
+        },
+        {
+          "direction": "s2c",
+          "opcodeHex": "0x015f"
+        },
+        {
+          "direction": "s2c",
+          "opcodeHex": "0x0160"
+        },
+        {
+          "direction": "s2c",
+          "opcodeHex": "0x0161"
+        },
+        {
+          "direction": "s2c",
+          "opcodeHex": "0x0162"
+        },
+        {
+          "direction": "s2c",
+          "opcodeHex": "0x0163"
+        },
+        {
+          "direction": "s2c",
+          "opcodeHex": "0x0164"
+        },
+        {
+          "direction": "s2c",
+          "opcodeHex": "0x0165"
+        },
+        {
+          "direction": "s2c",
+          "opcodeHex": "0x0166"
+        },
+        {
+          "direction": "s2c",
+          "opcodeHex": "0x0167"
+        },
+        {
+          "direction": "s2c",
+          "opcodeHex": "0x0168"
+        },
+        {
+          "direction": "s2c",
+          "opcodeHex": "0x0169"
+        },
+        {
+          "direction": "s2c",
+          "opcodeHex": "0x016a"
+        }
+      ]
+    },
+    {
+      "bcsyId": "BCS-Y-0974",
+      "name": "SendLogReceiver::apply_case0x02_sender_resolver_FUN_008a15b0",
+      "kind": "function",
+      "opcodeBindings": [
+        {
+          "direction": "s2c",
+          "opcodeHex": "0x0157"
+        },
+        {
+          "direction": "s2c",
+          "opcodeHex": "0x0158"
+        },
+        {
+          "direction": "s2c",
+          "opcodeHex": "0x0159"
+        },
+        {
+          "direction": "s2c",
+          "opcodeHex": "0x015a"
+        },
+        {
+          "direction": "s2c",
+          "opcodeHex": "0x015b"
+        },
+        {
+          "direction": "s2c",
+          "opcodeHex": "0x015c"
+        },
+        {
+          "direction": "s2c",
+          "opcodeHex": "0x015d"
+        },
+        {
+          "direction": "s2c",
+          "opcodeHex": "0x015e"
+        },
+        {
+          "direction": "s2c",
+          "opcodeHex": "0x015f"
+        },
+        {
+          "direction": "s2c",
+          "opcodeHex": "0x0160"
+        },
+        {
+          "direction": "s2c",
+          "opcodeHex": "0x0161"
+        },
+        {
+          "direction": "s2c",
+          "opcodeHex": "0x0162"
+        },
+        {
+          "direction": "s2c",
+          "opcodeHex": "0x0163"
+        },
+        {
+          "direction": "s2c",
+          "opcodeHex": "0x0164"
+        },
+        {
+          "direction": "s2c",
+          "opcodeHex": "0x0165"
+        },
+        {
+          "direction": "s2c",
+          "opcodeHex": "0x0166"
+        },
+        {
+          "direction": "s2c",
+          "opcodeHex": "0x0167"
+        },
+        {
+          "direction": "s2c",
+          "opcodeHex": "0x0168"
+        },
+        {
+          "direction": "s2c",
+          "opcodeHex": "0x0169"
+        },
+        {
+          "direction": "s2c",
+          "opcodeHex": "0x016a"
+        }
+      ]
+    },
+    {
+      "bcsyId": "BCS-Y-0975",
+      "name": "SendLogReceiver::apply_render_default_FUN_00772050",
+      "kind": "function",
+      "opcodeBindings": [
+        {
+          "direction": "s2c",
+          "opcodeHex": "0x0157"
+        },
+        {
+          "direction": "s2c",
+          "opcodeHex": "0x0158"
+        },
+        {
+          "direction": "s2c",
+          "opcodeHex": "0x0159"
+        },
+        {
+          "direction": "s2c",
+          "opcodeHex": "0x015a"
+        },
+        {
+          "direction": "s2c",
+          "opcodeHex": "0x015b"
+        },
+        {
+          "direction": "s2c",
+          "opcodeHex": "0x015c"
+        },
+        {
+          "direction": "s2c",
+          "opcodeHex": "0x015d"
+        },
+        {
+          "direction": "s2c",
+          "opcodeHex": "0x015e"
+        },
+        {
+          "direction": "s2c",
+          "opcodeHex": "0x015f"
+        },
+        {
+          "direction": "s2c",
+          "opcodeHex": "0x0160"
+        },
+        {
+          "direction": "s2c",
+          "opcodeHex": "0x0161"
+        },
+        {
+          "direction": "s2c",
+          "opcodeHex": "0x0162"
+        },
+        {
+          "direction": "s2c",
+          "opcodeHex": "0x0163"
+        },
+        {
+          "direction": "s2c",
+          "opcodeHex": "0x0164"
+        },
+        {
+          "direction": "s2c",
+          "opcodeHex": "0x0165"
+        },
+        {
+          "direction": "s2c",
+          "opcodeHex": "0x0166"
+        },
+        {
+          "direction": "s2c",
+          "opcodeHex": "0x0167"
+        },
+        {
+          "direction": "s2c",
+          "opcodeHex": "0x0168"
+        },
+        {
+          "direction": "s2c",
+          "opcodeHex": "0x0169"
+        },
+        {
+          "direction": "s2c",
+          "opcodeHex": "0x016a"
+        }
+      ]
+    },
+    {
+      "bcsyId": "BCS-Y-0976",
+      "name": "SendLogReceiver::apply_render_charabase_FUN_00771f50",
+      "kind": "function",
+      "opcodeBindings": [
+        {
+          "direction": "s2c",
+          "opcodeHex": "0x0157"
+        },
+        {
+          "direction": "s2c",
+          "opcodeHex": "0x0158"
+        },
+        {
+          "direction": "s2c",
+          "opcodeHex": "0x0159"
+        },
+        {
+          "direction": "s2c",
+          "opcodeHex": "0x015a"
+        },
+        {
+          "direction": "s2c",
+          "opcodeHex": "0x015b"
+        },
+        {
+          "direction": "s2c",
+          "opcodeHex": "0x015c"
+        },
+        {
+          "direction": "s2c",
+          "opcodeHex": "0x015d"
+        },
+        {
+          "direction": "s2c",
+          "opcodeHex": "0x015e"
+        },
+        {
+          "direction": "s2c",
+          "opcodeHex": "0x015f"
+        },
+        {
+          "direction": "s2c",
+          "opcodeHex": "0x0160"
+        },
+        {
+          "direction": "s2c",
+          "opcodeHex": "0x0161"
+        },
+        {
+          "direction": "s2c",
+          "opcodeHex": "0x0162"
+        },
+        {
+          "direction": "s2c",
+          "opcodeHex": "0x0163"
+        },
+        {
+          "direction": "s2c",
+          "opcodeHex": "0x0164"
+        },
+        {
+          "direction": "s2c",
+          "opcodeHex": "0x0165"
+        },
+        {
+          "direction": "s2c",
+          "opcodeHex": "0x0166"
+        },
+        {
+          "direction": "s2c",
+          "opcodeHex": "0x0167"
+        },
+        {
+          "direction": "s2c",
+          "opcodeHex": "0x0168"
+        },
+        {
+          "direction": "s2c",
+          "opcodeHex": "0x0169"
+        },
+        {
+          "direction": "s2c",
+          "opcodeHex": "0x016a"
+        }
+      ]
+    },
+    {
+      "bcsyId": "BCS-Y-0977",
+      "name": "SendLogReceiver::apply_render_displayid_FUN_007721b0",
+      "kind": "function",
+      "opcodeBindings": [
+        {
+          "direction": "s2c",
+          "opcodeHex": "0x0157"
+        },
+        {
+          "direction": "s2c",
+          "opcodeHex": "0x0158"
+        },
+        {
+          "direction": "s2c",
+          "opcodeHex": "0x0159"
+        },
+        {
+          "direction": "s2c",
+          "opcodeHex": "0x015a"
+        },
+        {
+          "direction": "s2c",
+          "opcodeHex": "0x015b"
+        },
+        {
+          "direction": "s2c",
+          "opcodeHex": "0x015c"
+        },
+        {
+          "direction": "s2c",
+          "opcodeHex": "0x015d"
+        },
+        {
+          "direction": "s2c",
+          "opcodeHex": "0x015e"
+        },
+        {
+          "direction": "s2c",
+          "opcodeHex": "0x015f"
+        },
+        {
+          "direction": "s2c",
+          "opcodeHex": "0x0160"
+        },
+        {
+          "direction": "s2c",
+          "opcodeHex": "0x0161"
+        },
+        {
+          "direction": "s2c",
+          "opcodeHex": "0x0162"
+        },
+        {
+          "direction": "s2c",
+          "opcodeHex": "0x0163"
+        },
+        {
+          "direction": "s2c",
+          "opcodeHex": "0x0164"
+        },
+        {
+          "direction": "s2c",
+          "opcodeHex": "0x0165"
+        },
+        {
+          "direction": "s2c",
+          "opcodeHex": "0x0166"
+        },
+        {
+          "direction": "s2c",
+          "opcodeHex": "0x0167"
+        },
+        {
+          "direction": "s2c",
+          "opcodeHex": "0x0168"
+        },
+        {
+          "direction": "s2c",
+          "opcodeHex": "0x0169"
+        },
+        {
+          "direction": "s2c",
+          "opcodeHex": "0x016a"
+        }
+      ]
+    },
+    {
+      "bcsyId": "BCS-Y-0978",
+      "name": "SendLogReceiver::apply_render_customsender_FUN_00772560",
+      "kind": "function",
+      "opcodeBindings": [
+        {
+          "direction": "s2c",
+          "opcodeHex": "0x0157"
+        },
+        {
+          "direction": "s2c",
+          "opcodeHex": "0x0158"
+        },
+        {
+          "direction": "s2c",
+          "opcodeHex": "0x0159"
+        },
+        {
+          "direction": "s2c",
+          "opcodeHex": "0x015a"
+        },
+        {
+          "direction": "s2c",
+          "opcodeHex": "0x015b"
+        },
+        {
+          "direction": "s2c",
+          "opcodeHex": "0x015c"
+        },
+        {
+          "direction": "s2c",
+          "opcodeHex": "0x015d"
+        },
+        {
+          "direction": "s2c",
+          "opcodeHex": "0x015e"
+        },
+        {
+          "direction": "s2c",
+          "opcodeHex": "0x015f"
+        },
+        {
+          "direction": "s2c",
+          "opcodeHex": "0x0160"
+        },
+        {
+          "direction": "s2c",
+          "opcodeHex": "0x0161"
+        },
+        {
+          "direction": "s2c",
+          "opcodeHex": "0x0162"
+        },
+        {
+          "direction": "s2c",
+          "opcodeHex": "0x0163"
+        },
+        {
+          "direction": "s2c",
+          "opcodeHex": "0x0164"
+        },
+        {
+          "direction": "s2c",
+          "opcodeHex": "0x0165"
+        },
+        {
+          "direction": "s2c",
+          "opcodeHex": "0x0166"
+        },
+        {
+          "direction": "s2c",
+          "opcodeHex": "0x0167"
+        },
+        {
+          "direction": "s2c",
+          "opcodeHex": "0x0168"
+        },
+        {
+          "direction": "s2c",
+          "opcodeHex": "0x0169"
+        },
+        {
+          "direction": "s2c",
+          "opcodeHex": "0x016a"
+        }
+      ]
+    },
+    {
+      "bcsyId": "BCS-Y-0979",
+      "name": "SendLogReceiver::apply_render_worldmaster_FUN_00772650",
+      "kind": "function",
+      "opcodeBindings": [
+        {
+          "direction": "s2c",
+          "opcodeHex": "0x0157"
+        },
+        {
+          "direction": "s2c",
+          "opcodeHex": "0x0158"
+        },
+        {
+          "direction": "s2c",
+          "opcodeHex": "0x0159"
+        },
+        {
+          "direction": "s2c",
+          "opcodeHex": "0x015a"
+        },
+        {
+          "direction": "s2c",
+          "opcodeHex": "0x015b"
+        },
+        {
+          "direction": "s2c",
+          "opcodeHex": "0x015c"
+        },
+        {
+          "direction": "s2c",
+          "opcodeHex": "0x015d"
+        },
+        {
+          "direction": "s2c",
+          "opcodeHex": "0x015e"
+        },
+        {
+          "direction": "s2c",
+          "opcodeHex": "0x015f"
+        },
+        {
+          "direction": "s2c",
+          "opcodeHex": "0x0160"
+        },
+        {
+          "direction": "s2c",
+          "opcodeHex": "0x0161"
+        },
+        {
+          "direction": "s2c",
+          "opcodeHex": "0x0162"
+        },
+        {
+          "direction": "s2c",
+          "opcodeHex": "0x0163"
+        },
+        {
+          "direction": "s2c",
+          "opcodeHex": "0x0164"
+        },
+        {
+          "direction": "s2c",
+          "opcodeHex": "0x0165"
+        },
+        {
+          "direction": "s2c",
+          "opcodeHex": "0x0166"
+        },
+        {
+          "direction": "s2c",
+          "opcodeHex": "0x0167"
+        },
+        {
+          "direction": "s2c",
+          "opcodeHex": "0x0168"
+        },
+        {
+          "direction": "s2c",
+          "opcodeHex": "0x0169"
+        },
+        {
+          "direction": "s2c",
+          "opcodeHex": "0x016a"
+        }
+      ]
+    },
+    {
+      "bcsyId": "BCS-Y-0980",
+      "name": "UserDataReceiver::vftable_secondary_6slot",
+      "kind": "global",
+      "opcodeBindings": [
+        {
+          "direction": "s2c",
+          "opcodeHex": "0x0133"
+        }
+      ]
+    },
+    {
+      "bcsyId": "BCS-Y-0981",
+      "name": "MapEventUpdatePacketBuilder_FUN_0075E670",
+      "kind": "function",
+      "opcodeBindings": [
+        {
+          "direction": "c2s",
+          "opcodeHex": "0x012e"
+        }
+      ]
+    },
+    {
+      "bcsyId": "BCS-Y-0982",
+      "name": "EventUpdateCallWrapper_FUN_00894090",
+      "kind": "function",
+      "opcodeBindings": [
+        {
+          "direction": "c2s",
+          "opcodeHex": "0x012e"
+        }
+      ]
+    },
+    {
+      "bcsyId": "BCS-Y-0983",
+      "name": "MapEventC2sGatingThunk_FUN_004D6D30",
+      "kind": "function",
+      "opcodeBindings": [
+        {
+          "direction": "c2s",
+          "opcodeHex": "0x012e"
+        }
+      ]
+    },
+    {
+      "bcsyId": "BCS-Y-0984",
+      "name": "GroupCreatedPacketBuilder_FUN_0075E950",
+      "kind": "function",
+      "opcodeBindings": [
+        {
+          "direction": "c2s",
+          "opcodeHex": "0x0133"
+        }
+      ]
+    },
+    {
+      "bcsyId": "BCS-Y-0985",
+      "name": "GroupStateAggregator_FUN_006C72E0",
+      "kind": "function",
+      "opcodeBindings": [
+        {
+          "direction": "c2s",
+          "opcodeHex": "0x0133"
+        }
+      ]
+    },
+    {
+      "bcsyId": "BCS-Y-0986",
+      "name": "ParameterDataRequestPacketBuilder_FUN_0075E770",
+      "kind": "function",
+      "opcodeBindings": [
+        {
+          "direction": "c2s",
+          "opcodeHex": "0x012f"
+        }
+      ]
+    },
+    {
+      "bcsyId": "BCS-Y-0987",
+      "name": "ParameterDataRequestAggregator_FUN_00767C00",
+      "kind": "function",
+      "opcodeBindings": [
+        {
+          "direction": "c2s",
+          "opcodeHex": "0x012f"
+        }
+      ]
+    },
+    {
+      "bcsyId": "BCS-Y-0988",
+      "name": "SetTargetPacketBuilder_FUN_0075EB30",
+      "kind": "function",
+      "opcodeBindings": [
+        {
+          "direction": "c2s",
+          "opcodeHex": "0x00cd"
+        }
+      ]
+    },
+    {
+      "bcsyId": "BCS-Y-0989",
+      "name": "LockTargetPacketBuilder_FUN_00561BB0",
+      "kind": "function",
+      "opcodeBindings": [
+        {
+          "direction": "c2s",
+          "opcodeHex": "0x00cc"
+        }
+      ]
+    },
+    {
+      "bcsyId": "BCS-Y-0990",
+      "name": "SetControlState_Subop_DefaultRange_FUN_0075F3E0",
+      "kind": "function",
+      "opcodeBindings": [
+        {
+          "direction": "s2c",
+          "opcodeHex": "0x0193"
+        }
+      ]
+    },
+    {
+      "bcsyId": "BCS-Y-0999",
+      "name": "CharaActionStateSetter_FUN_0058ADC0",
+      "kind": "function",
+      "opcodeBindings": [
+        {
+          "direction": "s2c",
+          "opcodeHex": "0x00ce"
+        }
+      ]
+    },
+    {
+      "bcsyId": "BCS-Y-1000",
+      "name": "CharaActionStateTickProcessor_FUN_0058A090",
+      "kind": "function",
+      "opcodeBindings": [
+        {
+          "direction": "s2c",
+          "opcodeHex": "0x00ce"
+        }
+      ]
+    },
+    {
+      "bcsyId": "BCS-Y-1001",
+      "name": "CharaPositionOrientationSnapshot_FUN_005878A0",
+      "kind": "function",
+      "opcodeBindings": [
+        {
+          "direction": "s2c",
+          "opcodeHex": "0x00ce"
+        }
+      ]
+    },
+    {
+      "bcsyId": "BCS-Y-1002",
+      "name": "CharaPositionHistoryRingBuffer_FUN_005886B0",
+      "kind": "function",
+      "opcodeBindings": [
+        {
+          "direction": "s2c",
+          "opcodeHex": "0x00ce"
+        }
+      ]
+    },
+    {
+      "bcsyId": "BCS-Y-1003",
+      "name": "CharaElement_Slot8_SubOp0x53_FUN_005854E0",
+      "kind": "function",
+      "opcodeBindings": [
+        {
+          "direction": "s2c",
+          "opcodeHex": "0x0134"
+        }
+      ]
+    },
+    {
+      "bcsyId": "BCS-Y-1004",
+      "name": "CharaElement_Slot8_SubOp0x54_StateChangeAt0xF0_FUN_00575260",
+      "kind": "function",
+      "opcodeBindings": [
+        {
+          "direction": "s2c",
+          "opcodeHex": "0x0134"
+        }
+      ]
+    },
+    {
+      "bcsyId": "BCS-Y-1018",
+      "name": "CharaElement_Case0xCF_CurrentPositionWriter_FUN_0058F160",
+      "kind": "function",
+      "opcodeBindings": [
+        {
+          "direction": "s2c",
+          "opcodeHex": "0x00cf"
+        }
+      ]
+    },
+    {
+      "bcsyId": "BCS-Y-1019",
+      "name": "ActorRecordApply_Case0xCC_Primary_FUN_00774AD0",
+      "kind": "function",
+      "opcodeBindings": [
+        {
+          "direction": "s2c",
+          "opcodeHex": "0x00cc"
+        }
+      ]
+    },
+    {
+      "bcsyId": "BCS-Y-1020",
+      "name": "ActorRecordApply_Case0xCCAlt_LuaNameGateCheck_FUN_00764630",
+      "kind": "function",
+      "opcodeBindings": [
+        {
+          "direction": "s2c",
+          "opcodeHex": "0x00cc"
+        }
+      ]
+    },
+    {
+      "bcsyId": "BCS-Y-1021",
+      "name": "ThirdRouter_Cases0xD6_0xD7_StateBit1Setter_FUN_0058EBD0",
+      "kind": "function",
+      "opcodeBindings": [
+        {
+          "direction": "s2c",
+          "opcodeHex": "0x00d6"
+        }
+      ]
+    },
+    {
+      "bcsyId": "BCS-Y-1022",
+      "name": "ThirdRouter_Cases0xD6_0xD7_StateBit0Setter_FUN_0058EBB0",
+      "kind": "function",
+      "opcodeBindings": [
+        {
+          "direction": "s2c",
+          "opcodeHex": "0x00d6"
+        }
+      ]
+    },
+    {
+      "bcsyId": "BCS-Y-1032",
+      "name": "PartySubsystem_CrossOpcodeUpdateGateway_FUN_006C1570",
+      "kind": "function",
+      "opcodeBindings": [
+        {
+          "direction": "s2c",
+          "opcodeHex": "0x018d"
+        }
+      ]
+    },
+    {
+      "bcsyId": "BCS-Y-1033",
+      "name": "PartySubsystem_MarkerFireForwarder_FUN_00573F10",
+      "kind": "function",
+      "opcodeBindings": [
+        {
+          "direction": "s2c",
+          "opcodeHex": "0x018d"
+        }
+      ]
+    },
+    {
+      "bcsyId": "BCS-Y-1038",
+      "name": "Application::Lua::Script::Client::Command::Network::ChangeShadowActorFlagReceiver",
+      "kind": "rtti",
+      "opcodeBindings": [
+        {
+          "direction": "s2c",
+          "opcodeHex": "0x017b"
+        }
+      ]
+    },
+    {
+      "bcsyId": "BCS-Y-1039",
+      "name": "Application::Lua::Script::Client::Command::Network::GrandCompanyReceiver",
+      "kind": "rtti",
+      "opcodeBindings": [
+        {
+          "direction": "s2c",
+          "opcodeHex": "0x0194"
+        }
+      ]
+    },
+    {
+      "bcsyId": "BCS-Y-1040",
+      "name": "Application::Lua::Script::Client::Command::System::ChocoboGradeReceiver",
+      "kind": "rtti",
+      "opcodeBindings": [
+        {
+          "direction": "s2c",
+          "opcodeHex": "0x0197"
+        }
+      ]
+    },
+    {
+      "bcsyId": "BCS-Y-1041",
+      "name": "Application::Lua::Script::Client::Command::System::ChocoboReceiver",
+      "kind": "rtti",
+      "opcodeBindings": [
+        {
+          "direction": "s2c",
+          "opcodeHex": "0x0198"
+        }
+      ]
+    },
+    {
+      "bcsyId": "BCS-Y-1042",
+      "name": "Application::Lua::Script::Client::Command::Network::EntrustItemReceiver",
+      "kind": "rtti",
+      "opcodeBindings": [
+        {
+          "direction": "s2c",
+          "opcodeHex": "0x01a5"
+        }
+      ]
+    },
+    {
+      "bcsyId": "BCS-Y-1043",
+      "name": "Application::Lua::Script::Client::Command::Network::HamletDefenseScoreReceiver",
+      "kind": "rtti",
+      "opcodeBindings": [
+        {
+          "direction": "s2c",
+          "opcodeHex": "0x01a8"
+        }
+      ]
+    },
+    {
+      "bcsyId": "BCS-Y-1044",
+      "name": "Application::Lua::Script::Client::Command::Network::HamletSupplyRankingReceiver",
+      "kind": "rtti",
+      "opcodeBindings": [
+        {
+          "direction": "s2c",
+          "opcodeHex": "0x01a6"
+        }
+      ]
+    },
+    {
+      "bcsyId": "BCS-Y-1045",
+      "name": "Application::Lua::Script::Client::Command::Network::JobQuestCompleteTripleReceiver",
+      "kind": "rtti",
+      "opcodeBindings": [
+        {
+          "direction": "s2c",
+          "opcodeHex": "0x01a2"
+        }
+      ]
+    },
+    {
+      "bcsyId": "BCS-Y-1046",
+      "name": "Application::Lua::Script::Client::Command::System::GoobbueReceiver",
+      "kind": "rtti",
+      "opcodeBindings": [
+        {
+          "direction": "s2c",
+          "opcodeHex": "0x01a0"
+        }
+      ]
+    },
+    {
+      "bcsyId": "BCS-Y-1047",
+      "name": "Application::Lua::Script::Client::Command::System::VehicleGradeReceiver",
+      "kind": "rtti",
+      "opcodeBindings": [
+        {
+          "direction": "s2c",
+          "opcodeHex": "0x01a1"
+        }
+      ]
+    },
+    {
+      "bcsyId": "BCS-Y-1067",
+      "name": "CharaElement_Slot9_Case0x177_SetActorStatus_FUN_0058CCA0_block",
+      "kind": "function_case_block",
+      "opcodeBindings": [
+        {
+          "direction": "s2c",
+          "opcodeHex": "0x0177"
+        }
+      ]
+    },
+    {
+      "bcsyId": "BCS-Y-1068",
+      "name": "CharaElement_Slot9_Case0x179_SetActorStatusAll_FUN_0058CCA0_block",
+      "kind": "function_case_block",
+      "opcodeBindings": [
+        {
+          "direction": "s2c",
+          "opcodeHex": "0x0179"
+        }
+      ]
+    },
+    {
+      "bcsyId": "BCS-Y-1069",
+      "name": "CharaElement_StatusUpdateReset_FUN_0058EAF0",
+      "kind": "function",
+      "opcodeBindings": [
+        {
+          "direction": "s2c",
+          "opcodeHex": "0x0177"
+        },
+        {
+          "direction": "s2c",
+          "opcodeHex": "0x0179"
+        }
+      ]
+    },
+    {
+      "bcsyId": "BCS-Y-1070",
+      "name": "CharaElement_StatusSingleSlotApply_FUN_0058EAB0",
+      "kind": "function",
+      "opcodeBindings": [
+        {
+          "direction": "s2c",
+          "opcodeHex": "0x0177"
+        },
+        {
+          "direction": "s2c",
+          "opcodeHex": "0x0179"
+        }
+      ]
+    },
+    {
+      "bcsyId": "BCS-Y-1071",
+      "name": "MapOutbound_BlacklistRequest_0x01CB_emitter_FUN_004CA100",
+      "kind": "function",
+      "opcodeBindings": [
+        {
+          "direction": "c2s",
+          "opcodeHex": "0x01cb"
+        }
+      ]
+    },
+    {
+      "bcsyId": "BCS-Y-1072",
+      "name": "MapOutbound_FriendlistRequest_0x01CE_emitter_FUN_004CA730",
+      "kind": "function",
+      "opcodeBindings": [
+        {
+          "direction": "c2s",
+          "opcodeHex": "0x01ce"
+        }
+      ]
+    },
+    {
+      "bcsyId": "BCS-Y-1073",
+      "name": "MapOutbound_FriendStatusRequest_0x01CF_emitter_FUN_004B7EF0",
+      "kind": "function",
+      "opcodeBindings": [
+        {
+          "direction": "c2s",
+          "opcodeHex": "0x01cf"
+        }
+      ]
+    },
+    {
+      "bcsyId": "BCS-Y-1074",
+      "name": "MapOutbound_GMTicketState_0x01D3_emitter_FUN_004B8180",
+      "kind": "function",
+      "opcodeBindings": [
+        {
+          "direction": "c2s",
+          "opcodeHex": "0x01d3"
+        }
+      ]
+    },
+    {
+      "bcsyId": "BCS-Y-1077",
+      "name": "Case0x0007_DeleteAllActorsWalk_FUN_004DC690",
+      "kind": "function_case_block",
+      "opcodeBindings": [
+        {
+          "direction": "s2c",
+          "opcodeHex": "0x0007"
+        }
+      ]
+    },
+    {
+      "bcsyId": "BCS-Y-1078",
+      "name": "Cases_0x0005_0x000D_0x0010_SessionContextSlot9_FUN_004DC690",
+      "kind": "function_case_block",
+      "opcodeBindings": [
+        {
+          "direction": "s2c",
+          "opcodeHex": "0x000d"
+        }
+      ]
+    },
+    {
+      "bcsyId": "BCS-Y-1079",
+      "name": "Case0x000F_FallthroughToPatternBActorVftable9_FUN_004DC690",
+      "kind": "function_case_block",
+      "opcodeBindings": [
+        {
+          "direction": "s2c",
+          "opcodeHex": "0x000f"
+        }
+      ]
+    },
+    {
+      "bcsyId": "BCS-Y-1080",
+      "name": "Case0xD8Helper_MapObjectForCharaConstructor_FUN_00590230",
+      "kind": "function",
+      "opcodeBindings": [
+        {
+          "direction": "s2c",
+          "opcodeHex": "0x00d8"
+        }
+      ]
+    },
+    {
+      "bcsyId": "BCS-Y-1081",
+      "name": "Case0xD8Helper_ActorStateBitWriter_FUN_005868A0",
+      "kind": "function",
+      "opcodeBindings": [
+        {
+          "direction": "s2c",
+          "opcodeHex": "0x00d8"
+        }
+      ]
+    },
+    {
+      "bcsyId": "BCS-Y-1082",
+      "name": "Case0xDBHelper_TwoRecordLoopForward_FUN_00587F80",
+      "kind": "function",
+      "opcodeBindings": [
+        {
+          "direction": "s2c",
+          "opcodeHex": "0x00db"
+        }
+      ]
+    },
+    {
+      "bcsyId": "BCS-Y-1083",
+      "name": "SharedScenePacketBroadcaster_FUN_004D7980",
+      "kind": "function",
+      "opcodeBindings": [
+        {
+          "direction": "s2c",
+          "opcodeHex": "0x00d9"
+        },
+        {
+          "direction": "s2c",
+          "opcodeHex": "0x00e3"
+        },
+        {
+          "direction": "s2c",
+          "opcodeHex": "0x0134"
+        },
+        {
+          "direction": "s2c",
+          "opcodeHex": "0x0179"
+        }
+      ]
+    },
+    {
+      "bcsyId": "BCS-Y-1084",
+      "name": "Case0xE3Helper_ActorRecordDeactivator_FUN_00563920",
+      "kind": "function",
+      "opcodeBindings": [
+        {
+          "direction": "s2c",
+          "opcodeHex": "0x00e3"
+        }
+      ]
+    },
+    {
+      "bcsyId": "BCS-Y-1087",
+      "name": "Chat_BufferIterRender_FUN_0089EB40",
+      "kind": "function",
+      "opcodeBindings": [
+        {
+          "direction": "c2s",
+          "opcodeHex": "0x012d"
+        }
+      ]
+    },
+    {
+      "bcsyId": "BCS-Y-1089",
+      "name": "Chat_RenderTxn_FUN_00790AA0",
+      "kind": "function",
+      "opcodeBindings": [
+        {
+          "direction": "s2c",
+          "opcodeHex": "0x00cc"
+        }
+      ]
+    },
+    {
+      "bcsyId": "BCS-Y-1091",
+      "name": "Chat_RenderTxn_FUN_00790A30",
+      "kind": "function",
+      "opcodeBindings": [
+        {
+          "direction": "s2c",
+          "opcodeHex": "0x0133"
+        }
+      ]
+    },
+    {
+      "bcsyId": "BCS-Y-1093",
+      "name": "chat_render_cross_opcode_finding",
+      "kind": "finding",
+      "opcodeBindings": [
+        {
+          "direction": "c2s",
+          "opcodeHex": "0x012d"
+        },
+        {
+          "direction": "s2c",
+          "opcodeHex": "0x00cc"
+        },
+        {
+          "direction": "s2c",
+          "opcodeHex": "0x0133"
+        }
+      ]
+    },
+    {
+      "bcsyId": "BCS-Y-1094",
+      "name": "PlayBGAnimation_Case0xD9_StartToggleDispatcher_FUN_00794690",
+      "kind": "function",
+      "opcodeBindings": [
+        {
+          "direction": "s2c",
+          "opcodeHex": "0x00d9"
+        }
+      ]
+    },
+    {
+      "bcsyId": "BCS-Y-1095",
+      "name": "PlayBGAnimation_StartLeaf_FUN_0059D590",
+      "kind": "function",
+      "opcodeBindings": [
+        {
+          "direction": "s2c",
+          "opcodeHex": "0x00d9"
+        }
+      ]
+    },
+    {
+      "bcsyId": "BCS-Y-1096",
+      "name": "PlayBGAnimation_ToggleLeaf_FUN_0059DD60",
+      "kind": "function",
+      "opcodeBindings": [
+        {
+          "direction": "s2c",
+          "opcodeHex": "0x00d9"
+        }
+      ]
+    },
+    {
+      "bcsyId": "BCS-Y-1097",
+      "name": "ChatRender_EventStartStaging_FUN_00893DA0",
+      "kind": "function",
+      "opcodeBindings": [
+        {
+          "direction": "c2s",
+          "opcodeHex": "0x012d"
+        }
+      ]
+    },
+    {
+      "bcsyId": "BCS-Y-1101",
+      "name": "ChatRender_EventStartBridgeRenderWrapper_FUN_008A0050",
+      "kind": "function",
+      "opcodeBindings": [
+        {
+          "direction": "c2s",
+          "opcodeHex": "0x012d"
+        }
+      ]
+    },
+    {
+      "bcsyId": "BCS-Y-1105",
+      "name": "SetTalkEventConditionReceiver_Factory_FUN_00761b90",
+      "kind": "function",
+      "opcodeBindings": [
+        {
+          "direction": "s2c",
+          "opcodeHex": "0x012e"
+        }
+      ]
+    },
+    {
+      "bcsyId": "BCS-Y-1106",
+      "name": "SetNoticeEventConditionReceiver_Factory_FUN_00761ca0",
+      "kind": "function",
+      "opcodeBindings": [
+        {
+          "direction": "s2c",
+          "opcodeHex": "0x016b"
+        }
+      ]
+    },
+    {
+      "bcsyId": "BCS-Y-1107",
+      "name": "SetEmoteEventConditionReceiver_Factory_FUN_00761e10",
+      "kind": "function",
+      "opcodeBindings": [
+        {
+          "direction": "s2c",
+          "opcodeHex": "0x016c"
+        }
+      ]
+    },
+    {
+      "bcsyId": "BCS-Y-1108",
+      "name": "SetPushEventConditionWithCircleReceiver_Factory_FUN_00761f30",
+      "kind": "function",
+      "opcodeBindings": [
+        {
+          "direction": "s2c",
+          "opcodeHex": "0x016f"
+        }
+      ]
+    },
+    {
+      "bcsyId": "BCS-Y-1109",
+      "name": "SetPushEventConditionWithFanReceiver_Factory_FUN_00762060",
+      "kind": "function",
+      "opcodeBindings": [
+        {
+          "direction": "s2c",
+          "opcodeHex": "0x0170"
+        }
+      ]
+    },
+    {
+      "bcsyId": "BCS-Y-1110",
+      "name": "SetPushEventConditionWithTriggerBoxReceiver_Factory_FUN_007621a0",
+      "kind": "function",
+      "opcodeBindings": [
+        {
+          "direction": "s2c",
+          "opcodeHex": "0x0175"
+        }
+      ]
+    },
+    {
+      "bcsyId": "BCS-Y-1112",
+      "name": "SetEmoteEventConditionReceiver_ctor_FUN_0089d660",
+      "kind": "function",
+      "opcodeBindings": [
+        {
+          "direction": "s2c",
+          "opcodeHex": "0x016c"
+        }
+      ]
+    },
+    {
+      "bcsyId": "BCS-Y-1113",
+      "name": "SetNoticeEventConditionReceiver_ctor_FUN_0089d8a0",
+      "kind": "function",
+      "opcodeBindings": [
+        {
+          "direction": "s2c",
+          "opcodeHex": "0x016b"
+        }
+      ]
+    },
+    {
+      "bcsyId": "BCS-Y-1114",
+      "name": "SetPushEventConditionWithCircleReceiver_ctor_FUN_0089d9e0",
+      "kind": "function",
+      "opcodeBindings": [
+        {
+          "direction": "s2c",
+          "opcodeHex": "0x016f"
+        }
+      ]
+    },
+    {
+      "bcsyId": "BCS-Y-1115",
+      "name": "SetPushEventConditionWithFanReceiver_ctor_FUN_0089db50",
+      "kind": "function",
+      "opcodeBindings": [
+        {
+          "direction": "s2c",
+          "opcodeHex": "0x0170"
+        }
+      ]
+    },
+    {
+      "bcsyId": "BCS-Y-1116",
+      "name": "SetPushEventConditionWithTriggerBoxReceiver_ctor_FUN_0089dcf0",
+      "kind": "function",
+      "opcodeBindings": [
+        {
+          "direction": "s2c",
+          "opcodeHex": "0x0175"
+        }
+      ]
+    },
+    {
+      "bcsyId": "BCS-Y-1117",
+      "name": "SetTalkEventConditionReceiver_ctor_FUN_0089de70",
+      "kind": "function",
+      "opcodeBindings": [
+        {
+          "direction": "s2c",
+          "opcodeHex": "0x012e"
+        }
+      ]
+    },
+    {
+      "bcsyId": "BCS-Y-1118",
+      "name": "NullActorImpl_Slot49_Opaque0x132Receiver_FactoryInPlace_FUN_0076ca90",
+      "kind": "function",
+      "opcodeBindings": [
+        {
+          "direction": "s2c",
+          "opcodeHex": "0x0132"
+        }
+      ]
+    },
+    {
+      "bcsyId": "BCS-Y-1128",
+      "name": "AchievementIdReceiver::ctor_FUN_0089C620",
+      "kind": "function",
+      "opcodeBindings": [
+        {
+          "direction": "s2c",
+          "opcodeHex": "0x019e"
+        }
+      ]
+    },
+    {
+      "bcsyId": "BCS-Y-1129",
+      "name": "AchievementIdReceiver::dtor_FUN_0089C680",
+      "kind": "function",
+      "opcodeBindings": [
+        {
+          "direction": "s2c",
+          "opcodeHex": "0x019e"
+        }
+      ]
+    },
+    {
+      "bcsyId": "BCS-Y-1130",
+      "name": "AchievementIdReceiver::deleting_dtor_FUN_008A0C40",
+      "kind": "function",
+      "opcodeBindings": [
+        {
+          "direction": "s2c",
+          "opcodeHex": "0x019e"
+        }
+      ]
+    },
+    {
+      "bcsyId": "BCS-Y-1131",
+      "name": "AchievementAchievedCountReceiver::ctor_FUN_0089C700",
+      "kind": "function",
+      "opcodeBindings": [
+        {
+          "direction": "s2c",
+          "opcodeHex": "0x019f"
+        }
+      ]
+    },
+    {
+      "bcsyId": "BCS-Y-1132",
+      "name": "AchievementAchievedCountReceiver::dtor_FUN_0089C770",
+      "kind": "function",
+      "opcodeBindings": [
+        {
+          "direction": "s2c",
+          "opcodeHex": "0x019f"
+        }
+      ]
+    },
+    {
+      "bcsyId": "BCS-Y-1133",
+      "name": "AchievementAchievedCountReceiver::deleting_dtor_FUN_008A0CB0",
+      "kind": "function",
+      "opcodeBindings": [
+        {
+          "direction": "s2c",
+          "opcodeHex": "0x019f"
+        }
+      ]
+    },
+    {
+      "bcsyId": "BCS-Y-1134",
+      "name": "VehicleGradeReceiver::ctor_FUN_008A3130",
+      "kind": "function",
+      "opcodeBindings": [
+        {
+          "direction": "s2c",
+          "opcodeHex": "0x01a1"
+        }
+      ]
+    },
+    {
+      "bcsyId": "BCS-Y-1135",
+      "name": "VehicleGradeReceiver::dtor_FUN_008A3190",
+      "kind": "function",
+      "opcodeBindings": [
+        {
+          "direction": "s2c",
+          "opcodeHex": "0x01a1"
+        }
+      ]
+    },
+    {
+      "bcsyId": "BCS-Y-1136",
+      "name": "VehicleGradeReceiver::deleting_dtor_FUN_008A4ED0",
+      "kind": "function",
+      "opcodeBindings": [
+        {
+          "direction": "s2c",
+          "opcodeHex": "0x01a1"
+        }
+      ]
+    },
+    {
+      "bcsyId": "BCS-Y-1137",
+      "name": "VehicleGradeReceiver::apply_FUN_008A31E0",
+      "kind": "function",
+      "opcodeBindings": [
+        {
+          "direction": "s2c",
+          "opcodeHex": "0x01a1"
+        }
+      ]
+    },
+    {
+      "bcsyId": "BCS-Y-1604",
+      "name": "LuaFireSite__onUpdateWork_FUN_006f73b0",
+      "kind": "function",
+      "opcodeBindings": [
+        {
+          "direction": "s2c",
+          "opcodeHex": "0x0137"
+        }
+      ]
+    },
+    {
+      "bcsyId": "BCS-Y-1608",
+      "name": "LuaFireSite__onGetGoobbue_FUN_006f8350",
+      "kind": "function",
+      "opcodeBindings": [
+        {
+          "direction": "s2c",
+          "opcodeHex": "0x01a1"
+        }
+      ]
+    },
+    {
+      "bcsyId": "BCS-Y-1611",
+      "name": "LuaFireSite__onChangeNetStatUser_FUN_006fa980",
+      "kind": "function",
+      "opcodeBindings": [
+        {
+          "direction": "s2c",
+          "opcodeHex": "0x0145"
+        }
+      ]
+    },
+    {
+      "bcsyId": "BCS-Y-1612",
+      "name": "LuaFireSite__onChangeSystemFlag_FUN_006fae70",
+      "kind": "function",
+      "opcodeBindings": [
+        {
+          "direction": "s2c",
+          "opcodeHex": "0x018e"
+        }
+      ]
+    },
+    {
+      "bcsyId": "BCS-Y-1613",
+      "name": "LuaFireSite__onUpdateDisplayName_FUN_006faff0",
+      "kind": "function",
+      "opcodeBindings": [
+        {
+          "direction": "s2c",
+          "opcodeHex": "0x013d"
+        }
+      ]
+    },
+    {
+      "bcsyId": "BCS-Y-1614",
+      "name": "LuaFireSite__onUpdateDisplayName_FUN_006fb280",
+      "kind": "function",
+      "opcodeBindings": [
+        {
+          "direction": "s2c",
+          "opcodeHex": "0x013d"
+        }
+      ]
+    },
+    {
+      "bcsyId": "BCS-Y-1631",
+      "name": "LuaFireSite__onUpdateWork_FUN_00700cc0",
+      "kind": "function",
+      "opcodeBindings": [
+        {
+          "direction": "s2c",
+          "opcodeHex": "0x0137"
+        }
+      ]
+    },
+    {
+      "bcsyId": "BCS-Y-1638",
+      "name": "LuaFireSite__onReceiveAchievementId_FUN_00703970",
+      "kind": "function",
+      "opcodeBindings": [
+        {
+          "direction": "s2c",
+          "opcodeHex": "0x019e"
+        }
+      ]
+    },
+    {
+      "bcsyId": "BCS-Y-1640",
+      "name": "LuaFireSite__onReceiveAchievementId_FUN_00704430",
+      "kind": "function",
+      "opcodeBindings": [
+        {
+          "direction": "s2c",
+          "opcodeHex": "0x019e"
+        }
+      ]
+    },
+    {
+      "bcsyId": "BCS-Y-1641",
+      "name": "LuaFireSite__onReceiveAchievementRate_FUN_00704690",
+      "kind": "function",
+      "opcodeBindings": [
+        {
+          "direction": "s2c",
+          "opcodeHex": "0x019f"
+        }
+      ]
+    },
+    {
+      "bcsyId": "BCS-Y-1649",
+      "name": "LuaFireSite__onUpdateWork_FUN_00773d90",
+      "kind": "function",
+      "opcodeBindings": [
+        {
+          "direction": "s2c",
+          "opcodeHex": "0x0137"
+        }
+      ]
+    },
+    {
+      "bcsyId": "BCS-Y-1650",
+      "name": "LuaFireSite__onPreEvent_FUN_00897660",
+      "kind": "function",
+      "opcodeBindings": [
+        {
+          "direction": "s2c",
+          "opcodeHex": "0x012e"
+        },
+        {
+          "direction": "s2c",
+          "opcodeHex": "0x016b"
+        },
+        {
+          "direction": "s2c",
+          "opcodeHex": "0x016f"
+        }
+      ]
+    },
+    {
+      "bcsyId": "BCS-Y-1651",
+      "name": "LuaFireSite__onPostEvent_FUN_008977b0",
+      "kind": "function",
+      "opcodeBindings": [
+        {
+          "direction": "s2c",
+          "opcodeHex": "0x012e"
+        },
+        {
+          "direction": "s2c",
+          "opcodeHex": "0x016b"
+        },
+        {
+          "direction": "s2c",
+          "opcodeHex": "0x016f"
+        }
+      ]
+    },
+    {
+      "bcsyId": "BCS-Y-1665",
+      "name": "LuaFireSite__onReceiveDataPacket_FUN_008a0190",
+      "kind": "function",
+      "opcodeBindings": [
+        {
+          "direction": "s2c",
+          "opcodeHex": "0x0133"
+        }
+      ]
+    },
+    {
+      "bcsyId": "BCS-Y-1666",
+      "name": "LuaFireSite__onReceiveTimingPacket_FUN_008a0370",
+      "kind": "function",
+      "opcodeBindings": [
+        {
+          "direction": "s2c",
+          "opcodeHex": "0x00d3"
+        }
+      ]
+    }
+  ]
+}
