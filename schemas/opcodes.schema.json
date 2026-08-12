@@ -1,0 +1,180 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://xivlegacy.local/schemas/opcodes.schema.json",
+  "title": "XIVLegacy 1.23b Opcode Catalog",
+  "type": "array",
+  "minItems": 1,
+  "maxItems": 1,
+  "items": {
+    "$ref": "#/$defs/versionRegionCatalog"
+  },
+  "$defs": {
+    "versionRegionCatalog": {
+      "type": "object",
+      "required": [
+        "version",
+        "region",
+        "lists"
+      ],
+      "additionalProperties": false,
+      "properties": {
+        "version": {
+          "type": "string"
+        },
+        "region": {
+          "type": "string"
+        },
+        "description": {
+          "type": "string"
+        },
+        "pcap_c2s_evidence_note": {
+          "type": "string"
+        },
+        "pcap_s2c_evidence_note": {
+          "type": "string"
+        },
+        "corpus_evidence_files": {
+          "type": "object"
+        },
+        "lists": {
+          "type": "object",
+          "required": [
+            "LobbyServerbound",
+            "LobbyClientbound",
+            "WorldServerbound",
+            "WorldClientbound",
+            "MapServerbound",
+            "MapClientbound",
+            "WorldMapBackend"
+          ],
+          "additionalProperties": false,
+          "properties": {
+            "LobbyServerbound": {
+              "$ref": "#/$defs/opcodeList"
+            },
+            "LobbyClientbound": {
+              "$ref": "#/$defs/opcodeList"
+            },
+            "WorldServerbound": {
+              "$ref": "#/$defs/opcodeList"
+            },
+            "WorldClientbound": {
+              "$ref": "#/$defs/opcodeList"
+            },
+            "MapServerbound": {
+              "$ref": "#/$defs/opcodeList"
+            },
+            "MapClientbound": {
+              "$ref": "#/$defs/opcodeList"
+            },
+            "WorldMapBackend": {
+              "$ref": "#/$defs/opcodeList"
+            }
+          }
+        }
+      }
+    },
+    "opcodeList": {
+      "type": "array",
+      "items": {
+        "$ref": "#/$defs/opcodeEntry"
+      }
+    },
+    "opcodeEntry": {
+      "type": "object",
+      "required": [
+        "name",
+        "opcode",
+        "confidence"
+      ],
+      "additionalProperties": false,
+      "properties": {
+        "name": {
+          "type": "string"
+        },
+        "opcode": {
+          "type": "integer",
+          "minimum": 0,
+          "maximum": 65535
+        },
+        "opcodeHex": {
+          "type": "string",
+          "pattern": "^0x[0-9A-Fa-f]{4}$"
+        },
+        "service": {
+          "enum": [
+            "lobby",
+            "world",
+            "map",
+            "world_map_backend"
+          ]
+        },
+        "direction": {
+          "enum": [
+            "serverbound",
+            "clientbound",
+            "backend"
+          ]
+        },
+        "implementationAnchor": {
+          "description": "An implementation enum or member anchor when the implementation declares the opcode; otherwise null.",
+          "type": [
+            "string",
+            "null"
+          ]
+        },
+        "decompAnchor": {
+          "type": [
+            "string",
+            "null"
+          ]
+        },
+        "observedIn": {
+          "type": "array",
+          "items": {
+            "type": "string"
+          }
+        },
+        "payloadLengths": {
+          "type": "array",
+          "items": {
+            "type": "integer",
+            "minimum": 0
+          },
+          "uniqueItems": true
+        },
+        "confidence": {
+          "description": "Evidence status. Live validation means verification that the retail 1.23b client accepted the behavior in a live session; client acceptance is the evidence.",
+          "enum": [
+            "pcap_observed",
+            "live_validated",
+            "decomp_routed",
+            "implemented",
+            "confirmed",
+            "blocked"
+          ]
+        },
+        "notes": {
+          "type": "string"
+        },
+        "retail_class_name": {
+          "type": "string"
+        },
+        "needsReverify": {
+          "const": true
+        },
+        "reverifyMethod": {
+          "const": "live-validation: verify that the retail 1.23b client accepts the behavior in a live session"
+        }
+      },
+      "dependentRequired": {
+        "needsReverify": [
+          "reverifyMethod"
+        ],
+        "reverifyMethod": [
+          "needsReverify"
+        ]
+      }
+    }
+  }
+}

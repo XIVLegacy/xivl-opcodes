@@ -1,0 +1,154 @@
+{
+  "innerLengths": [
+    {
+      "direction": "c2s",
+      "opcode": 1,
+      "innerLen": 24,
+      "source": "opcode_payload_schemas.json"
+    },
+    {
+      "direction": "c2s",
+      "opcode": 7,
+      "innerLen": 8,
+      "source": "c2s_payload_schemas.json"
+    },
+    {
+      "direction": "c2s",
+      "opcode": 202,
+      "innerLen": 32,
+      "source": "opcode_payload_schemas.json"
+    },
+    {
+      "direction": "c2s",
+      "opcode": 204,
+      "innerLen": 8,
+      "source": "c2s_payload_schemas.json"
+    },
+    {
+      "direction": "c2s",
+      "opcode": 205,
+      "innerLen": 8,
+      "source": "c2s_payload_schemas.json"
+    },
+    {
+      "direction": "c2s",
+      "opcode": 301,
+      "innerLen": 184,
+      "source": "opcode_payload_schemas.json"
+    },
+    {
+      "direction": "c2s",
+      "opcode": 302,
+      "innerLen": 88,
+      "source": "opcode_payload_schemas.json"
+    },
+    {
+      "direction": "c2s",
+      "opcode": 303,
+      "innerLen": 40,
+      "source": "opcode_payload_schemas.json"
+    },
+    {
+      "direction": "c2s",
+      "opcode": 304,
+      "innerLen": 16,
+      "source": "c2s_payload_decoding.json"
+    },
+    {
+      "direction": "c2s",
+      "opcode": 305,
+      "innerLen": 8,
+      "source": "c2s_payload_decoding.json"
+    },
+    {
+      "direction": "c2s",
+      "opcode": 306,
+      "innerLen": 8,
+      "source": "c2s_payload_decoding.json"
+    },
+    {
+      "direction": "c2s",
+      "opcode": 307,
+      "innerLen": 40,
+      "source": "opcode_payload_schemas.json"
+    },
+    {
+      "direction": "s2c",
+      "opcode": 310,
+      "innerLen": 40,
+      "source": "inbound_payload_schemas.json"
+    },
+    {
+      "direction": "s2c",
+      "opcode": 311,
+      "innerLen": 136,
+      "source": "inbound_payload_schemas.json"
+    },
+    {
+      "direction": "s2c",
+      "opcode": 317,
+      "innerLen": 40,
+      "source": "inbound_payload_schemas.json"
+    },
+    {
+      "direction": "s2c",
+      "opcode": 324,
+      "innerLen": 8,
+      "source": "inbound_payload_schemas.json"
+    },
+    {
+      "direction": "s2c",
+      "opcode": 325,
+      "innerLen": 8,
+      "source": "inbound_payload_schemas.json"
+    },
+    {
+      "direction": "s2c",
+      "opcode": 377,
+      "innerLen": 40,
+      "source": "inbound_payload_schemas.json"
+    },
+    {
+      "direction": "s2c",
+      "opcode": 379,
+      "innerLen": 8,
+      "source": "inbound_payload_schemas.json"
+    },
+    {
+      "direction": "s2c",
+      "opcode": 404,
+      "innerLen": 8,
+      "source": "s2c_payload_decoding_lua_bound.json"
+    },
+    {
+      "direction": "s2c",
+      "opcode": 405,
+      "innerLen": 8,
+      "source": "s2c_payload_decoding_lua_bound.json"
+    },
+    {
+      "direction": "s2c",
+      "opcode": 407,
+      "innerLen": 8,
+      "source": "s2c_payload_decoding_lua_bound.json"
+    },
+    {
+      "direction": "s2c",
+      "opcode": 412,
+      "innerLen": 8,
+      "source": "s2c_payload_decoding_lua_bound.json"
+    },
+    {
+      "direction": "s2c",
+      "opcode": 413,
+      "innerLen": 8,
+      "source": "s2c_payload_decoding_lua_bound.json"
+    },
+    {
+      "direction": "s2c",
+      "opcode": 420,
+      "innerLen": 8,
+      "source": "s2c_payload_decoding_lua_bound.json"
+    }
+  ]
+}

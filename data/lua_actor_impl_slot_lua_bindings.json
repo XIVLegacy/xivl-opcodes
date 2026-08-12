@@ -1,0 +1,594 @@
+{
+  "description": "FFXIV 1.x client `Application::Lua::Script::Client::LuaActorImpl::vftable` slot-by-slot Lua-callback binding map. Source: WalkWrappersForLuaCallbacks.java on all 90 slot wrappers with BFS depth 3, looking for FUN_00447260 calls with `_on*`-prefixed string arguments. Combined with the bulk vftable-write sweep (BCS-Y-0271), this gives the full LuaActorImpl architectural decomposition.",
+  "version": "1.23b",
+  "vftable_base": "0x00FDFB2C",
+  "slot_count": 90,
+  "lua_dispatch_helper": "FUN_00447260",
+  "lua_callback_prefix": "_on",
+  "summary": {
+    "total_slots": 90,
+    "lua_bound_slots": 33,
+    "pure_native_slots": 57,
+    "receiver_pattern_slots": 33,
+    "direct_dispatch_slots": 57,
+    "receiver_and_lua": 15,
+    "receiver_no_lua": 18,
+    "direct_and_lua": 18,
+    "direct_no_lua": 39,
+    "skip_slots": [
+      0,
+      88
+    ],
+    "skip_slots_note": "Slot 0 is the LuaActorImpl base destructor; slot 88 is the std::bad_alloc allocation-failure path. Both are bookkeeping slots, not real receivers. They count toward the 33 receiver-pattern count via the vftable-write sweep, but neither fires Lua nor packet-binds. Real receiver-pattern Lua-bound = 15; real receiver-pattern pure-native = 16; skip = 2.",
+    "category_totals_sanity": "15 (receiver+lua) + 16 (receiver no-lua real) + 2 (skip) + 18 (direct+lua) + 39 (direct no-lua) = 90"
+  },
+  "lua_bound_slot_count_cross_check": "An earlier cross-check reported '34/90 slots fire Lua via apply chain'. This walker's output: 33/90. The 1-slot delta is likely methodology variation (different BFS depth or filtering); both figures are in good agreement.",
+  "receiver_pattern_lua_bound": {
+    "description": "15 slots that have Receiver-class scaffolding AND fire Lua callbacks. These are the canonical full-stack receivers: opcode-bound, construct-apply-destruct with Lua callback fire in apply.",
+    "slots": [
+      {
+        "slot": 7,
+        "wrapper_va": "0x00759630",
+        "receiver": "ExecuteDebugCommandReceiver",
+        "callbacks": [
+          "_onDebugInput"
+        ]
+      },
+      {
+        "slot": 19,
+        "wrapper_va": "0x00759720",
+        "receiver": "ExecutePushOnEnterTriggerBoxReceiver",
+        "callbacks": [
+          "_onReaction"
+        ]
+      },
+      {
+        "slot": 20,
+        "wrapper_va": "0x007597a0",
+        "receiver": "ExecutePushOnLeaveTriggerBoxReceiver",
+        "callbacks": [
+          "_onReaction"
+        ]
+      },
+      {
+        "slot": 21,
+        "wrapper_va": "0x00759820",
+        "receiver": "AttributeTypeEventEnterReceiver",
+        "callbacks": [
+          "_onTouch"
+        ]
+      },
+      {
+        "slot": 22,
+        "wrapper_va": "0x007598a0",
+        "receiver": "AttributeTypeEventLeaveReceiver",
+        "callbacks": [
+          "_onTouch"
+        ]
+      },
+      {
+        "slot": 59,
+        "wrapper_va": "0x00759e50",
+        "receiver": "UserDataReceiver",
+        "callbacks": [
+          "_onReceiveDataPacket"
+        ]
+      },
+      {
+        "slot": 61,
+        "wrapper_va": "0x00759f50",
+        "receiver": "SetTargetTimeReceiver",
+        "callbacks": [
+          "_onReceiveTimingPacket"
+        ]
+      },
+      {
+        "slot": 62,
+        "wrapper_va": "0x0076c4d0",
+        "receiver": "SetDisplayNameReceiver",
+        "callbacks": [
+          "_onUpdateDisplayName"
+        ]
+      },
+      {
+        "slot": 64,
+        "wrapper_va": "0x0075a060",
+        "receiver": "ChangeSystemStatReceiver",
+        "callbacks": [
+          "_onChangeSystemFlag"
+        ]
+      },
+      {
+        "slot": 65,
+        "wrapper_va": "0x0075a0e0",
+        "receiver": "AddictLoginTimeKindReceiver",
+        "callbacks": [
+          "_onReceiveLimitAddicted"
+        ]
+      },
+      {
+        "slot": 70,
+        "wrapper_va": "0x0075a380",
+        "receiver": "VehicleGradeReceiver",
+        "callbacks": [
+          "_onGetGoobbue"
+        ]
+      },
+      {
+        "slot": 76,
+        "wrapper_va": "0x0075a5b0",
+        "receiver": "AchievementIdReceiver",
+        "callbacks": [
+          "_onReceiveAchievementId"
+        ]
+      },
+      {
+        "slot": 77,
+        "wrapper_va": "0x0075a630",
+        "receiver": "AchievementAchievedCountReceiver",
+        "callbacks": [
+          "_onReceiveAchievementRate"
+        ]
+      },
+      {
+        "slot": 79,
+        "wrapper_va": "0x0075a6b0",
+        "receiver": "JobChangeReceiver",
+        "callbacks": [
+          "_onChangeJob"
+        ]
+      },
+      {
+        "slot": 85,
+        "wrapper_va": "0x0075a920",
+        "receiver": "ChangeActorExtraStatReceiver",
+        "callbacks": [
+          "_onChangeNetStatSystem",
+          "_onChangeNetStatUser"
+        ]
+      }
+    ]
+  },
+  "receiver_pattern_pure_native": {
+    "description": "16 real slots that have Receiver-class scaffolding but do NOT fire Lua callbacks. Likely pure-server-state writers (e.g., copy packet bytes to client state, no UI/script surface). Excludes slot 0 (LuaActorImpl base destructor) and slot 88 (std::bad_alloc), which the vftable-write sweep also reported but are not real receivers.",
+    "slots": [
+      48,
+      57,
+      60,
+      63,
+      66,
+      67,
+      68,
+      69,
+      71,
+      74,
+      75,
+      80,
+      82,
+      83,
+      86,
+      89
+    ]
+  },
+  "direct_dispatch_lua_bound": {
+    "description": "18 slots without Receiver-class scaffolding that DO fire Lua callbacks. These are 'Lua event dispatchers' - simpler than Command-pattern receivers, but still firing named Lua callbacks. Useful for UI, cutscene, targeting, and other client-driven event flows.",
+    "slots": [
+      {
+        "slot": 16,
+        "wrapper_va": "0x0075d6d0",
+        "callbacks": [
+          "_onHoverHelp"
+        ],
+        "cluster": "UI"
+      },
+      {
+        "slot": 23,
+        "wrapper_va": "0x00759920",
+        "callbacks": [
+          "_onMoveAtSit"
+        ],
+        "cluster": "actor_movement"
+      },
+      {
+        "slot": 24,
+        "wrapper_va": "0x0075d710",
+        "callbacks": [
+          "_onCheckTargetable",
+          "_onCheckTargetableNearest"
+        ],
+        "cluster": "targeting"
+      },
+      {
+        "slot": 25,
+        "wrapper_va": "0x0075d750",
+        "callbacks": [
+          "_onTargetChanged"
+        ],
+        "cluster": "targeting"
+      },
+      {
+        "slot": 26,
+        "wrapper_va": "0x0075d780",
+        "callbacks": [
+          "_onTargetDecided"
+        ],
+        "cluster": "targeting"
+      },
+      {
+        "slot": 28,
+        "wrapper_va": "0x0075d830",
+        "callbacks": [
+          "_onInitializationClip"
+        ],
+        "cluster": "UI_clip"
+      },
+      {
+        "slot": 29,
+        "wrapper_va": "0x0075d860",
+        "callbacks": [
+          "_onInitializationClip"
+        ],
+        "cluster": "UI_clip"
+      },
+      {
+        "slot": 30,
+        "wrapper_va": "0x0075d890",
+        "callbacks": [
+          "_onShowUIClip"
+        ],
+        "cluster": "UI_clip"
+      },
+      {
+        "slot": 31,
+        "wrapper_va": "0x0075d8d0",
+        "callbacks": [
+          "_onHideUIClip"
+        ],
+        "cluster": "UI_clip"
+      },
+      {
+        "slot": 32,
+        "wrapper_va": "0x00759940",
+        "callbacks": [
+          "_onShowWidgetClip"
+        ],
+        "cluster": "UI_clip"
+      },
+      {
+        "slot": 33,
+        "wrapper_va": "0x007599e0",
+        "callbacks": [
+          "_onHideWidgetClip"
+        ],
+        "cluster": "UI_clip"
+      },
+      {
+        "slot": 34,
+        "wrapper_va": "0x0075d900",
+        "callbacks": [
+          "_onOpenUIClip"
+        ],
+        "cluster": "UI_clip"
+      },
+      {
+        "slot": 35,
+        "wrapper_va": "0x0075d950",
+        "callbacks": [
+          "_onFinalizeClip"
+        ],
+        "cluster": "UI_clip"
+      },
+      {
+        "slot": 38,
+        "wrapper_va": "0x00759ad0",
+        "callbacks": [
+          "_onPreCutSceneCancel"
+        ],
+        "cluster": "cutscene"
+      },
+      {
+        "slot": 39,
+        "wrapper_va": "0x00759b40",
+        "callbacks": [
+          "_onPostCutSceneCancel"
+        ],
+        "cluster": "cutscene"
+      },
+      {
+        "slot": 41,
+        "wrapper_va": "0x00759bb0",
+        "callbacks": [
+          "_onPreWarp",
+          "_onCancelJobQuestCompleteFirst",
+          "_onCancelJobQuestCompleteSecond",
+          "_onCancelJobQuestCompleteThird"
+        ],
+        "cluster": "warp_jobquest"
+      },
+      {
+        "slot": 42,
+        "wrapper_va": "0x00759c20",
+        "callbacks": [
+          "_onPostWarp",
+          "_onChocoboRentalRide",
+          "_onChocoboWarpRide"
+        ],
+        "cluster": "warp_chocobo"
+      },
+      {
+        "slot": 87,
+        "wrapper_va": "0x0075aa20",
+        "callbacks": [
+          "_onChangeSubStatMode"
+        ],
+        "cluster": "stat_mode"
+      }
+    ]
+  },
+  "direct_dispatch_pure_native": {
+    "description": "39 slots without Receiver-class scaffolding that do NOT fire Lua callbacks. Each named after option-3 batch decomp. These are pure-native accessor/setter/utility methods on LuaActorImpl - the closest thing to plain getter/setter slots in the vftable. Categories below.",
+    "categories": {
+      "stub_void": "Empty body, returns void. Likely no-op virtual that derived classes (MyPlayer, NpcBase) override.",
+      "return_true": "Returns 1 (true predicate). Used as 'isLuaActorImpl_y' or similar type queries.",
+      "simple_setter": "Writes packet/arg byte/int into this+offset.",
+      "simple_getter": "Reads this+offset, calls one helper, returns or writes to output arg.",
+      "field_delegate": "Calls helper-function pair with this+4, this+8 as args. Pattern: setup + apply on contained member object.",
+      "vftable_delegate_N": "Calls (this+8)->vftable[N] - delegates to a contained interface object's slot N.",
+      "string_format": "Builds formatted string output via FUN_00447260 + FUN_00cc9320 + FUN_0078de00 chain.",
+      "construct_apply_destruct": "3-call pattern with helper triple (similar to receiver pattern but without Lua firing)."
+    },
+    "category_counts": {
+      "return_true": 2,
+      "simple_getter": 2,
+      "field_delegate": 14,
+      "simple_setter": 1,
+      "stub_void": 11,
+      "construct_apply_destruct": 2,
+      "vftable_delegate_21": 1,
+      "vftable_delegate_22": 1,
+      "vftable_delegate_23": 1,
+      "vftable_delegate_24": 1,
+      "vftable_delegate_25": 1,
+      "string_format": 2
+    },
+    "slots": [
+      {
+        "slot": 1,
+        "name": "returns_true_a",
+        "category": "return_true",
+        "summary": "Always-true predicate (return 1)"
+      },
+      {
+        "slot": 2,
+        "name": "returns_true_b",
+        "category": "return_true",
+        "summary": "Always-true predicate (return 1) - paired with slot 1"
+      },
+      {
+        "slot": 3,
+        "name": "output_arg_copy",
+        "category": "simple_getter",
+        "summary": "Copies this+4 to output arg via FUN_006e1580"
+      },
+      {
+        "slot": 4,
+        "name": "string_field_get_or_clone",
+        "category": "field_delegate",
+        "summary": "FUN_0076a090 to copy/extract a string-like field from this+4 to output"
+      },
+      {
+        "slot": 5,
+        "name": "field_double_init",
+        "category": "field_delegate",
+        "summary": "Calls FUN_006e11b0 + FUN_006dbe10 on this+4/this+8 (init helper pair)"
+      },
+      {
+        "slot": 6,
+        "name": "write_field_at_offset_4",
+        "category": "simple_setter",
+        "summary": "Writes *param_2 to this+4 (simple field setter)"
+      },
+      {
+        "slot": 8,
+        "name": "delegate_op_4arg",
+        "category": "field_delegate",
+        "summary": "FUN_008a3f30/40 pair with this+4, this+8, 3 args"
+      },
+      {
+        "slot": 9,
+        "name": "delegate_op_3arg",
+        "category": "field_delegate",
+        "summary": "FUN_008a3f60/70 pair with this+4, this+8, 2 args"
+      },
+      {
+        "slot": 10,
+        "name": "delegate_op_5arg_a",
+        "category": "field_delegate",
+        "summary": "FUN_008a3f90/a0 pair with 4 args"
+      },
+      {
+        "slot": 11,
+        "name": "delegate_op_4arg_b",
+        "category": "field_delegate",
+        "summary": "FUN_008a3fd0/e0 pair with 3 args"
+      },
+      {
+        "slot": 12,
+        "name": "delegate_op_5arg_b",
+        "category": "field_delegate",
+        "summary": "FUN_008a4000/10 pair with 4 args"
+      },
+      {
+        "slot": 13,
+        "name": "delegate_op_4arg_c",
+        "category": "field_delegate",
+        "summary": "FUN_008a4040/50 pair with 3 args"
+      },
+      {
+        "slot": 14,
+        "name": "delegate_op_6arg",
+        "category": "field_delegate",
+        "summary": "FUN_008a4070/80 pair with 5 args (largest signature in 8-15 cluster)"
+      },
+      {
+        "slot": 15,
+        "name": "delegate_op_5arg_c",
+        "category": "field_delegate",
+        "summary": "FUN_008a40b0/c0 pair with 4 args"
+      },
+      {
+        "slot": 17,
+        "name": "delegate_op_2arg_a",
+        "category": "field_delegate",
+        "summary": "FUN_008a3ce0 + FUN_008a4150 with 1 arg"
+      },
+      {
+        "slot": 18,
+        "name": "delegate_op_2arg_b",
+        "category": "field_delegate",
+        "summary": "FUN_008a3cf0 + FUN_008a41e0 with 1 arg"
+      },
+      {
+        "slot": 27,
+        "name": "getter_via_helper",
+        "category": "simple_getter",
+        "summary": "FUN_008a3ef0/008a3f00 -> *param_2 (output-arg getter)"
+      },
+      {
+        "slot": 36,
+        "name": "noop_virtual_a",
+        "category": "stub_void",
+        "summary": "Empty body (no-op virtual)"
+      },
+      {
+        "slot": 37,
+        "name": "triple_construct_apply_destruct",
+        "category": "construct_apply_destruct",
+        "summary": "FUN_008a3840/3860/3850 construct/apply/destruct triple"
+      },
+      {
+        "slot": 40,
+        "name": "delegate_op_2arg_c",
+        "category": "field_delegate",
+        "summary": "FUN_008a3be0 + FUN_008a3bf0 with 1 arg"
+      },
+      {
+        "slot": 43,
+        "name": "vftable_delegate_slot_21",
+        "category": "vftable_delegate_21",
+        "summary": "Calls (this+8)->vftable[21] (offset 0x54)"
+      },
+      {
+        "slot": 44,
+        "name": "vftable_delegate_slot_22",
+        "category": "vftable_delegate_22",
+        "summary": "Calls (this+8)->vftable[22] (offset 0x58)"
+      },
+      {
+        "slot": 45,
+        "name": "vftable_delegate_slot_23",
+        "category": "vftable_delegate_23",
+        "summary": "Calls (this+8)->vftable[23] (offset 0x5C)"
+      },
+      {
+        "slot": 46,
+        "name": "vftable_delegate_slot_24",
+        "category": "vftable_delegate_24",
+        "summary": "Calls (this+8)->vftable[24] (offset 0x60) with param arg"
+      },
+      {
+        "slot": 47,
+        "name": "vftable_delegate_slot_25",
+        "category": "vftable_delegate_25",
+        "summary": "Calls (this+8)->vftable[25] (offset 0x64), returns byte"
+      },
+      {
+        "slot": 49,
+        "name": "noop_virtual_b",
+        "category": "stub_void",
+        "summary": "Empty body (no-op virtual)"
+      },
+      {
+        "slot": 50,
+        "name": "noop_virtual_c",
+        "category": "stub_void",
+        "summary": "Empty body (no-op virtual)"
+      },
+      {
+        "slot": 51,
+        "name": "noop_virtual_d",
+        "category": "stub_void",
+        "summary": "Empty body (no-op virtual)"
+      },
+      {
+        "slot": 52,
+        "name": "noop_virtual_e",
+        "category": "stub_void",
+        "summary": "Empty body (no-op virtual)"
+      },
+      {
+        "slot": 53,
+        "name": "noop_virtual_f",
+        "category": "stub_void",
+        "summary": "Empty body (no-op virtual)"
+      },
+      {
+        "slot": 54,
+        "name": "noop_virtual_g",
+        "category": "stub_void",
+        "summary": "Empty body (no-op virtual)"
+      },
+      {
+        "slot": 55,
+        "name": "noop_virtual_h",
+        "category": "stub_void",
+        "summary": "Empty body (no-op virtual)"
+      },
+      {
+        "slot": 56,
+        "name": "string_format_log_a",
+        "category": "string_format",
+        "summary": "Large string-format method using FUN_00447260 + FUN_00cc9320 + FUN_0078de00 chain. Writes formatted output via FUN_0089f180/007858c0."
+      },
+      {
+        "slot": 58,
+        "name": "string_format_log_b",
+        "category": "string_format",
+        "summary": "Smaller string-format method via FUN_00447260 + FUN_0078de00 + FUN_0078dda0. Output via FUN_0089d070/00785aa0."
+      },
+      {
+        "slot": 72,
+        "name": "noop_virtual_i",
+        "category": "stub_void",
+        "summary": "Empty body (no-op virtual)"
+      },
+      {
+        "slot": 73,
+        "name": "noop_virtual_j",
+        "category": "stub_void",
+        "summary": "Empty body (no-op virtual)"
+      },
+      {
+        "slot": 78,
+        "name": "triple_apply_b",
+        "category": "construct_apply_destruct",
+        "summary": "FUN_0089d270/00785bf0/0089d2f0 construct/apply/destruct triple"
+      },
+      {
+        "slot": 81,
+        "name": "noop_virtual_k",
+        "category": "stub_void",
+        "summary": "Empty body (no-op virtual)"
+      },
+      {
+        "slot": 84,
+        "name": "delegate_op_3arg_b",
+        "category": "field_delegate",
+        "summary": "FUN_008a2e20 + FUN_008a2e30 with 2 args"
+      }
+    ]
+  },
+  "option3_naming_pass": {
+    "note": "All 39 pure-native direct-dispatch slots named based on batch decomp body shape. Categories total 39: stub_void (11 no-op virtuals: slots 36/49-55/72/73/81), return_true (2 predicate slots: 1/2), simple_setter (1 slot: 6), simple_getter (2 slots: 3/27), field_delegate (14 slots: 4/5/8-15/17/18/40/84 - all delegate to helper-function pairs with this+4 + this+8 arg pattern), vftable_delegate (5 slots: 43/44/45/46/47 - call (this+8)->vftable[21..25]), string_format (2 slots: 56/58 - large formatted output methods), construct_apply_destruct (2 slots: 37/78). These are utility methods on LuaActorImpl; naming is informational since none are opcode or Lua bound."
+  }
+}

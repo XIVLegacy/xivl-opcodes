@@ -1,0 +1,452 @@
+[
+  {
+    "opcode": 1,
+    "opcodeHex": "0x0001",
+    "name": "_0x0001",
+    "service": "lobby",
+    "direction": "clientbound",
+    "evidence": "Lobby s2c dispatcher (LobbyProtoDownCallbackInterface slot 1 at VA 0x00da4160) case 0 routes opcode 0x0001 to active-callback slot 2. Bootup-active callback is RaptureLobbyCallback; slot 2 handler at VA 0x0088e5e0 is 144 bytes with SEH and stores service-id [+0x1bac]=0x1bc.",
+    "likely_role": "Service-ack / session-init",
+    "source": "lobby_dispatcher_decomp"
+  },
+  {
+    "opcode": 6,
+    "opcodeHex": "0x0006",
+    "name": "_0x0006",
+    "service": "lobby",
+    "direction": "serverbound",
+    "evidence": "LobbyLoginOperation slot 0 (send state machine) state 3 at VA 0x00da9a84 pushes opcode 6 and payload size 0x1e0. No matching s2c slot1 case in the same Operation, so c2s-only.",
+    "likely_role": "Login follow-up / post-auth request",
+    "source": "lobby_dispatcher_decomp"
+  },
+  {
+    "opcode": 16,
+    "opcodeHex": "0x0010",
+    "name": "_0x0010",
+    "service": "lobby",
+    "direction": "clientbound",
+    "evidence": "Lobby s2c dispatcher case 6 (jump-table entry index = (opcode - 0x0001), so opcode 0x0010 lands at slot index 6 when accounting for sparse mapping) routes to RaptureLobbyCallback slot 8. Slot 8 entry exists in the vtable but its body was not decoded in the #4 pass.",
+    "likely_role": "Game-login response / lobby-to-game transition",
+    "source": "lobby_dispatcher_decomp"
+  },
+  {
+    "opcode": 500,
+    "opcodeHex": "0x01f4",
+    "name": "_0x01F4",
+    "service": "lobby",
+    "direction": "clientbound",
+    "evidence": "Lobby s2c dispatcher special-case path at VA 0x00da417b (out-of-band branch when opcode does not fall in the dense 0x0001-0x0017 range) jumps to VA 0x00da426d, which calls active-callback slots 12 and 13. Slots 12/13 of RaptureLobbyCallback handle generic OOB notifications.",
+    "likely_role": "Generic out-of-band lobby notification",
+    "source": "lobby_dispatcher_decomp"
+  },
+  {
+    "opcode": 501,
+    "opcodeHex": "0x01f5",
+    "name": "_0x01F5",
+    "service": "lobby",
+    "direction": "serverbound",
+    "evidence": "LobbyLoginOperation slot 0 (send state machine) state 4 pushes opcode 0x1f5 and payload size 0x38. Paired with a matching s2c receiver: LobbyLoginOperation slot 1 has cmp eax, 0x1f5 against the inbound opcode. Bidirectional handshake-completion exchange owned by the same Operation.",
+    "likely_role": "Handshake completion / acknowledgment (c2s)",
+    "source": "lobby_dispatcher_decomp"
+  },
+  {
+    "opcode": 501,
+    "opcodeHex": "0x01f5",
+    "name": "_0x01F5",
+    "service": "lobby",
+    "direction": "clientbound",
+    "evidence": "LobbyLoginOperation slot 1 (recv sparse switch) has cmp eax, 0x1f5 case, paired with the c2s emit at state 4. Same Operation handles both directions for the handshake-completion exchange.",
+    "likely_role": "Handshake completion / acknowledgment (s2c)",
+    "source": "lobby_dispatcher_decomp"
+  },
+  {
+    "opcode": 502,
+    "opcodeHex": "0x01f6",
+    "name": "_0x01F6",
+    "service": "lobby",
+    "direction": "serverbound",
+    "evidence": "LobbyLoginOperation::vftable[0] (FUN_00DA9880 = BCS-Y-0286 in xivl-client-structs) step state 4 calls FUN_00DA2BE0(0x1f6, 0x78, 0) at VA 0x00DA9CE4; expects s2c 0x01F5 response (`*uStack_b4 = 0x1f5` writeback). Also emitted from auxiliary FrontendAuth path FUN_004E2850 = BCS-Y-0297 at VA 0x004E29ED, which is a parallel auth-token refresh emitter outside the Operation step machine. No matching s2c 0x01F6 dispatch in LobbyLoginOperation::vftable[1] (BCS-Y-0287), so c2s-only; the response reuses opcode 0x01F5.",
+    "likely_role": "Frontend auth NewSession request (c2s)",
+    "source": "class_driven_outbound_scan"
+  },
+  {
+    "opcode": 1,
+    "opcodeHex": "0x0001",
+    "name": "_0x0001",
+    "service": "map",
+    "direction": "serverbound",
+    "evidence": "FUN_004E20A0 (Zone tick handler) emits opcode 0x0001 size 0x28 via thunk_FUN_004E0240 -> FUN_004E0240 (BCS-Y-0312, Tier-C wrapper) -> FUN_00DAE010 (BCS-Y-0304, Zone generic forwarder). The stack record at the thunk call site has local_1160 = 1 (opcode) and local_115c = 0x28 (size). This is an INDIRECT Tier-D binding via the Tier-C wrapper path - the previously-named PingPacket entry is confirmed at the emission site here.",
+    "likely_role": "Map channel keepalive / ping (c2s, in tick loop)",
+    "source": "tierc_outbound_scan"
+  },
+  {
+    "opcode": 3,
+    "opcodeHex": "0x0003",
+    "name": "_0x0003",
+    "service": "map",
+    "direction": "serverbound",
+    "evidence": "FUN_004E0320 emits opcode 0x0003 size 0x230 (560 bytes, the largest single-opcode emitter on the direct FUN_00DAE010 path). 438-byte function at VA 0x004E0320 with sole caller FUN_004D8160. Stack record: local_ac0=3 (opcode), local_abc=0x230 (size). Body block of 0x200 bytes loaded from FUN_00445210/FUN_004451F0 (string-pool source) via _memset + _memcpy.",
+    "likely_role": "Map state push (large 512-byte body block)",
+    "source": "tierc_outbound_scan"
+  },
+  {
+    "opcode": 4,
+    "opcodeHex": "0x0004",
+    "name": "_0x0004",
+    "service": "map",
+    "direction": "serverbound",
+    "evidence": "FUN_004E20A0 (Zone tick handler) case 0xe/0x11 emits opcode 0x0004 size 0x18 directly via FUN_00DAE010 at VA 0x004E235E. Stack record: local_8c0=4 (opcode), local_8bc=0x18 (size). Sole emit site for c2s 0x0004 in Map channel.",
+    "likely_role": "Map state transition (tick-driven, action types 0xe/0x11)",
+    "source": "tierc_outbound_scan"
+  },
+  {
+    "opcode": 300,
+    "opcodeHex": "0x012c",
+    "name": "_0x012C",
+    "service": "world",
+    "direction": "serverbound",
+    "evidence": "FUN_004DF9A0 (Chat login-callback emitter) DAT_0132FB98==1 branch emits opcode 0x012C size 0x18 via FUN_00DB3E30 (BCS-Y-0306, Chat generic forwarder). Two-state retry pattern: first call emits 0x0002 (state=0), second emits 0x012C (state=1), incrementing the global on successful send.",
+    "likely_role": "Chat channel login step 2 (post-handshake auth follow-up, c2s)",
+    "source": "tierc_outbound_scan"
+  },
+  {
+    "opcode": 202,
+    "opcodeHex": "0x00ca",
+    "name": "_0x00CA",
+    "service": "map",
+    "direction": "serverbound",
+    "evidence": "Tier-D emitter FUN_004DC690 (3364-byte massive host function, sole caller FUN_004E20A0 = BCS-Y-0314) emits opcode 0x00CA via record-builder FUN_004dd620: `uVar6 = FUN_004dd620((int)_Var13, &local_9f4); FUN_004E0240(uVar6, 0xCA, 0)`. Size determined by FUN_004dd620 (not hardcoded at caller). NOTE this is OUTSIDE the 0x01C3..0x01DF cluster - separate lower-range opcode. | Refined likely_role via pcap correlation against xivl-captures/captures/*.pcapng (54 scenarios). evidenceKind=pcap_observed, pcapTotalCount=16867, sourceEvidence=pcap_correlation.",
+    "likely_role": "Map position-broadcast tick (c2s); 64-byte subpacket (0x30 game-message body); appears in 54/54 pcap scenarios with frequency proportional to movement (2402x in moving_around_gridania, 3388x in party_battle_leve, 62x in mount_unmount_chocobo). Periodic player-state heartbeat - not an action-system opcode despite the outbound-scan cluster grouping. Same opcode as BCS-Y-0328 dual-production-paths entry.",
+    "source": "tierd_outbound_scan | pcap_correlation"
+  },
+  {
+    "opcode": 451,
+    "opcodeHex": "0x01c3",
+    "name": "_0x01C3",
+    "service": "map",
+    "direction": "serverbound",
+    "evidence": "Tier-D emitter 0x004B7A20 builds record via helper `uVar = FUN_004cfd10(...)` then calls FUN_004E0240(uVar, 0x01C3, 0). Size determined by FUN_004cfd10 (not hardcoded at caller). Routed through Tier-C wrapper FUN_004E0240 (BCS-Y-0312) -> Tier-B FUN_00DAE010 (BCS-Y-0304). | Refined likely_role via pcap correlation against xivl-captures/captures/*.pcapng (54 scenarios). evidenceKind=pcap_unobserved, pcapTotalCount=0, sourceEvidence=pcap_correlation. | Cluster role refined via Ghidra static caller decomposition. Source: ghidra-projects/caller_decomp.txt; caller(s)=0x004BBEA0; subsystem=PcMatching/Recruitment; sourceEvidence=static_caller_dig.",
+    "likely_role": "PcMatching/Recruitment - C2S - post new PC-Matching (party recruitment) listing. Caller FUN_004BBEA0 reads UI fields Button_Operate, ComboBox_Purpose, ComboBox_GLName, ComboBox_Place, TextBox_Comment, and 4x {ComboBox_Skill_N, CustomControl_RankFrom_N, CustomControl_RankTo_N, CustomControl_NumberOfPeople_N} - a full recruitment posting with 4 skill slots, rank ranges, and headcounts.",
+    "source": "tierd_outbound_scan | pcap_correlation | static_caller_dig"
+  },
+  {
+    "opcode": 452,
+    "opcodeHex": "0x01c4",
+    "name": "_0x01C4",
+    "service": "map",
+    "direction": "serverbound",
+    "evidence": "Tier-D emitter 0x004B7AD0 sets stack record `local_8b0 = 0x01C4 (opcode); local_8ac = 0x18 (size); [body fields]` then calls FUN_004E0240(&local_8b0, 0x01C4, 0). Routed through Tier-C wrapper FUN_004E0240 (BCS-Y-0312) -> Tier-B Zone forwarder FUN_00DAE010 (BCS-Y-0304). Member of the 24-emitter 0x01C3..0x01DF action-system traffic cluster. | Refined likely_role via pcap correlation against xivl-captures/captures/*.pcapng (54 scenarios). evidenceKind=pcap_unobserved, pcapTotalCount=0, sourceEvidence=pcap_correlation. | Cluster role refined via Ghidra static caller decomposition. Source: ghidra-projects/caller_decomp.txt; caller(s)=0x004C8390; subsystem=PcMatching/Recruitment; sourceEvidence=static_caller_dig.",
+    "likely_role": "PcMatching/Recruitment - C2S - PC-Matching listing view-mode action (apply / view / browse). Caller FUN_004C8390 reads TextBlock_GLName, TextBlock_PersonName, TextBlock_RemainTime + 4x TextBlock_Skill/RankFrom/RankTo/NumberOfPeople - the read-only view side of the listing UI.",
+    "source": "tierd_outbound_scan | pcap_correlation | static_caller_dig"
+  },
+  {
+    "opcode": 453,
+    "opcodeHex": "0x01c5",
+    "name": "_0x01C5",
+    "service": "map",
+    "direction": "serverbound",
+    "evidence": "Tier-D emitter 0x004B7990 sets stack record `local_8b0 = 0x01C5 (opcode); local_8ac = 0x18 (size); [body fields]` then calls FUN_004E0240(&local_8b0, 0x01C5, 0). Routed through Tier-C wrapper FUN_004E0240 (BCS-Y-0312) -> Tier-B Zone forwarder FUN_00DAE010 (BCS-Y-0304). Member of the 24-emitter 0x01C3..0x01DF action-system traffic cluster. | Refined likely_role via pcap correlation against xivl-captures/captures/*.pcapng (54 scenarios). evidenceKind=pcap_unobserved, pcapTotalCount=0, sourceEvidence=pcap_correlation. | Cluster role refined via Ghidra static caller decomposition. Source: ghidra-projects/caller_decomp.txt; caller(s)=0x004C8390 + 0x004C80C0; subsystem=PcMatching/Recruitment; sourceEvidence=static_caller_dig.",
+    "likely_role": "PcMatching/Recruitment - C2S - PC-Matching edit-mode toggle. Caller FUN_004C80C0 reads Button_PcMatching_Edit (smoking-gun control name); also invoked from FUN_004C8390 listing-view handler. Transitions between view and edit modes.",
+    "source": "tierd_outbound_scan | pcap_correlation | static_caller_dig"
+  },
+  {
+    "opcode": 454,
+    "opcodeHex": "0x01c6",
+    "name": "_0x01C6",
+    "service": "map",
+    "direction": "serverbound",
+    "evidence": "Tier-D emitter 0x004B7CC0 sets stack record `local_8b0 = 0x01C6 (opcode); local_8ac = 0x28 (size); [body fields]` then calls FUN_004E0240(&local_8b0, 0x01C6, 0). Routed through Tier-C wrapper FUN_004E0240 (BCS-Y-0312) -> Tier-B Zone forwarder FUN_00DAE010 (BCS-Y-0304). Member of the 24-emitter 0x01C3..0x01DF action-system traffic cluster. | Refined likely_role via pcap correlation against xivl-captures/captures/*.pcapng (54 scenarios). evidenceKind=pcap_unobserved, pcapTotalCount=0, sourceEvidence=pcap_correlation. | Cluster role refined via Ghidra static caller decomposition. Source: ghidra-projects/caller_decomp.txt; caller(s)=0x004BF4F0; subsystem=PcMatching/Recruitment; sourceEvidence=static_caller_dig.",
+    "likely_role": "PcMatching/Recruitment - C2S - PC-Matching detail view request (another player's posting). Caller FUN_004BF4F0 mirrors FUN_004C8390 layout with TextBlock_ prefix UI controls. Sister of 0x01C4.",
+    "source": "tierd_outbound_scan | pcap_correlation | static_caller_dig"
+  },
+  {
+    "opcode": 455,
+    "opcodeHex": "0x01c7",
+    "name": "_0x01C7",
+    "service": "map",
+    "direction": "serverbound",
+    "evidence": "Tier-D emitter 0x004B7C10 builds record via helper `uVar = FUN_004cfda0(...)` then calls FUN_004E0240(uVar, 0x01C7, 0). Size determined by FUN_004cfda0 (not hardcoded at caller). Routed through Tier-C wrapper FUN_004E0240 (BCS-Y-0312) -> Tier-B FUN_00DAE010 (BCS-Y-0304). | Refined likely_role via pcap correlation against xivl-captures/captures/*.pcapng (54 scenarios). evidenceKind=pcap_unobserved, pcapTotalCount=0, sourceEvidence=pcap_correlation. | Cluster role refined via Ghidra static caller decomposition. Source: ghidra-projects/caller_decomp.txt; caller(s)=0x004BD170; subsystem=PcMatching/Recruitment; sourceEvidence=static_caller_dig.",
+    "likely_role": "PcMatching/Recruitment - C2S - PC-Matching SetAttr/Update on listing fields. Caller FUN_004BD170 uses Action/AttributeName/SetAttr/Update/Index + ValueType pattern + Result_Maker. Sends individual field changes to listing.",
+    "source": "tierd_outbound_scan | pcap_correlation | static_caller_dig"
+  },
+  {
+    "opcode": 456,
+    "opcodeHex": "0x01c8",
+    "name": "_0x01C8",
+    "service": "map",
+    "direction": "serverbound",
+    "evidence": "Tier-D emitter 0x004B7B60 sets stack record `local_8b0 = 0x01C8 (opcode); local_8ac = 0x18 (size); [body fields]` then calls FUN_004E0240(&local_8b0, 0x01C8, 0). Routed through Tier-C wrapper FUN_004E0240 (BCS-Y-0312) -> Tier-B Zone forwarder FUN_00DAE010 (BCS-Y-0304). Member of the 24-emitter 0x01C3..0x01DF action-system traffic cluster. | Refined likely_role via pcap correlation against xivl-captures/captures/*.pcapng (54 scenarios). evidenceKind=pcap_unobserved, pcapTotalCount=0, sourceEvidence=pcap_correlation. | Cluster role refined via Ghidra static caller decomposition. Source: ghidra-projects/caller_decomp.txt; caller(s)=0x004C8390 + 0x004BF4F0; subsystem=PcMatching/Recruitment; sourceEvidence=static_caller_dig.",
+    "likely_role": "PcMatching/Recruitment - C2S - PC-Matching cancel/leave/withdraw. Caller pair spanning both edit (0x004C8390) and view (0x004BF4F0) handlers - common exit/abort path.",
+    "source": "tierd_outbound_scan | pcap_correlation | static_caller_dig"
+  },
+  {
+    "opcode": 457,
+    "opcodeHex": "0x01c9",
+    "name": "_0x01C9",
+    "service": "map",
+    "direction": "serverbound",
+    "evidence": "Tier-D emitter 0x004C9DA0 sets stack record `local_8b0 = 0x01C9 (opcode); local_8ac = 0x30 (size); [body fields]` then calls FUN_004E0240(&local_8b0, 0x01C9, 0). Routed through Tier-C wrapper FUN_004E0240 (BCS-Y-0312) -> Tier-B Zone forwarder FUN_00DAE010 (BCS-Y-0304). Member of the 24-emitter 0x01C3..0x01DF action-system traffic cluster. | Refined likely_role via pcap correlation against xivl-captures/captures/*.pcapng (54 scenarios). evidenceKind=pcap_unobserved, pcapTotalCount=0, sourceEvidence=pcap_correlation. | Cluster role refined via Ghidra static caller decomposition. Source: ghidra-projects/caller_decomp.txt; caller(s)=0x004CB0D0 + 0x004CDB60; subsystem=Mail/Letter; sourceEvidence=static_caller_dig.",
+    "likely_role": "Mail/Letter - C2S - Mail/Letter compose request. Caller FUN_004CB0D0 uses Address_Maker + TextBlock_Total + Button_Add UI - the letter address-list assembly UI. Sister of 0x01CA.",
+    "source": "tierd_outbound_scan | pcap_correlation | static_caller_dig"
+  },
+  {
+    "opcode": 458,
+    "opcodeHex": "0x01ca",
+    "name": "_0x01CA",
+    "service": "map",
+    "direction": "serverbound",
+    "evidence": "Tier-D emitter 0x004B7D70 sets stack record `local_8b0 = 0x01CA (opcode); local_8ac = 0x30 (size); [body fields]` then calls FUN_004E0240(&local_8b0, 0x01CA, 0). Routed through Tier-C wrapper FUN_004E0240 (BCS-Y-0312) -> Tier-B Zone forwarder FUN_00DAE010 (BCS-Y-0304). Member of the 24-emitter 0x01C3..0x01DF action-system traffic cluster. | Refined likely_role via pcap correlation against xivl-captures/captures/*.pcapng (54 scenarios). evidenceKind=pcap_unobserved, pcapTotalCount=0, sourceEvidence=pcap_correlation. | Cluster role refined via Ghidra static caller decomposition. Source: ghidra-projects/caller_decomp.txt; caller(s)=0x004CB0D0; subsystem=Mail/Letter; sourceEvidence=static_caller_dig.",
+    "likely_role": "Mail/Letter - C2S - Mail/Letter attribute set (recipient / subject field update). Caller FUN_004CB0D0 same letter-address handler as 0x01C9; uses Action/AttributeName/SetAttr/Update pattern.",
+    "source": "tierd_outbound_scan | pcap_correlation | static_caller_dig"
+  },
+  {
+    "opcode": 459,
+    "opcodeHex": "0x01cb",
+    "name": "_0x01CB",
+    "service": "map",
+    "direction": "serverbound",
+    "evidence": "Tier-D emitter 0x004CA100 sets stack record `local_8b0 = 0x01CB (opcode); local_8ac = 0x18 (size); [body fields]` then calls FUN_004E0240(&local_8b0, 0x01CB, 0). Routed through Tier-C wrapper FUN_004E0240 (BCS-Y-0312) -> Tier-B Zone forwarder FUN_00DAE010 (BCS-Y-0304). Member of the 24-emitter 0x01C3..0x01DF action-system traffic cluster. | Refined likely_role via pcap correlation against xivl-captures/captures/*.pcapng (54 scenarios). evidenceKind=pcap_observed, pcapTotalCount=1, sourceEvidence=pcap_correlation.",
+    "likely_role": "Login-time map/zone handshake step (c2s, 40-byte subpacket). Observed ONLY in login.pcapng (1 emission during initial zone-in); never fires in steady-state gameplay or combat. Pairs with 0x01CE + 0x01D3 as the three-step zone-attach handshake.",
+    "source": "tierd_outbound_scan | pcap_correlation"
+  },
+  {
+    "opcode": 460,
+    "opcodeHex": "0x01cc",
+    "name": "_0x01CC",
+    "service": "map",
+    "direction": "serverbound",
+    "evidence": "Tier-D emitter 0x004CA1B0 sets stack record `local_8b0 = 0x01CC (opcode); local_8ac = 0x30 (size); [body fields]` then calls FUN_004E0240(&local_8b0, 0x01CC, 0). Routed through Tier-C wrapper FUN_004E0240 (BCS-Y-0312) -> Tier-B Zone forwarder FUN_00DAE010 (BCS-Y-0304). Member of the 24-emitter 0x01C3..0x01DF action-system traffic cluster. | Refined likely_role via pcap correlation against xivl-captures/captures/*.pcapng (54 scenarios). evidenceKind=pcap_unobserved, pcapTotalCount=0, sourceEvidence=pcap_correlation. | Cluster role refined via Ghidra static caller decomposition. Source: ghidra-projects/caller_decomp.txt; caller(s)=0x004CA410; subsystem=Mail/Letter; sourceEvidence=static_caller_dig.",
+    "likely_role": "Mail/Letter - C2S - Letter system small wrapper opcode. Caller FUN_004CA410 is a 2400-char decomp with no distinguishing strings - likely a passthrough or ack within the mail flow.",
+    "source": "tierd_outbound_scan | pcap_correlation | static_caller_dig"
+  },
+  {
+    "opcode": 461,
+    "opcodeHex": "0x01cd",
+    "name": "_0x01CD",
+    "service": "map",
+    "direction": "serverbound",
+    "evidence": "Tier-D emitter 0x004B7E30 sets stack record `local_8b0 = 0x01CD (opcode); local_8ac = 0x30 (size); [body fields]` then calls FUN_004E0240(&local_8b0, 0x01CD, 0). Routed through Tier-C wrapper FUN_004E0240 (BCS-Y-0312) -> Tier-B Zone forwarder FUN_00DAE010 (BCS-Y-0304). Member of the 24-emitter 0x01C3..0x01DF action-system traffic cluster. | Refined likely_role via pcap correlation against xivl-captures/captures/*.pcapng (54 scenarios). evidenceKind=pcap_unobserved, pcapTotalCount=0, sourceEvidence=pcap_correlation. | Cluster role refined via Ghidra static caller decomposition. Source: ghidra-projects/caller_decomp.txt; caller(s)=(no static references; possibly vtable-dispatched or dead code); subsystem=Mail/Letter (cluster-adjacent); sourceEvidence=static_caller_dig. | Vtable-slot resolution via FindSymbolByName ::vftable dump + DumpMemRange + DumpFunctionDecomp + FindBytePattern. Source: ghidra-projects/caller_decomp.txt + ghidra-projects/find_004b7e30.txt (0 byte-pattern hits); sourceEvidence=vtable_resolution.",
+    "likely_role": "Cluster-Adjacent (dead code) - C2S - emitter FUN_004B7E30 is dead code in 1.23b. A FindXRefs pass found no instruction references; a FindBytePattern scan for the 4-byte little-endian VA 0x004B7E30 across ALL program memory found ZERO hits, ruling out vtable slot / function-pointer-table indirection. Adjacent in .text address space to the Mail cluster emitters (0x004B7AD0..0x004B8370 range), so likely a leftover from an earlier dev iteration of the Mail subsystem that was compiled in but never wired up.",
+    "source": "tierd_outbound_scan | pcap_correlation | static_caller_dig | vtable_resolution"
+  },
+  {
+    "opcode": 462,
+    "opcodeHex": "0x01ce",
+    "name": "_0x01CE",
+    "service": "map",
+    "direction": "serverbound",
+    "evidence": "Tier-D emitter 0x004CA730 sets stack record `local_8b0 = 0x01CE (opcode); local_8ac = 0x18 (size); [body fields]` then calls FUN_004E0240(&local_8b0, 0x01CE, 0). Routed through Tier-C wrapper FUN_004E0240 (BCS-Y-0312) -> Tier-B Zone forwarder FUN_00DAE010 (BCS-Y-0304). Member of the 24-emitter 0x01C3..0x01DF action-system traffic cluster. | Refined likely_role via pcap correlation against xivl-captures/captures/*.pcapng (54 scenarios). evidenceKind=pcap_observed, pcapTotalCount=1, sourceEvidence=pcap_correlation.",
+    "likely_role": "Login-time map/zone handshake step (c2s, 40-byte subpacket). Observed ONLY in login.pcapng (1 emission during initial zone-in); never fires in steady-state gameplay or combat. Pairs with 0x01CB + 0x01D3.",
+    "source": "tierd_outbound_scan | pcap_correlation"
+  },
+  {
+    "opcode": 463,
+    "opcodeHex": "0x01cf",
+    "name": "_0x01CF",
+    "service": "map",
+    "direction": "serverbound",
+    "evidence": "Tier-D emitter 0x004B7EF0 sets stack record `local_8b0 = 0x01CF (opcode); local_8ac = 0x18 (size); [body fields]` then calls FUN_004E0240(&local_8b0, 0x01CF, 0). Routed through Tier-C wrapper FUN_004E0240 (BCS-Y-0312) -> Tier-B Zone forwarder FUN_00DAE010 (BCS-Y-0304). Member of the 24-emitter 0x01C3..0x01DF action-system traffic cluster. | Refined likely_role via pcap correlation against xivl-captures/captures/*.pcapng (54 scenarios). evidenceKind=pcap_observed, pcapTotalCount=2, sourceEvidence=pcap_correlation.",
+    "likely_role": "Social/party request (c2s, 40-byte subpacket). Observed in friendlist_search and invite_join_party pcaps (1 emission each); fires when the player initiates a friend search or party invite from the social menu.",
+    "source": "tierd_outbound_scan | pcap_correlation"
+  },
+  {
+    "opcode": 464,
+    "opcodeHex": "0x01d0",
+    "name": "_0x01D0",
+    "service": "map",
+    "direction": "serverbound",
+    "evidence": "Tier-D emitter 0x004B7F90 sets stack record `local_8b0 = 0x01D0 (opcode); local_8ac = 0x18 (size); [body fields]` then calls FUN_004E0240(&local_8b0, 0x01D0, 0). Routed through Tier-C wrapper FUN_004E0240 (BCS-Y-0312) -> Tier-B Zone forwarder FUN_00DAE010 (BCS-Y-0304). Member of the 24-emitter 0x01C3..0x01DF action-system traffic cluster. | Refined likely_role via pcap correlation against xivl-captures/captures/*.pcapng (54 scenarios). evidenceKind=pcap_unobserved, pcapTotalCount=0, sourceEvidence=pcap_correlation. | Cluster role refined via Ghidra static caller decomposition. Source: ghidra-projects/caller_decomp.txt; caller(s)=0x004C0AF0; subsystem=Topic/Forum; sourceEvidence=static_caller_dig.",
+    "likely_role": "Topic/Forum - C2S - Topic/Bulletin board list request. Caller FUN_004C0AF0 uses TextBlock_TopicTitle + Call_Maker + Info_Maker UI control pattern - the topic-list / discussion board UI. Sister of 0x01D4.",
+    "source": "tierd_outbound_scan | pcap_correlation | static_caller_dig"
+  },
+  {
+    "opcode": 465,
+    "opcodeHex": "0x01d1",
+    "name": "_0x01D1",
+    "service": "map",
+    "direction": "serverbound",
+    "evidence": "Tier-D emitter 0x004B8030 sets stack record `local_8b0 = 0x01D1 (opcode); local_8ac = 0x18 (size); [body fields]` then calls FUN_004E0240(&local_8b0, 0x01D1, 0). Routed through Tier-C wrapper FUN_004E0240 (BCS-Y-0312) -> Tier-B Zone forwarder FUN_00DAE010 (BCS-Y-0304). Member of the 24-emitter 0x01C3..0x01DF action-system traffic cluster. | Refined likely_role via pcap correlation against xivl-captures/captures/*.pcapng (54 scenarios). evidenceKind=pcap_unobserved, pcapTotalCount=0, sourceEvidence=pcap_correlation. | Cluster role refined via Ghidra static caller decomposition. Source: ghidra-projects/caller_decomp.txt; caller(s)=0x004C2170; subsystem=Call/Voice (or Call-Help feature); sourceEvidence=static_caller_dig.",
+    "likely_role": "Call/Voice (or Call-Help feature) - C2S - Call/Help request. Caller FUN_004C2170 uses Button_Call + TextBlock_Content + Visibility/Visible/Collapsed control pattern - voice-call or help-call request UI. Sister of 0x01D6.",
+    "source": "tierd_outbound_scan | pcap_correlation | static_caller_dig"
+  },
+  {
+    "opcode": 466,
+    "opcodeHex": "0x01d2",
+    "name": "_0x01D2",
+    "service": "map",
+    "direction": "serverbound",
+    "evidence": "Tier-D emitter 0x004B80E0 sets stack record `local_8b0 = 0x01D2 (opcode); local_8ac = 0x18 (size); [body fields]` then calls FUN_004E0240(&local_8b0, 0x01D2, 0). Routed through Tier-C wrapper FUN_004E0240 (BCS-Y-0312) -> Tier-B Zone forwarder FUN_00DAE010 (BCS-Y-0304). Member of the 24-emitter 0x01C3..0x01DF action-system traffic cluster. | Refined likely_role via pcap correlation against xivl-captures/captures/*.pcapng (54 scenarios). evidenceKind=pcap_unobserved, pcapTotalCount=0, sourceEvidence=pcap_correlation. | Cluster role refined via Ghidra static caller decomposition. Source: ghidra-projects/caller_decomp.txt; caller(s)=0x004C2A20; subsystem=Mail/Compose; sourceEvidence=static_caller_dig.",
+    "likely_role": "Mail/Compose - C2S - Mail compose send. Caller FUN_004C2A20 uses Button_Send + ComboBox_Kind + TextBox_Content + TextBox_Header + Kind_Maker + kindtext UI - the actual mail-message-compose / send UI. Sister of 0x01D5.",
+    "source": "tierd_outbound_scan | pcap_correlation | static_caller_dig"
+  },
+  {
+    "opcode": 467,
+    "opcodeHex": "0x01d3",
+    "name": "_0x01D3",
+    "service": "map",
+    "direction": "serverbound",
+    "evidence": "Tier-D emitter 0x004B8180 sets stack record `local_8b0 = 0x01D3 (opcode); local_8ac = 0x18 (size); [body fields]` then calls FUN_004E0240(&local_8b0, 0x01D3, 0). Routed through Tier-C wrapper FUN_004E0240 (BCS-Y-0312) -> Tier-B Zone forwarder FUN_00DAE010 (BCS-Y-0304). Member of the 24-emitter 0x01C3..0x01DF action-system traffic cluster. | Refined likely_role via pcap correlation against xivl-captures/captures/*.pcapng (54 scenarios). evidenceKind=pcap_observed, pcapTotalCount=1, sourceEvidence=pcap_correlation.",
+    "likely_role": "Login-time map/zone handshake step (c2s, 40-byte subpacket). Observed ONLY in login.pcapng (1 emission). Pairs with 0x01CB + 0x01CE.",
+    "source": "tierd_outbound_scan | pcap_correlation"
+  },
+  {
+    "opcode": 468,
+    "opcodeHex": "0x01d4",
+    "name": "_0x01D4",
+    "service": "map",
+    "direction": "serverbound",
+    "evidence": "Tier-D emitter 0x004B8210 sets stack record `local_8b0 = 0x01D4 (opcode); local_8ac = 0x18 (size); [body fields]` then calls FUN_004E0240(&local_8b0, 0x01D4, 0). Routed through Tier-C wrapper FUN_004E0240 (BCS-Y-0312) -> Tier-B Zone forwarder FUN_00DAE010 (BCS-Y-0304). Member of the 24-emitter 0x01C3..0x01DF action-system traffic cluster. | Refined likely_role via pcap correlation against xivl-captures/captures/*.pcapng (54 scenarios). evidenceKind=pcap_unobserved, pcapTotalCount=0, sourceEvidence=pcap_correlation. | Cluster role refined via Ghidra static caller decomposition. Source: ghidra-projects/caller_decomp.txt; caller(s)=0x004C0AF0; subsystem=Topic/Forum; sourceEvidence=static_caller_dig.",
+    "likely_role": "Topic/Forum - C2S - Topic/Bulletin board submit/update. Same caller as 0x01D0 (FUN_004C0AF0); paired emit covering the topic-board submit half.",
+    "source": "tierd_outbound_scan | pcap_correlation | static_caller_dig"
+  },
+  {
+    "opcode": 469,
+    "opcodeHex": "0x01d5",
+    "name": "_0x01D5",
+    "service": "map",
+    "direction": "serverbound",
+    "evidence": "Tier-D emitter 0x004B82A0 sets stack record `local_8b0 = 0x01D5 (opcode); local_8ac = 0x898 (size); [body fields]` then calls FUN_004E0240(&local_8b0, 0x01D5, 0). Routed through Tier-C wrapper FUN_004E0240 (BCS-Y-0312) -> Tier-B Zone forwarder FUN_00DAE010 (BCS-Y-0304). Member of the 24-emitter 0x01C3..0x01DF action-system traffic cluster. | Refined likely_role via pcap correlation against xivl-captures/captures/*.pcapng (54 scenarios). evidenceKind=pcap_unobserved, pcapTotalCount=0, sourceEvidence=pcap_correlation. | Cluster role refined via Ghidra static caller decomposition. Source: ghidra-projects/caller_decomp.txt; caller(s)=0x004C2A20; subsystem=Mail/Compose; sourceEvidence=static_caller_dig.",
+    "likely_role": "Mail/Compose - C2S - Mail compose field update. Same caller as 0x01D2 (FUN_004C2A20); paired emit for sending individual compose-field updates.",
+    "source": "tierd_outbound_scan | pcap_correlation | static_caller_dig"
+  },
+  {
+    "opcode": 470,
+    "opcodeHex": "0x01d6",
+    "name": "_0x01D6",
+    "service": "map",
+    "direction": "serverbound",
+    "evidence": "Tier-D emitter 0x004B8370 sets stack record `local_8b0 = 0x01D6 (opcode); local_8ac = 0x18 (size); [body fields]` then calls FUN_004E0240(&local_8b0, 0x01D6, 0). Routed through Tier-C wrapper FUN_004E0240 (BCS-Y-0312) -> Tier-B Zone forwarder FUN_00DAE010 (BCS-Y-0304). Member of the 24-emitter 0x01C3..0x01DF action-system traffic cluster. | Refined likely_role via pcap correlation against xivl-captures/captures/*.pcapng (54 scenarios). evidenceKind=pcap_unobserved, pcapTotalCount=0, sourceEvidence=pcap_correlation. | Cluster role refined via Ghidra static caller decomposition. Source: ghidra-projects/caller_decomp.txt; caller(s)=0x004C2170; subsystem=Call/Voice; sourceEvidence=static_caller_dig.",
+    "likely_role": "Call/Voice - C2S - Call ack/status. Same caller as 0x01D1 (FUN_004C2170); paired emit for call lifecycle state changes.",
+    "source": "tierd_outbound_scan | pcap_correlation | static_caller_dig"
+  },
+  {
+    "opcode": 471,
+    "opcodeHex": "0x01d7",
+    "name": "_0x01D7",
+    "service": "map",
+    "direction": "serverbound",
+    "evidence": "Tier-D emitter 0x00519440 sets stack record `local_8b0 = 0x01D7 (opcode); local_8ac = 0x18 (size); [body fields]` then calls FUN_004E0240(&local_8b0, 0x01D7, 0). Routed through Tier-C wrapper FUN_004E0240 (BCS-Y-0312) -> Tier-B Zone forwarder FUN_00DAE010 (BCS-Y-0304). Member of the 24-emitter 0x01C3..0x01DF action-system traffic cluster. | Refined likely_role via pcap correlation against xivl-captures/captures/*.pcapng (54 scenarios). evidenceKind=pcap_unobserved, pcapTotalCount=0, sourceEvidence=pcap_correlation. | Cluster role refined via Ghidra static caller decomposition. Source: ghidra-projects/caller_decomp.txt; caller(s)=0x00519440 (thunked from 0x0051A480/0x0051A490) + 0x0051A4A0; subsystem=(unidentified; small wrapper); sourceEvidence=static_caller_dig. | Per xivl-client-structs (newRttiClassesDiscovered + schema rescue): subsystem identified as ItemSearchListWidget (Retainer/ItemSearch 1.x marketplace parent class, vftable at 0x00F9E650 RTTI Type Descriptor 0x0126C3B8). Emitter FUN_00519440 = BCS-Y-0692; called via case 5 chain from FUN_0051A4A0 in the 10-case ItemSearchListWidget tick state machine FUN_00525E50 (BCS-Y-0926). Same widget parent as 0x01D9/01DA/01DE which were attributed to ItemSearchPriceView/HistoryView/DirectPurchase sub-widgets. bcsy_refs=BCS-Y-0922 (vftable), BCS-Y-0926 (tick handler), BCS-Y-0692 (emitter); sourceEvidence=new_rtti_classes + schema_rescue (xivl-client-structs).",
+    "likely_role": "Retainer/ItemSearch (1.x marketplace) - C2S - ItemSearchListWidget tick handler case-5-chain emit (24B body). Sibling of 0x01D8/0x01DF (cases 6/10 in the same 10-case state machine FUN_00525E50/BCS-Y-0926). Parent widget for the PriceView/HistoryView/DirectPurchase sub-widgets that own 0x01D9/01DA/01DE.",
+    "source": "tierd_outbound_scan | pcap_correlation | static_caller_dig | new_rtti_classes | schema_rescue"
+  },
+  {
+    "opcode": 472,
+    "opcodeHex": "0x01d8",
+    "name": "_0x01D8",
+    "service": "map",
+    "direction": "serverbound",
+    "evidence": "Tier-D emitter 0x0051AAC0 sets stack record `local_8b0 = 0x01D8 (opcode); local_8ac = 0x28 (size); [body fields]` then calls FUN_004E0240(&local_8b0, 0x01D8, 0). Routed through Tier-C wrapper FUN_004E0240 (BCS-Y-0312) -> Tier-B Zone forwarder FUN_00DAE010 (BCS-Y-0304). Member of the 24-emitter 0x01C3..0x01DF action-system traffic cluster. | Refined likely_role via pcap correlation against xivl-captures/captures/*.pcapng (54 scenarios). evidenceKind=pcap_unobserved, pcapTotalCount=0, sourceEvidence=pcap_correlation. | Cluster role refined via Ghidra static caller decomposition. Source: ghidra-projects/caller_decomp.txt; caller(s)=0x00525E50; subsystem=(unidentified; small handler); sourceEvidence=static_caller_dig. | Per xivl-client-structs (newRttiClassesDiscovered + schema rescue): caller FUN_00525E50 = ItemSearchListWidget tick handler (BCS-Y-0926), a 10-case state machine on `this+0x1214` that dispatches per-case to emit methods. 0x01D8 is case 6 (direct emit, FUN_0051AAC0/BCS-Y-0694, 40B body). Same widget parent as 0x01D9/01DA/01DE (attributed to PriceView/HistoryView/DirectPurchase sub-widgets) and 0x01D7 (case 5 chain) and 0x01DF (case 10). Body: 5 dwords from `this+0xe28+*(this+0x1228)*4`, `this+0x1220`, `this+0x1238`, `this+0x1224`, `this+0x1234`. Gated on `*(this+0x123c) == *(this+0x1240)`. Sets state `*(this+0x1214)=7`. bcsy_refs=BCS-Y-0922 (vftable), BCS-Y-0926 (tick handler), BCS-Y-0694 (emitter); sourceEvidence=new_rtti_classes + schema_rescue (xivl-client-structs).",
+    "likely_role": "Retainer/ItemSearch (1.x marketplace) - C2S - ItemSearchListWidget tick handler case-6 direct emit (40B body, 5 widget state dwords). Sibling of 0x01D7 (case 5 chain) and 0x01DF (case 10) in the same 10-case state machine FUN_00525E50/BCS-Y-0926. Likely a list-state commit/sync emission.",
+    "source": "tierd_outbound_scan | pcap_correlation | static_caller_dig | new_rtti_classes | schema_rescue"
+  },
+  {
+    "opcode": 473,
+    "opcodeHex": "0x01d9",
+    "name": "_0x01D9",
+    "service": "map",
+    "direction": "serverbound",
+    "evidence": "Tier-D emitter 0x004FA750 sets stack record `local_8b0 = 0x01D9 (opcode); local_8ac = 0x20 (size); [body fields]` then calls FUN_004E0240(&local_8b0, 0x01D9, 0). Routed through Tier-C wrapper FUN_004E0240 (BCS-Y-0312) -> Tier-B Zone forwarder FUN_00DAE010 (BCS-Y-0304). Member of the 24-emitter 0x01C3..0x01DF action-system traffic cluster. | Refined likely_role via pcap correlation against xivl-captures/captures/*.pcapng (54 scenarios). evidenceKind=pcap_unobserved, pcapTotalCount=0, sourceEvidence=pcap_correlation. | Cluster role refined via Ghidra static caller decomposition. Source: ghidra-projects/caller_decomp.txt; caller(s)=(DATA xref only at 0x00F9E730 - vtable slot); subsystem=(vtable-dispatched; subsystem unidentified); sourceEvidence=static_caller_dig. | Vtable-slot resolution via FindSymbolByName ::vftable dump + DumpMemRange + DumpFunctionDecomp + FindBytePattern. Source: ghidra-projects/itemsearch_emitter_decomp.txt (VA 0x004FA750 decomp shows local_8b0=0x1d9; local_8ac=0x20; FUN_004E0240(&local_8b0,0x1d9,0)); sourceEvidence=vtable_resolution.",
+    "likely_role": "Retainer/ItemSearch (1.x marketplace) - C2S - ItemSearchPriceViewWidget slot-5 virtual emit. Emitter FUN_004FA750 packs a 0x20-byte (32-byte) payload that includes the widget-state itemId at offset +0xC48 (set in the slot-4 Init method FUN_0050D9D0 from a ListBox_RetainerList selection), then calls the wire-send helper FUN_004E0240(buf, 0x1d9, 0). The slot-4 init UI controls include ListBox_RetainerList, Button_Search, Button_Cancel, TextBlock_NoContents - the retainer-listing browse pane. Role: request server-side price listings for a specific item across retainers (1.x marketboard price-search query).",
+    "source": "tierd_outbound_scan | pcap_correlation | static_caller_dig | vtable_resolution"
+  },
+  {
+    "opcode": 474,
+    "opcodeHex": "0x01da",
+    "name": "_0x01DA",
+    "service": "map",
+    "direction": "serverbound",
+    "evidence": "Tier-D emitter 0x00532A40 sets stack record `local_8b0 = 0x01DA (opcode); local_8ac = 0x20 (size); [body fields]` then calls FUN_004E0240(&local_8b0, 0x01DA, 0). Routed through Tier-C wrapper FUN_004E0240 (BCS-Y-0312) -> Tier-B Zone forwarder FUN_00DAE010 (BCS-Y-0304). Member of the 24-emitter 0x01C3..0x01DF action-system traffic cluster. | Refined likely_role via pcap correlation against xivl-captures/captures/*.pcapng (54 scenarios). evidenceKind=pcap_unobserved, pcapTotalCount=0, sourceEvidence=pcap_correlation. | Cluster role refined via Ghidra static caller decomposition. Source: ghidra-projects/caller_decomp.txt; caller(s)=(DATA xref only at 0x00FA0320 - vtable slot); subsystem=(vtable-dispatched; subsystem unidentified); sourceEvidence=static_caller_dig. | Vtable-slot resolution via FindSymbolByName ::vftable dump + DumpMemRange + DumpFunctionDecomp + FindBytePattern. Source: ghidra-projects/itemsearch_emitter_decomp.txt (VA 0x00532A40 decomp shows local_8b0=0x1da; local_8ac=0x20; FUN_004E0240(&local_8b0,0x1da,0)); sourceEvidence=vtable_resolution.",
+    "likely_role": "Retainer/ItemSearch (1.x marketplace) - C2S - ItemSearchHistoryViewWidget slot-5 virtual emit. Emitter FUN_00532A40 packs a 0x20-byte payload including widget field +0x240 (an itemId/historyKey set in slot-4 Init FUN_00532BF0), then calls FUN_004E0240(buf, 0x1da, 0). Slot-4 init UI controls are DataMaker_ListBox_Key, TextBlock_Title, Button_Close, TextBlock_NoContents - the purchase-history view pane. Title format-string ID 0x297F is one greater than PriceView's 0x297A, confirming sequential resource-string allocation for the matched widgets. Role: request server-side retainer purchase / sale history for an item or for the player.",
+    "source": "tierd_outbound_scan | pcap_correlation | static_caller_dig | vtable_resolution"
+  },
+  {
+    "opcode": 478,
+    "opcodeHex": "0x01de",
+    "name": "_0x01DE",
+    "service": "map",
+    "direction": "serverbound",
+    "evidence": "Tier-D emitter 0x0085E1B0 builds record via helper `uVar = FUN_0085d160(...)` then calls FUN_004E0240(uVar, 0x01DE, 0). Size determined by FUN_0085d160 (not hardcoded at caller). Routed through Tier-C wrapper FUN_004E0240 (BCS-Y-0312) -> Tier-B FUN_00DAE010 (BCS-Y-0304). | Refined likely_role via pcap correlation against xivl-captures/captures/*.pcapng (54 scenarios). evidenceKind=pcap_unobserved, pcapTotalCount=0, sourceEvidence=pcap_correlation. | Cluster role refined via Ghidra static caller decomposition. Source: ghidra-projects/caller_decomp.txt; caller(s)=(DATA xref only at 0x01049F08 - vtable slot); subsystem=(vtable-dispatched; subsystem unidentified); sourceEvidence=static_caller_dig. | Vtable-slot resolution via FindSymbolByName ::vftable dump + DumpMemRange + DumpFunctionDecomp + FindBytePattern. Source: ghidra-projects/itemsearch_emitter_decomp.txt (VA 0x0085E1B0 decomp shows __thiscall handler comparing button-ID, FUN_004E0240(uVar3,0x1de,0)); sourceEvidence=vtable_resolution.",
+    "likely_role": "Retainer/ItemSearch (1.x marketplace) - C2S - ItemSearchDirectPurchaseWidget slot-11 virtual emit. Emitter FUN_0085E1B0 is a __thiscall(this, buttonId, eventArg) click-event handler that compares buttonId to this+0x234 (the slot-4-resolved Button_Search handle); on match it builds a multi-field purchase payload via FUN_0085D160 with item metadata (puVar2[0..5], +0x19=stack, +0x1A=quantity, puVar2[6]=...) then sends opcode 0x1DE via FUN_004E0240. The slot-4 init FUN_0085D330 (3704-byte body) wires per-item-detail controls: IconControl_NotEquiped, IconControl_PolishMAX (gear condition), IconControl_ItemSourceIcon, TextBlock_ItemSourceName, IconControl_MateriaIcon, TextBlock_MateriaNumber, TextBlock_ItemStack, TextBlock_Gil - exactly the per-listing detail panel for a specific retainer-sold item. Role: send retainer direct-buy request (full purchase commit) when the player clicks the Search/Buy button on the item-detail view.",
+    "source": "tierd_outbound_scan | pcap_correlation | static_caller_dig | vtable_resolution"
+  },
+  {
+    "opcode": 479,
+    "opcodeHex": "0x01df",
+    "name": "_0x01DF",
+    "service": "map",
+    "direction": "serverbound",
+    "evidence": "Tier-D emitter 0x0051A970 sets stack record `local_9b0 = 0x01DF (opcode); local_9ac = 0x128 (size, 296B - largest in 0x01D7-0x01DF cluster); [body fields]` then calls FUN_004E0240(&local_9b0, 0x01DF, 0). Routed through Tier-C wrapper FUN_004E0240 (BCS-Y-0312) -> Tier-B Zone forwarder FUN_00DAE010 (BCS-Y-0304). Member of the 24-emitter 0x01C3..0x01DF action-system traffic cluster. | Refined likely_role via pcap correlation against xivl-captures/captures/*.pcapng (54 scenarios). evidenceKind=pcap_unobserved, pcapTotalCount=0, sourceEvidence=pcap_correlation. | Cluster role refined via Ghidra static caller decomposition. Source: ghidra-projects/caller_decomp.txt; caller(s)=0x00525E50; subsystem=(unidentified; small handler); sourceEvidence=static_caller_dig. | Per xivl-client-structs (newRttiClassesDiscovered + schema rescue): caller FUN_00525E50 = ItemSearchListWidget tick handler (BCS-Y-0926), 10-case state machine on `this+0x1214` dispatching per-case to emit methods. 0x01DF is case 10 (direct emit, FUN_0051A970/BCS-Y-0693, 296B body - largest in the cluster). Body: 256B buffer memcpy'd from `FUN_00445210` (length capped at 0x100 via `FUN_004451f0()`), 64 dwords copied to `local_980`, plus header fields `*(this+0x1220)` and `FUN_004b68a0()` result. Gated on `*(this+0x123c) == *(this+0x1240)`. Sets state `*(this+0x1214)=7`. Note: wire opcode 0x01DF is bidirectional; the 296B c2s payload here is the request side, likely the marketplace browse/search-criteria submit. bcsy_refs=BCS-Y-0922 (vftable), BCS-Y-0926 (tick handler), BCS-Y-0693 (emitter); sourceEvidence=new_rtti_classes + schema_rescue (xivl-client-structs).",
+    "likely_role": "Retainer/ItemSearch (1.x marketplace) - C2S - ItemSearchListWidget tick handler case-10 direct emit (296B body with 256B inlined buffer payload). Sibling of 0x01D7 (case 5 chain, 24B) and 0x01D8 (case 6, 40B) in the same 10-case state machine FUN_00525E50/BCS-Y-0926. Likely the search-criteria or batch-listing submit.",
+    "source": "tierd_outbound_scan | pcap_correlation | static_caller_dig | new_rtti_classes | schema_rescue"
+  },
+  {
+    "opcode": 7,
+    "opcodeHex": "0x0007",
+    "name": "_0x0007",
+    "service": "map",
+    "direction": "serverbound",
+    "evidence": "Dual-site Tier-D emission: FUN_00586F40 (gated on DAT_01338D28 == 0, initial-once with timestamp via __time64) and FUN_00586FB0 (unconditional fallback) both build stack record `local_8b0=7, local_8ac=0x18, local_898=timestamp, local_894=param/0xFFFFFFFF` and call FUN_004D6CF0 (BCS-Y-0323 gating thunk) -> FUN_004E0240 (BCS-Y-0312) -> FUN_00DAE010 (BCS-Y-0304, Zone Tier-B). Pattern suggests keepalive/connection-state ping.",
+    "likely_role": "Map channel connection-state ping / keepalive (c2s, dual emission with retry fallback)",
+    "source": "final_gap_outbound_scan"
+  },
+  {
+    "opcode": 200,
+    "opcodeHex": "0x00c8",
+    "name": "_0x00C8",
+    "service": "world",
+    "direction": "serverbound",
+    "evidence": "Closes BCS-Y-0316 (FUN_004DF810 Chat emitter) deferred state. FUN_004E3750 (79-byte body) writes `*record = 0xC8 (opcode)` and `record[1] = 0x230 (size, 560 bytes)` plus 4 qwords header + 512-byte body block. FUN_004DF810 then calls FUN_00DB3E30 (BCS-Y-0306, Chat generic forwarder) with the built record. Body block (0x200 bytes) loaded from string-pool via FUN_00445210/FUN_004451F0 - same canonical-state pattern as Zone 0x0003 (BCS-Y-0313).",
+    "likely_role": "World channel large-state c2s push (560-byte body, canonical-state pattern)",
+    "source": "final_gap_outbound_scan"
+  },
+  {
+    "opcode": 202,
+    "opcodeHex": "0x00ca",
+    "name": "_0x00CA",
+    "service": "map",
+    "direction": "serverbound",
+    "evidence": "**Cross-confirmation (second emission site)**: BCS-Y-0321 documented FUN_004DC690 (3364B helper-built path via FUN_004dd620); BCS-Y-0328 confirms FUN_00589030 (stack-record path via FUN_004D6D10 thunk) emits the same opcode 0x00CA size 0x30. The same opcode has TWO distinct production paths in the binary - normal stack-record (FUN_00589030) and large-context helper-built (FUN_004DC690 from tick handler FUN_004E20A0 / BCS-Y-0314).",
+    "likely_role": "Map channel state push (size 0x30 = 48 bytes, dual production paths)",
+    "source": "final_gap_outbound_scan"
+  },
+  {
+    "opcode": 304,
+    "opcodeHex": "0x0130",
+    "name": "_0x0130",
+    "service": "map",
+    "direction": "serverbound",
+    "evidence": "FUN_0075E8D0 builds stack record `local_8b0=0x130, local_8ac=0x20` then calls FUN_004D6D30 (BCS-Y-0323 gating thunk, sole caller of that thunk) with `(&local_8b0, 0, 0)`. Routes thunk -> FUN_004E0240 -> FUN_00DAE010. Opcode 0x0130 = decimal 304, sits OUTSIDE the 0x01C3-0x01DF action cluster.",
+    "likely_role": "Map channel mid-range opcode (separate from action cluster)",
+    "source": "final_gap_outbound_scan"
+  },
+  {
+    "opcode": 475,
+    "opcodeHex": "0x01db",
+    "name": "_0x01DB",
+    "service": "map",
+    "direction": "serverbound",
+    "evidence": "FUN_004C73D0 sets stack record `local_8b0=0x1DB (opcode), local_8ac=0x18 (size)` then calls FUN_004C7150 (BCS-Y-0322 passthrough relay). Passthrough reads *record and forwards to FUN_004E0240 -> FUN_00DAE010. Fills one of the 3 cluster gaps left unbound in 0x01C3..0x01DF.",
+    "likely_role": "Map action-system request (cluster member, size 0x18 single-record)",
+    "source": "final_gap_outbound_scan"
+  },
+  {
+    "opcode": 476,
+    "opcodeHex": "0x01dc",
+    "name": "_0x01DC",
+    "service": "map",
+    "direction": "serverbound",
+    "evidence": "FUN_004C7490 sets stack record `local_8b0=0x1DC (opcode), local_8ac=0x238 (size=568 bytes - large body)` then calls FUN_004C7150 passthrough. Routing identical to BCS-Y-0327 (0x01DB) but with a much larger body. Fills second of 3 cluster gaps.",
+    "likely_role": "Map action-system large request (cluster member, size 0x238 = 568 bytes)",
+    "source": "final_gap_outbound_scan"
+  },
+  {
+    "opcode": 477,
+    "opcodeHex": "0x01dd",
+    "name": "_0x01DD",
+    "service": "map",
+    "direction": "serverbound",
+    "evidence": "FUN_004C7300 sets stack record `local_8b0=0x1DD (opcode), local_8ac=0x118 (size=280 bytes)` then calls FUN_004C7150 passthrough. Routing identical to BCS-Y-0327/0326. Fills third and final cluster gap in 0x01C3..0x01DF.",
+    "likely_role": "Map action-system medium request (cluster member, size 0x118 = 280 bytes)",
+    "source": "final_gap_outbound_scan"
+  }
+]

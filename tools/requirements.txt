@@ -1,0 +1,9 @@
+# Python dependencies for the xivl-opcodes tooling.
+# Most tools use only the Python 3 standard library. Third-party dependencies:
+#   - jsonschema: Draft 2020-12 schema validation in tools/validate_corpus.py
+#     (validate_repository.py invokes it; the checker degrades gracefully without it).
+#   - clang-format: deterministic formatting for generated C++ headers.
+#
+#   python -m pip install -r tools/requirements.txt
+clang-format==22.1.8
+jsonschema>=4.0.0

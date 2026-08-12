@@ -1,0 +1,24 @@
+{
+  "Global": {
+    "Version": "1.23b",
+    "Services": [
+      "lobby",
+      "world",
+      "map",
+      "world_map_backend"
+    ],
+    "Directions": [
+      "serverbound",
+      "clientbound",
+      "backend"
+    ],
+    "ConfidenceLabels": [
+      "pcap_observed",
+      "live_validated",
+      "decomp_routed",
+      "implemented",
+      "confirmed",
+      "blocked"
+    ]
+  }
+}
