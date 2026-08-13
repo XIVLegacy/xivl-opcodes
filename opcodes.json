@@ -2886,7 +2886,7 @@
           "notes": "packet_size=0xD8; pcap_shape=sparse_SoA_CommandResultX10; columns=targets@0x28,amounts@0x50,textIds@0x64,effectIds@0x78,params@0xA0,hitNums@0xAA; 66_s2c_main_occurrences_in_6_captures; alternate_name=BattleActionX10Packet"
         },
         {
-          "name": "BattleActionX18Packet",
+          "name": "CommandResultX18Packet",
           "opcode": 315,
           "opcodeHex": "0x013b",
           "service": "map",
@@ -2896,7 +2896,7 @@
           "observedIn": [],
           "payloadLengths": [],
           "confidence": "implemented",
-          "notes": "packet_size=0x148; payload_variants=CommandResultX18Packet,BattleActionX18Packet; no_occurrences_in_54_capture_corpus; unresolved_discriminator=retail_0x013B_payload_showing_columnar_CommandResult_or_per_entry_BattleAction_layout"
+          "notes": "packet_size=0x148; payload_shape=sparse_SoA_CommandResultX18; columns=targets@0x28,amounts@0x70,textIds@0x94,effectIds@0xB8,params@0x100,hitNums@0x112; rows=18x0x14_transposed_by_FUN_005874B0; no_occurrences_in_54_capture_corpus; alternate_name=BattleActionX18Packet"
         },
         {
           "name": "CommandResultX00Packet",
