@@ -204,6 +204,62 @@ def main() -> int:
     if bad_anchors:
         errors.append(f"non-bare decompAnchor values: {bad_anchors}")
 
+    manager_row = next(row for row in rows if row.get("id") == "s2c-018a")
+    manager_observation = manager_row.get("observation", "")
+    for fragment in (
+        "FUN_00576380",
+        "FUN_006C82A0",
+        "FUN_006C6A70",
+        "signed low byte",
+        "application offset 0x60",
+        "+0x40+4*i",
+        "+8*i",
+        "FUN_006C58C0",
+        "120-byte application payload",
+        "20-byte tail",
+        "one aggregate event",
+        "no payload samples or layout",
+        "SetActiveLinkshell packet noun",
+    ):
+        if fragment not in manager_observation:
+            errors.append(f"s2c-018a observation lost required fact: {fragment}")
+
+    manager_entry = next(
+        entry
+        for entry in entries
+        if entry.get("opcodeHex") == "0x018a"
+        and entry.get("direction") == "clientbound"
+        and entry.get("decompAnchor") == "FUN_00576380"
+    )
+    manager_notes = manager_entry.get("notes", "")
+    if manager_entry.get("name") != "_0x018A":
+        errors.append("s2c-018a must retain its placeholder packet name")
+    if manager_entry.get("implementationAnchor") is not None:
+        errors.append("s2c-018a must not retain an unproven server implementation anchor")
+    if manager_entry.get("confidence") != "decomp_routed":
+        errors.append("s2c-018a confidence must remain decomp_routed")
+    if manager_entry.get("observedIn") != [] or manager_entry.get("payloadLengths") != []:
+        errors.append("s2c-018a must not invent retained capture metadata")
+    for fragment in (
+        "FUN_00576380",
+        "FUN_006C82A0",
+        "FUN_006C6A70",
+        "application_payload=120 bytes",
+        "u64[8] at +0 plus u32[8] at +0x40",
+        "loop_bound=signed low byte at +0x60",
+        "unread_tail=20 bytes at +0x64..+0x77",
+        "commit_boundary=unresolved FUN_006C58C0",
+        "corpus_aggregate=1 event",
+        "retained_payload_evidence=none",
+        "naming=placeholder retained",
+        "candidate_label=SetActiveLinkshellPacket is an imported source-manifest term, not retail-proven",
+        "client_only=",
+        "conflict=implementation anchor and packet noun lack a source-owned declaration",
+        "BCS-Y-0578,BCS-Y-0888",
+    ):
+        if fragment not in manager_notes:
+            errors.append(f"s2c-018a notes lost required fragment: {fragment}")
+
     control_row = next(row for row in rows if row.get("id") == "s2c-0193")
     control_observation = control_row.get("observation", "")
     for fragment in (

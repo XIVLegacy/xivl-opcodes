@@ -319,12 +319,15 @@
       "direction": "clientbound",
       "function": "FUN_00576380",
       "status": "closed",
-      "supportedLabel": "Eight u64/u32 pairs with a low-byte selector at payload offset 0x60",
-      "tool": "XIVLegacy Ghidra DumpFunctionDecomp.java",
-      "observation": "The reached body reads eight u64 identifiers, eight u32 type values, and the low byte of the u32 at offset 0x60 as the active index or iteration selector.",
+      "supportedLabel": "0x018a client manager-row copy and commit route with a 120-byte application payload",
+      "tool": "XIVLegacy Ghidra DumpFunctionDecomp.java and corpus aggregate audit",
+      "observation": "FUN_00576380 forwards the application payload through FUN_006C82A0 to FUN_006C6A70. The helper uses the signed low byte at application offset 0x60 as its loop bound, copies one u32 from +0x40+4*i and one eight-byte pair from +8*i into each manager row, then commits through unresolved FUN_006C58C0. Static client evidence gives a 120-byte application payload with the copied arrays at +0 and +0x40 and an unread 20-byte tail at +0x64..+0x77. The corpus reports one aggregate event but retains no payload samples or layout, so observedIn and payloadLengths remain empty. This proves a client manager-row copy/commit route, not the imported SetActiveLinkshell packet noun, exact row domain, a server implementation declaration, or server behavior.",
       "sourceRefs": [
         "xivl-client-structs:manifests/symbols.json#BCS-Y-0578",
-        "xivl-client-structs:manifests/unmapped_payload_decoding.json#s2c_0x018a"
+        "xivl-client-structs:manifests/symbols.json#BCS-Y-0888",
+        "xivl-client-structs:manifests/data_dependency_catalog.json#s2c_0x018a",
+        "xivl-client-structs:manifests/high_switch_enumeration.json#0x018A",
+        "retail:ffxivgame.exe#sha256=9341f2b4567440b310a4d494f5cc5599ca334ba51c8042247317ff466492f2e9;vas=0x004DD12D,0x00576380,0x006C82A0,0x006C6A70;run=opcode-semantics-s2c-018a"
       ]
     },
     {
