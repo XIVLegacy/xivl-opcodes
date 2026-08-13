@@ -5079,17 +5079,17 @@
           "notes": "no_pcap_evidence"
         },
         {
-          "name": "SendBlacklistPacket",
+          "name": "_0x01CB",
           "opcode": 459,
           "opcodeHex": "0x01cb",
           "service": "map",
           "direction": "clientbound",
-          "implementationAnchor": "MapServerOpcode::SendBlacklist",
-          "decompAnchor": null,
+          "implementationAnchor": null,
+          "decompAnchor": "FUN_00DB8FA0",
           "observedIn": [],
           "payloadLengths": [],
-          "confidence": "implemented",
-          "notes": "no_pcap_evidence"
+          "confidence": "decomp_routed",
+          "notes": "retail_client_analysis=opcode 0x01cb routes through ZoneProtoDown callback slot 173 to FUN_00DB8FA0; callback_body=ret 0xc with no payload reads or state writes; semantic_status=decomp_routed; naming=placeholder retained because retail does not establish a clientbound packet noun; prior_label=MapServerOpcode::SendBlacklist; conflict=implementation anchor and packet noun lack a source-owned declaration; separate_direction=c2s FUN_004CA100 emits opcode 0x01cb through the zone send path, which does not supply clientbound semantics; client_only=no-op callback routing does not establish server behavior; client_semantics_evidence=data/client_opcode_semantics.json#s2c-01cb; dependency_status=closed"
         },
         {
           "name": "FriendlistAddedPacket",
