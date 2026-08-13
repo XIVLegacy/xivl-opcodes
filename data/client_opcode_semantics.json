@@ -65,12 +65,17 @@
       "direction": "clientbound",
       "function": "FUN_00576050",
       "status": "closed",
-      "supportedLabel": "Packed update containing eight one-bit flags and eight u16 values",
-      "tool": "XIVLegacy Ghidra DumpFunctionDecomp.java and build_data_dependency_catalog.py",
-      "observation": "The handler expands payload byte 1 into eight flags, reads eight u16 fields at offsets 2 through 0x10, writes the first u16 to owner offset 0x38, and forwards all sixteen values.",
+      "supportedLabel": "SetSpecialEventWorkPacket client state update with a 24-byte application payload",
+      "tool": "XIVLegacy Ghidra DumpFunctionDecomp.java, client Lua API cross-reference, and capture payload analysis",
+      "observation": "FUN_00576050 expands application byte +1 into eight flags, reads eight u16 values at +2 through +0x10, writes the first u16 to owner +0x38, and forwards all sixteen values to FUN_0075D2D0. That helper writes the flags at target +0x84..+0x8b and the u16 values at +0x8c..+0x9a; WorldMaster _getSpecialEventWork reads the same arrays through FUN_0075D390 and FUN_0075D3A0. All 11 retained subpackets are 56 bytes across 8 captures, while the aggregate corpus count is 12. Their 24-byte application payloads have zero flags, eventWork6=1, every other retained event-work value zero, and a zero six-byte tail. This proves the client SetSpecialEventWork operation and field layout, not a source-owned server enum declaration or server behavior.",
       "sourceRefs": [
         "xivl-client-structs:manifests/symbols.json#BCS-Y-0585",
-        "xivl-client-structs:manifests/data_dependency_catalog.json#s2c_0x0196"
+        "xivl-client-structs:manifests/symbols.json#BCS-Y-0226",
+        "xivl-client-structs:manifests/data_dependency_catalog.json#s2c_0x0196",
+        "xivl-client-structs:manifests/control_class_napi_map.json#WorldMaster._getSpecialEventWork",
+        "xivl-captures:derived/payload_layouts.json#s2c.0x0196",
+        "xivl-captures:derived/payload_samples.json#s2c.0x0196",
+        "retail:ffxivgame.exe#sha256=9341f2b4567440b310a4d494f5cc5599ca334ba51c8042247317ff466492f2e9;vas=0x00576050,0x0075D2D0,0x00707CC0,0x0075D390,0x0075D3A0;run=opcode-semantics-s2c-0196"
       ]
     },
     {

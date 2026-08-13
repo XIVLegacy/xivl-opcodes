@@ -83,7 +83,7 @@ OUTBOUND_OBSERVATION_FRAGMENTS = {
 EXPECTED_OPEN_MISSING_FRAGMENTS = {}
 BARE_FUNCTION = re.compile(r"^FUN_[0-9A-F]{8}$")
 SOURCE_REF = re.compile(r"^(xivl-client-structs|xivl-captures|retail):")
-EXPECTED_CAPTURE_ROWS = {"c2s-00c9", "c2s-012d", "c2s-012e", "c2s-012f", "s2c-0187", "s2c-018b", "s2c-018d", "s2c-018f", "s2c-0190", "s2c-0191", "s2c-0193"}
+EXPECTED_CAPTURE_ROWS = {"c2s-00c9", "c2s-012d", "c2s-012e", "c2s-012f", "s2c-0187", "s2c-018b", "s2c-018d", "s2c-018f", "s2c-0190", "s2c-0191", "s2c-0193", "s2c-0196"}
 
 
 def main() -> int:
@@ -203,6 +203,80 @@ def main() -> int:
     bad_anchors = [anchor for anchor in anchors if not BARE_FUNCTION.fullmatch(anchor)]
     if bad_anchors:
         errors.append(f"non-bare decompAnchor values: {bad_anchors}")
+
+    special_row = next(row for row in rows if row.get("id") == "s2c-0196")
+    special_observation = special_row.get("observation", "")
+    for fragment in (
+        "FUN_00576050",
+        "application byte +1",
+        "eight flags",
+        "eight u16 values",
+        "FUN_0075D2D0",
+        "+0x84..+0x8b",
+        "+0x8c..+0x9a",
+        "WorldMaster _getSpecialEventWork",
+        "FUN_0075D390",
+        "FUN_0075D3A0",
+        "11 retained subpackets",
+        "56 bytes",
+        "8 captures",
+        "aggregate corpus count is 12",
+        "eventWork6=1",
+        "zero six-byte tail",
+    ):
+        if fragment not in special_observation:
+            errors.append(f"s2c-0196 observation lost required fact: {fragment}")
+
+    special_layout = capture_layouts["layouts"]["s2c"]["0x0196"]
+    special_samples = capture_samples["samples"]["s2c"]["0x0196"]
+    retained_special = special_samples.get("samples", [])
+    special_apps = [bytes.fromhex(sample["bytes"])[16:40] for sample in retained_special]
+    expected_special_app = bytes.fromhex("000000000000000000000000000001000000000000000000")
+    if special_samples.get("sampleCount") != 11 or len(retained_special) != 11:
+        errors.append("s2c-0196 retained sample count drifted from 11")
+    if {sample.get("sub_size") for sample in retained_special} != {56}:
+        errors.append("s2c-0196 retained subpacket length drifted from 56")
+    if len({sample.get("capture") for sample in retained_special}) != 8:
+        errors.append("s2c-0196 retained capture count drifted from 8")
+    if set(special_apps) != {expected_special_app}:
+        errors.append("s2c-0196 retained flag/work/tail values drifted")
+    if (
+        special_layout.get("sample_count") != 11
+        or special_layout.get("sub_size_distribution") != {"56": 11}
+        or special_layout.get("body_length") != 40
+        or special_layout.get("body_length", 0) - 16 != 24
+    ):
+        errors.append("s2c-0196 pinned layout summary drifted")
+
+    special_entry = next(
+        entry
+        for entry in entries
+        if entry.get("opcodeHex") == "0x0196"
+        and entry.get("direction") == "clientbound"
+        and entry.get("decompAnchor") == "FUN_00576050"
+    )
+    special_notes = special_entry.get("notes", "")
+    if special_entry.get("name") != "SetSpecialEventWorkPacket":
+        errors.append("s2c-0196 lost its client-supported operation name")
+    if special_entry.get("implementationAnchor") is not None:
+        errors.append("s2c-0196 must not retain an unproven server implementation anchor")
+    if special_entry.get("confidence") != "decomp_routed":
+        errors.append("s2c-0196 confidence must remain decomp_routed")
+    for fragment in (
+        "FUN_00576050",
+        "FUN_0075D2D0",
+        "WorldMaster._getSpecialEventWork",
+        "application_payload=24 bytes",
+        "observed=11 retained 56-byte subpackets across 8 captures",
+        "retained_values=flags zero,eventWork6 one,other eventWork values zero,tail zero",
+        "corpus_aggregate=12 events",
+        "naming=client-derived",
+        "client_only=",
+        "conflict=implementation anchor lacks a source-owned declaration",
+        "BCS-Y-0585,BCS-Y-0226",
+    ):
+        if fragment not in special_notes:
+            errors.append(f"s2c-0196 notes lost required fragment: {fragment}")
 
     manager_row = next(row for row in rows if row.get("id") == "s2c-018a")
     manager_observation = manager_row.get("observation", "")

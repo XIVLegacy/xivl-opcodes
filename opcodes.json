@@ -4643,7 +4643,7 @@
           "opcodeHex": "0x0196",
           "service": "map",
           "direction": "clientbound",
-          "implementationAnchor": "MapServerOpcode::SetSpecialEventWork",
+          "implementationAnchor": null,
           "decompAnchor": "FUN_00576050",
           "observedIn": [
             "from_gridania_to_blackshroud.pcapng",
@@ -4658,8 +4658,8 @@
           "payloadLengths": [
             56
           ],
-          "confidence": "implemented",
-          "notes": "client_semantics_evidence=data/client_opcode_semantics.json#s2c-0196; dependency_status=closed"
+          "confidence": "decomp_routed",
+          "notes": "retail_client_analysis=FUN_00576050 expands application byte +1 into eight flags and reads eight u16 values at +2..+0x10; state_writer=FUN_0075D2D0 writes flags at +0x84..+0x8b and u16 values at +0x8c..+0x9a; client_api=WorldMaster._getSpecialEventWork reads the same arrays through FUN_0075D390 and FUN_0075D3A0; application_payload=24 bytes with a six-byte tail; observed=11 retained 56-byte subpackets across 8 captures; retained_values=flags zero,eventWork6 one,other eventWork values zero,tail zero; corpus_aggregate=12 events; semantic_status=decomp_routed; naming=client-derived from the WorldMaster SpecialEventWork API and matching state arrays; client_only=operation and field layout do not establish server behavior; prior_label=MapServerOpcode::SetSpecialEventWork; conflict=implementation anchor lacks a source-owned declaration; client_evidence=BCS-Y-0585,BCS-Y-0226; client_semantics_evidence=data/client_opcode_semantics.json#s2c-0196; dependency_status=closed"
         },
         {
           "name": "SetCurrentMountChocoboPacket",
