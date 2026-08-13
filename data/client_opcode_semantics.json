@@ -496,11 +496,16 @@
       "direction": "clientbound",
       "function": "FUN_00578C90",
       "status": "closed",
-      "supportedLabel": "Multi-subopcode dispatcher with a string-building branch",
-      "tool": "XIVLegacy Ghidra DumpFunctionDecomp.java",
-      "observation": "The 842-byte handler switches on the first payload u32, routes values below 0x10 to a generic worker, handles 0x10 through 0x16 separately, and uses a string-builder chain for subopcode 0x13. The imported system-error and exact-code-count semantics are not retained.",
+      "supportedLabel": "0x0193 multiplexed client state/config dispatcher with an 8-byte application payload",
+      "tool": "XIVLegacy Ghidra DumpFunctionDecomp.java and capture payload analysis",
+      "observation": "The central dispatcher passes packet fields +0x10, +0x14, and +0x08 to FUN_00578C90. That handler switches on the first application u32: values below 0x10 enter the indexed FUN_0075F3E0 worker; 0x10 through 0x12 and 0x16 write direct state slots; 0x13 enters a string/config path; 0x14 performs a one-time init gate; and 0x15 enters unresolved FUN_00576020. All 9 retained subpackets are 40 bytes across 8 captures, matching the 9 aggregate events. The retained subopcode distribution is 0x14 in 8 samples and 0x12 in 1 sample; this proves a multiplexed client state/config route but not the imported SetControlState packet noun, exact low-range/string/0x15 semantics, a server implementation declaration, or server behavior.",
       "sourceRefs": [
-        "xivl-client-structs:manifests/symbols.json#BCS-Y-0584"
+        "xivl-client-structs:manifests/symbols.json#BCS-Y-0584",
+        "xivl-client-structs:manifests/symbols.json#BCS-Y-0990",
+        "xivl-client-structs:manifests/setcontrolstate_subdispatcher.json#FUN_00578C90",
+        "xivl-captures:derived/payload_layouts.json#s2c.0x0193",
+        "xivl-captures:derived/payload_samples.json#s2c.0x0193",
+        "retail:ffxivgame.exe#sha256=9341f2b4567440b310a4d494f5cc5599ca334ba51c8042247317ff466492f2e9;vas=0x004DD37D,0x00578C90;run=opcode-semantics-s2c-0193"
       ]
     },
     {
