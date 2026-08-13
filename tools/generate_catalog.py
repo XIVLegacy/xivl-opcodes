@@ -56,16 +56,16 @@ OVERRIDES = [
     (
         "MapClientbound",
         "0x013a",
-        "BattleActionX10Packet",
-        "",
+        "CommandResultX10Packet",
         "packet_size=0xD8; multiplexed_at_runtime=true; payload_variants=CommandResultX10Packet,BattleActionX10Packet; runtime_distinguish=source_actor+per_entry_layout(12B_CommandResult_vs_~16B_BattleAction)",
+        "packet_size=0xD8; pcap_shape=sparse_SoA_CommandResultX10; columns=targets@0x28,amounts@0x50,textIds@0x64,effectIds@0x78,params@0xA0,hitNums@0xAA; 66_s2c_main_occurrences_in_6_captures; alternate_name=BattleActionX10Packet",
     ),
     (
         "MapClientbound",
         "0x013b",
         "BattleActionX18Packet",
-        "no_pcap_evidence",
         "packet_size=0x148; multiplexed_at_runtime=true; payload_variants=CommandResultX18Packet,BattleActionX18Packet; runtime_distinguish=source_actor+per_entry_layout; no_pcap_evidence",
+        "packet_size=0x148; payload_variants=CommandResultX18Packet,BattleActionX18Packet; no_occurrences_in_54_capture_corpus; unresolved_discriminator=retail_0x013B_payload_showing_columnar_CommandResult_or_per_entry_BattleAction_layout",
     ),
     (
         "WorldMapBackend",
