@@ -195,11 +195,19 @@ NAME_OVERRIDES = [
     (
         "MapServerbound",
         "0x0135",
-        "AchievementProgressRequestPacket",
         "BindingSubscribeRequestPacket",
-        "MapClientOpcode::BindingSubscribeRequest",
+        "AchievementRateRequestPacket",
+        None,
     ),
 ]
+
+# Accept managed aliases while preserving the pristine-input guard carried by
+# NAME_OVERRIDES.
+NAME_OVERRIDE_PRIOR_ALIASES = {
+    ("MapServerbound", "0x0135", "AchievementRateRequestPacket"): (
+        "AchievementProgressRequestPacket",
+    ),
+}
 
 
 # Pcap joins use (direction, opcode) only; PCAP_AMBIGUOUS marks shared services and
@@ -243,13 +251,16 @@ CLIENT_SEMANTICS_SPECIAL_NOTES = {
         "implementation label and cross-check"
     ),
     "c2s-0135": (
-        "no_pcap_evidence; semantic_status=blocked; "
-        "retail_client_analysis=FUN_0075ECD0 proves only "
-        "opcode 0x0135, packet length 0x18, one u32 payload value, sole caller "
-        "FUN_00705EB0, and the FUN_004D6D30 send path; unknown=binding-id and "
-        "subscription-type semantics; "
-        "decomp_anchor_evidence=data/client_opcode_semantics.json#c2s-0135; "
-        "decomp_anchor_locator=FUN_0075ECD0"
+        "no_pcap_evidence; semantic_status=decomp_routed; "
+        "naming=tentative, derived from the registered client Lua N-API operation; "
+        "retail_client_analysis=FUN_00705EB0 is MyPlayer vtable slot 112 and "
+        "the _getAchievementRate implementation; FUN_005819A0 returns the "
+        "first runtime argument-vector entry +0x8 value on the valid path; "
+        "FUN_0075ECD0 emits that achievement-id lookup key as the sole u32 "
+        "payload in opcode 0x0135 with packet length 0x18; exact server packet "
+        "class and request noun remain unproven; "
+        "prior_label=BindingSubscribeRequestPacket; "
+        "conflict=prior implementation label unsupported by retail"
     ),
 }
 
@@ -388,8 +399,10 @@ def apply_client_semantics(top: dict) -> tuple[int, int]:
             ]
         )
         entry["notes"] = "; ".join(parts)
-        if row["id"] in {"c2s-012f", "c2s-0135"}:
+        if row["id"] == "c2s-012f":
             entry["confidence"] = "blocked"
+        elif row["id"] == "c2s-0135":
+            entry["confidence"] = "decomp_routed"
         applied += 1
 
     return applied, errors
@@ -501,8 +514,14 @@ def main() -> int:
     name_skipped = 0
     for bucket, opcode_hex, prior_name, new_name, new_anchor in NAME_OVERRIDES:
         found = False
+        accepted_prior_names = (prior_name,) + NAME_OVERRIDE_PRIOR_ALIASES.get(
+            (bucket, opcode_hex, new_name), ()
+        )
         for e in top["lists"].get(bucket, []):
-            if e["opcodeHex"] == opcode_hex and e.get("name") in (prior_name, new_name):
+            if e["opcodeHex"] == opcode_hex and e.get("name") in (
+                *accepted_prior_names,
+                new_name,
+            ):
                 found = True
                 if e.get("name") == new_name and e.get("implementationAnchor") == new_anchor:
                     name_skipped += 1

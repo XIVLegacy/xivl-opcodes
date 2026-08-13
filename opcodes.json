@@ -1135,17 +1135,17 @@
           "notes": "role=client-to-server actor/group work update; the client sends one when it first observes a group or actor and asks the server to register that actor's event handlers. Same wire integer as the outbound generic-data opcode, disambiguated by direction. Observed across 15 captures, 72-byte packet; corpus request_response_pairs.json: 268 total c2s 0x0133 firings paired with s2c responses within 200ms; top response is s2c 0x0137 SetActorProperty (180 pairs, 67% c2sShare = action command reliably triggers property update). Also reliably triggers s2c 0x00CC (161 pairs, 60%) and 0x0134 (161 pairs, 60%) - composite 5+ packet response. | pcap_observations merged from xivl-client-structs pcap_opcode_evidence.json.; pcap_service_ambiguous=world,map"
         },
         {
-          "name": "BindingSubscribeRequestPacket",
+          "name": "AchievementRateRequestPacket",
           "opcode": 309,
           "opcodeHex": "0x0135",
           "service": "map",
           "direction": "serverbound",
-          "implementationAnchor": "MapClientOpcode::BindingSubscribeRequest",
+          "implementationAnchor": null,
           "decompAnchor": "FUN_0075ECD0",
           "observedIn": [],
           "payloadLengths": [],
-          "confidence": "blocked",
-          "notes": "no_pcap_evidence; semantic_status=blocked; retail_client_analysis=FUN_0075ECD0 proves only opcode 0x0135, packet length 0x18, one u32 payload value, sole caller FUN_00705EB0, and the FUN_004D6D30 send path; unknown=binding-id and subscription-type semantics; decomp_anchor_evidence=data/client_opcode_semantics.json#c2s-0135; decomp_anchor_locator=FUN_0075ECD0; client_semantics_evidence=data/client_opcode_semantics.json#c2s-0135; dependency_status=open"
+          "confidence": "decomp_routed",
+          "notes": "no_pcap_evidence; semantic_status=decomp_routed; naming=tentative, derived from the registered client Lua N-API operation; retail_client_analysis=FUN_00705EB0 is MyPlayer vtable slot 112 and the _getAchievementRate implementation; FUN_005819A0 returns the first runtime argument-vector entry +0x8 value on the valid path; FUN_0075ECD0 emits that achievement-id lookup key as the sole u32 payload in opcode 0x0135 with packet length 0x18; exact server packet class and request noun remain unproven; prior_label=BindingSubscribeRequestPacket; conflict=prior implementation label unsupported by retail; client_semantics_evidence=data/client_opcode_semantics.json#c2s-0135; dependency_status=closed"
         },
         {
           "name": "StartRecruitingRequestPacket",
