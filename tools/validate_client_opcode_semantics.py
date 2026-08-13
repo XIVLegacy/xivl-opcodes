@@ -10,6 +10,8 @@ from _json_io import OPCODES_PATH, REPO_ROOT
 
 
 EVIDENCE_PATH = REPO_ROOT / "data" / "client_opcode_semantics.json"
+CAPTURE_LAYOUTS_PATH = REPO_ROOT / "data" / "vendor" / "captures" / "payload_layouts.json"
+CAPTURE_SAMPLES_PATH = REPO_ROOT / "data" / "vendor" / "captures" / "payload_samples.json"
 EXPECTED_SCHEMA_VERSION = 1
 EXPECTED_BINARY = {
     "name": "ffxivgame.exe",
@@ -81,12 +83,14 @@ OUTBOUND_OBSERVATION_FRAGMENTS = {
 EXPECTED_OPEN_MISSING_FRAGMENTS = {}
 BARE_FUNCTION = re.compile(r"^FUN_[0-9A-F]{8}$")
 SOURCE_REF = re.compile(r"^(xivl-client-structs|xivl-captures|retail):")
-EXPECTED_CAPTURE_ROWS = {"c2s-00c9", "c2s-012d", "c2s-012e", "c2s-012f"}
+EXPECTED_CAPTURE_ROWS = {"c2s-00c9", "c2s-012d", "c2s-012e", "c2s-012f", "s2c-018d"}
 
 
 def main() -> int:
     errors: list[str] = []
     evidence = json.loads(EVIDENCE_PATH.read_text(encoding="utf-8"))
+    capture_layouts = json.loads(CAPTURE_LAYOUTS_PATH.read_text(encoding="utf-8"))
+    capture_samples = json.loads(CAPTURE_SAMPLES_PATH.read_text(encoding="utf-8"))
     rows = evidence.get("rows", [])
     catalog = json.loads(OPCODES_PATH.read_text(encoding="utf-8"))[0]
     entries = [entry for bucket in catalog["lists"].values() for entry in bucket]
@@ -199,6 +203,71 @@ def main() -> int:
     bad_anchors = [anchor for anchor in anchors if not BARE_FUNCTION.fullmatch(anchor)]
     if bad_anchors:
         errors.append(f"non-bare decompAnchor values: {bad_anchors}")
+
+    party_marker_row = next(row for row in rows if row.get("id") == "s2c-018d")
+    party_marker_observation = party_marker_row.get("observation", "")
+    for fragment in (
+        "FUN_00575550",
+        "FUN_0055CF70",
+        "0x290",
+        "0x28-byte",
+        "All 60 retained subpackets are 696-byte subpackets",
+        "observed max=2",
+        "no compare or clamp to 16",
+    ):
+        if fragment not in party_marker_observation:
+            errors.append(f"s2c-018d observation lost required fact: {fragment}")
+
+    party_marker_layout = capture_layouts["layouts"]["s2c"]["0x018d"]
+    party_marker_samples = capture_samples["samples"]["s2c"]["0x018d"]
+    retained_samples = party_marker_samples.get("samples", [])
+    count_distribution: dict[int, int] = {}
+    for sample in retained_samples:
+        body = bytes.fromhex(sample["bytes"])
+        if len(body) <= 672:
+            errors.append("s2c-018d retained sample is too short for the count byte")
+            continue
+        count = body[672]
+        count_distribution[count] = count_distribution.get(count, 0) + 1
+    if party_marker_samples.get("sampleCount") != 60 or len(retained_samples) != 60:
+        errors.append("s2c-018d retained sample count drifted from 60")
+    if {sample.get("sub_size") for sample in retained_samples} != {696}:
+        errors.append("s2c-018d retained subpacket length drifted from 696")
+    if count_distribution != {1: 58, 2: 2}:
+        errors.append(f"s2c-018d count distribution drifted: {count_distribution}")
+    if (
+        party_marker_layout.get("sample_count") != 60
+        or party_marker_layout.get("sub_size_distribution") != {"696": 60}
+        or party_marker_layout.get("body_length") != 680
+    ):
+        errors.append("s2c-018d pinned layout summary drifted")
+
+    party_marker_entry = next(
+        entry
+        for entry in entries
+        if entry.get("opcodeHex") == "0x018d"
+        and entry.get("direction") == "clientbound"
+        and entry.get("decompAnchor") == "FUN_00575550"
+    )
+    party_marker_notes = party_marker_entry.get("notes", "")
+    if party_marker_entry.get("name") != "PartyMapMarkerUpdatePacket":
+        errors.append("s2c-018d canonical name must reflect the client party-marker path")
+    if party_marker_entry.get("implementationAnchor") is not None:
+        errors.append("s2c-018d must not retain an unproven server implementation anchor")
+    if party_marker_entry.get("confidence") != "decomp_routed":
+        errors.append("s2c-018d confidence must remain decomp_routed")
+    for fragment in (
+        "FUN_00575550",
+        "FUN_0055CF70",
+        "0x290",
+        "0x28-byte",
+        "696-byte",
+        "observed max=2",
+        "client_only=",
+        "conflict=implementation anchor lacks a source-owned declaration",
+    ):
+        if fragment not in party_marker_notes:
+            errors.append(f"s2c-018d notes lost required fragment: {fragment}")
 
     work_state_entry = next(
         entry

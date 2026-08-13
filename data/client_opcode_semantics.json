@@ -46,12 +46,16 @@
       "direction": "clientbound",
       "function": "FUN_00575550",
       "status": "closed",
-      "supportedLabel": "Session-gated marker update with sixteen 0x28-byte records and a count byte at payload offset 0x290",
-      "tool": "XIVLegacy Ghidra DumpFunctionDecomp.java and build_data_dependency_catalog.py",
-      "observation": "The handler gates on owner offset 0x4d8, reads packet state, and the apply path consumes sixteen 0x28-byte marker rows with a u8 count at application offset 0x290.",
+      "supportedLabel": "PartyMapMarkerUpdatePacket client route with sixteen reserved 0x28-byte rows and a count byte at application offset 0x290",
+      "tool": "XIVLegacy Ghidra DumpFunctionDecomp.java, build_data_dependency_catalog.py, and capture payload analysis",
+      "observation": "The central dispatcher routes opcode 0x018d through FUN_00575550, which gates on owner offset 0x4d8 and forwards the application data to FUN_0055CF70. That apply function copies three header dwords, sign-extends the u8 count at application offset 0x290, and transposes count 0x28-byte source rows into 0x78-byte client rows. The wire layout reserves sixteen source rows, but retail contains no compare or clamp to 16. All 60 retained subpackets are 696-byte subpackets; count is 1 in 58 samples and 2 in 2 samples, so observed max=2. This establishes the client-side party map-marker update route and layout, not a server implementation declaration or behavior.",
       "sourceRefs": [
         "xivl-client-structs:manifests/symbols.json#BCS-Y-0580",
-        "xivl-client-structs:manifests/data_dependency_catalog.json#s2c_0x018d"
+        "xivl-client-structs:manifests/data_dependency_catalog.json#s2c_0x018d",
+        "xivl-client-structs:manifests/party_subsystem.json#0x018D",
+        "xivl-captures:derived/payload_layouts.json#s2c.0x018d",
+        "xivl-captures:derived/payload_samples.json#s2c.0x018d",
+        "retail:ffxivgame.exe#sha256=9341f2b4567440b310a4d494f5cc5599ca334ba51c8042247317ff466492f2e9;vas=0x004DD195,0x00575550,0x0055CF70;run=opcode-semantics-s2c-018d"
       ]
     },
     {

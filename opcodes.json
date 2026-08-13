@@ -4412,12 +4412,12 @@
           "notes": "pcap_only_no_reference_match; service_inferred=map_default_guess; role=server-to-client per-group UI layout id (party-list ordering, cross-world group formatting). Observed across 13 captures; 88-byte packet.; client_semantics_evidence=data/client_opcode_semantics.json#s2c-018b; dependency_status=closed"
         },
         {
-          "name": "_0x018D",
+          "name": "PartyMapMarkerUpdatePacket",
           "opcode": 397,
           "opcodeHex": "0x018d",
           "service": "map",
           "direction": "clientbound",
-          "implementationAnchor": "MapServerOpcode::PartyMapMarkerUpdate",
+          "implementationAnchor": null,
           "decompAnchor": "FUN_00575550",
           "observedIn": [
             "accept_leve.pcapng",
@@ -4462,8 +4462,8 @@
           "payloadLengths": [
             696
           ],
-          "confidence": "implemented",
-          "notes": "pcap_only_no_reference_match; service_inferred=map_default_guess; role=server-to-client variable-length party map-marker update (party-member icons on the world map). Observed across 38 captures.; client_semantics_evidence=data/client_opcode_semantics.json#s2c-018d; dependency_status=closed"
+          "confidence": "decomp_routed",
+          "notes": "retail_client_analysis=FUN_00575550 gates the central opcode 0x018d route and FUN_0055CF70 copies three header dwords, reads the u8 count at application offset 0x290, and transposes count 0x28-byte source rows into 0x78-byte client rows; wire_capacity=16 reserved source rows with no static compare or clamp; observed=60 696-byte subpackets; observed max=2; semantic_status=decomp_routed; naming=client-derived from the party map-marker apply path; client_only=route and layout do not establish server behavior; prior_label=MapServerOpcode::PartyMapMarkerUpdate; conflict=implementation anchor lacks a source-owned declaration; client_semantics_evidence=data/client_opcode_semantics.json#s2c-018d; dependency_status=closed"
         },
         {
           "name": "_0x018E",
