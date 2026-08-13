@@ -4375,12 +4375,12 @@
           "opcodeHex": "0x018a",
           "service": "map",
           "direction": "clientbound",
-          "implementationAnchor": "MapServerOpcode::SetActiveLinkshell",
+          "implementationAnchor": null,
           "decompAnchor": "FUN_00576380",
           "observedIn": [],
           "payloadLengths": [],
-          "confidence": "implemented",
-          "notes": "role=server-to-client set-active-linkshell notification. inferred_not_observed_in_corpus.; client_semantics_evidence=data/client_opcode_semantics.json#s2c-018a; dependency_status=closed"
+          "confidence": "decomp_routed",
+          "notes": "retail_client_analysis=FUN_00576380 forwards application payload through FUN_006C82A0 to FUN_006C6A70; application_payload=120 bytes; row_copy=u64[8] at +0 plus u32[8] at +0x40; loop_bound=signed low byte at +0x60; unread_tail=20 bytes at +0x64..+0x77; commit_boundary=unresolved FUN_006C58C0; corpus_aggregate=1 event; retained_payload_evidence=none, so observedIn and payloadLengths remain empty; semantic_status=decomp_routed; naming=placeholder retained because retail does not establish a stable packet noun; candidate_label=SetActiveLinkshellPacket is an imported source-manifest term, not retail-proven; client_only=row copy and commit route does not establish server behavior; prior_label=MapServerOpcode::SetActiveLinkshell; conflict=implementation anchor and packet noun lack a source-owned declaration; client_evidence=BCS-Y-0578,BCS-Y-0888; client_semantics_evidence=data/client_opcode_semantics.json#s2c-018a; dependency_status=closed"
         },
         {
           "name": "SetGroupLayoutIDPacket",

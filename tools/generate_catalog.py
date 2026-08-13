@@ -166,6 +166,13 @@ REVERIFY_OVERRIDES = [
 NAME_OVERRIDES = [
     (
         "MapClientbound",
+        "0x018a",
+        "_0x018A",
+        "_0x018A",
+        None,
+    ),
+    (
+        "MapClientbound",
         "0x0193",
         "_0x0193",
         "_0x0193",
@@ -298,6 +305,21 @@ PCAP_LOBBY_PURGE = [
 
 
 CLIENT_SEMANTICS_SPECIAL_NOTES = {
+    "s2c-018a": (
+        "retail_client_analysis=FUN_00576380 forwards application payload through "
+        "FUN_006C82A0 to FUN_006C6A70; application_payload=120 bytes; "
+        "row_copy=u64[8] at +0 plus u32[8] at +0x40; loop_bound=signed low byte "
+        "at +0x60; unread_tail=20 bytes at +0x64..+0x77; "
+        "commit_boundary=unresolved FUN_006C58C0; corpus_aggregate=1 event; "
+        "retained_payload_evidence=none, so observedIn and payloadLengths remain empty; "
+        "semantic_status=decomp_routed; naming=placeholder retained because retail "
+        "does not establish a stable packet noun; candidate_label=SetActiveLinkshellPacket "
+        "is an imported source-manifest term, not retail-proven; client_only=row copy "
+        "and commit route does not establish server behavior; "
+        "prior_label=MapServerOpcode::SetActiveLinkshell; "
+        "conflict=implementation anchor and packet noun lack a source-owned declaration; "
+        "client_evidence=BCS-Y-0578,BCS-Y-0888"
+    ),
     "s2c-0193": (
         "retail_client_analysis=FUN_00578C90 switches the first application u32; "
         "application_payload=8 bytes; subop_routes=<0x10 to FUN_0075F3E0 indexed "
@@ -559,7 +581,7 @@ def apply_client_semantics(top: dict) -> tuple[int, int]:
             ]
         )
         entry["notes"] = "; ".join(parts)
-        if row["id"] in {"s2c-0187", "s2c-018b", "s2c-018d", "s2c-018f", "s2c-0190", "s2c-0191", "s2c-0193"}:
+        if row["id"] in {"s2c-0187", "s2c-018a", "s2c-018b", "s2c-018d", "s2c-018f", "s2c-0190", "s2c-0191", "s2c-0193"}:
             entry["confidence"] = "decomp_routed"
         elif row["id"] == "c2s-012f":
             entry["confidence"] = "decomp_routed"
