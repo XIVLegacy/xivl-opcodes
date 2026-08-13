@@ -83,7 +83,7 @@ OUTBOUND_OBSERVATION_FRAGMENTS = {
 EXPECTED_OPEN_MISSING_FRAGMENTS = {}
 BARE_FUNCTION = re.compile(r"^FUN_[0-9A-F]{8}$")
 SOURCE_REF = re.compile(r"^(xivl-client-structs|xivl-captures|retail):")
-EXPECTED_CAPTURE_ROWS = {"c2s-00c9", "c2s-012d", "c2s-012e", "c2s-012f", "s2c-0187", "s2c-018b", "s2c-018d", "s2c-0190"}
+EXPECTED_CAPTURE_ROWS = {"c2s-00c9", "c2s-012d", "c2s-012e", "c2s-012f", "s2c-0187", "s2c-018b", "s2c-018d", "s2c-0190", "s2c-0191"}
 
 
 def main() -> int:
@@ -203,6 +203,78 @@ def main() -> int:
     bad_anchors = [anchor for anchor in anchors if not BARE_FUNCTION.fullmatch(anchor)]
     if bad_anchors:
         errors.append(f"non-bare decompAnchor values: {bad_anchors}")
+
+    finalization_row = next(row for row in rows if row.get("id") == "s2c-0191")
+    finalization_observation = finalization_row.get("observation", "")
+    for fragment in (
+        "FUN_00576D40",
+        "FUN_0076BF10",
+        "no direct application-field loads",
+        "FUN_0076B950",
+        "FUN_0076BA10",
+        "FUN_00768B10",
+        "FUN_007840D0",
+        "15 retained subpackets",
+        "40 bytes",
+        "8 captures",
+        "8-byte application payloads are zero",
+        "28 aggregate events",
+        "not a field semantic",
+        "helper-chain semantics remain unresolved",
+    ):
+        if fragment not in finalization_observation:
+            errors.append(f"s2c-0191 observation lost required fact: {fragment}")
+
+    finalization_layout = capture_layouts["layouts"]["s2c"]["0x0191"]
+    finalization_samples = capture_samples["samples"]["s2c"]["0x0191"]
+    retained_finalization = finalization_samples.get("samples", [])
+    if finalization_samples.get("sampleCount") != 15 or len(retained_finalization) != 15:
+        errors.append("s2c-0191 retained sample count drifted from 15")
+    if {sample.get("sub_size") for sample in retained_finalization} != {40}:
+        errors.append("s2c-0191 retained subpacket length drifted from 40")
+    if len({sample.get("capture") for sample in retained_finalization}) != 8:
+        errors.append("s2c-0191 retained capture count drifted from 8")
+    if any(bytes.fromhex(sample["bytes"])[16:24] != bytes(8) for sample in retained_finalization):
+        errors.append("s2c-0191 retained application payload is no longer all zero")
+    if (
+        finalization_layout.get("sample_count") != 15
+        or finalization_layout.get("sub_size_distribution") != {"40": 15}
+        or finalization_layout.get("body_length") != 24
+        or finalization_layout.get("body_length", 0) - 16 != 8
+    ):
+        errors.append("s2c-0191 pinned layout summary drifted")
+
+    finalization_entry = next(
+        entry
+        for entry in entries
+        if entry.get("opcodeHex") == "0x0191"
+        and entry.get("direction") == "clientbound"
+        and entry.get("decompAnchor") == "FUN_00576D40"
+    )
+    finalization_notes = finalization_entry.get("notes", "")
+    if finalization_entry.get("name") != "_0x0191":
+        errors.append("s2c-0191 must retain its placeholder packet name")
+    if finalization_entry.get("implementationAnchor") is not None:
+        errors.append("s2c-0191 must not retain an unproven server implementation anchor")
+    if finalization_entry.get("confidence") != "decomp_routed":
+        errors.append("s2c-0191 confidence must remain decomp_routed")
+    for fragment in (
+        "FUN_00576D40",
+        "FUN_0076BF10",
+        "direct_payload_reads=none",
+        "application_payload=8 bytes",
+        "semantically unknown",
+        "shared_helper_boundary=FUN_0076B950",
+        "observed=15 retained 40-byte subpackets across 8 captures",
+        "corpus_aggregate=28 events",
+        "naming=placeholder retained",
+        "candidate_label=MassSetItemModifierEndPacket is an imported source-manifest term, not retail-proven",
+        "client_only=",
+        "conflict=implementation anchor and packet noun lack a source-owned declaration",
+        "BCS-Y-0583,BCS-Y-0723,BCS-Y-0955",
+    ):
+        if fragment not in finalization_notes:
+            errors.append(f"s2c-0191 notes lost required fragment: {fragment}")
 
     modifier_row = next(row for row in rows if row.get("id") == "s2c-0190")
     modifier_observation = modifier_row.get("observation", "")

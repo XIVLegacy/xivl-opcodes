@@ -471,12 +471,17 @@
       "direction": "clientbound",
       "function": "FUN_00576D40",
       "status": "closed",
-      "supportedLabel": "No-payload manager finalization path",
-      "tool": "XIVLegacy Ghidra DumpFunctionDecomp.java and build_data_dependency_catalog.py",
-      "observation": "The handler invokes the manager finalization worker without reading application payload bytes; the imported actor-ping role is not retained.",
+      "supportedLabel": "0x0191 client manager-finalization route with an 8-byte application payload",
+      "tool": "XIVLegacy Ghidra DumpFunctionDecomp.java, build_data_dependency_catalog.py, and capture payload analysis",
+      "observation": "The central dispatcher routes opcode 0x0191 through FUN_00576D40 into FUN_0076BF10. The wrapper and worker perform no direct application-field loads before the pointer and manager context enter a shared helper chain containing FUN_0076B950, FUN_0075F910, FUN_0075F7C0, FUN_0076BA10, FUN_00768B10, and FUN_007840D0. All 15 retained subpackets are 40 bytes across 8 captures, and their 8-byte application payloads are zero; the pinned corpus separately records 28 aggregate events. The zero bytes are an observation, not a field semantic. This establishes a client manager-finalization route, but does not prove the imported MassSetItemModifierEnd packet label or server behavior; helper-chain semantics remain unresolved.",
       "sourceRefs": [
+        "xivl-client-structs:manifests/symbols.json#BCS-Y-0583",
         "xivl-client-structs:manifests/symbols.json#BCS-Y-0723",
-        "xivl-client-structs:manifests/data_dependency_catalog.json#s2c_0x0191"
+        "xivl-client-structs:manifests/symbols.json#BCS-Y-0955",
+        "xivl-client-structs:manifests/data_dependency_catalog.json#s2c_0x0191",
+        "xivl-captures:derived/payload_layouts.json#s2c.0x0191",
+        "xivl-captures:derived/payload_samples.json#s2c.0x0191",
+        "retail:ffxivgame.exe#sha256=9341f2b4567440b310a4d494f5cc5599ca334ba51c8042247317ff466492f2e9;vas=0x004DD368,0x00576D40,0x0076BF10;run=opcode-semantics-s2c-0191"
       ]
     },
     {
