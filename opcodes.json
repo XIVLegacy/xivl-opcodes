@@ -4533,7 +4533,7 @@
           "opcodeHex": "0x0191",
           "service": "map",
           "direction": "clientbound",
-          "implementationAnchor": "MapServerOpcode::MassSetItemModifierEnd",
+          "implementationAnchor": null,
           "decompAnchor": "FUN_00576D40",
           "observedIn": [
             "combat_autoattack.pcapng",
@@ -4548,8 +4548,8 @@
           "payloadLengths": [
             40
           ],
-          "confidence": "implemented",
-          "notes": "pcap_only_no_reference_match; service_inferred=map_default_guess; role=server-to-client frame-end marker for a mass item-modifier burst. 8-byte body. Observed across 8 captures.; client_semantics_evidence=data/client_opcode_semantics.json#s2c-0191; dependency_status=closed"
+          "confidence": "decomp_routed",
+          "notes": "retail_client_analysis=FUN_00576D40 forwards opcode 0x0191 into FUN_0076BF10; direct_payload_reads=none in wrapper and worker; application_payload=8 bytes, zero in all retained samples but semantically unknown; shared_helper_boundary=FUN_0076B950,FUN_0075F910,FUN_0075F7C0,FUN_0076BA10,FUN_00768B10,FUN_007840D0; observed=15 retained 40-byte subpackets across 8 captures; corpus_aggregate=28 events; semantic_status=decomp_routed; naming=placeholder retained because retail does not establish a stable packet noun; candidate_label=MassSetItemModifierEndPacket is an imported source-manifest term, not retail-proven; client_only=route and payload non-use do not establish server behavior; prior_label=MapServerOpcode::MassSetItemModifierEnd; conflict=implementation anchor and packet noun lack a source-owned declaration; client_evidence=BCS-Y-0583,BCS-Y-0723,BCS-Y-0955; client_semantics_evidence=data/client_opcode_semantics.json#s2c-0191; dependency_status=closed"
         },
         {
           "name": "_0x0192",
