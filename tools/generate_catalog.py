@@ -174,9 +174,9 @@ NAME_OVERRIDES = [
     (
         "MapServerbound",
         "0x012f",
-        "ParameterDataRequestPacket",
         "ActorWorkUpdatePacket",
-        "MapClientOpcode::ActorWorkUpdate",
+        "WorkStateUpdatePacket",
+        None,
     ),
     (
         "MapServerbound",
@@ -204,6 +204,9 @@ NAME_OVERRIDES = [
 # Accept managed aliases while preserving the pristine-input guard carried by
 # NAME_OVERRIDES.
 NAME_OVERRIDE_PRIOR_ALIASES = {
+    ("MapServerbound", "0x012f", "WorkStateUpdatePacket"): (
+        "ParameterDataRequestPacket",
+    ),
     ("MapServerbound", "0x0135", "AchievementRateRequestPacket"): (
         "AchievementProgressRequestPacket",
     ),
@@ -244,11 +247,18 @@ PCAP_LOBBY_PURGE = [
 
 CLIENT_SEMANTICS_SPECIAL_NOTES = {
     "c2s-012f": (
-        "retail_client_analysis=FUN_0075E770 writes opcode 0x012f and body size 0x38, "
-        "copies a request-id dword plus 32 bytes of serialized state, and sends through "
-        "FUN_004D6D30; observed 72-byte packet; semantic_status=the client body supports "
-        "a parameter/state-data request while ActorWorkUpdatePacket remains an "
-        "implementation label and cross-check"
+        "retail_client_analysis=FUN_0075E770 writes opcode 0x012f and record size 0x38, "
+        "then sends a leading caller dword, a 32-byte zero-initialized staging area "
+        "populated by a runtime-length generic range copy, and an unwritten four-byte "
+        "stack tail through FUN_004D6D30; client_route=CharaBase and DirectorBase "
+        "_updateWork via FUN_00767FC0 and FUN_00767C00; observed=44 72-byte "
+        "subpackets; tail_distribution=8 distinct values including zero; "
+        "tail=record+0x3c is unwritten by the builder and nonconstant on wire; "
+        "semantic_status=decomp_routed; naming=tentative, derived from the client "
+        "_updateWork operation; prior_label=ActorWorkUpdatePacket; "
+        "conflict=ActorWorkUpdatePacket implementation noun unsupported by retail; "
+        "prior_label=ParameterDataRequestPacket; "
+        "conflict=ParameterDataRequestPacket server noun unsupported by retail"
     ),
     "c2s-0135": (
         "no_pcap_evidence; semantic_status=decomp_routed; "
@@ -400,7 +410,7 @@ def apply_client_semantics(top: dict) -> tuple[int, int]:
         )
         entry["notes"] = "; ".join(parts)
         if row["id"] == "c2s-012f":
-            entry["confidence"] = "blocked"
+            entry["confidence"] = "decomp_routed"
         elif row["id"] == "c2s-0135":
             entry["confidence"] = "decomp_routed"
         applied += 1
