@@ -449,12 +449,19 @@
       "direction": "clientbound",
       "function": "FUN_00576CD0",
       "status": "closed",
-      "supportedLabel": "Manager update that copies sixteen payload dwords",
-      "tool": "XIVLegacy Ghidra DumpFunctionDecomp.java and build_data_dependency_catalog.py",
-      "observation": "The manager worker copies sixteen dwords beginning at application offset 8 and leaves the final 32 bytes unread; the imported actor-event role is not retained.",
+      "supportedLabel": "0x0190 client manager-record route with a 0x68-byte application payload",
+      "tool": "XIVLegacy Ghidra DumpFunctionDecomp.java, build_data_dependency_catalog.py, and capture payload analysis",
+      "observation": "The central dispatcher routes opcode 0x0190 through FUN_00576CD0, FUN_0076BE60, and FUN_00768C40 into a client manager update path with a 0x68-byte application payload. The record writer copies neutral header dwords at application offsets +0 and +4 followed by sixteen dwords at +8 through +0x47, for 72 application bytes read, and leaves the 32-byte application tail at +0x48 through +0x67 unread. All 32 retained subpackets are 136 bytes across 8 captures; the pinned corpus separately records 5,569 aggregate events. This establishes the client route and record shape, but does not prove the imported MassSetItemModifier packet label, per-field item semantics, a server implementation declaration, or server behavior.",
       "sourceRefs": [
+        "xivl-client-structs:manifests/symbols.json#BCS-Y-0582",
         "xivl-client-structs:manifests/symbols.json#BCS-Y-0721",
-        "xivl-client-structs:manifests/data_dependency_catalog.json#s2c_0x0190"
+        "xivl-client-structs:manifests/symbols.json#BCS-Y-0951",
+        "xivl-client-structs:manifests/symbols.json#BCS-Y-0952",
+        "xivl-client-structs:manifests/symbols.json#BCS-Y-0953",
+        "xivl-client-structs:manifests/data_dependency_catalog.json#s2c_0x0190",
+        "xivl-captures:derived/payload_layouts.json#s2c.0x0190",
+        "xivl-captures:derived/payload_samples.json#s2c.0x0190",
+        "retail:ffxivgame.exe#sha256=9341f2b4567440b310a4d494f5cc5599ca334ba51c8042247317ff466492f2e9;vas=0x004DD357,0x00576CD0,0x0076BE60,0x00768C40;run=opcode-semantics-s2c-0190"
       ]
     },
     {

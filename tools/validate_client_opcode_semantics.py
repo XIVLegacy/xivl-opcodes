@@ -83,7 +83,7 @@ OUTBOUND_OBSERVATION_FRAGMENTS = {
 EXPECTED_OPEN_MISSING_FRAGMENTS = {}
 BARE_FUNCTION = re.compile(r"^FUN_[0-9A-F]{8}$")
 SOURCE_REF = re.compile(r"^(xivl-client-structs|xivl-captures|retail):")
-EXPECTED_CAPTURE_ROWS = {"c2s-00c9", "c2s-012d", "c2s-012e", "c2s-012f", "s2c-0187", "s2c-018b", "s2c-018d"}
+EXPECTED_CAPTURE_ROWS = {"c2s-00c9", "c2s-012d", "c2s-012e", "c2s-012f", "s2c-0187", "s2c-018b", "s2c-018d", "s2c-0190"}
 
 
 def main() -> int:
@@ -203,6 +203,75 @@ def main() -> int:
     bad_anchors = [anchor for anchor in anchors if not BARE_FUNCTION.fullmatch(anchor)]
     if bad_anchors:
         errors.append(f"non-bare decompAnchor values: {bad_anchors}")
+
+    modifier_row = next(row for row in rows if row.get("id") == "s2c-0190")
+    modifier_observation = modifier_row.get("observation", "")
+    for fragment in (
+        "FUN_00576CD0",
+        "FUN_0076BE60",
+        "FUN_00768C40",
+        "0x68-byte application payload",
+        "offsets +0 and +4",
+        "+8 through +0x47",
+        "72 application bytes read",
+        "32-byte application tail at +0x48 through +0x67 unread",
+        "32 retained subpackets",
+        "136 bytes",
+        "8 captures",
+        "5,569 aggregate events",
+    ):
+        if fragment not in modifier_observation:
+            errors.append(f"s2c-0190 observation lost required fact: {fragment}")
+
+    modifier_layout = capture_layouts["layouts"]["s2c"]["0x0190"]
+    modifier_samples = capture_samples["samples"]["s2c"]["0x0190"]
+    retained_modifiers = modifier_samples.get("samples", [])
+    if modifier_samples.get("sampleCount") != 32 or len(retained_modifiers) != 32:
+        errors.append("s2c-0190 retained sample count drifted from 32")
+    if {sample.get("sub_size") for sample in retained_modifiers} != {136}:
+        errors.append("s2c-0190 retained subpacket length drifted from 136")
+    if len({sample.get("capture") for sample in retained_modifiers}) != 8:
+        errors.append("s2c-0190 retained capture count drifted from 8")
+    if (
+        modifier_layout.get("sample_count") != 32
+        or modifier_layout.get("sub_size_distribution") != {"136": 32}
+        or modifier_layout.get("body_length") != 120
+        or modifier_layout.get("body_length", 0) - 16 != 104
+    ):
+        errors.append("s2c-0190 pinned layout summary drifted")
+
+    modifier_entry = next(
+        entry
+        for entry in entries
+        if entry.get("opcodeHex") == "0x0190"
+        and entry.get("direction") == "clientbound"
+        and entry.get("decompAnchor") == "FUN_00576CD0"
+    )
+    modifier_notes = modifier_entry.get("notes", "")
+    if modifier_entry.get("name") != "_0x0190":
+        errors.append("s2c-0190 must retain its placeholder packet name")
+    if modifier_entry.get("implementationAnchor") is not None:
+        errors.append("s2c-0190 must not retain an unproven server implementation anchor")
+    if modifier_entry.get("confidence") != "decomp_routed":
+        errors.append("s2c-0190 confidence must remain decomp_routed")
+    for fragment in (
+        "FUN_00576CD0",
+        "FUN_0076BE60",
+        "FUN_00768C40",
+        "application_payload=0x68",
+        "words[16]",
+        "unread 32-byte tail at +0x48..+0x67",
+        "observed=32 retained 136-byte subpackets across 8 captures",
+        "corpus_aggregate=5569 events",
+        "field_semantics=unresolved",
+        "naming=placeholder retained",
+        "candidate_label=MassSetItemModifierPacket is an imported source-manifest term, not retail-proven",
+        "client_only=",
+        "conflict=implementation anchor and packet noun lack a source-owned declaration",
+        "BCS-Y-0582,BCS-Y-0721,BCS-Y-0951,BCS-Y-0952,BCS-Y-0953",
+    ):
+        if fragment not in modifier_notes:
+            errors.append(f"s2c-0190 notes lost required fragment: {fragment}")
 
     occupancy_row = next(row for row in rows if row.get("id") == "s2c-0187")
     occupancy_observation = occupancy_row.get("observation", "")
