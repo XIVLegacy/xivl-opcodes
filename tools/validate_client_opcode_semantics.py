@@ -83,7 +83,7 @@ OUTBOUND_OBSERVATION_FRAGMENTS = {
 EXPECTED_OPEN_MISSING_FRAGMENTS = {}
 BARE_FUNCTION = re.compile(r"^FUN_[0-9A-F]{8}$")
 SOURCE_REF = re.compile(r"^(xivl-client-structs|xivl-captures|retail):")
-EXPECTED_CAPTURE_ROWS = {"c2s-00c9", "c2s-012d", "c2s-012e", "c2s-012f", "s2c-0187", "s2c-018d"}
+EXPECTED_CAPTURE_ROWS = {"c2s-00c9", "c2s-012d", "c2s-012e", "c2s-012f", "s2c-0187", "s2c-018b", "s2c-018d"}
 
 
 def main() -> int:
@@ -266,6 +266,76 @@ def main() -> int:
     ):
         if fragment not in occupancy_notes:
             errors.append(f"s2c-0187 notes lost required fragment: {fragment}")
+
+    group_layout_row = next(row for row in rows if row.get("id") == "s2c-018b")
+    group_layout_observation = group_layout_row.get("observation", "")
+    for fragment in (
+        "FUN_005763A0",
+        "FUN_006C5DF0",
+        "FUN_006C5240",
+        "0x38-byte application payload",
+        "opaque 8-byte group header",
+        "+0x08",
+        "+0x0c",
+        "+0x10",
+        "unresolved layout-kind byte at +0x14",
+        "unresolved reserved byte at +0x15",
+        "+0x16",
+        "31 retained subpackets",
+        "88 bytes",
+        "13 captures",
+    ):
+        if fragment not in group_layout_observation:
+            errors.append(f"s2c-018b observation lost required fact: {fragment}")
+
+    group_layout_layout = capture_layouts["layouts"]["s2c"]["0x018b"]
+    group_layout_samples = capture_samples["samples"]["s2c"]["0x018b"]
+    retained_group_layout = group_layout_samples.get("samples", [])
+    if group_layout_samples.get("sampleCount") != 31 or len(retained_group_layout) != 31:
+        errors.append("s2c-018b retained sample count drifted from 31")
+    if {sample.get("sub_size") for sample in retained_group_layout} != {88}:
+        errors.append("s2c-018b retained subpacket length drifted from 88")
+    if len({sample.get("capture") for sample in retained_group_layout}) != 13:
+        errors.append("s2c-018b retained capture count drifted from 13")
+    if (
+        group_layout_layout.get("sample_count") != 31
+        or group_layout_layout.get("sub_size_distribution") != {"88": 31}
+        or group_layout_layout.get("body_length") != 72
+        or group_layout_layout.get("body_length", 0) - 16 != 56
+    ):
+        errors.append("s2c-018b pinned layout summary drifted")
+
+    group_layout_entry = next(
+        entry
+        for entry in entries
+        if entry.get("opcodeHex") == "0x018b"
+        and entry.get("direction") == "clientbound"
+        and entry.get("decompAnchor") == "FUN_005763A0"
+    )
+    group_layout_notes = group_layout_entry.get("notes", "")
+    if group_layout_entry.get("name") != "SetGroupLayoutIDPacket":
+        errors.append("s2c-018b canonical name must reflect the client group-layout path")
+    if group_layout_entry.get("implementationAnchor") is not None:
+        errors.append("s2c-018b must not retain an unproven server implementation anchor")
+    if group_layout_entry.get("confidence") != "decomp_routed":
+        errors.append("s2c-018b confidence must remain decomp_routed")
+    for fragment in (
+        "FUN_005763A0",
+        "FUN_006C5DF0",
+        "FUN_006C5240",
+        "application_payload=0x38",
+        "opaque 8-byte group header",
+        "unresolved layout-kind byte at +0x14",
+        "unresolved reserved byte at +0x15",
+        "observed=31 retained 88-byte subpackets across 13 captures",
+        "client_only=",
+        "alternate_spelling=SetGroupLayoutIdPacket",
+        "conflict=implementation anchor lacks a source-owned declaration",
+        "BCS-Y-0579",
+        "BCS-Y-0889",
+    ):
+        if fragment not in group_layout_notes:
+            errors.append(f"s2c-018b notes lost required fragment: {fragment}")
 
     party_marker_row = next(row for row in rows if row.get("id") == "s2c-018d")
     party_marker_observation = party_marker_row.get("observation", "")
