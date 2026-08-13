@@ -83,7 +83,7 @@ OUTBOUND_OBSERVATION_FRAGMENTS = {
 EXPECTED_OPEN_MISSING_FRAGMENTS = {}
 BARE_FUNCTION = re.compile(r"^FUN_[0-9A-F]{8}$")
 SOURCE_REF = re.compile(r"^(xivl-client-structs|xivl-captures|retail):")
-EXPECTED_CAPTURE_ROWS = {"c2s-00c9", "c2s-012d", "c2s-012e", "c2s-012f", "s2c-0187", "s2c-018b", "s2c-018d", "s2c-0190", "s2c-0191"}
+EXPECTED_CAPTURE_ROWS = {"c2s-00c9", "c2s-012d", "c2s-012e", "c2s-012f", "s2c-0187", "s2c-018b", "s2c-018d", "s2c-018f", "s2c-0190", "s2c-0191"}
 
 
 def main() -> int:
@@ -203,6 +203,78 @@ def main() -> int:
     bad_anchors = [anchor for anchor in anchors if not BARE_FUNCTION.fullmatch(anchor)]
     if bad_anchors:
         errors.append(f"non-bare decompAnchor values: {bad_anchors}")
+
+    setup_row = next(row for row in rows if row.get("id") == "s2c-018f")
+    setup_observation = setup_row.get("observation", "")
+    for fragment in (
+        "FUN_00576C60",
+        "FUN_0076BE30",
+        "no direct application-field loads",
+        "FUN_0076B950",
+        "FUN_0075F720",
+        "FUN_00759220 only writes a local byte value of 0xff",
+        "15 retained subpackets",
+        "40 bytes",
+        "8 captures",
+        "8-byte application payloads are zero",
+        "28 aggregate events",
+        "not a field semantic",
+        "helper semantics remain unresolved",
+    ):
+        if fragment not in setup_observation:
+            errors.append(f"s2c-018f observation lost required fact: {fragment}")
+
+    setup_layout = capture_layouts["layouts"]["s2c"]["0x018f"]
+    setup_samples = capture_samples["samples"]["s2c"]["0x018f"]
+    retained_setup = setup_samples.get("samples", [])
+    if setup_samples.get("sampleCount") != 15 or len(retained_setup) != 15:
+        errors.append("s2c-018f retained sample count drifted from 15")
+    if {sample.get("sub_size") for sample in retained_setup} != {40}:
+        errors.append("s2c-018f retained subpacket length drifted from 40")
+    if len({sample.get("capture") for sample in retained_setup}) != 8:
+        errors.append("s2c-018f retained capture count drifted from 8")
+    if any(bytes.fromhex(sample["bytes"])[16:24] != bytes(8) for sample in retained_setup):
+        errors.append("s2c-018f retained application payload is no longer all zero")
+    if (
+        setup_layout.get("sample_count") != 15
+        or setup_layout.get("sub_size_distribution") != {"40": 15}
+        or setup_layout.get("body_length") != 24
+        or setup_layout.get("body_length", 0) - 16 != 8
+    ):
+        errors.append("s2c-018f pinned layout summary drifted")
+
+    setup_entry = next(
+        entry
+        for entry in entries
+        if entry.get("opcodeHex") == "0x018f"
+        and entry.get("direction") == "clientbound"
+        and entry.get("decompAnchor") == "FUN_00576C60"
+    )
+    setup_notes = setup_entry.get("notes", "")
+    if setup_entry.get("name") != "_0x018F":
+        errors.append("s2c-018f must retain its placeholder packet name")
+    if setup_entry.get("implementationAnchor") is not None:
+        errors.append("s2c-018f must not retain an unproven server implementation anchor")
+    if setup_entry.get("confidence") != "decomp_routed":
+        errors.append("s2c-018f confidence must remain decomp_routed")
+    for fragment in (
+        "FUN_00576C60",
+        "FUN_0076BE30",
+        "direct_payload_reads=none",
+        "application_payload=8 bytes",
+        "semantically unknown",
+        "shared_helper_boundary=FUN_0076B950,FUN_0075F720",
+        "FUN_00759220 only writes a local byte 0xff",
+        "observed=15 retained 40-byte subpackets across 8 captures",
+        "corpus_aggregate=28 events",
+        "naming=placeholder retained",
+        "candidate_label=MassSetItemModifierBeginPacket is an imported source-manifest term, not retail-proven",
+        "client_only=",
+        "conflict=implementation anchor and packet noun lack a source-owned declaration",
+        "BCS-Y-0581,BCS-Y-0722,BCS-Y-0954",
+    ):
+        if fragment not in setup_notes:
+            errors.append(f"s2c-018f notes lost required fragment: {fragment}")
 
     finalization_row = next(row for row in rows if row.get("id") == "s2c-0191")
     finalization_observation = finalization_row.get("observation", "")

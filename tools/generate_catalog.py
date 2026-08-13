@@ -166,6 +166,13 @@ REVERIFY_OVERRIDES = [
 NAME_OVERRIDES = [
     (
         "MapClientbound",
+        "0x018f",
+        "_0x018F",
+        "_0x018F",
+        None,
+    ),
+    (
+        "MapClientbound",
         "0x0191",
         "_0x0191",
         "_0x0191",
@@ -284,6 +291,21 @@ PCAP_LOBBY_PURGE = [
 
 
 CLIENT_SEMANTICS_SPECIAL_NOTES = {
+    "s2c-018f": (
+        "retail_client_analysis=FUN_00576C60 forwards opcode 0x018f into "
+        "FUN_0076BE30; direct_payload_reads=none in wrapper and worker; "
+        "application_payload=8 bytes, zero in all retained samples but semantically "
+        "unknown; shared_helper_boundary=FUN_0076B950,FUN_0075F720; "
+        "FUN_00759220 only writes a local byte 0xff; observed=15 retained 40-byte "
+        "subpackets across 8 captures; corpus_aggregate=28 events; "
+        "semantic_status=decomp_routed; naming=placeholder retained because retail "
+        "does not establish a stable packet noun; candidate_label=MassSetItemModifierBeginPacket "
+        "is an imported source-manifest term, not retail-proven; client_only=route and "
+        "payload non-use do not establish server behavior; "
+        "prior_label=MapServerOpcode::MassSetItemModifierBegin; "
+        "conflict=implementation anchor and packet noun lack a source-owned declaration; "
+        "client_evidence=BCS-Y-0581,BCS-Y-0722,BCS-Y-0954"
+    ),
     "s2c-0191": (
         "retail_client_analysis=FUN_00576D40 forwards opcode 0x0191 into "
         "FUN_0076BF10; direct_payload_reads=none in wrapper and worker; "
@@ -515,7 +537,7 @@ def apply_client_semantics(top: dict) -> tuple[int, int]:
             ]
         )
         entry["notes"] = "; ".join(parts)
-        if row["id"] in {"s2c-0187", "s2c-018b", "s2c-018d", "s2c-0190", "s2c-0191"}:
+        if row["id"] in {"s2c-0187", "s2c-018b", "s2c-018d", "s2c-018f", "s2c-0190", "s2c-0191"}:
             entry["confidence"] = "decomp_routed"
         elif row["id"] == "c2s-012f":
             entry["confidence"] = "decomp_routed"

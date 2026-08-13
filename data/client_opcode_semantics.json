@@ -434,12 +434,17 @@
       "direction": "clientbound",
       "function": "FUN_00576C60",
       "status": "closed",
-      "supportedLabel": "No-payload manager setup path",
-      "tool": "XIVLegacy Ghidra DumpFunctionDecomp.java and build_data_dependency_catalog.py",
-      "observation": "The handler enters the manager path and invokes FUN_0076BE30 without reading application payload bytes; the imported actor-trigger role is not retained.",
+      "supportedLabel": "0x018f client manager-setup route with an 8-byte application payload",
+      "tool": "XIVLegacy Ghidra DumpFunctionDecomp.java, build_data_dependency_catalog.py, and capture payload analysis",
+      "observation": "The central dispatcher routes opcode 0x018f through FUN_00576C60 into FUN_0076BE30. The wrapper and worker perform no direct application-field loads before manager context enters the shared FUN_0076B950 and FUN_0075F720 helper boundary; FUN_00759220 only writes a local byte value of 0xff. All 15 retained subpackets are 40 bytes across 8 captures, and their 8-byte application payloads are zero; the pinned corpus separately records 28 aggregate events. The zero bytes are an observation, not a field semantic. This establishes a client manager-setup route, but does not prove the imported MassSetItemModifierBegin packet label or server behavior; helper semantics remain unresolved.",
       "sourceRefs": [
+        "xivl-client-structs:manifests/symbols.json#BCS-Y-0581",
         "xivl-client-structs:manifests/symbols.json#BCS-Y-0722",
-        "xivl-client-structs:manifests/data_dependency_catalog.json#s2c_0x018f"
+        "xivl-client-structs:manifests/symbols.json#BCS-Y-0954",
+        "xivl-client-structs:manifests/data_dependency_catalog.json#s2c_0x018f",
+        "xivl-captures:derived/payload_layouts.json#s2c.0x018f",
+        "xivl-captures:derived/payload_samples.json#s2c.0x018f",
+        "retail:ffxivgame.exe#sha256=9341f2b4567440b310a4d494f5cc5599ca334ba51c8042247317ff466492f2e9;vas=0x004DD346,0x00576C60,0x0076BE30;run=opcode-semantics-s2c-018f"
       ]
     },
     {
