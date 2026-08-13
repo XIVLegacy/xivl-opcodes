@@ -354,12 +354,17 @@
       "direction": "clientbound",
       "function": "FUN_005763A0",
       "status": "closed",
-      "supportedLabel": "Group layout/member-information update",
-      "tool": "XIVLegacy Ghidra DumpFunctionDecomp.java",
-      "observation": "The reached body reads a group header, u32 group handle and localized-name id, s32 layout id, u8 layout kind, and a 34-byte layout name.",
+      "supportedLabel": "SetGroupLayoutIDPacket client route with a 0x38-byte application payload",
+      "tool": "XIVLegacy Ghidra DumpFunctionDecomp.java and capture payload analysis",
+      "observation": "The central dispatcher routes opcode 0x018b through FUN_005763A0, FUN_006C5DF0, and FUN_006C5240 into the client Group/SharedWork layout path. The 0x38-byte application payload contains an opaque 8-byte group header, a group-handle u32 at +0x08, localized-name u32 at +0x0c, signed layout-id dword at +0x10, an unresolved layout-kind byte at +0x14, an unresolved reserved byte at +0x15, and a 34-byte layout name at +0x16. All 31 retained subpackets are 88 bytes across 13 captures. This establishes the client-side group-layout route and shape, not a server implementation declaration or behavior.",
       "sourceRefs": [
         "xivl-client-structs:manifests/symbols.json#BCS-Y-0579",
-        "xivl-client-structs:manifests/unmapped_payload_decoding.json#s2c_0x018b"
+        "xivl-client-structs:manifests/unmapped_payload_decoding.json#s2c_0x018b",
+        "xivl-client-structs:manifests/data_dependency_catalog.json#s2c_0x018b",
+        "xivl-client-structs:manifests/party_subsystem.json#0x018B",
+        "xivl-captures:derived/payload_layouts.json#s2c.0x018b",
+        "xivl-captures:derived/payload_samples.json#s2c.0x018b",
+        "retail:ffxivgame.exe#sha256=9341f2b4567440b310a4d494f5cc5599ca334ba51c8042247317ff466492f2e9;vas=0x004DD15D,0x005763A0,0x006C5DF0,0x006C5240;run=opcode-semantics-s2c-018b"
       ]
     },
     {

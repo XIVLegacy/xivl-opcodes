@@ -166,6 +166,13 @@ REVERIFY_OVERRIDES = [
 NAME_OVERRIDES = [
     (
         "MapClientbound",
+        "0x018b",
+        "_0x018B",
+        "SetGroupLayoutIDPacket",
+        None,
+    ),
+    (
+        "MapClientbound",
         "0x0187",
         "_0x0187",
         "SetOccupancyGroupPacket",
@@ -218,6 +225,9 @@ NAME_OVERRIDES = [
 # Accept managed aliases while preserving the pristine-input guard carried by
 # NAME_OVERRIDES.
 NAME_OVERRIDE_PRIOR_ALIASES = {
+    ("MapClientbound", "0x018b", "SetGroupLayoutIDPacket"): (
+        "SetGroupLayoutIdPacket",
+    ),
     ("MapServerbound", "0x012f", "WorkStateUpdatePacket"): (
         "ParameterDataRequestPacket",
     ),
@@ -260,6 +270,21 @@ PCAP_LOBBY_PURGE = [
 
 
 CLIENT_SEMANTICS_SPECIAL_NOTES = {
+    "s2c-018b": (
+        "retail_client_analysis=FUN_005763A0 forwards opcode 0x018b through "
+        "FUN_006C5DF0 and FUN_006C5240 into the client Group/SharedWork layout "
+        "path; application_payload=0x38 bytes with an opaque 8-byte group header, "
+        "group-handle u32 at +0x08, localized-name u32 at +0x0c, signed layout-id "
+        "dword at +0x10, unresolved layout-kind byte at +0x14, unresolved reserved "
+        "byte at +0x15, and layout name char[34] at +0x16; observed=31 retained "
+        "88-byte subpackets across 13 captures; semantic_status=decomp_routed; "
+        "naming=client-derived from the Group/SharedWork layout path; "
+        "client_only=route and shape do not establish server behavior; "
+        "alternate_spelling=SetGroupLayoutIdPacket; "
+        "prior_label=MapServerOpcode::SetGroupLayoutId; "
+        "conflict=implementation anchor lacks a source-owned declaration; "
+        "client_evidence=BCS-Y-0579 dispatcher and BCS-Y-0889 GroupSharedWork layout path"
+    ),
     "s2c-0187": (
         "retail_client_analysis=FUN_00576390 forwards opcode 0x0187 through "
         "FUN_006C8340 and FUN_006C6B20 into the client Group/SharedWork "
@@ -447,7 +472,7 @@ def apply_client_semantics(top: dict) -> tuple[int, int]:
             ]
         )
         entry["notes"] = "; ".join(parts)
-        if row["id"] in {"s2c-0187", "s2c-018d"}:
+        if row["id"] in {"s2c-0187", "s2c-018b", "s2c-018d"}:
             entry["confidence"] = "decomp_routed"
         elif row["id"] == "c2s-012f":
             entry["confidence"] = "decomp_routed"

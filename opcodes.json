@@ -4383,12 +4383,12 @@
           "notes": "role=server-to-client set-active-linkshell notification. inferred_not_observed_in_corpus.; client_semantics_evidence=data/client_opcode_semantics.json#s2c-018a; dependency_status=closed"
         },
         {
-          "name": "_0x018B",
+          "name": "SetGroupLayoutIDPacket",
           "opcode": 395,
           "opcodeHex": "0x018b",
           "service": "map",
           "direction": "clientbound",
-          "implementationAnchor": "MapServerOpcode::SetGroupLayoutId",
+          "implementationAnchor": null,
           "decompAnchor": "FUN_005763A0",
           "observedIn": [
             "combat_autoattack.pcapng",
@@ -4408,8 +4408,8 @@
           "payloadLengths": [
             88
           ],
-          "confidence": "implemented",
-          "notes": "pcap_only_no_reference_match; service_inferred=map_default_guess; role=server-to-client per-group UI layout id (party-list ordering, cross-world group formatting). Observed across 13 captures; 88-byte packet.; client_semantics_evidence=data/client_opcode_semantics.json#s2c-018b; dependency_status=closed"
+          "confidence": "decomp_routed",
+          "notes": "retail_client_analysis=FUN_005763A0 forwards opcode 0x018b through FUN_006C5DF0 and FUN_006C5240 into the client Group/SharedWork layout path; application_payload=0x38 bytes with an opaque 8-byte group header, group-handle u32 at +0x08, localized-name u32 at +0x0c, signed layout-id dword at +0x10, unresolved layout-kind byte at +0x14, unresolved reserved byte at +0x15, and layout name char[34] at +0x16; observed=31 retained 88-byte subpackets across 13 captures; semantic_status=decomp_routed; naming=client-derived from the Group/SharedWork layout path; client_only=route and shape do not establish server behavior; alternate_spelling=SetGroupLayoutIdPacket; prior_label=MapServerOpcode::SetGroupLayoutId; conflict=implementation anchor lacks a source-owned declaration; client_evidence=BCS-Y-0579 dispatcher and BCS-Y-0889 GroupSharedWork layout path; client_semantics_evidence=data/client_opcode_semantics.json#s2c-018b; dependency_status=closed"
         },
         {
           "name": "PartyMapMarkerUpdatePacket",
