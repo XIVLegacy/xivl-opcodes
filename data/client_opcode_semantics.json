@@ -46,12 +46,16 @@
       "direction": "clientbound",
       "function": "FUN_00575550",
       "status": "closed",
-      "supportedLabel": "Session-gated marker update with sixteen 0x28-byte records and a count byte at payload offset 0x290",
-      "tool": "XIVLegacy Ghidra DumpFunctionDecomp.java and build_data_dependency_catalog.py",
-      "observation": "The handler gates on owner offset 0x4d8, reads packet state, and the apply path consumes sixteen 0x28-byte marker rows with a u8 count at application offset 0x290.",
+      "supportedLabel": "PartyMapMarkerUpdatePacket client route with sixteen reserved 0x28-byte rows and a count byte at application offset 0x290",
+      "tool": "XIVLegacy Ghidra DumpFunctionDecomp.java, build_data_dependency_catalog.py, and capture payload analysis",
+      "observation": "The central dispatcher routes opcode 0x018d through FUN_00575550, which gates on owner offset 0x4d8 and forwards the application data to FUN_0055CF70. That apply function copies three header dwords, sign-extends the u8 count at application offset 0x290, and transposes count 0x28-byte source rows into 0x78-byte client rows. The wire layout reserves sixteen source rows, but retail contains no compare or clamp to 16. All 60 retained subpackets are 696-byte subpackets; count is 1 in 58 samples and 2 in 2 samples, so observed max=2. This establishes the client-side party map-marker update route and layout, not a server implementation declaration or behavior.",
       "sourceRefs": [
         "xivl-client-structs:manifests/symbols.json#BCS-Y-0580",
-        "xivl-client-structs:manifests/data_dependency_catalog.json#s2c_0x018d"
+        "xivl-client-structs:manifests/data_dependency_catalog.json#s2c_0x018d",
+        "xivl-client-structs:manifests/party_subsystem.json#0x018D",
+        "xivl-captures:derived/payload_layouts.json#s2c.0x018d",
+        "xivl-captures:derived/payload_samples.json#s2c.0x018d",
+        "retail:ffxivgame.exe#sha256=9341f2b4567440b310a4d494f5cc5599ca334ba51c8042247317ff466492f2e9;vas=0x004DD195,0x00575550,0x0055CF70;run=opcode-semantics-s2c-018d"
       ]
     },
     {
@@ -330,12 +334,17 @@
       "direction": "clientbound",
       "function": "FUN_00576390",
       "status": "closed",
-      "supportedLabel": "Occupancy/property update with a 0x40-byte body",
-      "tool": "XIVLegacy Ghidra DumpFunctionDecomp.java",
-      "observation": "The reached body reads a group header, two u32 occupancy-work values, a localized-name id, and a 36-byte occupancy name; the imported WorkSync label is not retained.",
+      "supportedLabel": "SetOccupancyGroupPacket client route with a 0x40-byte application payload",
+      "tool": "XIVLegacy Ghidra DumpFunctionDecomp.java and capture payload analysis",
+      "observation": "The central dispatcher routes opcode 0x0187 through FUN_00576390, FUN_006C8340, and FUN_006C6B20 into the client Group/SharedWork property-update path. The 0x40-byte application payload contains an opaque 16-byte group header, two occupancy-work u32 values at offset 0x10, a localized-name u32 at 0x18, and a 36-byte occupancy name at 0x1c. All 33 retained subpackets are 96 bytes across 13 captures. This establishes the client-side occupancy-group route and layout, not a server implementation declaration or behavior.",
       "sourceRefs": [
         "xivl-client-structs:manifests/symbols.json#BCS-Y-0575",
-        "xivl-client-structs:manifests/unmapped_payload_decoding.json#s2c_0x0187"
+        "xivl-client-structs:manifests/unmapped_payload_decoding.json#s2c_0x0187",
+        "xivl-client-structs:manifests/data_dependency_catalog.json#s2c_0x0187",
+        "xivl-client-structs:manifests/party_subsystem.json#0x0187",
+        "xivl-captures:derived/payload_layouts.json#s2c.0x0187",
+        "xivl-captures:derived/payload_samples.json#s2c.0x0187",
+        "retail:ffxivgame.exe#sha256=9341f2b4567440b310a4d494f5cc5599ca334ba51c8042247317ff466492f2e9;vas=0x004DD13D,0x00576390,0x006C8340,0x006C6B20;run=opcode-semantics-s2c-0187"
       ]
     },
     {
@@ -345,12 +354,17 @@
       "direction": "clientbound",
       "function": "FUN_005763A0",
       "status": "closed",
-      "supportedLabel": "Group layout/member-information update",
-      "tool": "XIVLegacy Ghidra DumpFunctionDecomp.java",
-      "observation": "The reached body reads a group header, u32 group handle and localized-name id, s32 layout id, u8 layout kind, and a 34-byte layout name.",
+      "supportedLabel": "SetGroupLayoutIDPacket client route with a 0x38-byte application payload",
+      "tool": "XIVLegacy Ghidra DumpFunctionDecomp.java and capture payload analysis",
+      "observation": "The central dispatcher routes opcode 0x018b through FUN_005763A0, FUN_006C5DF0, and FUN_006C5240 into the client Group/SharedWork layout path. The 0x38-byte application payload contains an opaque 8-byte group header, a group-handle u32 at +0x08, localized-name u32 at +0x0c, signed layout-id dword at +0x10, an unresolved layout-kind byte at +0x14, an unresolved reserved byte at +0x15, and a 34-byte layout name at +0x16. All 31 retained subpackets are 88 bytes across 13 captures. This establishes the client-side group-layout route and shape, not a server implementation declaration or behavior.",
       "sourceRefs": [
         "xivl-client-structs:manifests/symbols.json#BCS-Y-0579",
-        "xivl-client-structs:manifests/unmapped_payload_decoding.json#s2c_0x018b"
+        "xivl-client-structs:manifests/unmapped_payload_decoding.json#s2c_0x018b",
+        "xivl-client-structs:manifests/data_dependency_catalog.json#s2c_0x018b",
+        "xivl-client-structs:manifests/party_subsystem.json#0x018B",
+        "xivl-captures:derived/payload_layouts.json#s2c.0x018b",
+        "xivl-captures:derived/payload_samples.json#s2c.0x018b",
+        "retail:ffxivgame.exe#sha256=9341f2b4567440b310a4d494f5cc5599ca334ba51c8042247317ff466492f2e9;vas=0x004DD15D,0x005763A0,0x006C5DF0,0x006C5240;run=opcode-semantics-s2c-018b"
       ]
     },
     {
@@ -495,13 +509,17 @@
       "direction": "serverbound",
       "function": "FUN_0075E770",
       "status": "closed",
-      "supportedLabel": "0x012f builder for a 0x38-byte parameter/state request",
+      "supportedLabel": "0x012f client work-state update route with one leading dword, 32 copied bytes, and an unresolved four-byte tail",
       "tool": "XIVLegacy Ghidra FindOpcodeImmediate.java, DumpFunctionDecomp.java, and analyze_payload_layouts.py",
-      "observation": "The builder writes opcode 0x012f and body size 0x38, copies a request-id dword and 32 bytes of serialized state, and calls FUN_004D6D30; captures confirm a 72-byte total subpacket. This supports a parameter/state request rather than an ActorWorkUpdate semantic.",
+      "observation": "The builder writes opcode 0x012f and record size 0x38, copies a caller-supplied leading dword plus a 32-byte zero-initialized staging area populated by a runtime-length generic range copy, and calls FUN_004D6D30. CharaBase and DirectorBase _updateWork implementations reach the builder through FUN_00767FC0 and FUN_00767C00. The wire forwarder performs a 0x28-byte copy from record+0x18, including an unwritten four-byte stack tail at record+0x3c after the leading dword and four qwords. All 44 captures are 72-byte subpackets and retain a nonconstant tail. This supports a client work-state update route, but not a specific server packet noun.",
       "sourceRefs": [
         "xivl-client-structs:manifests/symbols.json#BCS-Y-0986",
         "xivl-client-structs:manifests/c2s_remaining_emitters.json#FUN_0075E770",
-        "xivl-captures:derived/payload_layouts.json#c2s.0x012f"
+        "xivl-client-structs:manifests/control_class_napi_field_access_recursive.json#CharaBase._updateWork",
+        "xivl-client-structs:manifests/control_class_napi_field_access_recursive.json#DirectorBase._updateWork",
+        "retail:ffxivgame.exe@FUN_0075E770",
+        "xivl-captures:derived/payload_layouts.json#c2s.0x012f",
+        "xivl-captures:derived/payload_samples.json#c2s.0x012f"
       ]
     },
     {
@@ -555,16 +573,18 @@
       "opcodeHex": "0x0135",
       "direction": "serverbound",
       "function": "FUN_0075ECD0",
-      "status": "open",
-      "supportedLabel": "0x0135 builder for a 0x18-byte packet containing one u32 payload value",
+      "status": "closed",
+      "supportedLabel": "_getAchievementRate client request carrying one achievement-id lookup key",
       "tool": "XIVLegacy Ghidra DecompileToText.java and FindCallers.java",
-      "observation": "The builder writes opcode 0x0135 and body size 0x18, copies its one u32 payload value to application offset 0, and calls FUN_004D6D30; its sole caller is FUN_00705EB0. Neither the builder nor the absent capture evidence establishes BindingSubscribeRequest, binding-id, or subscription-type semantics.",
+      "observation": "The builder writes opcode 0x0135 and body size 0x18, copies its one u32 payload value to application offset 0, and calls FUN_004D6D30. Its sole caller FUN_00705EB0 is MyPlayer vtable slot 112 and the registered _getAchievementRate implementation. On the valid path FUN_005819A0 returns the first runtime argument-vector entry +0x8 value, which FUN_00705EB0 forwards unchanged to the builder. Independent retail achievement receive evidence identifies the corresponding lookup domain as achievementId. The exact server method noun is not embedded in the client.",
       "sourceRefs": [
         "xivl-client-structs:manifests/reverse_bfs_send_helpers.json#FUN_0075ECD0",
         "retail:ffxivgame.exe@FUN_0075ECD0",
-        "retail:ffxivgame.exe#sha256=9341f2b4567440b310a4d494f5cc5599ca334ba51c8042247317ff466492f2e9;va=0x0075ECD0;run=opcode-semantics-c2s-open-senders-body"
-      ],
-      "missingEvidence": "Capture or local retail-client evidence that assigns binding-id and subscription-type meanings to the one u32 payload value."
+        "retail:ffxivgame.exe#sha256=9341f2b4567440b310a4d494f5cc5599ca334ba51c8042247317ff466492f2e9;va=0x0075ECD0;run=opcode-semantics-c2s-open-senders-body",
+        "xivl-client-structs:manifests/vtable_resolved_evidence.json#FUN_00705EB0",
+        "xivl-client-structs:manifests/bulk_napi_classification.json#_getAchievementRate",
+        "xivl-client-structs:manifests/data_dependency_catalog.json#s2c_0x019f"
+      ]
     },
     {
       "id": "c2s-012d",
