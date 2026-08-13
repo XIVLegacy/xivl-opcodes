@@ -846,7 +846,7 @@ struct CommandResultX01Body
 static_assert(sizeof(CommandResultX01Body) == 64, "CommandResultX01Body size mismatch");
 
 // 0x013a (opcode 314) - sub_size=216B body=192B samples=14
-struct BattleActionX10Body
+struct CommandResultX10Body
 {
     uint8_t  field0[3];   // body[+0..+2] 3B (14 distinct)
     uint8_t  _const1;     // body[+3] = 0x50
@@ -879,7 +879,7 @@ struct BattleActionX10Body
     uint8_t  _pad28[11];  // body[+181..+191] zero
 };
 
-static_assert(sizeof(BattleActionX10Body) == 192, "BattleActionX10Body size mismatch");
+static_assert(sizeof(CommandResultX10Body) == 192, "CommandResultX10Body size mismatch");
 
 // 0x013c (opcode 316) - sub_size=72B body=48B samples=18
 struct CommandResultX00Body
