@@ -495,13 +495,17 @@
       "direction": "serverbound",
       "function": "FUN_0075E770",
       "status": "closed",
-      "supportedLabel": "0x012f builder for a 0x38-byte parameter/state request",
+      "supportedLabel": "0x012f client work-state update route with one leading dword, 32 copied bytes, and an unresolved four-byte tail",
       "tool": "XIVLegacy Ghidra FindOpcodeImmediate.java, DumpFunctionDecomp.java, and analyze_payload_layouts.py",
-      "observation": "The builder writes opcode 0x012f and body size 0x38, copies a request-id dword and 32 bytes of serialized state, and calls FUN_004D6D30; captures confirm a 72-byte total subpacket. This supports a parameter/state request rather than an ActorWorkUpdate semantic.",
+      "observation": "The builder writes opcode 0x012f and record size 0x38, copies a caller-supplied leading dword plus a 32-byte zero-initialized staging area populated by a runtime-length generic range copy, and calls FUN_004D6D30. CharaBase and DirectorBase _updateWork implementations reach the builder through FUN_00767FC0 and FUN_00767C00. The wire forwarder performs a 0x28-byte copy from record+0x18, including an unwritten four-byte stack tail at record+0x3c after the leading dword and four qwords. All 44 captures are 72-byte subpackets and retain a nonconstant tail. This supports a client work-state update route, but not a specific server packet noun.",
       "sourceRefs": [
         "xivl-client-structs:manifests/symbols.json#BCS-Y-0986",
         "xivl-client-structs:manifests/c2s_remaining_emitters.json#FUN_0075E770",
-        "xivl-captures:derived/payload_layouts.json#c2s.0x012f"
+        "xivl-client-structs:manifests/control_class_napi_field_access_recursive.json#CharaBase._updateWork",
+        "xivl-client-structs:manifests/control_class_napi_field_access_recursive.json#DirectorBase._updateWork",
+        "retail:ffxivgame.exe@FUN_0075E770",
+        "xivl-captures:derived/payload_layouts.json#c2s.0x012f",
+        "xivl-captures:derived/payload_samples.json#c2s.0x012f"
       ]
     },
     {

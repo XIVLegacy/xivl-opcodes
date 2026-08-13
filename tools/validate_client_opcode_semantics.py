@@ -56,7 +56,7 @@ OUTBOUND_OBSERVATION_FRAGMENTS = {
     ),
     "c2s-012d": ("opcode 0x012d", "body size 0xc8", "four u32", "one u8", "FUN_00DAE010", "216-byte total subpacket"),
     "c2s-012e": ("opcode 0x012e", "body size 0x68", "sixteen dwords", "FUN_004D6D30", "120-byte total subpacket"),
-    "c2s-012f": ("opcode 0x012f", "body size 0x38", "request-id dword", "32 bytes", "FUN_004D6D30", "72-byte total subpacket"),
+    "c2s-012f": ("opcode 0x012f", "record size 0x38", "leading dword", "32-byte", "four-byte stack tail", "_updateWork", "FUN_004D6D30", "72-byte subpackets"),
     "c2s-0131": ("opcode 0x0131", "size 0x18", "u32", "u8", "FUN_004D6D30"),
     "c2s-0132": ("opcode 0x0132", "size 0x18", "u32", "u16", "u8", "FUN_004D6D30"),
     "c2s-0134": (
@@ -199,6 +199,30 @@ def main() -> int:
     bad_anchors = [anchor for anchor in anchors if not BARE_FUNCTION.fullmatch(anchor)]
     if bad_anchors:
         errors.append(f"non-bare decompAnchor values: {bad_anchors}")
+
+    work_state_entry = next(
+        entry
+        for entry in entries
+        if entry.get("opcodeHex") == "0x012f"
+        and entry.get("direction") == "serverbound"
+        and entry.get("decompAnchor") == "FUN_0075E770"
+    )
+    work_state_notes = work_state_entry.get("notes", "")
+    if work_state_entry.get("name") != "WorkStateUpdatePacket":
+        errors.append("c2s-012f canonical name must remain client-derived and tentative")
+    if work_state_entry.get("implementationAnchor") is not None:
+        errors.append("c2s-012f must not retain an unproven implementation enum anchor")
+    if work_state_entry.get("confidence") != "decomp_routed":
+        errors.append("c2s-012f confidence must remain decomp_routed")
+    for fragment in (
+        "_updateWork",
+        "record+0x3c",
+        "naming=tentative",
+        "conflict=ActorWorkUpdatePacket",
+        "conflict=ParameterDataRequestPacket",
+    ):
+        if fragment not in work_state_notes:
+            errors.append(f"c2s-012f notes lost required fragment: {fragment}")
 
     achievement_entry = next(
         entry

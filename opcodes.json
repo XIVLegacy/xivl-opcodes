@@ -1064,12 +1064,12 @@
           "notes": "corpus request_response_pairs.json: 200 c2s 0x012E firings; top responses s2c 0x0190 (113 pairs, 56%), 0x0001 (76/38%), 0x0130 (16/8%). Event-update command triggers client-state echo.; client_semantics_evidence=data/client_opcode_semantics.json#c2s-012e; dependency_status=closed"
         },
         {
-          "name": "ActorWorkUpdatePacket",
+          "name": "WorkStateUpdatePacket",
           "opcode": 303,
           "opcodeHex": "0x012f",
           "service": "map",
           "direction": "serverbound",
-          "implementationAnchor": "MapClientOpcode::ActorWorkUpdate",
+          "implementationAnchor": null,
           "decompAnchor": "FUN_0075E770",
           "observedIn": [
             "action_and_traits.pcapng",
@@ -1087,8 +1087,8 @@
           "payloadLengths": [
             72
           ],
-          "confidence": "blocked",
-          "notes": "retail_client_analysis=FUN_0075E770 writes opcode 0x012f and body size 0x38, copies a request-id dword plus 32 bytes of serialized state, and sends through FUN_004D6D30; observed 72-byte packet; semantic_status=the client body supports a parameter/state-data request while ActorWorkUpdatePacket remains an implementation label and cross-check; client_semantics_evidence=data/client_opcode_semantics.json#c2s-012f; dependency_status=closed"
+          "confidence": "decomp_routed",
+          "notes": "retail_client_analysis=FUN_0075E770 writes opcode 0x012f and record size 0x38, then sends a leading caller dword, a 32-byte zero-initialized staging area populated by a runtime-length generic range copy, and an unwritten four-byte stack tail through FUN_004D6D30; client_route=CharaBase and DirectorBase _updateWork via FUN_00767FC0 and FUN_00767C00; observed=44 72-byte subpackets; tail_distribution=8 distinct values including zero; tail=record+0x3c is unwritten by the builder and nonconstant on wire; semantic_status=decomp_routed; naming=tentative, derived from the client _updateWork operation; prior_label=ActorWorkUpdatePacket; conflict=ActorWorkUpdatePacket implementation noun unsupported by retail; prior_label=ParameterDataRequestPacket; conflict=ParameterDataRequestPacket server noun unsupported by retail; client_semantics_evidence=data/client_opcode_semantics.json#c2s-012f; dependency_status=closed"
         },
         {
           "name": "UpdateItemPackagePacket",
