@@ -166,6 +166,13 @@ REVERIFY_OVERRIDES = [
 NAME_OVERRIDES = [
     (
         "MapClientbound",
+        "0x018d",
+        "_0x018D",
+        "PartyMapMarkerUpdatePacket",
+        None,
+    ),
+    (
+        "MapClientbound",
         "0x013b",
         "BattleActionX18Packet",
         "CommandResultX18Packet",
@@ -246,6 +253,17 @@ PCAP_LOBBY_PURGE = [
 
 
 CLIENT_SEMANTICS_SPECIAL_NOTES = {
+    "s2c-018d": (
+        "retail_client_analysis=FUN_00575550 gates the central opcode 0x018d route "
+        "and FUN_0055CF70 copies three header dwords, reads the u8 count at "
+        "application offset 0x290, and transposes count 0x28-byte source rows into "
+        "0x78-byte client rows; wire_capacity=16 reserved source rows with no static "
+        "compare or clamp; observed=60 696-byte subpackets; observed max=2; "
+        "semantic_status=decomp_routed; naming=client-derived from the party map-marker "
+        "apply path; client_only=route and layout do not establish server behavior; "
+        "prior_label=MapServerOpcode::PartyMapMarkerUpdate; "
+        "conflict=implementation anchor lacks a source-owned declaration"
+    ),
     "c2s-012f": (
         "retail_client_analysis=FUN_0075E770 writes opcode 0x012f and record size 0x38, "
         "then sends a leading caller dword, a 32-byte zero-initialized staging area "
@@ -409,7 +427,9 @@ def apply_client_semantics(top: dict) -> tuple[int, int]:
             ]
         )
         entry["notes"] = "; ".join(parts)
-        if row["id"] == "c2s-012f":
+        if row["id"] == "s2c-018d":
+            entry["confidence"] = "decomp_routed"
+        elif row["id"] == "c2s-012f":
             entry["confidence"] = "decomp_routed"
         elif row["id"] == "c2s-0135":
             entry["confidence"] = "decomp_routed"
