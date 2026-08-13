@@ -83,7 +83,7 @@ OUTBOUND_OBSERVATION_FRAGMENTS = {
 EXPECTED_OPEN_MISSING_FRAGMENTS = {}
 BARE_FUNCTION = re.compile(r"^FUN_[0-9A-F]{8}$")
 SOURCE_REF = re.compile(r"^(xivl-client-structs|xivl-captures|retail):")
-EXPECTED_CAPTURE_ROWS = {"c2s-00c9", "c2s-012d", "c2s-012e", "c2s-012f", "s2c-018d"}
+EXPECTED_CAPTURE_ROWS = {"c2s-00c9", "c2s-012d", "c2s-012e", "c2s-012f", "s2c-0187", "s2c-018d"}
 
 
 def main() -> int:
@@ -203,6 +203,69 @@ def main() -> int:
     bad_anchors = [anchor for anchor in anchors if not BARE_FUNCTION.fullmatch(anchor)]
     if bad_anchors:
         errors.append(f"non-bare decompAnchor values: {bad_anchors}")
+
+    occupancy_row = next(row for row in rows if row.get("id") == "s2c-0187")
+    occupancy_observation = occupancy_row.get("observation", "")
+    for fragment in (
+        "FUN_00576390",
+        "FUN_006C8340",
+        "FUN_006C6B20",
+        "0x40-byte application payload",
+        "opaque 16-byte group header",
+        "offset 0x10",
+        "0x18",
+        "0x1c",
+        "33 retained subpackets",
+        "96 bytes",
+        "13 captures",
+    ):
+        if fragment not in occupancy_observation:
+            errors.append(f"s2c-0187 observation lost required fact: {fragment}")
+
+    occupancy_layout = capture_layouts["layouts"]["s2c"]["0x0187"]
+    occupancy_samples = capture_samples["samples"]["s2c"]["0x0187"]
+    retained_occupancy = occupancy_samples.get("samples", [])
+    if occupancy_samples.get("sampleCount") != 33 or len(retained_occupancy) != 33:
+        errors.append("s2c-0187 retained sample count drifted from 33")
+    if {sample.get("sub_size") for sample in retained_occupancy} != {96}:
+        errors.append("s2c-0187 retained subpacket length drifted from 96")
+    if len({sample.get("capture") for sample in retained_occupancy}) != 13:
+        errors.append("s2c-0187 retained capture count drifted from 13")
+    if (
+        occupancy_layout.get("sample_count") != 33
+        or occupancy_layout.get("sub_size_distribution") != {"96": 33}
+        or occupancy_layout.get("body_length") != 80
+    ):
+        errors.append("s2c-0187 pinned layout summary drifted")
+
+    occupancy_entry = next(
+        entry
+        for entry in entries
+        if entry.get("opcodeHex") == "0x0187"
+        and entry.get("direction") == "clientbound"
+        and entry.get("decompAnchor") == "FUN_00576390"
+    )
+    occupancy_notes = occupancy_entry.get("notes", "")
+    if occupancy_entry.get("name") != "SetOccupancyGroupPacket":
+        errors.append("s2c-0187 canonical name must reflect the client occupancy path")
+    if occupancy_entry.get("implementationAnchor") is not None:
+        errors.append("s2c-0187 must not retain an unproven server implementation anchor")
+    if occupancy_entry.get("confidence") != "decomp_routed":
+        errors.append("s2c-0187 confidence must remain decomp_routed")
+    for fragment in (
+        "FUN_00576390",
+        "FUN_006C8340",
+        "FUN_006C6B20",
+        "application_payload=0x40",
+        "opaque 16-byte group header",
+        "observed=33 retained 96-byte subpackets across 13 captures",
+        "client_only=",
+        "conflict=implementation anchor lacks a source-owned declaration",
+        "BCS-Y-0575",
+        "BCS-Y-0885",
+    ):
+        if fragment not in occupancy_notes:
+            errors.append(f"s2c-0187 notes lost required fragment: {fragment}")
 
     party_marker_row = next(row for row in rows if row.get("id") == "s2c-018d")
     party_marker_observation = party_marker_row.get("observation", "")

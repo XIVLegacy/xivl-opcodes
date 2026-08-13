@@ -334,12 +334,17 @@
       "direction": "clientbound",
       "function": "FUN_00576390",
       "status": "closed",
-      "supportedLabel": "Occupancy/property update with a 0x40-byte body",
-      "tool": "XIVLegacy Ghidra DumpFunctionDecomp.java",
-      "observation": "The reached body reads a group header, two u32 occupancy-work values, a localized-name id, and a 36-byte occupancy name; the imported WorkSync label is not retained.",
+      "supportedLabel": "SetOccupancyGroupPacket client route with a 0x40-byte application payload",
+      "tool": "XIVLegacy Ghidra DumpFunctionDecomp.java and capture payload analysis",
+      "observation": "The central dispatcher routes opcode 0x0187 through FUN_00576390, FUN_006C8340, and FUN_006C6B20 into the client Group/SharedWork property-update path. The 0x40-byte application payload contains an opaque 16-byte group header, two occupancy-work u32 values at offset 0x10, a localized-name u32 at 0x18, and a 36-byte occupancy name at 0x1c. All 33 retained subpackets are 96 bytes across 13 captures. This establishes the client-side occupancy-group route and layout, not a server implementation declaration or behavior.",
       "sourceRefs": [
         "xivl-client-structs:manifests/symbols.json#BCS-Y-0575",
-        "xivl-client-structs:manifests/unmapped_payload_decoding.json#s2c_0x0187"
+        "xivl-client-structs:manifests/unmapped_payload_decoding.json#s2c_0x0187",
+        "xivl-client-structs:manifests/data_dependency_catalog.json#s2c_0x0187",
+        "xivl-client-structs:manifests/party_subsystem.json#0x0187",
+        "xivl-captures:derived/payload_layouts.json#s2c.0x0187",
+        "xivl-captures:derived/payload_samples.json#s2c.0x0187",
+        "retail:ffxivgame.exe#sha256=9341f2b4567440b310a4d494f5cc5599ca334ba51c8042247317ff466492f2e9;vas=0x004DD13D,0x00576390,0x006C8340,0x006C6B20;run=opcode-semantics-s2c-0187"
       ]
     },
     {
