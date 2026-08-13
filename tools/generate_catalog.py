@@ -166,6 +166,13 @@ REVERIFY_OVERRIDES = [
 NAME_OVERRIDES = [
     (
         "MapClientbound",
+        "0x0187",
+        "_0x0187",
+        "SetOccupancyGroupPacket",
+        None,
+    ),
+    (
+        "MapClientbound",
         "0x018d",
         "_0x018D",
         "PartyMapMarkerUpdatePacket",
@@ -253,6 +260,19 @@ PCAP_LOBBY_PURGE = [
 
 
 CLIENT_SEMANTICS_SPECIAL_NOTES = {
+    "s2c-0187": (
+        "retail_client_analysis=FUN_00576390 forwards opcode 0x0187 through "
+        "FUN_006C8340 and FUN_006C6B20 into the client Group/SharedWork "
+        "property-update path; application_payload=0x40 bytes with an opaque "
+        "16-byte group header, occupancy-work u32[2] at +0x10, localized-name "
+        "u32 at +0x18, and occupancy name char[36] at +0x1c; observed=33 "
+        "retained 96-byte subpackets across 13 captures; "
+        "semantic_status=decomp_routed; naming=client-derived from the occupancy "
+        "Group/SharedWork path; client_only=route and layout do not establish "
+        "server behavior; prior_label=MapServerOpcode::SetOccupancyGroup; "
+        "conflict=implementation anchor lacks a source-owned declaration; "
+        "client_evidence=BCS-Y-0575 dispatcher and BCS-Y-0885 GroupSharedWork_SetOccupancy"
+    ),
     "s2c-018d": (
         "retail_client_analysis=FUN_00575550 gates the central opcode 0x018d route "
         "and FUN_0055CF70 copies three header dwords, reads the u8 count at "
@@ -427,7 +447,7 @@ def apply_client_semantics(top: dict) -> tuple[int, int]:
             ]
         )
         entry["notes"] = "; ".join(parts)
-        if row["id"] == "s2c-018d":
+        if row["id"] in {"s2c-0187", "s2c-018d"}:
             entry["confidence"] = "decomp_routed"
         elif row["id"] == "c2s-012f":
             entry["confidence"] = "decomp_routed"

@@ -4315,12 +4315,12 @@
           "notes": "no_pcap_evidence; client_semantics_evidence=data/client_opcode_semantics.json#s2c-0186; dependency_status=closed"
         },
         {
-          "name": "_0x0187",
+          "name": "SetOccupancyGroupPacket",
           "opcode": 391,
           "opcodeHex": "0x0187",
           "service": "map",
           "direction": "clientbound",
-          "implementationAnchor": "MapServerOpcode::SetOccupancyGroup",
+          "implementationAnchor": null,
           "decompAnchor": "FUN_00576390",
           "observedIn": [
             "combat_autoattack.pcapng",
@@ -4340,8 +4340,8 @@
           "payloadLengths": [
             96
           ],
-          "confidence": "implemented",
-          "notes": "pcap_and_client_decomp; service_inferred=map_default_guess; role=server-to-client occupancy-group claim registering monster-group to player-group ownership. Body decoded from all 42 s2c emissions across 13 captures (the frame-clean re-digestion supersedes the earlier 44x count). Envelope: 16B sub header (src=dst=player actor 0x029b2941 on all 42) + 16B game-message header + 64B body. Body: +0x00 u64 groupId [high confidence] - 0x800000000077e9ac on 22 zone/movement records, 0x800000000077b150 on the 2 invite_join_party records, monster-party ids 0x26800000000025f6/fb (combat), 0x2880000000000813/23/24/25/27 (leves), 0x2b000000000044e4 (war quest); +0x08 u32 groupTypeId [high confidence] - observed values 10001/10002/50001; content-domain id highs 0x2680/0x2880/0x2b00 occur only with 10002; +0x0c u32 zero; +0x10 u64 playerGroupId claim link [layout high confidence, naming medium] - zero on 33 records, 0x800000000077e9ac on 9; the 9 clear-then-claim pairs (8 same or adjacent frame) differ only here and populate only on groupTypeId=10002 records; +0x18 u32 always 0xffffffff [constant, semantics unknown]; +0x1c..0x3f zero. Receiver: dedicated s2c dispatch case BCS-Y-0575 into Group PropertyUpdater BCS-Y-0885 GroupSharedWork_SetOccupancy.; client_semantics_evidence=data/client_opcode_semantics.json#s2c-0187; dependency_status=closed"
+          "confidence": "decomp_routed",
+          "notes": "retail_client_analysis=FUN_00576390 forwards opcode 0x0187 through FUN_006C8340 and FUN_006C6B20 into the client Group/SharedWork property-update path; application_payload=0x40 bytes with an opaque 16-byte group header, occupancy-work u32[2] at +0x10, localized-name u32 at +0x18, and occupancy name char[36] at +0x1c; observed=33 retained 96-byte subpackets across 13 captures; semantic_status=decomp_routed; naming=client-derived from the occupancy Group/SharedWork path; client_only=route and layout do not establish server behavior; prior_label=MapServerOpcode::SetOccupancyGroup; conflict=implementation anchor lacks a source-owned declaration; client_evidence=BCS-Y-0575 dispatcher and BCS-Y-0885 GroupSharedWork_SetOccupancy; client_semantics_evidence=data/client_opcode_semantics.json#s2c-0187; dependency_status=closed"
         },
         {
           "name": "CreateNamedGroup",
