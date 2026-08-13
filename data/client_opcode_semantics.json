@@ -5,7 +5,7 @@
     "version": "1.23b",
     "sha256": "9341f2b4567440b310a4d494f5cc5599ca334ba51c8042247317ff466492f2e9"
   },
-  "scope": "Independent retail-client body evidence for the 38 legacy semantic dependency rows consumed by this catalog.",
+  "scope": "Independent retail-client body evidence for the 39 legacy semantic dependency rows consumed by this catalog.",
   "rule": "Address, opcode, size, symbol, or dispatch-edge agreement alone is a cross-check. A closed row requires a body observation that supports the retained label or a narrower replacement label.",
   "rows": [
     {
@@ -646,6 +646,24 @@
         "xivl-client-structs:manifests/pcap_opcode_coverage_matrix.json#s2c.0x01cb",
         "xivl-client-structs:manifests/data_dependency_catalog.json#c2s_0x01cb",
         "retail:ffxivgame.exe#sha256=9341f2b4567440b310a4d494f5cc5599ca334ba51c8042247317ff466492f2e9;vas=0x00DB8FA0,0x004CA100;run=opcode-semantics-s2c-01cb"
+      ]
+    },
+    {
+      "id": "c2s-00ce",
+      "dependencyOrdinal": 38,
+      "opcodeHex": "0x00ce",
+      "direction": "serverbound",
+      "function": "FUN_00763DC0",
+      "status": "closed",
+      "supportedLabel": "0x00ce dual-builder client operation with a 0x38-byte record and unresolved semantics",
+      "tool": "XIVLegacy Ghidra packet-builder and capture payload analysis",
+      "observation": "FUN_00763DC0 and FUN_0076D610 each write opcode 0x00ce and record size 0x38 into a stack-built packet before calling FUN_004D6D10. The shared zone path continues through FUN_004E0240 and FUN_00DAE010. Both retained captures are 72-byte subpackets in cutscene_book.pcapng, comprising the 16-byte subpacket header plus the 56-byte builder record; their 40-byte application payload does not establish a stable operation noun.",
+      "sourceRefs": [
+        "xivl-client-structs:manifests/reverse_bfs_send_helpers.json#perSendHelper.0x004D6D10.packetBuilders[4]",
+        "xivl-client-structs:manifests/reverse_bfs_send_helpers.json#perSendHelper.0x004D6D10.packetBuilders[6]",
+        "xivl-client-structs:manifests/c2s_coverage_synthesis.json#coverage[14]",
+        "xivl-captures:derived/payload_layouts.json#c2s.0x00ce",
+        "retail:ffxivgame.exe#sha256=9341f2b4567440b310a4d494f5cc5599ca334ba51c8042247317ff466492f2e9;vas=0x00763DC0,0x0076D610;run=opcode-semantics-c2s-00ce"
       ]
     }
   ]
