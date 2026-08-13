@@ -166,6 +166,13 @@ REVERIFY_OVERRIDES = [
 NAME_OVERRIDES = [
     (
         "MapClientbound",
+        "0x0190",
+        "_0x0190",
+        "_0x0190",
+        None,
+    ),
+    (
+        "MapClientbound",
         "0x018b",
         "_0x018B",
         "SetGroupLayoutIDPacket",
@@ -270,6 +277,20 @@ PCAP_LOBBY_PURGE = [
 
 
 CLIENT_SEMANTICS_SPECIAL_NOTES = {
+    "s2c-0190": (
+        "retail_client_analysis=FUN_00576CD0 forwards opcode 0x0190 through "
+        "FUN_0076BE60 and FUN_00768C40 into the client manager update path; "
+        "application_payload=0x68 bytes with neutral header dwords at +0/+4, "
+        "words[16] at +0x08..+0x47, and an unread 32-byte tail at "
+        "+0x48..+0x67; observed=32 retained 136-byte subpackets across 8 captures; "
+        "corpus_aggregate=5569 events; field_semantics=unresolved; "
+        "semantic_status=decomp_routed; naming=placeholder retained because retail "
+        "does not establish a stable packet noun; candidate_label=MassSetItemModifierPacket "
+        "is an imported source-manifest term, not retail-proven; client_only=route and "
+        "shape do not establish server behavior; prior_label=MapServerOpcode::MassSetItemModifier; "
+        "conflict=implementation anchor and packet noun lack a source-owned declaration; "
+        "client_evidence=BCS-Y-0582,BCS-Y-0721,BCS-Y-0951,BCS-Y-0952,BCS-Y-0953"
+    ),
     "s2c-018b": (
         "retail_client_analysis=FUN_005763A0 forwards opcode 0x018b through "
         "FUN_006C5DF0 and FUN_006C5240 into the client Group/SharedWork layout "
@@ -472,7 +493,7 @@ def apply_client_semantics(top: dict) -> tuple[int, int]:
             ]
         )
         entry["notes"] = "; ".join(parts)
-        if row["id"] in {"s2c-0187", "s2c-018b", "s2c-018d"}:
+        if row["id"] in {"s2c-0187", "s2c-018b", "s2c-018d", "s2c-0190"}:
             entry["confidence"] = "decomp_routed"
         elif row["id"] == "c2s-012f":
             entry["confidence"] = "decomp_routed"

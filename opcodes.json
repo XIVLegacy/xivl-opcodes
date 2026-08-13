@@ -4509,7 +4509,7 @@
           "opcodeHex": "0x0190",
           "service": "map",
           "direction": "clientbound",
-          "implementationAnchor": "MapServerOpcode::MassSetItemModifier",
+          "implementationAnchor": null,
           "decompAnchor": "FUN_00576CD0",
           "observedIn": [
             "combat_autoattack.pcapng",
@@ -4524,8 +4524,8 @@
           "payloadLengths": [
             136
           ],
-          "confidence": "implemented",
-          "notes": "pcap_only_no_reference_match; service_inferred=map_default_guess; role=server-to-client per-slot item-modifier emission inside a begin/end frame; carries durability, spirit-bind, materia, and stack metadata for one item. Observed across 8 captures.; client_semantics_evidence=data/client_opcode_semantics.json#s2c-0190; dependency_status=closed"
+          "confidence": "decomp_routed",
+          "notes": "retail_client_analysis=FUN_00576CD0 forwards opcode 0x0190 through FUN_0076BE60 and FUN_00768C40 into the client manager update path; application_payload=0x68 bytes with neutral header dwords at +0/+4, words[16] at +0x08..+0x47, and an unread 32-byte tail at +0x48..+0x67; observed=32 retained 136-byte subpackets across 8 captures; corpus_aggregate=5569 events; field_semantics=unresolved; semantic_status=decomp_routed; naming=placeholder retained because retail does not establish a stable packet noun; candidate_label=MassSetItemModifierPacket is an imported source-manifest term, not retail-proven; client_only=route and shape do not establish server behavior; prior_label=MapServerOpcode::MassSetItemModifier; conflict=implementation anchor and packet noun lack a source-owned declaration; client_evidence=BCS-Y-0582,BCS-Y-0721,BCS-Y-0951,BCS-Y-0952,BCS-Y-0953; client_semantics_evidence=data/client_opcode_semantics.json#s2c-0190; dependency_status=closed"
         },
         {
           "name": "_0x0191",
