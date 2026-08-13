@@ -63,9 +63,9 @@ OVERRIDES = [
     (
         "MapClientbound",
         "0x013b",
-        "BattleActionX18Packet",
-        "packet_size=0x148; multiplexed_at_runtime=true; payload_variants=CommandResultX18Packet,BattleActionX18Packet; runtime_distinguish=source_actor+per_entry_layout; no_pcap_evidence",
+        "CommandResultX18Packet",
         "packet_size=0x148; payload_variants=CommandResultX18Packet,BattleActionX18Packet; no_occurrences_in_54_capture_corpus; unresolved_discriminator=retail_0x013B_payload_showing_columnar_CommandResult_or_per_entry_BattleAction_layout",
+        "packet_size=0x148; payload_shape=sparse_SoA_CommandResultX18; columns=targets@0x28,amounts@0x70,textIds@0x94,effectIds@0xB8,params@0x100,hitNums@0x112; rows=18x0x14_transposed_by_FUN_005874B0; no_occurrences_in_54_capture_corpus; alternate_name=BattleActionX18Packet",
     ),
     (
         "WorldMapBackend",
@@ -125,6 +125,12 @@ OVERRIDES = [
     ),
 ]
 
+OVERRIDE_NAME_ALIASES = {
+    ("MapClientbound", "0x013b", "CommandResultX18Packet"): (
+        "BattleActionX18Packet",
+    ),
+}
+
 UNSUPPORTED_IMPLEMENTATION_OVERRIDES = [
     ("WorldMapBackend", "0x1000", "SessionBeginConfirmPacket"),
     ("WorldMapBackend", "0x1000", "SessionBeginPacket"),
@@ -158,6 +164,13 @@ REVERIFY_OVERRIDES = [
 
 # Name overrides require the prior name and accept the corrected name for idempotent reruns.
 NAME_OVERRIDES = [
+    (
+        "MapClientbound",
+        "0x013b",
+        "BattleActionX18Packet",
+        "CommandResultX18Packet",
+        "MapServerOpcode::CommandResultX18",
+    ),
     (
         "MapServerbound",
         "0x012f",
@@ -416,8 +429,11 @@ def main() -> int:
     skipped = 0
     for bucket, opcode_hex, name, expected_old, new_notes in OVERRIDES:
         found = False
+        accepted_names = (name,) + OVERRIDE_NAME_ALIASES.get(
+            (bucket, opcode_hex, name), ()
+        )
         for e in top["lists"][bucket]:
-            if e["opcodeHex"] == opcode_hex and e["name"] == name:
+            if e["opcodeHex"] == opcode_hex and e["name"] in accepted_names:
                 found = True
                 current = e.get("notes", "")
                 e["notes"], status = swap_managed_prefix(current, expected_old, new_notes)
