@@ -947,16 +947,16 @@
           "opcodeHex": "0x00ce",
           "service": "map",
           "direction": "serverbound",
-          "implementationAnchor": "MapClientOpcode::Opaque0xCE",
-          "decompAnchor": null,
+          "implementationAnchor": null,
+          "decompAnchor": "FUN_00763DC0",
           "observedIn": [
             "cutscene_book.pcapng"
           ],
           "payloadLengths": [
             72
           ],
-          "confidence": "implemented",
-          "notes": ""
+          "confidence": "decomp_routed",
+          "notes": "retail_client_analysis=FUN_00763DC0 and FUN_0076D610 each build opcode 0x00ce with record size 0x38 and call FUN_004D6D10; wire_send_path=FUN_004D6D10->FUN_004E0240->FUN_00DAE010; observed=2 retained 72-byte subpackets in cutscene_book.pcapng; application_payload=40 bytes; semantic_status=decomp_routed; naming=placeholder retained because retail does not establish a stable operation noun; prior_label=MapClientOpcode::Opaque0xCE; conflict=implementation anchor lacks a source-owned declaration; client_only=builder route and shape do not establish server behavior; client_semantics_evidence=data/client_opcode_semantics.json#c2s-00ce; dependency_status=closed"
         },
         {
           "name": "CountdownRequestPacket",

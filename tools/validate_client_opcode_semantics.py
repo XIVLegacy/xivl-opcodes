@@ -38,6 +38,7 @@ EXPECTED_INBOUND = {
 EXPECTED_OUTBOUND = {
     "0x00c8",
     "0x00c9",
+    "0x00ce",
     "0x012d",
     "0x012e",
     "0x012f",
@@ -48,6 +49,18 @@ EXPECTED_OUTBOUND = {
 }
 EXPECTED_OPEN = set()
 OUTBOUND_OBSERVATION_FRAGMENTS = {
+    "c2s-00ce": (
+        "FUN_00763DC0",
+        "FUN_0076D610",
+        "opcode 0x00ce",
+        "record size 0x38",
+        "FUN_004D6D10",
+        "FUN_004E0240",
+        "FUN_00DAE010",
+        "72-byte subpackets",
+        "56-byte builder record",
+        "40-byte application payload",
+    ),
     "c2s-00c8": ("opcode 0x00c8", "size 0x230", "four qwords", "0x80 dwords", "FUN_00DB3E30"),
     "c2s-00c9": (
         "opcode 0x00c9",
@@ -84,7 +97,7 @@ OUTBOUND_OBSERVATION_FRAGMENTS = {
 EXPECTED_OPEN_MISSING_FRAGMENTS = {}
 BARE_FUNCTION = re.compile(r"^FUN_[0-9A-F]{8}$")
 SOURCE_REF = re.compile(r"^(xivl-client-structs|xivl-captures|retail):")
-EXPECTED_CAPTURE_ROWS = {"c2s-00c9", "c2s-012d", "c2s-012e", "c2s-012f", "s2c-0187", "s2c-018b", "s2c-018d", "s2c-018f", "s2c-0190", "s2c-0191", "s2c-0193", "s2c-0196"}
+EXPECTED_CAPTURE_ROWS = {"c2s-00c9", "c2s-00ce", "c2s-012d", "c2s-012e", "c2s-012f", "s2c-0187", "s2c-018b", "s2c-018d", "s2c-018f", "s2c-0190", "s2c-0191", "s2c-0193", "s2c-0196"}
 
 
 def main() -> int:
@@ -101,17 +114,17 @@ def main() -> int:
     if evidence.get("binary") != EXPECTED_BINARY:
         errors.append("retail binary metadata or pinned SHA-256 drifted")
 
-    if len(rows) != 38:
-        errors.append(f"evidence row count is {len(rows)}, expected 38")
-    if {row.get("dependencyOrdinal") for row in rows} != set(range(38)):
-        errors.append("dependencyOrdinal values must be exactly 0 through 37")
+    if len(rows) != 39:
+        errors.append(f"evidence row count is {len(rows)}, expected 39")
+    if {row.get("dependencyOrdinal") for row in rows} != set(range(39)):
+        errors.append("dependencyOrdinal values must be exactly 0 through 38")
 
     inbound = {row.get("opcodeHex") for row in rows if row.get("direction") == "clientbound"}
     outbound = {row.get("opcodeHex") for row in rows if row.get("direction") == "serverbound"}
     if inbound != EXPECTED_INBOUND:
         errors.append("clientbound opcode set does not match the 29-row ledger slice")
     if outbound != EXPECTED_OUTBOUND:
-        errors.append("serverbound opcode set does not match the 9-row ledger slice")
+        errors.append("serverbound opcode set does not match the 10-row ledger slice")
 
     ids = [row.get("id") for row in rows]
     if len(ids) != len(set(ids)):
@@ -199,11 +212,36 @@ def main() -> int:
             errors.append(f"{label}: open row lost the required local anchor citation")
 
     anchors = [entry["decompAnchor"] for entry in entries if entry.get("decompAnchor")]
-    if len(anchors) != 46:
-        errors.append(f"catalog has {len(anchors)} decompAnchor values, expected 46")
+    if len(anchors) != 47:
+        errors.append(f"catalog has {len(anchors)} decompAnchor values, expected 47")
     bad_anchors = [anchor for anchor in anchors if not BARE_FUNCTION.fullmatch(anchor)]
     if bad_anchors:
         errors.append(f"non-bare decompAnchor values: {bad_anchors}")
+
+    opaque_entry = next(
+        entry
+        for entry in entries
+        if entry.get("opcodeHex") == "0x00ce"
+        and entry.get("direction") == "serverbound"
+        and entry.get("decompAnchor") == "FUN_00763DC0"
+    )
+    opaque_notes = opaque_entry.get("notes", "")
+    if opaque_entry.get("name") != "_0x00CEHandler":
+        errors.append("c2s-00ce must retain its placeholder name")
+    if opaque_entry.get("implementationAnchor") is not None:
+        errors.append("c2s-00ce must not retain an unsupported implementation anchor")
+    if opaque_entry.get("confidence") != "decomp_routed":
+        errors.append("c2s-00ce confidence must remain decomp_routed")
+    if opaque_entry.get("payloadLengths") != [72]:
+        errors.append("c2s-00ce must retain the observed 72-byte wire length")
+    for fragment in (
+        "FUN_00763DC0 and FUN_0076D610",
+        "record size 0x38",
+        "application_payload=40 bytes",
+        "prior_label=MapClientOpcode::Opaque0xCE",
+    ):
+        if fragment not in opaque_notes:
+            errors.append(f"c2s-00ce notes lost required fact {fragment!r}")
 
     blacklist_row = next(row for row in rows if row.get("id") == "s2c-01cb")
     blacklist_observation = blacklist_row.get("observation", "")

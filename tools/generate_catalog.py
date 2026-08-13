@@ -235,6 +235,13 @@ NAME_OVERRIDES = [
         None,
     ),
     (
+        "MapServerbound",
+        "0x00ce",
+        "_0x00CEHandler",
+        "_0x00CEHandler",
+        None,
+    ),
+    (
         "MapClientbound",
         "0x013b",
         "BattleActionX18Packet",
@@ -286,6 +293,7 @@ NAME_OVERRIDE_PRIOR_ALIASES = {
 }
 
 DECOMP_ANCHOR_OVERRIDES = [
+    ("MapServerbound", "0x00ce", "_0x00CEHandler", "FUN_00763DC0"),
     ("MapClientbound", "0x01cb", "_0x01CB", "FUN_00DB8FA0"),
 ]
 
@@ -323,6 +331,17 @@ PCAP_LOBBY_PURGE = [
 
 
 CLIENT_SEMANTICS_SPECIAL_NOTES = {
+    "c2s-00ce": (
+        "retail_client_analysis=FUN_00763DC0 and FUN_0076D610 each build opcode "
+        "0x00ce with record size 0x38 and call FUN_004D6D10; wire_send_path="
+        "FUN_004D6D10->FUN_004E0240->FUN_00DAE010; observed=2 retained "
+        "72-byte subpackets in cutscene_book.pcapng; application_payload=40 bytes; "
+        "semantic_status=decomp_routed; naming=placeholder retained because retail "
+        "does not establish a stable operation noun; prior_label="
+        "MapClientOpcode::Opaque0xCE; conflict=implementation anchor lacks a "
+        "source-owned declaration; client_only=builder route and shape do not "
+        "establish server behavior"
+    ),
     "s2c-01cb": (
         "retail_client_analysis=opcode 0x01cb routes through ZoneProtoDown callback "
         "slot 173 to FUN_00DB8FA0; callback_body=ret 0xc with no payload reads or "
@@ -625,7 +644,7 @@ def apply_client_semantics(top: dict) -> tuple[int, int]:
             ]
         )
         entry["notes"] = "; ".join(parts)
-        if row["id"] in {"s2c-0187", "s2c-018a", "s2c-018b", "s2c-018d", "s2c-018f", "s2c-0190", "s2c-0191", "s2c-0193", "s2c-0196", "s2c-01cb"}:
+        if row["id"] in {"s2c-0187", "s2c-018a", "s2c-018b", "s2c-018d", "s2c-018f", "s2c-0190", "s2c-0191", "s2c-0193", "s2c-0196", "s2c-01cb", "c2s-00ce"}:
             entry["confidence"] = "decomp_routed"
         elif row["id"] == "c2s-012f":
             entry["confidence"] = "decomp_routed"
