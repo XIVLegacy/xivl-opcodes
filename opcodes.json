@@ -4208,7 +4208,7 @@
             440
           ],
           "confidence": "implemented",
-          "notes": "corpus zone_handoff_evidence.json: hits 5/5 zone-transition pcaps; GroupMembersX08 fires on zone-in as group state refresh. Top-5 cross-capture rare s2c opcode for zone transitions.; pcap_service_ambiguous=world,map; client_semantics_evidence=data/client_opcode_semantics.json#s2c-017f; dependency_status=closed"
+          "notes": "corpus zone_handoff_evidence.json: hits 5/5 zone-transition pcaps; GroupMembersX08 fires on zone-in as group state refresh. Top-5 cross-capture rare s2c opcode for zone transitions.; capture_field19_scan=2026-08-12 retail 54-pcap corpus: 27 valid s2c occurrences in 11 captures (login.pcapng excluded as TLS); field19 is the low byte of memberCount u32 at application payload+0x190, with values 1=12 and 2=15; eight 0x30-byte member slots begin at application payload+0x10; slot0 isOnline=1 in 27/27, slot1 is absent in 12, populated isOnline=0 in 11 and isOnline=1 in 4, slots2-7 are zero; paired zone refreshes show memberCount 2 then 1 while the slot1 online byte remains 0; this refutes field19 as isOnline.; pcap_service_ambiguous=world,map; client_semantics_evidence=data/client_opcode_semantics.json#s2c-017f; dependency_status=closed"
         },
         {
           "name": "GroupMembersX16Packet",

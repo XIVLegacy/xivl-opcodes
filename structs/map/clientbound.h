@@ -2566,7 +2566,7 @@ struct GroupMembersX08Body
     uint8_t  _pad16[34];  // body[+38..+71] zero
     uint8_t  field17[14]; // body[+72..+85] 14B (3 distinct)
     uint8_t  _pad18[322]; // body[+86..+407] zero
-    uint8_t  field19;     // body[+408] u8 (2 distinct)
+    uint8_t  field19;     // body[+408] u8 (2 distinct); memberCount low byte at payload+0x190; not isOnline
     uint8_t  _pad20[7];   // body[+409..+415] zero
 };
 
