@@ -33,6 +33,7 @@ EXPECTED_INBOUND = {
     "0x0196",
     "0x0198",
     "0x01a3",
+    "0x01cb",
 }
 EXPECTED_OUTBOUND = {
     "0x00c8",
@@ -100,15 +101,15 @@ def main() -> int:
     if evidence.get("binary") != EXPECTED_BINARY:
         errors.append("retail binary metadata or pinned SHA-256 drifted")
 
-    if len(rows) != 37:
-        errors.append(f"evidence row count is {len(rows)}, expected 37")
-    if {row.get("dependencyOrdinal") for row in rows} != set(range(37)):
-        errors.append("dependencyOrdinal values must be exactly 0 through 36")
+    if len(rows) != 38:
+        errors.append(f"evidence row count is {len(rows)}, expected 38")
+    if {row.get("dependencyOrdinal") for row in rows} != set(range(38)):
+        errors.append("dependencyOrdinal values must be exactly 0 through 37")
 
     inbound = {row.get("opcodeHex") for row in rows if row.get("direction") == "clientbound"}
     outbound = {row.get("opcodeHex") for row in rows if row.get("direction") == "serverbound"}
     if inbound != EXPECTED_INBOUND:
-        errors.append("clientbound opcode set does not match the 28-row ledger slice")
+        errors.append("clientbound opcode set does not match the 29-row ledger slice")
     if outbound != EXPECTED_OUTBOUND:
         errors.append("serverbound opcode set does not match the 9-row ledger slice")
 
@@ -198,11 +199,45 @@ def main() -> int:
             errors.append(f"{label}: open row lost the required local anchor citation")
 
     anchors = [entry["decompAnchor"] for entry in entries if entry.get("decompAnchor")]
-    if len(anchors) != 45:
-        errors.append(f"catalog has {len(anchors)} decompAnchor values, expected 45")
+    if len(anchors) != 46:
+        errors.append(f"catalog has {len(anchors)} decompAnchor values, expected 46")
     bad_anchors = [anchor for anchor in anchors if not BARE_FUNCTION.fullmatch(anchor)]
     if bad_anchors:
         errors.append(f"non-bare decompAnchor values: {bad_anchors}")
+
+    blacklist_row = next(row for row in rows if row.get("id") == "s2c-01cb")
+    blacklist_observation = blacklist_row.get("observation", "")
+    for fragment in (
+        "callback slot 173",
+        "FUN_00DB8FA0",
+        "immediately returns",
+        "reads no packet fields",
+        "FUN_004CA100",
+        "opposite-direction use",
+    ):
+        if fragment not in blacklist_observation:
+            errors.append(f"s2c-01cb observation lost required fact {fragment!r}")
+    blacklist_entry = next(
+        entry
+        for entry in entries
+        if entry.get("opcodeHex") == "0x01cb"
+        and entry.get("direction") == "clientbound"
+        and entry.get("decompAnchor") == "FUN_00DB8FA0"
+    )
+    blacklist_notes = blacklist_entry.get("notes", "")
+    if blacklist_entry.get("name") != "_0x01CB":
+        errors.append("s2c-01cb must retain a placeholder clientbound name")
+    if blacklist_entry.get("implementationAnchor") is not None:
+        errors.append("s2c-01cb must not retain a server implementation anchor")
+    if blacklist_entry.get("confidence") != "decomp_routed":
+        errors.append("s2c-01cb confidence must remain decomp_routed")
+    for fragment in (
+        "callback_body=ret 0xc",
+        "prior_label=MapServerOpcode::SendBlacklist",
+        "separate_direction=c2s FUN_004CA100",
+    ):
+        if fragment not in blacklist_notes:
+            errors.append(f"s2c-01cb notes lost required fact {fragment!r}")
 
     special_row = next(row for row in rows if row.get("id") == "s2c-0196")
     special_observation = special_row.get("observation", "")

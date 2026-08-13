@@ -5,7 +5,7 @@
     "version": "1.23b",
     "sha256": "9341f2b4567440b310a4d494f5cc5599ca334ba51c8042247317ff466492f2e9"
   },
-  "scope": "Independent retail-client body evidence for the 37 legacy semantic dependency rows consumed by this catalog.",
+  "scope": "Independent retail-client body evidence for the 38 legacy semantic dependency rows consumed by this catalog.",
   "rule": "Address, opcode, size, symbol, or dispatch-edge agreement alone is a cross-check. A closed row requires a body observation that supports the retained label or a narrower replacement label.",
   "rows": [
     {
@@ -630,6 +630,22 @@
         "xivl-client-structs:manifests/symbols.json#BCS-Y-0426",
         "xivl-client-structs:manifests/combat_action_c2s_findings.json#FUN_00776760",
         "xivl-captures:derived/payload_layouts.json#c2s.0x012d"
+      ]
+    },
+    {
+      "id": "s2c-01cb",
+      "dependencyOrdinal": 37,
+      "opcodeHex": "0x01cb",
+      "direction": "clientbound",
+      "function": "FUN_00DB8FA0",
+      "status": "closed",
+      "supportedLabel": "0x01cb client no-op callback route with no supported clientbound packet noun",
+      "tool": "XIVLegacy Ghidra dispatcher, vtable-slot, and function-body analysis",
+      "observation": "The zone dispatch map routes opcode 0x01cb to callback slot 173, and the retail ZoneProtoDown callback table resolves that slot to FUN_00DB8FA0. The function body immediately returns with RET 0xc and reads no packet fields or client state. A separate client-to-server builder FUN_004CA100 emits the same opcode integer through the zone send path, but that opposite-direction use does not establish a clientbound packet noun or behavior.",
+      "sourceRefs": [
+        "xivl-client-structs:manifests/pcap_opcode_coverage_matrix.json#s2c.0x01cb",
+        "xivl-client-structs:manifests/data_dependency_catalog.json#c2s_0x01cb",
+        "retail:ffxivgame.exe#sha256=9341f2b4567440b310a4d494f5cc5599ca334ba51c8042247317ff466492f2e9;vas=0x00DB8FA0,0x004CA100;run=opcode-semantics-s2c-01cb"
       ]
     }
   ]

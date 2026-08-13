@@ -229,6 +229,13 @@ NAME_OVERRIDES = [
     ),
     (
         "MapClientbound",
+        "0x01cb",
+        "SendBlacklistPacket",
+        "_0x01CB",
+        None,
+    ),
+    (
+        "MapClientbound",
         "0x013b",
         "BattleActionX18Packet",
         "CommandResultX18Packet",
@@ -278,6 +285,10 @@ NAME_OVERRIDE_PRIOR_ALIASES = {
     ),
 }
 
+DECOMP_ANCHOR_OVERRIDES = [
+    ("MapClientbound", "0x01cb", "_0x01CB", "FUN_00DB8FA0"),
+]
+
 
 # Pcap joins use (direction, opcode) only; PCAP_AMBIGUOUS marks shared services and
 # PCAP_LOBBY_PURGE removes lobby rows that inherited in-world captures.
@@ -312,6 +323,17 @@ PCAP_LOBBY_PURGE = [
 
 
 CLIENT_SEMANTICS_SPECIAL_NOTES = {
+    "s2c-01cb": (
+        "retail_client_analysis=opcode 0x01cb routes through ZoneProtoDown callback "
+        "slot 173 to FUN_00DB8FA0; callback_body=ret 0xc with no payload reads or "
+        "state writes; semantic_status=decomp_routed; naming=placeholder retained "
+        "because retail does not establish a clientbound packet noun; "
+        "prior_label=MapServerOpcode::SendBlacklist; conflict=implementation anchor "
+        "and packet noun lack a source-owned declaration; separate_direction=c2s "
+        "FUN_004CA100 emits opcode 0x01cb through the zone send path, which does not "
+        "supply clientbound semantics; client_only=no-op callback routing does not "
+        "establish server behavior"
+    ),
     "s2c-0196": (
         "retail_client_analysis=FUN_00576050 expands application byte +1 into eight "
         "flags and reads eight u16 values at +2..+0x10; state_writer=FUN_0075D2D0 "
@@ -603,7 +625,7 @@ def apply_client_semantics(top: dict) -> tuple[int, int]:
             ]
         )
         entry["notes"] = "; ".join(parts)
-        if row["id"] in {"s2c-0187", "s2c-018a", "s2c-018b", "s2c-018d", "s2c-018f", "s2c-0190", "s2c-0191", "s2c-0193", "s2c-0196"}:
+        if row["id"] in {"s2c-0187", "s2c-018a", "s2c-018b", "s2c-018d", "s2c-018f", "s2c-0190", "s2c-0191", "s2c-0193", "s2c-0196", "s2c-01cb"}:
             entry["confidence"] = "decomp_routed"
         elif row["id"] == "c2s-012f":
             entry["confidence"] = "decomp_routed"
@@ -743,6 +765,28 @@ def main() -> int:
             )
             warned += 1
     print(f"Applied {name_applied} name overrides ({name_skipped} skipped)")
+
+    decomp_anchor_applied = 0
+    decomp_anchor_skipped = 0
+    for bucket, opcode_hex, name, decomp_anchor in DECOMP_ANCHOR_OVERRIDES:
+        for e in top["lists"].get(bucket, []):
+            if e["opcodeHex"] == opcode_hex and e.get("name") == name:
+                if e.get("decompAnchor") == decomp_anchor:
+                    decomp_anchor_skipped += 1
+                else:
+                    e["decompAnchor"] = decomp_anchor
+                    decomp_anchor_applied += 1
+                break
+        else:
+            print(
+                f"  WARN: no entry found for decomp-anchor override {bucket} "
+                f"{opcode_hex} name={name}"
+            )
+            warned += 1
+    print(
+        f"Applied {decomp_anchor_applied} decomp-anchor overrides "
+        f"({decomp_anchor_skipped} skipped)"
+    )
 
     amb_token = f"pcap_service_ambiguous={PCAP_AMBIGUOUS_SERVICES}"
     amb_applied = 0
