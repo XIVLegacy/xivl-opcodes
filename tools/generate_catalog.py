@@ -166,6 +166,13 @@ REVERIFY_OVERRIDES = [
 NAME_OVERRIDES = [
     (
         "MapClientbound",
+        "0x0196",
+        "SetSpecialEventWorkPacket",
+        "SetSpecialEventWorkPacket",
+        None,
+    ),
+    (
+        "MapClientbound",
         "0x018a",
         "_0x018A",
         "_0x018A",
@@ -305,6 +312,21 @@ PCAP_LOBBY_PURGE = [
 
 
 CLIENT_SEMANTICS_SPECIAL_NOTES = {
+    "s2c-0196": (
+        "retail_client_analysis=FUN_00576050 expands application byte +1 into eight "
+        "flags and reads eight u16 values at +2..+0x10; state_writer=FUN_0075D2D0 "
+        "writes flags at +0x84..+0x8b and u16 values at +0x8c..+0x9a; "
+        "client_api=WorldMaster._getSpecialEventWork reads the same arrays through "
+        "FUN_0075D390 and FUN_0075D3A0; application_payload=24 bytes with a six-byte "
+        "tail; observed=11 retained 56-byte subpackets across 8 captures; "
+        "retained_values=flags zero,eventWork6 one,other eventWork values zero,tail zero; "
+        "corpus_aggregate=12 events; semantic_status=decomp_routed; naming=client-derived "
+        "from the WorldMaster SpecialEventWork API and matching state arrays; "
+        "client_only=operation and field layout do not establish server behavior; "
+        "prior_label=MapServerOpcode::SetSpecialEventWork; "
+        "conflict=implementation anchor lacks a source-owned declaration; "
+        "client_evidence=BCS-Y-0585,BCS-Y-0226"
+    ),
     "s2c-018a": (
         "retail_client_analysis=FUN_00576380 forwards application payload through "
         "FUN_006C82A0 to FUN_006C6A70; application_payload=120 bytes; "
@@ -581,7 +603,7 @@ def apply_client_semantics(top: dict) -> tuple[int, int]:
             ]
         )
         entry["notes"] = "; ".join(parts)
-        if row["id"] in {"s2c-0187", "s2c-018a", "s2c-018b", "s2c-018d", "s2c-018f", "s2c-0190", "s2c-0191", "s2c-0193"}:
+        if row["id"] in {"s2c-0187", "s2c-018a", "s2c-018b", "s2c-018d", "s2c-018f", "s2c-0190", "s2c-0191", "s2c-0193", "s2c-0196"}:
             entry["confidence"] = "decomp_routed"
         elif row["id"] == "c2s-012f":
             entry["confidence"] = "decomp_routed"
