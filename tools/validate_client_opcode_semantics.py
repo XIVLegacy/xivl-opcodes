@@ -43,9 +43,7 @@ EXPECTED_OUTBOUND = {
     "0x0134",
     "0x0135",
 }
-EXPECTED_OPEN = {
-    "c2s-0135",
-}
+EXPECTED_OPEN = set()
 OUTBOUND_OBSERVATION_FRAGMENTS = {
     "c2s-00c8": ("opcode 0x00c8", "size 0x230", "four qwords", "0x80 dwords", "FUN_00DB3E30"),
     "c2s-00c9": (
@@ -80,9 +78,7 @@ OUTBOUND_OBSERVATION_FRAGMENTS = {
         "FUN_004D6D30",
     ),
 }
-EXPECTED_OPEN_MISSING_FRAGMENTS = {
-    "c2s-0135": ("binding-id", "subscription-type", "one u32 payload value"),
-}
+EXPECTED_OPEN_MISSING_FRAGMENTS = {}
 BARE_FUNCTION = re.compile(r"^FUN_[0-9A-F]{8}$")
 SOURCE_REF = re.compile(r"^(xivl-client-structs|xivl-captures|retail):")
 EXPECTED_CAPTURE_ROWS = {"c2s-00c9", "c2s-012d", "c2s-012e", "c2s-012f"}
@@ -204,20 +200,30 @@ def main() -> int:
     if bad_anchors:
         errors.append(f"non-bare decompAnchor values: {bad_anchors}")
 
-    binding_entry = next(
+    achievement_entry = next(
         entry
         for entry in entries
         if entry.get("opcodeHex") == "0x0135"
         and entry.get("direction") == "serverbound"
         and entry.get("decompAnchor") == "FUN_0075ECD0"
     )
-    binding_notes = binding_entry.get("notes", "")
-    if binding_entry.get("confidence") != "blocked":
-        errors.append("c2s-0135 confidence must remain blocked")
-    if "EXE decomp is the authority" in binding_notes:
+    achievement_notes = achievement_entry.get("notes", "")
+    if achievement_entry.get("name") != "AchievementRateRequestPacket":
+        errors.append("c2s-0135 canonical name must reflect the registered client operation")
+    if achievement_entry.get("implementationAnchor") is not None:
+        errors.append("c2s-0135 must not invent an implementation enum anchor")
+    if achievement_entry.get("confidence") != "decomp_routed":
+        errors.append("c2s-0135 confidence must remain decomp_routed without pcap evidence")
+    if "EXE decomp is the authority" in achievement_notes:
         errors.append("c2s-0135 retained the retired authority claim")
-    if "unknown=binding-id and subscription-type semantics" not in binding_notes:
-        errors.append("c2s-0135 notes do not state the semantic unknown")
+    if "_getAchievementRate" not in achievement_notes:
+        errors.append("c2s-0135 notes lost the retail achievement-rate binding")
+    if "achievement-id lookup key" not in achievement_notes:
+        errors.append("c2s-0135 notes lost the valid-path payload semantic")
+    if "naming=tentative" not in achievement_notes:
+        errors.append("c2s-0135 notes must keep the client-derived name tentative")
+    if "conflict=prior implementation label unsupported by retail" not in achievement_notes:
+        errors.append("c2s-0135 notes lost the prior-label conflict")
 
     if errors:
         for error in errors:

@@ -555,16 +555,18 @@
       "opcodeHex": "0x0135",
       "direction": "serverbound",
       "function": "FUN_0075ECD0",
-      "status": "open",
-      "supportedLabel": "0x0135 builder for a 0x18-byte packet containing one u32 payload value",
+      "status": "closed",
+      "supportedLabel": "_getAchievementRate client request carrying one achievement-id lookup key",
       "tool": "XIVLegacy Ghidra DecompileToText.java and FindCallers.java",
-      "observation": "The builder writes opcode 0x0135 and body size 0x18, copies its one u32 payload value to application offset 0, and calls FUN_004D6D30; its sole caller is FUN_00705EB0. Neither the builder nor the absent capture evidence establishes BindingSubscribeRequest, binding-id, or subscription-type semantics.",
+      "observation": "The builder writes opcode 0x0135 and body size 0x18, copies its one u32 payload value to application offset 0, and calls FUN_004D6D30. Its sole caller FUN_00705EB0 is MyPlayer vtable slot 112 and the registered _getAchievementRate implementation. On the valid path FUN_005819A0 returns the first runtime argument-vector entry +0x8 value, which FUN_00705EB0 forwards unchanged to the builder. Independent retail achievement receive evidence identifies the corresponding lookup domain as achievementId. The exact server method noun is not embedded in the client.",
       "sourceRefs": [
         "xivl-client-structs:manifests/reverse_bfs_send_helpers.json#FUN_0075ECD0",
         "retail:ffxivgame.exe@FUN_0075ECD0",
-        "retail:ffxivgame.exe#sha256=9341f2b4567440b310a4d494f5cc5599ca334ba51c8042247317ff466492f2e9;va=0x0075ECD0;run=opcode-semantics-c2s-open-senders-body"
-      ],
-      "missingEvidence": "Capture or local retail-client evidence that assigns binding-id and subscription-type meanings to the one u32 payload value."
+        "retail:ffxivgame.exe#sha256=9341f2b4567440b310a4d494f5cc5599ca334ba51c8042247317ff466492f2e9;va=0x0075ECD0;run=opcode-semantics-c2s-open-senders-body",
+        "xivl-client-structs:manifests/vtable_resolved_evidence.json#FUN_00705EB0",
+        "xivl-client-structs:manifests/bulk_napi_classification.json#_getAchievementRate",
+        "xivl-client-structs:manifests/data_dependency_catalog.json#s2c_0x019f"
+      ]
     },
     {
       "id": "c2s-012d",
