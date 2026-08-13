@@ -83,7 +83,7 @@ OUTBOUND_OBSERVATION_FRAGMENTS = {
 EXPECTED_OPEN_MISSING_FRAGMENTS = {}
 BARE_FUNCTION = re.compile(r"^FUN_[0-9A-F]{8}$")
 SOURCE_REF = re.compile(r"^(xivl-client-structs|xivl-captures|retail):")
-EXPECTED_CAPTURE_ROWS = {"c2s-00c9", "c2s-012d", "c2s-012e", "c2s-012f", "s2c-0187", "s2c-018b", "s2c-018d", "s2c-018f", "s2c-0190", "s2c-0191"}
+EXPECTED_CAPTURE_ROWS = {"c2s-00c9", "c2s-012d", "c2s-012e", "c2s-012f", "s2c-0187", "s2c-018b", "s2c-018d", "s2c-018f", "s2c-0190", "s2c-0191", "s2c-0193"}
 
 
 def main() -> int:
@@ -203,6 +203,86 @@ def main() -> int:
     bad_anchors = [anchor for anchor in anchors if not BARE_FUNCTION.fullmatch(anchor)]
     if bad_anchors:
         errors.append(f"non-bare decompAnchor values: {bad_anchors}")
+
+    control_row = next(row for row in rows if row.get("id") == "s2c-0193")
+    control_observation = control_row.get("observation", "")
+    for fragment in (
+        "FUN_00578C90",
+        "first application u32",
+        "below 0x10",
+        "FUN_0075F3E0",
+        "0x10 through 0x12 and 0x16",
+        "0x13",
+        "0x14",
+        "0x15",
+        "FUN_00576020",
+        "9 retained subpackets",
+        "40 bytes",
+        "8 captures",
+        "9 aggregate events",
+        "0x14 in 8 samples and 0x12 in 1 sample",
+        "exact low-range/string/0x15 semantics",
+    ):
+        if fragment not in control_observation:
+            errors.append(f"s2c-0193 observation lost required fact: {fragment}")
+
+    control_layout = capture_layouts["layouts"]["s2c"]["0x0193"]
+    control_samples = capture_samples["samples"]["s2c"]["0x0193"]
+    retained_control = control_samples.get("samples", [])
+    subops: dict[int, int] = {}
+    for sample in retained_control:
+        payload = bytes.fromhex(sample["bytes"])[16:24]
+        subop = int.from_bytes(payload[:4], "little")
+        subops[subop] = subops.get(subop, 0) + 1
+    if control_samples.get("sampleCount") != 9 or len(retained_control) != 9:
+        errors.append("s2c-0193 retained sample count drifted from 9")
+    if {sample.get("sub_size") for sample in retained_control} != {40}:
+        errors.append("s2c-0193 retained subpacket length drifted from 40")
+    if len({sample.get("capture") for sample in retained_control}) != 8:
+        errors.append("s2c-0193 retained capture count drifted from 8")
+    if subops != {0x14: 8, 0x12: 1}:
+        errors.append(f"s2c-0193 retained subopcode distribution drifted: {subops}")
+    if (
+        control_layout.get("sample_count") != 9
+        or control_layout.get("sub_size_distribution") != {"40": 9}
+        or control_layout.get("body_length") != 24
+        or control_layout.get("body_length", 0) - 16 != 8
+    ):
+        errors.append("s2c-0193 pinned layout summary drifted")
+
+    control_entry = next(
+        entry
+        for entry in entries
+        if entry.get("opcodeHex") == "0x0193"
+        and entry.get("direction") == "clientbound"
+        and entry.get("decompAnchor") == "FUN_00578C90"
+    )
+    control_notes = control_entry.get("notes", "")
+    if control_entry.get("name") != "_0x0193":
+        errors.append("s2c-0193 must retain its placeholder packet name")
+    if control_entry.get("implementationAnchor") is not None:
+        errors.append("s2c-0193 must not retain an unproven server implementation anchor")
+    if control_entry.get("confidence") != "decomp_routed":
+        errors.append("s2c-0193 confidence must remain decomp_routed")
+    for fragment in (
+        "FUN_00578C90",
+        "application_payload=8 bytes",
+        "<0x10 to FUN_0075F3E0",
+        "0x13 string/config path",
+        "0x14 one-time init gate",
+        "0x15 unresolved FUN_00576020",
+        "observed=9 retained 40-byte subpackets across 8 captures",
+        "retained_subops=0x14 x8, 0x12 x1",
+        "corpus_aggregate=9 events",
+        "unresolved=low-range,0x13 string/config,0x15 helper semantics",
+        "naming=placeholder retained",
+        "candidate_label=SetControlStatePacket is an imported source-manifest term, not retail-proven",
+        "client_only=",
+        "conflict=implementation anchor and packet noun lack a source-owned declaration",
+        "BCS-Y-0584,BCS-Y-0990",
+    ):
+        if fragment not in control_notes:
+            errors.append(f"s2c-0193 notes lost required fragment: {fragment}")
 
     setup_row = next(row for row in rows if row.get("id") == "s2c-018f")
     setup_observation = setup_row.get("observation", "")

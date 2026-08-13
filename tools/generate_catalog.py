@@ -166,6 +166,13 @@ REVERIFY_OVERRIDES = [
 NAME_OVERRIDES = [
     (
         "MapClientbound",
+        "0x0193",
+        "_0x0193",
+        "_0x0193",
+        None,
+    ),
+    (
+        "MapClientbound",
         "0x018f",
         "_0x018F",
         "_0x018F",
@@ -291,6 +298,21 @@ PCAP_LOBBY_PURGE = [
 
 
 CLIENT_SEMANTICS_SPECIAL_NOTES = {
+    "s2c-0193": (
+        "retail_client_analysis=FUN_00578C90 switches the first application u32; "
+        "application_payload=8 bytes; subop_routes=<0x10 to FUN_0075F3E0 indexed "
+        "write, 0x10/0x11/0x12/0x16 direct state writes, 0x13 string/config path, "
+        "0x14 one-time init gate, 0x15 unresolved FUN_00576020; observed=9 retained "
+        "40-byte subpackets across 8 captures; retained_subops=0x14 x8, 0x12 x1; "
+        "corpus_aggregate=9 events; unresolved=low-range,0x13 string/config,0x15 helper "
+        "semantics; semantic_status=decomp_routed; naming=placeholder retained because "
+        "retail does not establish a stable packet noun; candidate_label=SetControlStatePacket "
+        "is an imported source-manifest term, not retail-proven; client_only=multiplexed "
+        "state/config route does not establish server behavior; "
+        "prior_label=MapServerOpcode::SetControlState; "
+        "conflict=implementation anchor and packet noun lack a source-owned declaration; "
+        "client_evidence=BCS-Y-0584,BCS-Y-0990"
+    ),
     "s2c-018f": (
         "retail_client_analysis=FUN_00576C60 forwards opcode 0x018f into "
         "FUN_0076BE30; direct_payload_reads=none in wrapper and worker; "
@@ -537,7 +559,7 @@ def apply_client_semantics(top: dict) -> tuple[int, int]:
             ]
         )
         entry["notes"] = "; ".join(parts)
-        if row["id"] in {"s2c-0187", "s2c-018b", "s2c-018d", "s2c-018f", "s2c-0190", "s2c-0191"}:
+        if row["id"] in {"s2c-0187", "s2c-018b", "s2c-018d", "s2c-018f", "s2c-0190", "s2c-0191", "s2c-0193"}:
             entry["confidence"] = "decomp_routed"
         elif row["id"] == "c2s-012f":
             entry["confidence"] = "decomp_routed"
