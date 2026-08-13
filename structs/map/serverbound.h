@@ -194,7 +194,7 @@ struct EventUpdateBody
 static_assert(sizeof(EventUpdateBody) == 96, "EventUpdateBody size mismatch");
 
 // 0x012f (opcode 303) - sub_size=72B body=48B samples=44
-struct ActorWorkUpdateBody
+struct WorkStateUpdateBody
 {
     uint16_t field0;    // body[+0..+1] u16 (30 distinct)
     uint8_t  _const1;   // body[+2] = 0xe0
@@ -208,7 +208,7 @@ struct ActorWorkUpdateBody
     uint32_t field9;    // body[+44..+47] u32 (6 distinct)
 };
 
-static_assert(sizeof(ActorWorkUpdateBody) == 48, "ActorWorkUpdateBody size mismatch");
+static_assert(sizeof(WorkStateUpdateBody) == 48, "WorkStateUpdateBody size mismatch");
 
 // 0x0133 (opcode 307) - sub_size=72B body=48B samples=36
 struct GroupWorkUpdateBody

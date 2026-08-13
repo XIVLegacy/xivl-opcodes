@@ -2615,7 +2615,7 @@ struct ContentMembersX08Body
 static_assert(sizeof(ContentMembersX08Body) == 128, "ContentMembersX08Body size mismatch");
 
 // 0x0187 (opcode 391) - sub_size=96B body=72B samples=33
-struct _0x0187Body
+struct SetOccupancyGroupBody
 {
     uint8_t  field0[3];   // body[+0..+2] 3B (20 distinct)
     uint8_t  _const1;     // body[+3] = 0x50
@@ -2631,10 +2631,10 @@ struct _0x0187Body
     uint8_t  _pad11[36];  // body[+36..+71] zero
 };
 
-static_assert(sizeof(_0x0187Body) == 72, "_0x0187Body size mismatch");
+static_assert(sizeof(SetOccupancyGroupBody) == 72, "SetOccupancyGroupBody size mismatch");
 
 // 0x018b (opcode 395) - sub_size=88B body=64B samples=31
-struct _0x018BBody
+struct SetGroupLayoutIDBody
 {
     uint8_t  field0[3];   // body[+0..+2] 3B (30 distinct)
     uint8_t  _const1;     // body[+3] = 0x50
@@ -2656,10 +2656,10 @@ struct _0x018BBody
     uint8_t  _pad17[34];  // body[+30..+63] zero
 };
 
-static_assert(sizeof(_0x018BBody) == 64, "_0x018BBody size mismatch");
+static_assert(sizeof(SetGroupLayoutIDBody) == 64, "SetGroupLayoutIDBody size mismatch");
 
 // 0x018d (opcode 397) - sub_size=696B body=672B samples=60
-struct _0x018DBody
+struct PartyMapMarkerUpdateBody
 {
     uint8_t  field0[3];   // body[+0..+2] 3B (53 distinct)
     uint8_t  _const1;     // body[+3] = 0x50
@@ -2695,7 +2695,7 @@ struct _0x018DBody
     uint8_t  _pad31[7];   // body[+665..+671] zero
 };
 
-static_assert(sizeof(_0x018DBody) == 672, "_0x018DBody size mismatch");
+static_assert(sizeof(PartyMapMarkerUpdateBody) == 672, "PartyMapMarkerUpdateBody size mismatch");
 
 // 0x018f (opcode 399) - sub_size=40B body=16B samples=15
 struct _0x018FBody
