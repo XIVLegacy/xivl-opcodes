@@ -1,0 +1,82 @@
+{
+  "schemaVersion": 1,
+  "binary": {
+    "name": "ffxivgame.exe",
+    "version": "1.23b",
+    "sha256": "9341f2b4567440b310a4d494f5cc5599ca334ba51c8042247317ff466492f2e9"
+  },
+  "scope": "Retail-client route and normalized field semantics for Map clientbound battle-result opcodes 0x0139 through 0x013C.",
+  "rows": [
+    {
+      "opcodeHex": "0x0139",
+      "name": "CommandResultX01Packet",
+      "alternateNames": [],
+      "function": "FUN_0058C880",
+      "shape": "X01",
+      "rowCapacity": 1,
+      "observedOccurrences": 438,
+      "captureCount": 21,
+      "retainedSamples": 50,
+      "subpacketSize": 88,
+      "status": "static_and_capture_backed"
+    },
+    {
+      "opcodeHex": "0x013a",
+      "name": "CommandResultX10Packet",
+      "alternateNames": ["BattleActionX10Packet"],
+      "function": "FUN_0058C930",
+      "shape": "X10",
+      "rowCapacity": 10,
+      "observedOccurrences": 66,
+      "captureCount": 6,
+      "retainedSamples": 14,
+      "subpacketSize": 216,
+      "status": "static_and_capture_backed"
+    },
+    {
+      "opcodeHex": "0x013b",
+      "name": "CommandResultX18Packet",
+      "alternateNames": ["BattleActionX18Packet"],
+      "function": "FUN_0058C990",
+      "shape": "X18",
+      "rowCapacity": 18,
+      "observedOccurrences": 0,
+      "captureCount": 0,
+      "retainedSamples": 0,
+      "subpacketSize": 328,
+      "status": "static_shape_only_no_capture"
+    },
+    {
+      "opcodeHex": "0x013c",
+      "name": "CommandResultX00Packet",
+      "alternateNames": [],
+      "function": "FUN_0058C7D0",
+      "shape": "X00",
+      "rowCapacity": 0,
+      "observedOccurrences": 27,
+      "captureCount": 6,
+      "retainedSamples": 18,
+      "subpacketSize": 72,
+      "status": "static_and_capture_backed"
+    }
+  ],
+  "normalizedQueue": {
+    "recordSize": 416,
+    "headerSize": 56,
+    "rowOffset": 56,
+    "rowStride": 20,
+    "rowCapacity": 18,
+    "headerFields": "sourceActorId@+0x0c,effectOrAnimationId@+0x10,rowCount@+0x30,headerControlValue@+0x32,commandId@+0x34,presentationFlags@+0x36",
+    "rowFields": "targetActorId@+0x00,numericValue@+0x04,effectId@+0x08,worldMasterTextId@+0x0c,textParam@+0x0e,rowOrdinalOrFilter@+0x0f,reserved@+0x10"
+  },
+  "unresolvedBoundaries": [
+    "CommandResultX18Packet and BattleActionX18Packet remain aliases because no 0x013B capture distinguishes their runtime naming.",
+    "The exact meanings of header render-context fields, presentation flag bits, textParam, rowOrdinalOrFilter, and the final indirect Rapture/Vfx clip target remain unresolved.",
+    "Client-data row joins establish commandId and worldMasterTextId table identity only; they do not prove command behavior, scaling, status application, or final damage computation."
+  ],
+  "sourceRefs": [
+    "xivl-client-structs:manifests/battle_result_field_semantics.json",
+    "xivl-captures:derived/observations.json#inner_opcodes.s2c.0x0139-0x013c",
+    "xivl-captures:derived/payload_layouts.json#s2c-0x0139-0x013c"
+  ]
+}

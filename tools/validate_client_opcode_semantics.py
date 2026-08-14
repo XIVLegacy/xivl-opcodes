@@ -240,8 +240,8 @@ def main() -> int:
             errors.append(f"{label}: open row lost the required local anchor citation")
 
     anchors = [entry["decompAnchor"] for entry in entries if entry.get("decompAnchor")]
-    if len(anchors) != 75:
-        errors.append(f"catalog has {len(anchors)} decompAnchor values, expected 75")
+    if len(anchors) != 79:
+        errors.append(f"catalog has {len(anchors)} decompAnchor values, expected 79")
     bad_anchors = [anchor for anchor in anchors if not BARE_FUNCTION.fullmatch(anchor)]
     if bad_anchors:
         errors.append(f"non-bare decompAnchor values: {bad_anchors}")
