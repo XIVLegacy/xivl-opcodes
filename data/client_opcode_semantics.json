@@ -625,14 +625,15 @@
       "status": "closed",
       "supportedLabel": "EventStartPacket generic command-event envelope",
       "tool": "XIVLegacy retail asm, preserved-script metadata, and capture payload analysis",
-      "observation": "FUN_00776760 writes opcode 0x012d and record size 0xc8, stages four u32 values, one u8, 32 inline bytes, and a 128-byte event tail, then sends through FUN_004D6D30, FUN_004E0240, and FUN_00DAE010. The preserved PlayerBase command path reaches this builder through _callServerOnCommand and FUN_006EE680/FUN_0075E3A0. Captures contain 126 total 216-byte subpackets, including combat and noncombat scenarios. No stable scalar gameCommand row id, range constant, resource check, or server-side CanUse rule is established; command-specific eligibility remains behind command.canFire and native dynamic dispatch.",
+      "observation": "FUN_00776760 writes opcode 0x012d and record size 0xc8, stages four u32 values, one u8, 32 inline bytes, and a 128-byte event tail, then sends through FUN_004D6D30, FUN_004E0240, and FUN_00DAE010. The preserved PlayerBase command path reaches this builder through _callServerOnCommand and FUN_006EE680/FUN_0075E3A0. All 126 captured 216-byte subpackets, including combat and noncombat scenarios, were decoded at application payload offset 0x04: 100 owner IDs have upper 16 bits 0xa0f0, and all 100 low-16 values join to /Command staticactor rows; 88 also join to gameCommand and 12 are command actors absent from that sheet. The static-owner pattern is general to EventStart: 61/64 combat-example occurrences and 39/62 other occurrences use it. The remaining 26 owner IDs are event-owner actor IDs outside the static block and are not masked. The retained 60-sample cap independently gives 41 staticactor and 29 gameCommand joins. Command-specific eligibility remains behind command.canFire and native dynamic dispatch; direct scalar gameCommand propagation and server-side CanUse rules remain unproven.",
       "sourceRefs": [
         "xivl-client-structs:manifests/symbols.json#BCS-Y-0426",
         "xivl-client-structs:manifests/combat_action_c2s_findings.json#FUN_00776760",
         "xivl-client-structs:manifests/combat_command_emission.json",
         "xivl-client-scripts:lua/scripts/chara/player/playerbaseclass.calls.json",
         "xivl-captures:derived/observations.json#inner_opcodes.c2s.0x012d",
-        "xivl-captures:derived/payload_layouts.json#c2s.0x012d"
+        "xivl-captures:derived/payload_layouts.json#c2s.0x012d",
+        "xivl-captures:derived/payload_samples.json#samples.c2s.0x012d"
       ]
     },
     {
