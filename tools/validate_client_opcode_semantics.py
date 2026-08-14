@@ -98,7 +98,7 @@ OUTBOUND_OBSERVATION_FRAGMENTS = {
         "chat message",
         "FUN_00DB3E30",
     ),
-    "c2s-012d": ("opcode 0x012d", "body size 0xc8", "four u32", "one u8", "FUN_00DAE010", "216-byte total subpacket"),
+    "c2s-012d": ("opcode 0x012d", "record size 0xc8", "four u32", "one u8", "FUN_00DAE010", "126 total 216-byte subpackets", "command.canFire", "No stable scalar gameCommand row id"),
     "c2s-012e": ("opcode 0x012e", "body size 0x68", "sixteen dwords", "FUN_004D6D30", "120-byte total subpacket"),
     "c2s-012f": ("opcode 0x012f", "record size 0x38", "leading dword", "32-byte", "four-byte stack tail", "_updateWork", "FUN_004D6D30", "72-byte subpackets"),
     "c2s-0131": ("opcode 0x0131", "size 0x18", "u32", "u8", "FUN_004D6D30"),
@@ -124,7 +124,7 @@ OUTBOUND_OBSERVATION_FRAGMENTS = {
 }
 EXPECTED_OPEN_MISSING_FRAGMENTS = {}
 BARE_FUNCTION = re.compile(r"^FUN_[0-9A-F]{8}$")
-SOURCE_REF = re.compile(r"^(xivl-client-structs|xivl-captures|retail):")
+SOURCE_REF = re.compile(r"^(xivl-client-structs|xivl-client-scripts|xivl-captures|retail):")
 EXPECTED_CAPTURE_ROWS = {"c2s-00c9", "c2s-00ce", "c2s-012d", "c2s-012e", "c2s-012f", "s2c-0187", "s2c-018b", "s2c-018d", "s2c-018f", "s2c-0190", "s2c-0191", "s2c-0193", "s2c-0196"}
 
 
@@ -270,6 +270,55 @@ def main() -> int:
     ):
         if fragment not in opaque_notes:
             errors.append(f"c2s-00ce notes lost required fact {fragment!r}")
+
+    event_start_row = next(row for row in rows if row.get("id") == "c2s-012d")
+    event_start_observation = event_start_row.get("observation", "")
+    for fragment in (
+        "FUN_006EE680/FUN_0075E3A0",
+        "combat and noncombat scenarios",
+        "No stable scalar gameCommand row id",
+        "command.canFire",
+        "native dynamic dispatch",
+    ):
+        if fragment not in event_start_observation:
+            errors.append(f"c2s-012d observation lost required fact {fragment!r}")
+    event_start_entry = next(
+        entry
+        for entry in entries
+        if entry.get("opcodeHex") == "0x012d"
+        and entry.get("direction") == "serverbound"
+        and entry.get("decompAnchor") == "FUN_00776760"
+    )
+    event_start_notes = event_start_entry.get("notes", "")
+    if event_start_entry.get("name") != "EventStartPacket":
+        errors.append("c2s-012d canonical name must remain EventStartPacket")
+    if event_start_entry.get("implementationAnchor") is not None:
+        errors.append("c2s-012d must not retain an unproven implementation enum anchor")
+    if event_start_entry.get("confidence") != "decomp_routed":
+        errors.append("c2s-012d confidence must remain decomp_routed")
+    if event_start_entry.get("payloadLengths") != [216]:
+        errors.append("c2s-012d must retain the observed 216-byte wire length")
+    event_start_layout = capture_layouts.get("layouts", {}).get("c2s", {}).get("0x012d", {})
+    event_start_samples = capture_samples.get("samples", {}).get("c2s", {}).get("0x012d", {})
+    if (
+        event_start_layout.get("common_sub_size") != 216
+        or event_start_layout.get("sub_size_distribution") != {"216": 60}
+        or event_start_layout.get("sample_count") != 60
+        or event_start_layout.get("body_length") != 200
+    ):
+        errors.append("c2s-012d capture layout must remain 60 retained 216-byte samples with a 200-byte body")
+    if event_start_samples.get("sampleCount") != 60 or any(
+        sample.get("sub_size") != 216 for sample in event_start_samples.get("samples", [])
+    ):
+        errors.append("c2s-012d retained samples must remain exactly 60 216-byte subpackets")
+    for fragment in (
+        "client_prechecks=50-byte combined script-string limit",
+        "command_id_mapping=unresolved",
+        "prior_label=MapClientOpcode::EventStart",
+        "separate_family=0x01c3..0x01df",
+    ):
+        if fragment not in event_start_notes:
+            errors.append(f"c2s-012d notes lost required fact {fragment!r}")
 
     blacklist_row = next(row for row in rows if row.get("id") == "s2c-01cb")
     blacklist_observation = blacklist_row.get("observation", "")
