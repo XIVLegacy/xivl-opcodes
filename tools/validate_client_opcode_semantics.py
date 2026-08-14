@@ -48,6 +48,34 @@ EXPECTED_OUTBOUND = {
     "0x0135",
 }
 EXPECTED_OPEN = set()
+ZONE_DUMMY_CLUSTER_PRIOR = {
+    0x01C3: ("StartRecruitingResponse", "MapServerOpcode::StartRecruitingResponse"),
+    0x01C4: ("EndRecruitmentPacket", "MapServerOpcode::EndRecruitment"),
+    0x01C5: ("RecruiterStatePacket", "MapServerOpcode::RecruiterState"),
+    0x01C8: ("CurrentRecruitmentDetailsPacket", "MapServerOpcode::CurrentRecruitmentDetails"),
+    0x01C9: ("BlacklistAddedPacket", "MapServerOpcode::BlacklistAdded"),
+    0x01CA: ("BlacklistRemovedPacket", "MapServerOpcode::BlacklistRemoved"),
+    0x01CB: ("SendBlacklistPacket", "MapServerOpcode::SendBlacklist"),
+    0x01CC: ("FriendlistAddedPacket", "MapServerOpcode::FriendlistAdded"),
+    0x01CD: ("FriendlistRemovedPacket", "MapServerOpcode::FriendlistRemoved"),
+    0x01CE: ("SendFriendlistPacket", "MapServerOpcode::SendFriendlist"),
+    0x01CF: ("FriendStatusPacket", "MapServerOpcode::FriendStatus"),
+    0x01D0: ("FaqListResponsePacket", "MapServerOpcode::FaqListResponse"),
+    0x01D1: ("FaqBodyResponsePacket", "MapServerOpcode::FaqBodyResponse"),
+    0x01D2: ("IssueListResponsePacket", "MapServerOpcode::IssueListResponse"),
+    0x01D3: ("StartGMTicketPacket", "MapServerOpcode::StartGMTicket"),
+    0x01D4: ("GMTicketPacket", "MapServerOpcode::GMTicket"),
+    0x01D5: ("GMTicketSentResponsePacket", "MapServerOpcode::GMTicketSentResponse"),
+    0x01D6: ("EndGMTicketPacket", "MapServerOpcode::EndGMTicket"),
+    0x01D7: ("ItemSearchResultsBeginPacket", "MapServerOpcode::ItemSearchResultsBegin"),
+    0x01D8: ("ItemSearchResultsBodyPacket", "MapServerOpcode::ItemSearchResultsBody"),
+    0x01D9: ("ItemSearchResultsEndPacket", "MapServerOpcode::ItemSearchResultsEnd"),
+    0x01DA: ("RetainerResultEndPacket", "MapServerOpcode::RetainerResultEnd"),
+    0x01DB: ("RetainerResultBodyPacket", "MapServerOpcode::RetainerResultBody"),
+    0x01DC: ("RetainerResultUpdatePacket", "MapServerOpcode::RetainerResultUpdate"),
+    0x01DD: ("RetainerSearchHistoryPacket", "MapServerOpcode::RetainerSearchHistory"),
+    0x01DF: ("PlayerSearchInfoResultPacket", "MapServerOpcode::PlayerSearchInfoResult"),
+}
 OUTBOUND_OBSERVATION_FRAGMENTS = {
     "c2s-00ce": (
         "FUN_00763DC0",
@@ -212,8 +240,8 @@ def main() -> int:
             errors.append(f"{label}: open row lost the required local anchor citation")
 
     anchors = [entry["decompAnchor"] for entry in entries if entry.get("decompAnchor")]
-    if len(anchors) != 47:
-        errors.append(f"catalog has {len(anchors)} decompAnchor values, expected 47")
+    if len(anchors) != 75:
+        errors.append(f"catalog has {len(anchors)} decompAnchor values, expected 75")
     bad_anchors = [anchor for anchor in anchors if not BARE_FUNCTION.fullmatch(anchor)]
     if bad_anchors:
         errors.append(f"non-bare decompAnchor values: {bad_anchors}")
@@ -946,6 +974,78 @@ def main() -> int:
         errors.append("c2s-0135 notes must keep the client-derived name tentative")
     if "conflict=prior implementation label unsupported by retail" not in achievement_notes:
         errors.append("c2s-0135 notes lost the prior-label conflict")
+
+    cluster_entries = [
+        entry
+        for entry in catalog["lists"]["MapClientbound"]
+        if entry.get("direction") == "clientbound"
+        and 0x01C3 <= entry.get("opcode", -1) <= 0x01DF
+    ]
+    misplaced_cluster_entries = [
+        (bucket, entry.get("opcode"))
+        for bucket, bucket_entries in catalog["lists"].items()
+        if bucket != "MapClientbound"
+        for entry in bucket_entries
+        if entry.get("direction") == "clientbound"
+        and 0x01C3 <= entry.get("opcode", -1) <= 0x01DF
+    ]
+    if misplaced_cluster_entries:
+        errors.append(
+            f"s2c 0x01c3..0x01df rows escaped MapClientbound: {misplaced_cluster_entries}"
+        )
+    if len(cluster_entries) != 29:
+        errors.append(
+            f"s2c 0x01c3..0x01df row count is {len(cluster_entries)}, expected 29"
+        )
+    cluster_by_opcode = {entry.get("opcode"): entry for entry in cluster_entries}
+    for opcode in range(0x01C3, 0x01E0):
+        entry = cluster_by_opcode.get(opcode)
+        if entry is None:
+            errors.append(f"s2c 0x{opcode:04x} no-op callback row is missing")
+            continue
+        expected_function = f"FUN_{0x00DB8F20 + (opcode - 0x01C3) * 0x10:08X}"
+        expected_slot = opcode - 0x011E
+        notes = entry.get("notes", "")
+        if entry.get("name") != f"_0x{opcode:04X}":
+            errors.append(f"s2c 0x{opcode:04x} must retain a placeholder name")
+        if entry.get("implementationAnchor") is not None:
+            errors.append(f"s2c 0x{opcode:04x} retained an imported implementation anchor")
+        if entry.get("decompAnchor") != expected_function:
+            errors.append(
+                f"s2c 0x{opcode:04x} decomp anchor is not {expected_function}"
+            )
+        if entry.get("confidence") != "decomp_routed":
+            errors.append(f"s2c 0x{opcode:04x} confidence must be decomp_routed")
+        for fragment in (
+            f"callback slot {expected_slot}",
+            "callback_body=ret 0xc with no payload reads or state writes",
+            "client_re_evidence=xivl-client-structs:manifests/zone_dummy_callback_cluster.json",
+            "dependency_status=closed",
+        ):
+            if fragment not in notes:
+                errors.append(
+                    f"s2c 0x{opcode:04x} notes lost required fact {fragment!r}"
+                )
+        prior = ZONE_DUMMY_CLUSTER_PRIOR.get(opcode)
+        if prior:
+            prior_packet, prior_anchor = prior
+            for fragment in (
+                f"prior_packet_label={prior_packet}",
+                f"prior_label={prior_anchor}",
+                "conflict=imported packet noun and implementation anchor are unsupported",
+            ):
+                if fragment not in notes:
+                    errors.append(
+                        f"s2c 0x{opcode:04x} lost prior-lineage fact {fragment!r}"
+                    )
+        expected_observed = {
+            0x01CF: (["friendlist_search.pcapng", "invite_join_party.pcapng"], [1640]),
+            0x01DF: (["friendlist_search.pcapng"], [968]),
+        }.get(opcode, ([], []))
+        if entry.get("observedIn") != expected_observed[0]:
+            errors.append(f"s2c 0x{opcode:04x} observedIn drifted")
+        if entry.get("payloadLengths") != expected_observed[1]:
+            errors.append(f"s2c 0x{opcode:04x} payloadLengths drifted")
 
     if errors:
         for error in errors:

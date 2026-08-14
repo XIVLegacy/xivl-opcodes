@@ -9,6 +9,7 @@ from _json_io import CONSTANTS_PATH, OPCODES_PATH, write_json
 EXPECTED_TOP_DESC = "FFXIV 1.23b opcode catalog joined with pcap observations and retail-client analysis. WorldMapBackend holds world<->map backbone packets; both backend directions share opcode integers. WorldMapBackend entries are server-to-server and never cross the client TCP socket, so client-capture pcap evidence is structurally impossible for those wire values. A catalog extension added 4 client-side receiver opcodes (0x018E SetRetainerStar, 0x01A2 JobQuestCompleteTriple, 0x01A6 HamletSupplyRanking, 0x01A8 HamletDefenseScore); evidence is xivl-client-structs client receiver decomp."
 REVERIFY_METHOD = "live-validation: verify that the retail 1.23b client accepts the behavior in a live session"
 CLIENT_SEMANTICS_PATH = Path(__file__).resolve().parent.parent / "data" / "client_opcode_semantics.json"
+ZONE_DUMMY_CLUSTER_EVIDENCE = "xivl-client-structs:manifests/zone_dummy_callback_cluster.json"
 LOCAL_DECOMP_ANCHOR_EVIDENCE = {
     "FUN_0075ECD0": "data/client_opcode_semantics.json#c2s-0135",
     "FUN_00576560": "data/vendor/client-structs/bcsy-opcode-bindings.json#BCS-Y-0545",
@@ -296,6 +297,39 @@ DECOMP_ANCHOR_OVERRIDES = [
     ("MapServerbound", "0x00ce", "_0x00CEHandler", "FUN_00763DC0"),
     ("MapClientbound", "0x01cb", "_0x01CB", "FUN_00DB8FA0"),
 ]
+
+
+ZONE_DUMMY_CLUSTER_PRIOR = {
+    "0x01c3": ("StartRecruitingResponse", "MapServerOpcode::StartRecruitingResponse"),
+    "0x01c4": ("EndRecruitmentPacket", "MapServerOpcode::EndRecruitment"),
+    "0x01c5": ("RecruiterStatePacket", "MapServerOpcode::RecruiterState"),
+    "0x01c6": (None, None),
+    "0x01c7": (None, None),
+    "0x01c8": ("CurrentRecruitmentDetailsPacket", "MapServerOpcode::CurrentRecruitmentDetails"),
+    "0x01c9": ("BlacklistAddedPacket", "MapServerOpcode::BlacklistAdded"),
+    "0x01ca": ("BlacklistRemovedPacket", "MapServerOpcode::BlacklistRemoved"),
+    "0x01cb": ("SendBlacklistPacket", "MapServerOpcode::SendBlacklist"),
+    "0x01cc": ("FriendlistAddedPacket", "MapServerOpcode::FriendlistAdded"),
+    "0x01cd": ("FriendlistRemovedPacket", "MapServerOpcode::FriendlistRemoved"),
+    "0x01ce": ("SendFriendlistPacket", "MapServerOpcode::SendFriendlist"),
+    "0x01cf": ("FriendStatusPacket", "MapServerOpcode::FriendStatus"),
+    "0x01d0": ("FaqListResponsePacket", "MapServerOpcode::FaqListResponse"),
+    "0x01d1": ("FaqBodyResponsePacket", "MapServerOpcode::FaqBodyResponse"),
+    "0x01d2": ("IssueListResponsePacket", "MapServerOpcode::IssueListResponse"),
+    "0x01d3": ("StartGMTicketPacket", "MapServerOpcode::StartGMTicket"),
+    "0x01d4": ("GMTicketPacket", "MapServerOpcode::GMTicket"),
+    "0x01d5": ("GMTicketSentResponsePacket", "MapServerOpcode::GMTicketSentResponse"),
+    "0x01d6": ("EndGMTicketPacket", "MapServerOpcode::EndGMTicket"),
+    "0x01d7": ("ItemSearchResultsBeginPacket", "MapServerOpcode::ItemSearchResultsBegin"),
+    "0x01d8": ("ItemSearchResultsBodyPacket", "MapServerOpcode::ItemSearchResultsBody"),
+    "0x01d9": ("ItemSearchResultsEndPacket", "MapServerOpcode::ItemSearchResultsEnd"),
+    "0x01da": ("RetainerResultEndPacket", "MapServerOpcode::RetainerResultEnd"),
+    "0x01db": ("RetainerResultBodyPacket", "MapServerOpcode::RetainerResultBody"),
+    "0x01dc": ("RetainerResultUpdatePacket", "MapServerOpcode::RetainerResultUpdate"),
+    "0x01dd": ("RetainerSearchHistoryPacket", "MapServerOpcode::RetainerSearchHistory"),
+    "0x01de": (None, None),
+    "0x01df": ("PlayerSearchInfoResultPacket", "MapServerOpcode::PlayerSearchInfoResult"),
+}
 
 
 # Pcap joins use (direction, opcode) only; PCAP_AMBIGUOUS marks shared services and
@@ -655,6 +689,76 @@ def apply_client_semantics(top: dict) -> tuple[int, int]:
     return applied, errors
 
 
+def apply_zone_dummy_cluster(top: dict) -> tuple[int, int]:
+    """Replace imported 0x01c3..0x01df s2c nouns with retail no-op routes."""
+    entries = top["lists"]["MapClientbound"]
+    applied = 0
+    inserted = 0
+    for opcode in range(0x01C3, 0x01E0):
+        opcode_hex = f"0x{opcode:04x}"
+        prior_name, prior_anchor = ZONE_DUMMY_CLUSTER_PRIOR[opcode_hex]
+        matches = [entry for entry in entries if entry["opcodeHex"] == opcode_hex]
+        if len(matches) > 1:
+            raise ValueError(f"duplicate MapClientbound row for {opcode_hex}")
+        if matches:
+            entry = matches[0]
+        else:
+            entry = {
+                "name": f"_0x{opcode:04X}",
+                "opcode": opcode,
+                "opcodeHex": opcode_hex,
+                "service": "map",
+                "direction": "clientbound",
+                "implementationAnchor": None,
+                "decompAnchor": None,
+                "observedIn": [],
+                "payloadLengths": [],
+                "confidence": "decomp_routed",
+                "notes": "",
+            }
+            entries.append(entry)
+            inserted += 1
+
+        slot = opcode - 0x011E
+        callback_va = 0x00DB8F20 + (opcode - 0x01C3) * 0x10
+        function = f"FUN_{callback_va:08X}"
+        parts = [
+            f"retail_client_analysis=ZoneProtoDown opcode {opcode_hex} case {slot - 2} routes callback slot {slot} to {function}",
+            "callback_body=ret 0xc with no payload reads or state writes",
+            "semantic_status=decomp_routed",
+            "naming=placeholder retained because retail establishes no clientbound packet noun",
+        ]
+        if prior_name:
+            parts.append(f"prior_packet_label={prior_name}")
+        if prior_anchor:
+            parts.append(f"prior_label={prior_anchor}")
+        if prior_name or prior_anchor:
+            parts.append("conflict=imported packet noun and implementation anchor are unsupported by the retail no-op callback")
+        parts.extend(
+            [
+                (
+                    "separate_direction=c2s FUN_004CA100 emits opcode 0x01cb through the zone send path, which does not supply clientbound semantics"
+                    if opcode == 0x01CB
+                    else "separate_direction=the same opcode integer has independent serverbound emitter semantics that do not transfer to this row"
+                ),
+                "client_only=no-op callback routing does not establish server behavior",
+                f"client_re_evidence={ZONE_DUMMY_CLUSTER_EVIDENCE}#s2c-{opcode:04x}",
+                "dependency_status=closed",
+            ]
+        )
+        if opcode == 0x01CB:
+            parts.append("client_semantics_evidence=data/client_opcode_semantics.json#s2c-01cb")
+        entry["name"] = f"_0x{opcode:04X}"
+        entry["implementationAnchor"] = None
+        entry["decompAnchor"] = function
+        entry["confidence"] = "decomp_routed"
+        entry["notes"] = "; ".join(parts)
+        applied += 1
+
+    entries.sort(key=lambda entry: (entry["opcode"], entry["name"]))
+    return applied, inserted
+
+
 def main() -> int:
     if hasattr(sys.stdout, "reconfigure"):
         sys.stdout.reconfigure(encoding="utf-8")
@@ -875,6 +979,12 @@ def main() -> int:
     semantics_applied, semantics_errors = apply_client_semantics(top)
     warned += semantics_errors
     print(f"Applied {semantics_applied} client-semantics evidence links")
+
+    cluster_applied, cluster_inserted = apply_zone_dummy_cluster(top)
+    print(
+        f"Applied {cluster_applied} Zone dummy-callback routes "
+        f"({cluster_inserted} inserted catalog rows)"
+    )
 
     if warned:
         print(f"Refusing to write opcodes.json after {warned} warning(s)", file=sys.stderr)
