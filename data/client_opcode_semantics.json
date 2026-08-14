@@ -5,7 +5,7 @@
     "version": "1.23b",
     "sha256": "9341f2b4567440b310a4d494f5cc5599ca334ba51c8042247317ff466492f2e9"
   },
-  "scope": "Independent retail-client body evidence for the 37 legacy semantic dependency rows consumed by this catalog.",
+  "scope": "Independent retail-client body evidence for the 39 legacy semantic dependency rows consumed by this catalog.",
   "rule": "Address, opcode, size, symbol, or dispatch-edge agreement alone is a cross-check. A closed row requires a body observation that supports the retained label or a narrower replacement label.",
   "rows": [
     {
@@ -65,12 +65,17 @@
       "direction": "clientbound",
       "function": "FUN_00576050",
       "status": "closed",
-      "supportedLabel": "Packed update containing eight one-bit flags and eight u16 values",
-      "tool": "XIVLegacy Ghidra DumpFunctionDecomp.java and build_data_dependency_catalog.py",
-      "observation": "The handler expands payload byte 1 into eight flags, reads eight u16 fields at offsets 2 through 0x10, writes the first u16 to owner offset 0x38, and forwards all sixteen values.",
+      "supportedLabel": "SetSpecialEventWorkPacket client state update with a 24-byte application payload",
+      "tool": "XIVLegacy Ghidra DumpFunctionDecomp.java, client Lua API cross-reference, and capture payload analysis",
+      "observation": "FUN_00576050 expands application byte +1 into eight flags, reads eight u16 values at +2 through +0x10, writes the first u16 to owner +0x38, and forwards all sixteen values to FUN_0075D2D0. That helper writes the flags at target +0x84..+0x8b and the u16 values at +0x8c..+0x9a; WorldMaster _getSpecialEventWork reads the same arrays through FUN_0075D390 and FUN_0075D3A0. All 11 retained subpackets are 56 bytes across 8 captures, while the aggregate corpus count is 12. Their 24-byte application payloads have zero flags, eventWork6=1, every other retained event-work value zero, and a zero six-byte tail. This proves the client SetSpecialEventWork operation and field layout, not a source-owned server enum declaration or server behavior.",
       "sourceRefs": [
         "xivl-client-structs:manifests/symbols.json#BCS-Y-0585",
-        "xivl-client-structs:manifests/data_dependency_catalog.json#s2c_0x0196"
+        "xivl-client-structs:manifests/symbols.json#BCS-Y-0226",
+        "xivl-client-structs:manifests/data_dependency_catalog.json#s2c_0x0196",
+        "xivl-client-structs:manifests/control_class_napi_map.json#WorldMaster._getSpecialEventWork",
+        "xivl-captures:derived/payload_layouts.json#s2c.0x0196",
+        "xivl-captures:derived/payload_samples.json#s2c.0x0196",
+        "retail:ffxivgame.exe#sha256=9341f2b4567440b310a4d494f5cc5599ca334ba51c8042247317ff466492f2e9;vas=0x00576050,0x0075D2D0,0x00707CC0,0x0075D390,0x0075D3A0;run=opcode-semantics-s2c-0196"
       ]
     },
     {
@@ -319,12 +324,15 @@
       "direction": "clientbound",
       "function": "FUN_00576380",
       "status": "closed",
-      "supportedLabel": "Eight u64/u32 pairs with a low-byte selector at payload offset 0x60",
-      "tool": "XIVLegacy Ghidra DumpFunctionDecomp.java",
-      "observation": "The reached body reads eight u64 identifiers, eight u32 type values, and the low byte of the u32 at offset 0x60 as the active index or iteration selector.",
+      "supportedLabel": "0x018a client manager-row copy and commit route with a 120-byte application payload",
+      "tool": "XIVLegacy Ghidra DumpFunctionDecomp.java and corpus aggregate audit",
+      "observation": "FUN_00576380 forwards the application payload through FUN_006C82A0 to FUN_006C6A70. The helper uses the signed low byte at application offset 0x60 as its loop bound, copies one u32 from +0x40+4*i and one eight-byte pair from +8*i into each manager row, then commits through unresolved FUN_006C58C0. Static client evidence gives a 120-byte application payload with the copied arrays at +0 and +0x40 and an unread 20-byte tail at +0x64..+0x77. The corpus reports one aggregate event but retains no payload samples or layout, so observedIn and payloadLengths remain empty. This proves a client manager-row copy/commit route, not the imported SetActiveLinkshell packet noun, exact row domain, a server implementation declaration, or server behavior.",
       "sourceRefs": [
         "xivl-client-structs:manifests/symbols.json#BCS-Y-0578",
-        "xivl-client-structs:manifests/unmapped_payload_decoding.json#s2c_0x018a"
+        "xivl-client-structs:manifests/symbols.json#BCS-Y-0888",
+        "xivl-client-structs:manifests/data_dependency_catalog.json#s2c_0x018a",
+        "xivl-client-structs:manifests/high_switch_enumeration.json#0x018A",
+        "retail:ffxivgame.exe#sha256=9341f2b4567440b310a4d494f5cc5599ca334ba51c8042247317ff466492f2e9;vas=0x004DD12D,0x00576380,0x006C82A0,0x006C6A70;run=opcode-semantics-s2c-018a"
       ]
     },
     {
@@ -434,12 +442,17 @@
       "direction": "clientbound",
       "function": "FUN_00576C60",
       "status": "closed",
-      "supportedLabel": "No-payload manager setup path",
-      "tool": "XIVLegacy Ghidra DumpFunctionDecomp.java and build_data_dependency_catalog.py",
-      "observation": "The handler enters the manager path and invokes FUN_0076BE30 without reading application payload bytes; the imported actor-trigger role is not retained.",
+      "supportedLabel": "0x018f client manager-setup route with an 8-byte application payload",
+      "tool": "XIVLegacy Ghidra DumpFunctionDecomp.java, build_data_dependency_catalog.py, and capture payload analysis",
+      "observation": "The central dispatcher routes opcode 0x018f through FUN_00576C60 into FUN_0076BE30. The wrapper and worker perform no direct application-field loads before manager context enters the shared FUN_0076B950 and FUN_0075F720 helper boundary; FUN_00759220 only writes a local byte value of 0xff. All 15 retained subpackets are 40 bytes across 8 captures, and their 8-byte application payloads are zero; the pinned corpus separately records 28 aggregate events. The zero bytes are an observation, not a field semantic. This establishes a client manager-setup route, but does not prove the imported MassSetItemModifierBegin packet label or server behavior; helper semantics remain unresolved.",
       "sourceRefs": [
+        "xivl-client-structs:manifests/symbols.json#BCS-Y-0581",
         "xivl-client-structs:manifests/symbols.json#BCS-Y-0722",
-        "xivl-client-structs:manifests/data_dependency_catalog.json#s2c_0x018f"
+        "xivl-client-structs:manifests/symbols.json#BCS-Y-0954",
+        "xivl-client-structs:manifests/data_dependency_catalog.json#s2c_0x018f",
+        "xivl-captures:derived/payload_layouts.json#s2c.0x018f",
+        "xivl-captures:derived/payload_samples.json#s2c.0x018f",
+        "retail:ffxivgame.exe#sha256=9341f2b4567440b310a4d494f5cc5599ca334ba51c8042247317ff466492f2e9;vas=0x004DD346,0x00576C60,0x0076BE30;run=opcode-semantics-s2c-018f"
       ]
     },
     {
@@ -449,12 +462,19 @@
       "direction": "clientbound",
       "function": "FUN_00576CD0",
       "status": "closed",
-      "supportedLabel": "Manager update that copies sixteen payload dwords",
-      "tool": "XIVLegacy Ghidra DumpFunctionDecomp.java and build_data_dependency_catalog.py",
-      "observation": "The manager worker copies sixteen dwords beginning at application offset 8 and leaves the final 32 bytes unread; the imported actor-event role is not retained.",
+      "supportedLabel": "0x0190 client manager-record route with a 0x68-byte application payload",
+      "tool": "XIVLegacy Ghidra DumpFunctionDecomp.java, build_data_dependency_catalog.py, and capture payload analysis",
+      "observation": "The central dispatcher routes opcode 0x0190 through FUN_00576CD0, FUN_0076BE60, and FUN_00768C40 into a client manager update path with a 0x68-byte application payload. The record writer copies neutral header dwords at application offsets +0 and +4 followed by sixteen dwords at +8 through +0x47, for 72 application bytes read, and leaves the 32-byte application tail at +0x48 through +0x67 unread. All 32 retained subpackets are 136 bytes across 8 captures; the pinned corpus separately records 5,569 aggregate events. This establishes the client route and record shape, but does not prove the imported MassSetItemModifier packet label, per-field item semantics, a server implementation declaration, or server behavior.",
       "sourceRefs": [
+        "xivl-client-structs:manifests/symbols.json#BCS-Y-0582",
         "xivl-client-structs:manifests/symbols.json#BCS-Y-0721",
-        "xivl-client-structs:manifests/data_dependency_catalog.json#s2c_0x0190"
+        "xivl-client-structs:manifests/symbols.json#BCS-Y-0951",
+        "xivl-client-structs:manifests/symbols.json#BCS-Y-0952",
+        "xivl-client-structs:manifests/symbols.json#BCS-Y-0953",
+        "xivl-client-structs:manifests/data_dependency_catalog.json#s2c_0x0190",
+        "xivl-captures:derived/payload_layouts.json#s2c.0x0190",
+        "xivl-captures:derived/payload_samples.json#s2c.0x0190",
+        "retail:ffxivgame.exe#sha256=9341f2b4567440b310a4d494f5cc5599ca334ba51c8042247317ff466492f2e9;vas=0x004DD357,0x00576CD0,0x0076BE60,0x00768C40;run=opcode-semantics-s2c-0190"
       ]
     },
     {
@@ -464,12 +484,17 @@
       "direction": "clientbound",
       "function": "FUN_00576D40",
       "status": "closed",
-      "supportedLabel": "No-payload manager finalization path",
-      "tool": "XIVLegacy Ghidra DumpFunctionDecomp.java and build_data_dependency_catalog.py",
-      "observation": "The handler invokes the manager finalization worker without reading application payload bytes; the imported actor-ping role is not retained.",
+      "supportedLabel": "0x0191 client manager-finalization route with an 8-byte application payload",
+      "tool": "XIVLegacy Ghidra DumpFunctionDecomp.java, build_data_dependency_catalog.py, and capture payload analysis",
+      "observation": "The central dispatcher routes opcode 0x0191 through FUN_00576D40 into FUN_0076BF10. The wrapper and worker perform no direct application-field loads before the pointer and manager context enter a shared helper chain containing FUN_0076B950, FUN_0075F910, FUN_0075F7C0, FUN_0076BA10, FUN_00768B10, and FUN_007840D0. All 15 retained subpackets are 40 bytes across 8 captures, and their 8-byte application payloads are zero; the pinned corpus separately records 28 aggregate events. The zero bytes are an observation, not a field semantic. This establishes a client manager-finalization route, but does not prove the imported MassSetItemModifierEnd packet label or server behavior; helper-chain semantics remain unresolved.",
       "sourceRefs": [
+        "xivl-client-structs:manifests/symbols.json#BCS-Y-0583",
         "xivl-client-structs:manifests/symbols.json#BCS-Y-0723",
-        "xivl-client-structs:manifests/data_dependency_catalog.json#s2c_0x0191"
+        "xivl-client-structs:manifests/symbols.json#BCS-Y-0955",
+        "xivl-client-structs:manifests/data_dependency_catalog.json#s2c_0x0191",
+        "xivl-captures:derived/payload_layouts.json#s2c.0x0191",
+        "xivl-captures:derived/payload_samples.json#s2c.0x0191",
+        "retail:ffxivgame.exe#sha256=9341f2b4567440b310a4d494f5cc5599ca334ba51c8042247317ff466492f2e9;vas=0x004DD368,0x00576D40,0x0076BF10;run=opcode-semantics-s2c-0191"
       ]
     },
     {
@@ -479,11 +504,16 @@
       "direction": "clientbound",
       "function": "FUN_00578C90",
       "status": "closed",
-      "supportedLabel": "Multi-subopcode dispatcher with a string-building branch",
-      "tool": "XIVLegacy Ghidra DumpFunctionDecomp.java",
-      "observation": "The 842-byte handler switches on the first payload u32, routes values below 0x10 to a generic worker, handles 0x10 through 0x16 separately, and uses a string-builder chain for subopcode 0x13. The imported system-error and exact-code-count semantics are not retained.",
+      "supportedLabel": "0x0193 multiplexed client state/config dispatcher with an 8-byte application payload",
+      "tool": "XIVLegacy Ghidra DumpFunctionDecomp.java and capture payload analysis",
+      "observation": "The central dispatcher passes packet fields +0x10, +0x14, and +0x08 to FUN_00578C90. That handler switches on the first application u32: values below 0x10 enter the indexed FUN_0075F3E0 worker; 0x10 through 0x12 and 0x16 write direct state slots; 0x13 enters a string/config path; 0x14 performs a one-time init gate; and 0x15 enters unresolved FUN_00576020. All 9 retained subpackets are 40 bytes across 8 captures, matching the 9 aggregate events. The retained subopcode distribution is 0x14 in 8 samples and 0x12 in 1 sample; this proves a multiplexed client state/config route but not the imported SetControlState packet noun, exact low-range/string/0x15 semantics, a server implementation declaration, or server behavior.",
       "sourceRefs": [
-        "xivl-client-structs:manifests/symbols.json#BCS-Y-0584"
+        "xivl-client-structs:manifests/symbols.json#BCS-Y-0584",
+        "xivl-client-structs:manifests/symbols.json#BCS-Y-0990",
+        "xivl-client-structs:manifests/setcontrolstate_subdispatcher.json#FUN_00578C90",
+        "xivl-captures:derived/payload_layouts.json#s2c.0x0193",
+        "xivl-captures:derived/payload_samples.json#s2c.0x0193",
+        "retail:ffxivgame.exe#sha256=9341f2b4567440b310a4d494f5cc5599ca334ba51c8042247317ff466492f2e9;vas=0x004DD37D,0x00578C90;run=opcode-semantics-s2c-0193"
       ]
     },
     {
@@ -600,6 +630,40 @@
         "xivl-client-structs:manifests/symbols.json#BCS-Y-0426",
         "xivl-client-structs:manifests/combat_action_c2s_findings.json#FUN_00776760",
         "xivl-captures:derived/payload_layouts.json#c2s.0x012d"
+      ]
+    },
+    {
+      "id": "s2c-01cb",
+      "dependencyOrdinal": 37,
+      "opcodeHex": "0x01cb",
+      "direction": "clientbound",
+      "function": "FUN_00DB8FA0",
+      "status": "closed",
+      "supportedLabel": "0x01cb client no-op callback route with no supported clientbound packet noun",
+      "tool": "XIVLegacy Ghidra dispatcher, vtable-slot, and function-body analysis",
+      "observation": "The zone dispatch map routes opcode 0x01cb to callback slot 173, and the retail ZoneProtoDown callback table resolves that slot to FUN_00DB8FA0. The function body immediately returns with RET 0xc and reads no packet fields or client state. A separate client-to-server builder FUN_004CA100 emits the same opcode integer through the zone send path, but that opposite-direction use does not establish a clientbound packet noun or behavior.",
+      "sourceRefs": [
+        "xivl-client-structs:manifests/pcap_opcode_coverage_matrix.json#s2c.0x01cb",
+        "xivl-client-structs:manifests/data_dependency_catalog.json#c2s_0x01cb",
+        "retail:ffxivgame.exe#sha256=9341f2b4567440b310a4d494f5cc5599ca334ba51c8042247317ff466492f2e9;vas=0x00DB8FA0,0x004CA100;run=opcode-semantics-s2c-01cb"
+      ]
+    },
+    {
+      "id": "c2s-00ce",
+      "dependencyOrdinal": 38,
+      "opcodeHex": "0x00ce",
+      "direction": "serverbound",
+      "function": "FUN_00763DC0",
+      "status": "closed",
+      "supportedLabel": "0x00ce dual-builder client operation with a 0x38-byte record and unresolved semantics",
+      "tool": "XIVLegacy Ghidra packet-builder and capture payload analysis",
+      "observation": "FUN_00763DC0 and FUN_0076D610 each write opcode 0x00ce and record size 0x38 into a stack-built packet before calling FUN_004D6D10. The shared zone path continues through FUN_004E0240 and FUN_00DAE010. Both retained captures are 72-byte subpackets in cutscene_book.pcapng, comprising the 16-byte subpacket header plus the 56-byte builder record; their 40-byte application payload does not establish a stable operation noun.",
+      "sourceRefs": [
+        "xivl-client-structs:manifests/reverse_bfs_send_helpers.json#perSendHelper.0x004D6D10.packetBuilders[4]",
+        "xivl-client-structs:manifests/reverse_bfs_send_helpers.json#perSendHelper.0x004D6D10.packetBuilders[6]",
+        "xivl-client-structs:manifests/c2s_coverage_synthesis.json#coverage[14]",
+        "xivl-captures:derived/payload_layouts.json#c2s.0x00ce",
+        "retail:ffxivgame.exe#sha256=9341f2b4567440b310a4d494f5cc5599ca334ba51c8042247317ff466492f2e9;vas=0x00763DC0,0x0076D610;run=opcode-semantics-c2s-00ce"
       ]
     }
   ]
