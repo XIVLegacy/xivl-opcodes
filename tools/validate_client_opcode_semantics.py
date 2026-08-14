@@ -98,7 +98,7 @@ OUTBOUND_OBSERVATION_FRAGMENTS = {
         "chat message",
         "FUN_00DB3E30",
     ),
-    "c2s-012d": ("opcode 0x012d", "record size 0xc8", "four u32", "one u8", "FUN_00DAE010", "126 total 216-byte subpackets", "command.canFire", "No stable scalar gameCommand row id"),
+    "c2s-012d": ("opcode 0x012d", "record size 0xc8", "four u32", "one u8", "FUN_00DAE010", "126 captured 216-byte subpackets", "command.canFire", "100 owner IDs", "88 also join to gameCommand"),
     "c2s-012e": ("opcode 0x012e", "body size 0x68", "sixteen dwords", "FUN_004D6D30", "120-byte total subpacket"),
     "c2s-012f": ("opcode 0x012f", "record size 0x38", "leading dword", "32-byte", "four-byte stack tail", "_updateWork", "FUN_004D6D30", "72-byte subpackets"),
     "c2s-0131": ("opcode 0x0131", "size 0x18", "u32", "u8", "FUN_004D6D30"),
@@ -276,7 +276,14 @@ def main() -> int:
     for fragment in (
         "FUN_006EE680/FUN_0075E3A0",
         "combat and noncombat scenarios",
-        "No stable scalar gameCommand row id",
+        "All 126 captured 216-byte subpackets",
+        "100 owner IDs have upper 16 bits 0xa0f0",
+        "88 also join to gameCommand",
+        "12 are command actors absent from that sheet",
+        "61/64 combat-example occurrences",
+        "39/62 other occurrences",
+        "retained 60-sample cap independently gives 41 staticactor",
+        "direct scalar gameCommand propagation",
         "command.canFire",
         "native dynamic dispatch",
     ):
@@ -313,7 +320,14 @@ def main() -> int:
         errors.append("c2s-012d retained samples must remain exactly 60 216-byte subpackets")
     for fragment in (
         "client_prechecks=50-byte combined script-string limit",
-        "command_id_mapping=unresolved",
+        "command_id_mapping=resolved for owner ids in the 0xa0f00000 static-actor block",
+        "application offset 0x04 low16 joins 100/100 /Command staticactor rows",
+        "88/100 gameCommand rows",
+        "non_gameCommand_command_actors=12",
+        "event_owner_scope=26/126 owners are outside the static block",
+        "pattern_scope=general EventStart envelope",
+        "retained_sample_cap=41/60 staticactor and 29/60 gameCommand joins",
+        "direct_gameCommand_scalar=unproven",
         "prior_label=MapClientOpcode::EventStart",
         "separate_family=0x01c3..0x01df",
     ):
