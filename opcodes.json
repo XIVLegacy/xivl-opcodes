@@ -2832,8 +2832,8 @@
           "opcodeHex": "0x0139",
           "service": "map",
           "direction": "clientbound",
-          "implementationAnchor": "MapServerOpcode::CommandResultX01",
-          "decompAnchor": null,
+          "implementationAnchor": null,
+          "decompAnchor": "FUN_0058C880",
           "observedIn": [
             "action_and_traits.pcapng",
             "battle_mode_passive_mode.pcapng",
@@ -2860,8 +2860,8 @@
           "payloadLengths": [
             88
           ],
-          "confidence": "implemented",
-          "notes": ""
+          "confidence": "decomp_routed",
+          "notes": "battle_result_semantics=data/battle_result_semantics.json; shape=X01; row_capacity=1; status=static_and_capture_backed; observed_occurrences=438; capture_count=21; retained_samples=50; alternate_names=none; normalized_queue=0x1a0_bytes; header=0x38_bytes; rows=18x0x14; prior_implementation_anchor_conflict=MapServerOpcode_label_is_not_retail_client_implementation_evidence; client_data_boundary=row_identity_only_no_behavior_or_scaling_claim"
         },
         {
           "name": "CommandResultX10Packet",
@@ -2869,8 +2869,8 @@
           "opcodeHex": "0x013a",
           "service": "map",
           "direction": "clientbound",
-          "implementationAnchor": "MapServerOpcode::CommandResultX10",
-          "decompAnchor": null,
+          "implementationAnchor": null,
+          "decompAnchor": "FUN_0058C930",
           "observedIn": [
             "combat_autoattack.pcapng",
             "combat_skills.pcapng",
@@ -2882,8 +2882,8 @@
           "payloadLengths": [
             216
           ],
-          "confidence": "implemented",
-          "notes": "packet_size=0xD8; pcap_shape=sparse_SoA_CommandResultX10; columns=targets@0x28,amounts@0x50,textIds@0x64,effectIds@0x78,params@0xA0,hitNums@0xAA; 66_s2c_main_occurrences_in_6_captures; alternate_name=BattleActionX10Packet"
+          "confidence": "decomp_routed",
+          "notes": "battle_result_semantics=data/battle_result_semantics.json; shape=X10; row_capacity=10; status=static_and_capture_backed; observed_occurrences=66; capture_count=6; retained_samples=14; alternate_names=BattleActionX10Packet; normalized_queue=0x1a0_bytes; header=0x38_bytes; rows=18x0x14; prior_implementation_anchor_conflict=MapServerOpcode_label_is_not_retail_client_implementation_evidence; client_data_boundary=row_identity_only_no_behavior_or_scaling_claim"
         },
         {
           "name": "CommandResultX18Packet",
@@ -2891,12 +2891,12 @@
           "opcodeHex": "0x013b",
           "service": "map",
           "direction": "clientbound",
-          "implementationAnchor": "MapServerOpcode::CommandResultX18",
-          "decompAnchor": null,
+          "implementationAnchor": null,
+          "decompAnchor": "FUN_0058C990",
           "observedIn": [],
           "payloadLengths": [],
-          "confidence": "implemented",
-          "notes": "packet_size=0x148; payload_shape=sparse_SoA_CommandResultX18; columns=targets@0x28,amounts@0x70,textIds@0x94,effectIds@0xB8,params@0x100,hitNums@0x112; rows=18x0x14_transposed_by_FUN_005874B0; no_occurrences_in_54_capture_corpus; alternate_name=BattleActionX18Packet"
+          "confidence": "decomp_routed",
+          "notes": "battle_result_semantics=data/battle_result_semantics.json; shape=X18; row_capacity=18; status=static_shape_only_no_capture; observed_occurrences=0; capture_count=0; retained_samples=0; alternate_names=BattleActionX18Packet; normalized_queue=0x1a0_bytes; header=0x38_bytes; rows=18x0x14; prior_implementation_anchor_conflict=MapServerOpcode_label_is_not_retail_client_implementation_evidence; client_data_boundary=row_identity_only_no_behavior_or_scaling_claim"
         },
         {
           "name": "CommandResultX00Packet",
@@ -2904,8 +2904,8 @@
           "opcodeHex": "0x013c",
           "service": "map",
           "direction": "clientbound",
-          "implementationAnchor": "MapServerOpcode::CommandResultX00",
-          "decompAnchor": null,
+          "implementationAnchor": null,
+          "decompAnchor": "FUN_0058C7D0",
           "observedIn": [
             "gather_wood.pcapng",
             "gridania_to_coerthas.pcapng",
@@ -2917,8 +2917,8 @@
           "payloadLengths": [
             72
           ],
-          "confidence": "implemented",
-          "notes": ""
+          "confidence": "decomp_routed",
+          "notes": "battle_result_semantics=data/battle_result_semantics.json; shape=X00; row_capacity=0; status=static_and_capture_backed; observed_occurrences=27; capture_count=6; retained_samples=18; alternate_names=none; normalized_queue=0x1a0_bytes; header=0x38_bytes; rows=18x0x14; prior_implementation_anchor_conflict=MapServerOpcode_label_is_not_retail_client_implementation_evidence; client_data_boundary=row_identity_only_no_behavior_or_scaling_claim"
         },
         {
           "name": "SetActorNamePacket",

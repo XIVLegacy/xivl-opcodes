@@ -9,6 +9,7 @@ from _json_io import CONSTANTS_PATH, OPCODES_PATH, write_json
 EXPECTED_TOP_DESC = "FFXIV 1.23b opcode catalog joined with pcap observations and retail-client analysis. WorldMapBackend holds world<->map backbone packets; both backend directions share opcode integers. WorldMapBackend entries are server-to-server and never cross the client TCP socket, so client-capture pcap evidence is structurally impossible for those wire values. A catalog extension added 4 client-side receiver opcodes (0x018E SetRetainerStar, 0x01A2 JobQuestCompleteTriple, 0x01A6 HamletSupplyRanking, 0x01A8 HamletDefenseScore); evidence is xivl-client-structs client receiver decomp."
 REVERIFY_METHOD = "live-validation: verify that the retail 1.23b client accepts the behavior in a live session"
 CLIENT_SEMANTICS_PATH = Path(__file__).resolve().parent.parent / "data" / "client_opcode_semantics.json"
+BATTLE_RESULT_SEMANTICS_PATH = Path(__file__).resolve().parent.parent / "data" / "battle_result_semantics.json"
 ZONE_DUMMY_CLUSTER_EVIDENCE = "xivl-client-structs:manifests/zone_dummy_callback_cluster.json"
 LOCAL_DECOMP_ANCHOR_EVIDENCE = {
     "FUN_0075ECD0": "data/client_opcode_semantics.json#c2s-0135",
@@ -53,20 +54,6 @@ OVERRIDES = [
         "_0x02Packet",
         "no_pcap_evidence",
         "no_pcap_evidence; implementationServiceRelabel=LobbyOpcode::Error_at_lobby_clientbound_same_wire_integer; not_a_parity_discrepancy",
-    ),
-    (
-        "MapClientbound",
-        "0x013a",
-        "CommandResultX10Packet",
-        "packet_size=0xD8; multiplexed_at_runtime=true; payload_variants=CommandResultX10Packet,BattleActionX10Packet; runtime_distinguish=source_actor+per_entry_layout(12B_CommandResult_vs_~16B_BattleAction)",
-        "packet_size=0xD8; pcap_shape=sparse_SoA_CommandResultX10; columns=targets@0x28,amounts@0x50,textIds@0x64,effectIds@0x78,params@0xA0,hitNums@0xAA; 66_s2c_main_occurrences_in_6_captures; alternate_name=BattleActionX10Packet",
-    ),
-    (
-        "MapClientbound",
-        "0x013b",
-        "CommandResultX18Packet",
-        "packet_size=0x148; payload_variants=CommandResultX18Packet,BattleActionX18Packet; no_occurrences_in_54_capture_corpus; unresolved_discriminator=retail_0x013B_payload_showing_columnar_CommandResult_or_per_entry_BattleAction_layout",
-        "packet_size=0x148; payload_shape=sparse_SoA_CommandResultX18; columns=targets@0x28,amounts@0x70,textIds@0x94,effectIds@0xB8,params@0x100,hitNums@0x112; rows=18x0x14_transposed_by_FUN_005874B0; no_occurrences_in_54_capture_corpus; alternate_name=BattleActionX18Packet",
     ),
     (
         "WorldMapBackend",
@@ -241,13 +228,6 @@ NAME_OVERRIDES = [
         "_0x00CEHandler",
         "_0x00CEHandler",
         None,
-    ),
-    (
-        "MapClientbound",
-        "0x013b",
-        "BattleActionX18Packet",
-        "CommandResultX18Packet",
-        "MapServerOpcode::CommandResultX18",
     ),
     (
         "MapServerbound",
@@ -689,6 +669,51 @@ def apply_client_semantics(top: dict) -> tuple[int, int]:
     return applied, errors
 
 
+def apply_battle_result_semantics(top: dict) -> tuple[int, int]:
+    """Apply the reviewed battle-result route and field contract."""
+    evidence = json.loads(BATTLE_RESULT_SEMANTICS_PATH.read_text(encoding="utf-8"))
+    applied = 0
+    errors = 0
+
+    for row in evidence["rows"]:
+        matches = [
+            entry
+            for entry in top["lists"]["MapClientbound"]
+            if entry["opcodeHex"] == row["opcodeHex"]
+        ]
+        if len(matches) != 1:
+            print(
+                f"  WARN: battle-result row {row['opcodeHex']} matched {len(matches)} catalog rows"
+            )
+            errors += 1
+            continue
+
+        entry = matches[0]
+        entry["name"] = row["name"]
+        entry["implementationAnchor"] = None
+        entry["decompAnchor"] = row["function"]
+        entry["confidence"] = "decomp_routed"
+        aliases = ",".join(row["alternateNames"]) if row["alternateNames"] else "none"
+        entry["notes"] = "; ".join(
+            [
+                "battle_result_semantics=data/battle_result_semantics.json",
+                f"shape={row['shape']}",
+                f"row_capacity={row['rowCapacity']}",
+                f"status={row['status']}",
+                f"observed_occurrences={row['observedOccurrences']}",
+                f"capture_count={row['captureCount']}",
+                f"retained_samples={row['retainedSamples']}",
+                f"alternate_names={aliases}",
+                "normalized_queue=0x1a0_bytes; header=0x38_bytes; rows=18x0x14",
+                "prior_implementation_anchor_conflict=MapServerOpcode_label_is_not_retail_client_implementation_evidence",
+                "client_data_boundary=row_identity_only_no_behavior_or_scaling_claim",
+            ]
+        )
+        applied += 1
+
+    return applied, errors
+
+
 def apply_zone_dummy_cluster(top: dict) -> tuple[int, int]:
     """Replace imported 0x01c3..0x01df s2c nouns with retail no-op routes."""
     entries = top["lists"]["MapClientbound"]
@@ -979,6 +1004,10 @@ def main() -> int:
     semantics_applied, semantics_errors = apply_client_semantics(top)
     warned += semantics_errors
     print(f"Applied {semantics_applied} client-semantics evidence links")
+
+    battle_applied, battle_errors = apply_battle_result_semantics(top)
+    warned += battle_errors
+    print(f"Applied {battle_applied} battle-result semantic routes")
 
     cluster_applied, cluster_inserted = apply_zone_dummy_cluster(top)
     print(
