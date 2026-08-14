@@ -2988,7 +2988,7 @@ struct SetCurrentJobBody
 static_assert(sizeof(SetCurrentJobBody) == 16, "SetCurrentJobBody size mismatch");
 
 // 0x01cf (opcode 463) - sub_size=1640B body=1616B samples=2
-struct FriendStatusBody
+struct _0x01CFBody
 {
     uint8_t field0[3];    // body[+0..+2] 3B (2 distinct)
     uint8_t _const1;      // body[+3] = 0x50
@@ -3003,10 +3003,10 @@ struct FriendStatusBody
     uint8_t _pad10[1591]; // body[+25..+1615] zero
 };
 
-static_assert(sizeof(FriendStatusBody) == 1616, "FriendStatusBody size mismatch");
+static_assert(sizeof(_0x01CFBody) == 1616, "_0x01CFBody size mismatch");
 
 // 0x01df (opcode 479) - sub_size=968B body=944B samples=1
-struct PlayerSearchInfoResultBody
+struct _0x01DFBody
 {
     uint8_t _const0;      // body[+0] = 0xeb
     uint8_t _const1;      // body[+1] = 0xe8
@@ -3340,7 +3340,7 @@ struct PlayerSearchInfoResultBody
     uint8_t _pad329[120]; // body[+824..+943] zero
 };
 
-static_assert(sizeof(PlayerSearchInfoResultBody) == 944, "PlayerSearchInfoResultBody size mismatch");
+static_assert(sizeof(_0x01DFBody) == 944, "_0x01DFBody size mismatch");
 
 // 0x01e0 (opcode 480) - sub_size=648B body=624B samples=1
 struct PlayerSearchCommentResultBody
