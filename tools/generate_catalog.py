@@ -345,6 +345,20 @@ PCAP_LOBBY_PURGE = [
 
 
 CLIENT_SEMANTICS_SPECIAL_NOTES = {
+    "c2s-012d": (
+        "retail_client_analysis=FUN_00776760 writes opcode 0x012d and record size "
+        "0xc8 after FUN_006EE680 and FUN_0075E3A0 stage a generic event command; "
+        "wire_send_path=FUN_004D6D30->FUN_004E0240->FUN_00DAE010; observed=126 "
+        "total 216-byte subpackets across combat and noncombat scenarios; "
+        "client_prechecks=50-byte combined script-string limit, command burst "
+        "blocker, _canExecuteCommand, and dynamic command.canFire; "
+        "command_id_mapping=unresolved, with no stable scalar gameCommand row id "
+        "proven in the envelope; semantic_status=decomp_routed; "
+        "prior_label=MapClientOpcode::EventStart; conflict=implementation anchor "
+        "lacks a source-owned declaration; client_only=route, pre-checks, and "
+        "payload shape do not establish server behavior; separate_family="
+        "0x01c3..0x01df social/mail/search emitters excluded"
+    ),
     "c2s-00ce": (
         "retail_client_analysis=FUN_00763DC0 and FUN_0076D610 each build opcode "
         "0x00ce with record size 0x38 and call FUN_004D6D10; wire_send_path="
@@ -658,12 +672,14 @@ def apply_client_semantics(top: dict) -> tuple[int, int]:
             ]
         )
         entry["notes"] = "; ".join(parts)
-        if row["id"] in {"s2c-0187", "s2c-018a", "s2c-018b", "s2c-018d", "s2c-018f", "s2c-0190", "s2c-0191", "s2c-0193", "s2c-0196", "s2c-01cb", "c2s-00ce"}:
+        if row["id"] in {"s2c-0187", "s2c-018a", "s2c-018b", "s2c-018d", "s2c-018f", "s2c-0190", "s2c-0191", "s2c-0193", "s2c-0196", "s2c-01cb", "c2s-00ce", "c2s-012d"}:
             entry["confidence"] = "decomp_routed"
         elif row["id"] == "c2s-012f":
             entry["confidence"] = "decomp_routed"
         elif row["id"] == "c2s-0135":
             entry["confidence"] = "decomp_routed"
+        if row["id"] == "c2s-012d":
+            entry["implementationAnchor"] = None
         applied += 1
 
     return applied, errors

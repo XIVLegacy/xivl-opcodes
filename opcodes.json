@@ -977,7 +977,7 @@
           "opcodeHex": "0x012d",
           "service": "map",
           "direction": "serverbound",
-          "implementationAnchor": "MapClientOpcode::EventStart",
+          "implementationAnchor": null,
           "decompAnchor": "FUN_00776760",
           "observedIn": [
             "accept_leve.pcapng",
@@ -1023,8 +1023,8 @@
           "payloadLengths": [
             216
           ],
-          "confidence": "implemented",
-          "notes": "client_semantics_evidence=data/client_opcode_semantics.json#c2s-012d; dependency_status=closed"
+          "confidence": "decomp_routed",
+          "notes": "retail_client_analysis=FUN_00776760 writes opcode 0x012d and record size 0xc8 after FUN_006EE680 and FUN_0075E3A0 stage a generic event command; wire_send_path=FUN_004D6D30->FUN_004E0240->FUN_00DAE010; observed=126 total 216-byte subpackets across combat and noncombat scenarios; client_prechecks=50-byte combined script-string limit, command burst blocker, _canExecuteCommand, and dynamic command.canFire; command_id_mapping=unresolved, with no stable scalar gameCommand row id proven in the envelope; semantic_status=decomp_routed; prior_label=MapClientOpcode::EventStart; conflict=implementation anchor lacks a source-owned declaration; client_only=route, pre-checks, and payload shape do not establish server behavior; separate_family=0x01c3..0x01df social/mail/search emitters excluded; client_semantics_evidence=data/client_opcode_semantics.json#c2s-012d; dependency_status=closed"
         },
         {
           "name": "EventUpdatePacket",

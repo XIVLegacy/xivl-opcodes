@@ -623,12 +623,15 @@
       "direction": "serverbound",
       "function": "FUN_00776760",
       "status": "closed",
-      "supportedLabel": "0x012d builder for a 0xc8-byte tagged application body",
-      "tool": "XIVLegacy Ghidra FindOpcodeImmediate.java, DumpFunctionDecomp.java, and analyze_payload_layouts.py",
-      "observation": "The builder writes opcode 0x012d and body size 0xc8, stages four u32 values, one u8, 32 bytes, and 128 bytes, then sends through FUN_004D6D30, FUN_004E0240, and FUN_00DAE010; captures confirm a 216-byte total subpacket.",
+      "supportedLabel": "EventStartPacket generic command-event envelope",
+      "tool": "XIVLegacy retail asm, preserved-script metadata, and capture payload analysis",
+      "observation": "FUN_00776760 writes opcode 0x012d and record size 0xc8, stages four u32 values, one u8, 32 inline bytes, and a 128-byte event tail, then sends through FUN_004D6D30, FUN_004E0240, and FUN_00DAE010. The preserved PlayerBase command path reaches this builder through _callServerOnCommand and FUN_006EE680/FUN_0075E3A0. Captures contain 126 total 216-byte subpackets, including combat and noncombat scenarios. No stable scalar gameCommand row id, range constant, resource check, or server-side CanUse rule is established; command-specific eligibility remains behind command.canFire and native dynamic dispatch.",
       "sourceRefs": [
         "xivl-client-structs:manifests/symbols.json#BCS-Y-0426",
         "xivl-client-structs:manifests/combat_action_c2s_findings.json#FUN_00776760",
+        "xivl-client-structs:manifests/combat_command_emission.json",
+        "xivl-client-scripts:lua/scripts/chara/player/playerbaseclass.calls.json",
+        "xivl-captures:derived/observations.json#inner_opcodes.c2s.0x012d",
         "xivl-captures:derived/payload_layouts.json#c2s.0x012d"
       ]
     },
