@@ -69,6 +69,13 @@
     "headerFields": "sourceActorId@+0x0c,effectOrAnimationId@+0x10,rowCount@+0x30,headerControlValue@+0x32,commandId@+0x34,presentationFlags@+0x36",
     "rowFields": "targetActorId@+0x00,numericValue@+0x04,effectId@+0x08,worldMasterTextId@+0x0c,textParam@+0x0e,rowOrdinalOrFilter@+0x0f,reserved@+0x10"
   },
+  "textSelection": {
+    "decisionOwner": "server",
+    "rowContract": "worldMasterTextId=0 skips row text; a nonzero ID is rendered unchanged and is not derived from numericValue, effectId, commandId, or actor identity.",
+    "headerContract": "A nonzero headerControlValue is a separate header-level worldMaster text ID rendered once through the common text pipeline, then cleared; it does not alter per-row selection.",
+    "parameterContract": "commandId supplies template slot e802; source/target actor identities supply e908/e909; numericValue supplies e80b; effectId is masked to 24 bits and supplies e80c; textParam supplies template-specific e80d. rowOrdinalOrFilter is not a render argument.",
+    "corpusContract": "The closed retained corpus has 531 packets, 622 rows, 502 nonzero text-ID rows, 120 zero-ID rows, and 29 distinct joined nonzero worldMaster IDs. 0x013B remains a bounded absence."
+  },
   "unresolvedBoundaries": [
     "CommandResultX18Packet and BattleActionX18Packet remain aliases because no 0x013B capture distinguishes their runtime naming.",
     "The exact meanings of header render-context fields, presentation flag bits, textParam, rowOrdinalOrFilter, and the final indirect Rapture/Vfx clip target remain unresolved.",
@@ -76,7 +83,9 @@
   ],
   "sourceRefs": [
     "xivl-client-structs:manifests/battle_result_field_semantics.json",
+    "xivl-client-structs:manifests/battle_result_text_mapping.json",
     "xivl-captures:derived/observations.json#inner_opcodes.s2c.0x0139-0x013c",
-    "xivl-captures:derived/payload_layouts.json#s2c-0x0139-0x013c"
+    "xivl-captures:derived/payload_layouts.json#s2c-0x0139-0x013c",
+    "xivl-captures:studies/battle-result-backfit/derived/world-master-message-contexts.json"
   ]
 }
