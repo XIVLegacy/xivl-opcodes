@@ -18,8 +18,10 @@ EXPECTED_BINARY = {
 }
 EXPECTED_SOURCE_REFS = {
     "xivl-client-structs:manifests/battle_result_field_semantics.json",
+    "xivl-client-structs:manifests/battle_result_text_mapping.json",
     "xivl-captures:derived/observations.json#inner_opcodes.s2c.0x0139-0x013c",
     "xivl-captures:derived/payload_layouts.json#s2c-0x0139-0x013c",
+    "xivl-captures:studies/battle-result-backfit/derived/world-master-message-contexts.json",
 }
 EXPECTED = {
     "0x0139": ("CommandResultX01Packet", "FUN_0058C880", 1, 438, 21, 50, 88),
@@ -42,7 +44,7 @@ def main() -> int:
     if evidence.get("binary") != EXPECTED_BINARY:
         fail("retail binary identity drifted")
     if set(evidence.get("sourceRefs", [])) != EXPECTED_SOURCE_REFS:
-        fail("sourceRefs must retain the client route and both capture evidence locators")
+        fail("sourceRefs must retain the client route, text map, and capture evidence locators")
     evidence_rows = evidence["rows"]
     rows = {row["opcodeHex"]: row for row in evidence_rows}
     if len(evidence_rows) != len(EXPECTED) or len(rows) != len(EXPECTED):
