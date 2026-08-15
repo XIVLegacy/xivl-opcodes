@@ -24,6 +24,7 @@ EXPECTED_INBOUND = {
     "0x016d",
     "0x016e",
     "0x017a",
+    "0x017c",
     *{f"0x{opcode:04x}" for opcode in range(0x017D, 0x018C)},
     "0x018d",
     "0x018f",
@@ -125,7 +126,7 @@ OUTBOUND_OBSERVATION_FRAGMENTS = {
 EXPECTED_OPEN_MISSING_FRAGMENTS = {}
 BARE_FUNCTION = re.compile(r"^FUN_[0-9A-F]{8}$")
 SOURCE_REF = re.compile(r"^(xivl-client-structs|xivl-client-scripts|xivl-captures|retail):")
-EXPECTED_CAPTURE_ROWS = {"c2s-00c9", "c2s-00ce", "c2s-012d", "c2s-012e", "c2s-012f", "s2c-0187", "s2c-018b", "s2c-018d", "s2c-018f", "s2c-0190", "s2c-0191", "s2c-0193", "s2c-0196"}
+EXPECTED_CAPTURE_ROWS = {"c2s-00c9", "c2s-00ce", "c2s-012d", "c2s-012e", "c2s-012f", "s2c-017c", "s2c-017f", "s2c-0183", "s2c-0187", "s2c-018b", "s2c-018d", "s2c-018f", "s2c-0190", "s2c-0191", "s2c-0193", "s2c-0196"}
 
 
 def main() -> int:
@@ -142,10 +143,10 @@ def main() -> int:
     if evidence.get("binary") != EXPECTED_BINARY:
         errors.append("retail binary metadata or pinned SHA-256 drifted")
 
-    if len(rows) != 39:
-        errors.append(f"evidence row count is {len(rows)}, expected 39")
-    if {row.get("dependencyOrdinal") for row in rows} != set(range(39)):
-        errors.append("dependencyOrdinal values must be exactly 0 through 38")
+    if len(rows) != 40:
+        errors.append(f"evidence row count is {len(rows)}, expected 40")
+    if {row.get("dependencyOrdinal") for row in rows} != set(range(40)):
+        errors.append("dependencyOrdinal values must be exactly 0 through 39")
 
     inbound = {row.get("opcodeHex") for row in rows if row.get("direction") == "clientbound"}
     outbound = {row.get("opcodeHex") for row in rows if row.get("direction") == "serverbound"}
@@ -245,6 +246,73 @@ def main() -> int:
     bad_anchors = [anchor for anchor in anchors if not BARE_FUNCTION.fullmatch(anchor)]
     if bad_anchors:
         errors.append(f"non-bare decompAnchor values: {bad_anchors}")
+
+    group_expectations = {
+        "s2c-017c": {
+            "sub_size": 152,
+            "body_length": 136,
+            "catalog_fragments": (
+                "groupTypeId at application offset 0x30",
+                "application_payload=0x78 bytes",
+                "observed_subpacket=0x98 bytes",
+                "10001 x14,10002 x265,30001 x65,30006 x4,50001 x2,80001 x11",
+                "30001_scope=65/65 party_battle_leve.pcapng",
+                "no group-kind mapping",
+                "BCS-Y-0564",
+                "director_group_wire_identity.json#layouts.0x017C",
+            ),
+        },
+        "s2c-017f": {
+            "sub_size": 440,
+            "body_length": 424,
+            "catalog_fragments": (
+                "application_payload=0x198 bytes",
+                "observed_subpacket=0x1b8 bytes",
+                "eight 0x30-byte records at application offset 0x10",
+                "memberCount=u32 at application offset 0x190",
+                "director_group_wire_identity.json#layouts.0x017F",
+            ),
+        },
+        "s2c-0183": {
+            "sub_size": 152,
+            "body_length": 136,
+            "catalog_fragments": (
+                "application_payload=0x78 bytes",
+                "observed_subpacket=0x98 bytes",
+                "eight 0x0c-byte records at application offset 0x10",
+                "memberCount=low byte at application offset 0x70",
+                "director_group_wire_identity.json#layouts.0x0183",
+            ),
+        },
+    }
+    for row_id, expected in group_expectations.items():
+        row = next(row for row in rows if row.get("id") == row_id)
+        entry = next(
+            entry for entry in entries
+            if entry.get("opcodeHex") == row["opcodeHex"]
+            and entry.get("direction") == "clientbound"
+            and entry.get("decompAnchor") == row["function"]
+        )
+        layout = capture_layouts["layouts"]["s2c"][row["opcodeHex"]]
+        if layout.get("common_sub_size") != expected["sub_size"]:
+            errors.append(f"{row_id}: pinned subpacket size drifted")
+        if layout.get("body_length") != expected["body_length"]:
+            errors.append(f"{row_id}: pinned body length drifted")
+        notes = entry.get("notes", "")
+        for fragment in expected["catalog_fragments"]:
+            if fragment not in notes:
+                errors.append(f"{row_id}: catalog notes lost required fact {fragment!r}")
+
+    group_header = (REPO_ROOT / "structs" / "map" / "clientbound.h").read_text(encoding="ascii")
+    for pattern in (
+        r"uint32_t\s+groupTypeId;\s*// application\[\+0x30\]; positional observation",
+        r"uint8_t\s+members\[384\];\s*// eight 0x30-byte records at application\[\+0x10\]",
+        r"uint32_t\s+memberCount;\s*// application\[\+0x190\]",
+        r"uint8_t\s+members\[96\];\s*// eight 0x0c-byte records at application\[\+0x10\]",
+        r"uint8_t\s+memberCount;\s*// application\[\+0x70\]",
+    ):
+        if re.search(pattern, group_header) is None:
+            errors.append(f"generated Group-family structs lost pattern {pattern!r}")
 
     opaque_entry = next(
         entry

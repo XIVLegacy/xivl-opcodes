@@ -4119,7 +4119,7 @@
             152
           ],
           "confidence": "implemented",
-          "notes": "pcap_service_ambiguous=world,map; decomp_anchor_evidence=data/vendor/client-structs/bcsy-opcode-bindings.json#BCS-Y-0564; decomp_anchor_locator=FUN_00576250"
+          "notes": "retail_client_analysis=FUN_00576250 routes the Group header and the client layout reads positional u32 groupTypeId at application offset 0x30; application_payload=0x78 bytes; observed_subpacket=0x98 bytes; observed_groupTypeId=10001 x14,10002 x265,30001 x65,30006 x4,50001 x2,80001 x11 across 361 headers; 30001_scope=65/65 party_battle_leve.pcapng; field_semantics=positional observation only, no group-kind mapping; client_evidence=BCS-Y-0564,xivl-client-structs:manifests/director_group_wire_identity.json#layouts.0x017C; capture_evidence=xivl-captures:studies/director-wire-identity/derived/accounting.json#group_type_candidate_distribution; client_only=layout and observed values do not establish server behavior; pcap_service_ambiguous=world,map; client_semantics_evidence=data/client_opcode_semantics.json#s2c-017c; dependency_status=closed"
         },
         {
           "name": "GroupMembersBeginPacket",
@@ -4208,7 +4208,7 @@
             440
           ],
           "confidence": "implemented",
-          "notes": "corpus zone_handoff_evidence.json: hits 5/5 zone-transition pcaps; GroupMembersX08 fires on zone-in as group state refresh. Top-5 cross-capture rare s2c opcode for zone transitions.; capture_field19_scan=2026-08-12 retail 54-pcap corpus: 27 valid s2c occurrences in 11 captures (login.pcapng excluded as TLS); field19 is the low byte of memberCount u32 at application payload+0x190, with values 1=12 and 2=15; eight 0x30-byte member slots begin at application payload+0x10; slot0 isOnline=1 in 27/27, slot1 is absent in 12, populated isOnline=0 in 11 and isOnline=1 in 4, slots2-7 are zero; paired zone refreshes show memberCount 2 then 1 while the slot1 online byte remains 0; this refutes field19 as isOnline.; pcap_service_ambiguous=world,map; client_semantics_evidence=data/client_opcode_semantics.json#s2c-017f; dependency_status=closed"
+          "notes": "retail_client_analysis=FUN_005762E0 routes the eight-entry Group member update; application_payload=0x198 bytes; observed_subpacket=0x1b8 bytes; member_layout=eight 0x30-byte records at application offset 0x10; memberCount=u32 at application offset 0x190 with observed values 1 x12 and 2 x15; client_evidence=xivl-client-structs:manifests/director_group_wire_identity.json#layouts.0x017F; capture_evidence=xivl-captures:studies/director-wire-identity/derived/group-members.csv#opcode=0x017F; client_only=layout and observed values do not establish server behavior; pcap_service_ambiguous=world,map; client_semantics_evidence=data/client_opcode_semantics.json#s2c-017f; dependency_status=closed"
         },
         {
           "name": "GroupMembersX16Packet",
@@ -4273,7 +4273,7 @@
             152
           ],
           "confidence": "implemented",
-          "notes": "client_semantics_evidence=data/client_opcode_semantics.json#s2c-0183; dependency_status=closed"
+          "notes": "retail_client_analysis=FUN_00576320 routes the compact content-member update; application_payload=0x78 bytes; observed_subpacket=0x98 bytes; member_layout=eight 0x0c-byte records at application offset 0x10; memberCount=low byte at application offset 0x70; client_evidence=xivl-client-structs:manifests/director_group_wire_identity.json#layouts.0x0183; capture_evidence=xivl-captures:studies/director-wire-identity/derived/group-members.csv#opcode=0x0183; client_only=layout and observed values do not establish server behavior; client_semantics_evidence=data/client_opcode_semantics.json#s2c-0183; dependency_status=closed"
         },
         {
           "name": "ContentMembersX16Packet",

@@ -2470,39 +2470,10 @@ static_assert(sizeof(SetActorIsZoningBody) == 16, "SetActorIsZoningBody size mis
 // 0x017c (opcode 380) - sub_size=152B body=128B samples=45
 struct GroupHeaderBody
 {
-    uint8_t  field0[3];   // body[+0..+2] 3B (25 distinct)
-    uint8_t  _const1;     // body[+3] = 0x50
-    uint8_t  _pad2[4];    // body[+4..+7] zero
-    uint8_t  field3;      // body[+8] u8 (8 distinct)
-    uint8_t  _pad4[7];    // body[+9..+15] zero
-    uint8_t  field5[5];   // body[+16..+20] 5B (39 distinct)
-    uint8_t  _const6;     // body[+21] = 0x15
-    uint8_t  _pad7[2];    // body[+22..+23] zero
-    uint8_t  field8;      // body[+24] u8 (2 distinct)
-    uint8_t  _pad9[7];    // body[+25..+31] zero
-    uint8_t  field10[3];  // body[+32..+34] 3B (4 distinct)
-    uint8_t  _pad11[3];   // body[+35..+37] zero
-    uint16_t field12;     // body[+38..+39] u16 (2 distinct)
-    uint8_t  _pad13[8];   // body[+40..+47] zero
-    uint8_t  field14[3];  // body[+48..+50] 3B (17 distinct)
-    uint8_t  _pad15[3];   // body[+51..+53] zero
-    uint8_t  field16[5];  // body[+54..+58] 5B (3 distinct)
-    uint8_t  _pad17[5];   // body[+59..+63] zero
-    uint8_t  field18[3];  // body[+64..+66] 3B (2 distinct)
-    uint8_t  _pad19[4];   // body[+67..+70] zero
-    uint8_t  field20;     // body[+71] u8 (2 distinct)
-    uint8_t  _const21[4]; // body[+72..+75] each byte = 0xff
-    uint8_t  _pad22[32];  // body[+76..+107] zero
-    uint16_t field23;     // body[+108..+109] u16 (2 distinct)
-    uint8_t  _pad24[2];   // body[+110..+111] zero
-    uint16_t field25;     // body[+112..+113] u16 (2 distinct)
-    uint8_t  _pad26[2];   // body[+114..+115] zero
-    uint16_t field27;     // body[+116..+117] u16 (2 distinct)
-    uint8_t  _pad28[2];   // body[+118..+119] zero
-    uint16_t field29;     // body[+120..+121] u16 (2 distinct)
-    uint8_t  _pad30[2];   // body[+122..+123] zero
-    uint8_t  field31;     // body[+124] u8 (6 distinct)
-    uint8_t  _pad32[3];   // body[+125..+127] zero
+    uint8_t  gameMessagePreamble[8]; // body[+0..+7]; not application payload
+    uint8_t  applicationPrefix[48];  // application[+0x00..+0x2f]
+    uint32_t groupTypeId;            // application[+0x30]; positional observation
+    uint8_t  applicationTail[68];    // application[+0x34..+0x77]
 };
 
 static_assert(sizeof(GroupHeaderBody) == 128, "GroupHeaderBody size mismatch");
@@ -2547,27 +2518,11 @@ static_assert(sizeof(GroupMembersEndBody) == 32, "GroupMembersEndBody size misma
 // 0x017f (opcode 383) - sub_size=440B body=416B samples=25
 struct GroupMembersX08Body
 {
-    uint8_t  field0[3];   // body[+0..+2] 3B (13 distinct)
-    uint8_t  _const1;     // body[+3] = 0x50
-    uint8_t  _pad2[4];    // body[+4..+7] zero
-    uint8_t  field3;      // body[+8] u8 (9 distinct)
-    uint8_t  _pad4[7];    // body[+9..+15] zero
-    uint8_t  field5[5];   // body[+16..+20] 5B (24 distinct)
-    uint8_t  _const6;     // body[+21] = 0x15
-    uint8_t  _pad7[2];    // body[+22..+23] zero
-    uint8_t  _const8;     // body[+24] = 0x41
-    uint8_t  _const9;     // body[+25] = 0x29
-    uint8_t  _const10;    // body[+26] = 0x9b
-    uint8_t  _const11;    // body[+27] = 0x02
-    uint8_t  _const12[4]; // body[+28..+31] each byte = 0xff
-    uint16_t field13;     // body[+32..+33] u16 (8 distinct)
-    uint8_t  _pad14[3];   // body[+34..+36] zero
-    uint8_t  _const15;    // body[+37] = 0x01
-    uint8_t  _pad16[34];  // body[+38..+71] zero
-    uint8_t  field17[14]; // body[+72..+85] 14B (3 distinct)
-    uint8_t  _pad18[322]; // body[+86..+407] zero
-    uint8_t  field19;     // body[+408] u8 (2 distinct); memberCount low byte at payload+0x190; not isOnline
-    uint8_t  _pad20[7];   // body[+409..+415] zero
+    uint8_t  gameMessagePreamble[8]; // body[+0..+7]; not application payload
+    uint8_t  applicationPrefix[16];  // application[+0x00..+0x0f]
+    uint8_t  members[384];           // eight 0x30-byte records at application[+0x10]
+    uint32_t memberCount;            // application[+0x190]
+    uint8_t  reserved0[4];           // application[+0x194..+0x197]
 };
 
 static_assert(sizeof(GroupMembersX08Body) == 416, "GroupMembersX08Body size mismatch");
@@ -2575,41 +2530,11 @@ static_assert(sizeof(GroupMembersX08Body) == 416, "GroupMembersX08Body size mism
 // 0x0183 (opcode 387) - sub_size=152B body=128B samples=27
 struct ContentMembersX08Body
 {
-    uint8_t field0[3];  // body[+0..+2] 3B (19 distinct)
-    uint8_t _const1;    // body[+3] = 0x50
-    uint8_t _pad2[4];   // body[+4..+7] zero
-    uint8_t field3;     // body[+8] u8 (5 distinct)
-    uint8_t _pad4[7];   // body[+9..+15] zero
-    uint8_t field5[5];  // body[+16..+20] 5B (26 distinct)
-    uint8_t _const6;    // body[+21] = 0x15
-    uint8_t _pad7[2];   // body[+22..+23] zero
-    uint8_t field8[5];  // body[+24..+28] 5B (20 distinct)
-    uint8_t _const9;    // body[+29] = 0x01
-    uint8_t _pad10[2];  // body[+30..+31] zero
-    uint8_t _const11;   // body[+32] = 0x01
-    uint8_t _pad12[3];  // body[+33..+35] zero
-    uint8_t field13[6]; // body[+36..+41] 6B (4 distinct)
-    uint8_t _pad14[2];  // body[+42..+43] zero
-    uint8_t field15;    // body[+44] u8 (2 distinct)
-    uint8_t _pad16[3];  // body[+45..+47] zero
-    uint8_t field17[6]; // body[+48..+53] 6B (3 distinct)
-    uint8_t _pad18[2];  // body[+54..+55] zero
-    uint8_t field19;    // body[+56] u8 (2 distinct)
-    uint8_t _pad20[3];  // body[+57..+59] zero
-    uint8_t field21[6]; // body[+60..+65] 6B (3 distinct)
-    uint8_t _pad22[2];  // body[+66..+67] zero
-    uint8_t field23;    // body[+68] u8 (2 distinct)
-    uint8_t _pad24[3];  // body[+69..+71] zero
-    uint8_t field25[6]; // body[+72..+77] 6B (3 distinct)
-    uint8_t _pad26[2];  // body[+78..+79] zero
-    uint8_t field27;    // body[+80] u8 (2 distinct)
-    uint8_t _pad28[3];  // body[+81..+83] zero
-    uint8_t field29[6]; // body[+84..+89] 6B (2 distinct)
-    uint8_t _pad30[2];  // body[+90..+91] zero
-    uint8_t field31;    // body[+92] u8 (2 distinct)
-    uint8_t _pad32[27]; // body[+93..+119] zero
-    uint8_t field33;    // body[+120] u8 (6 distinct)
-    uint8_t _pad34[7];  // body[+121..+127] zero
+    uint8_t gameMessagePreamble[8]; // body[+0..+7]; not application payload
+    uint8_t applicationPrefix[16];  // application[+0x00..+0x0f]
+    uint8_t members[96];            // eight 0x0c-byte records at application[+0x10]
+    uint8_t memberCount;            // application[+0x70]
+    uint8_t reserved0[7];           // application[+0x71..+0x77]
 };
 
 static_assert(sizeof(ContentMembersX08Body) == 128, "ContentMembersX08Body size mismatch");
