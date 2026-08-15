@@ -2411,7 +2411,7 @@
             40
           ],
           "confidence": "implemented",
-          "notes": ""
+          "notes": "retail_client_analysis=FUN_004DC690 resolves the target Element and calls primary vtable slot 9 with the packet pointer; CharaElement slot 9 FUN_0058CCA0 case 0x00DA reaches FUN_0058CAD0 -> FUN_0058C690 -> FUN_005901D0 and stages an actor-local battle-effect queue at +0xA84..+0xA90; per-frame FUN_0058DA10 drains one entry and type-gates visual adapters; non-Chara Element implementations and restricted CharaElement state drop the opcode; separation=not the internal Element slot-8 MainPacket bus and no static CharaActionController/CharaActionQue edge; bcsy_ref=BCS-Y-0540 + BCS-Y-1025"
         },
         {
           "name": "SetActorTargetPacket",
