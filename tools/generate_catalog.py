@@ -345,6 +345,37 @@ PCAP_LOBBY_PURGE = [
 
 
 CLIENT_SEMANTICS_SPECIAL_NOTES = {
+    "s2c-017c": (
+        "retail_client_analysis=FUN_00576250 routes the Group header and the client "
+        "layout reads positional u32 groupTypeId at application offset 0x30; "
+        "application_payload=0x78 bytes; observed_subpacket=0x98 bytes; "
+        "observed_groupTypeId=10001 x14,10002 x265,30001 x65,30006 x4,50001 x2,80001 x11 "
+        "across 361 headers; 30001_scope=65/65 party_battle_leve.pcapng; "
+        "field_semantics=positional observation only, no group-kind mapping; "
+        "client_evidence=BCS-Y-0564,xivl-client-structs:manifests/director_group_wire_identity.json#layouts.0x017C; "
+        "capture_evidence=xivl-captures:studies/director-wire-identity/derived/accounting.json#group_type_candidate_distribution; "
+        "client_only=layout and observed values do not establish server behavior; "
+        "pcap_service_ambiguous=world,map"
+    ),
+    "s2c-017f": (
+        "retail_client_analysis=FUN_005762E0 routes the eight-entry Group member update; "
+        "application_payload=0x198 bytes; observed_subpacket=0x1b8 bytes; "
+        "member_layout=eight 0x30-byte records at application offset 0x10; "
+        "memberCount=u32 at application offset 0x190 with observed values 1 x12 and 2 x15; "
+        "client_evidence=xivl-client-structs:manifests/director_group_wire_identity.json#layouts.0x017F; "
+        "capture_evidence=xivl-captures:studies/director-wire-identity/derived/group-members.csv#opcode=0x017F; "
+        "client_only=layout and observed values do not establish server behavior; "
+        "pcap_service_ambiguous=world,map"
+    ),
+    "s2c-0183": (
+        "retail_client_analysis=FUN_00576320 routes the compact content-member update; "
+        "application_payload=0x78 bytes; observed_subpacket=0x98 bytes; "
+        "member_layout=eight 0x0c-byte records at application offset 0x10; "
+        "memberCount=low byte at application offset 0x70; "
+        "client_evidence=xivl-client-structs:manifests/director_group_wire_identity.json#layouts.0x0183; "
+        "capture_evidence=xivl-captures:studies/director-wire-identity/derived/group-members.csv#opcode=0x0183; "
+        "client_only=layout and observed values do not establish server behavior"
+    ),
     "c2s-012d": (
         "retail_client_analysis=FUN_00776760 writes opcode 0x012d and record size "
         "0xc8 after FUN_006EE680 and FUN_0075E3A0 stage a generic event command; "

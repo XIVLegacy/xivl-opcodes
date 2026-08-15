@@ -162,10 +162,13 @@
       "status": "closed",
       "supportedLabel": "Eight-entry group-member update with 0x30-byte records",
       "tool": "XIVLegacy Ghidra DumpFunctionDecomp.java",
-      "observation": "The reached body reads location and sequence u64 values, eight 0x30-byte member records, and a member count whose low byte controls iteration.",
+      "observation": "After the eight-byte game-message preamble, the reached body reads location and sequence u64 values, eight 0x30-byte member records at application offset 0x10, and the member count at application offset 0x190 whose low byte controls iteration. The application payload is 0x198 bytes and the full subpacket is 0x1b8 bytes. Client and capture evidence establish only the positional layout, not server behavior.",
       "sourceRefs": [
         "xivl-client-structs:manifests/symbols.json#BCS-Y-0567",
-        "xivl-client-structs:manifests/unmapped_payload_decoding.json#s2c_0x017f"
+        "xivl-client-structs:manifests/unmapped_payload_decoding.json#s2c_0x017f",
+        "xivl-client-structs:manifests/director_group_wire_identity.json#layouts.0x017F",
+        "xivl-captures:studies/director-wire-identity/derived/verdicts.md#offset-cross-check",
+        "xivl-captures:studies/director-wire-identity/derived/group-members.csv#opcode=0x017F"
       ]
     },
     {
@@ -228,10 +231,13 @@
       "status": "closed",
       "supportedLabel": "Eight-entry content-member update with 0x0c-byte records",
       "tool": "XIVLegacy Ghidra DumpFunctionDecomp.java",
-      "observation": "The owner-offset 0x18 thunk reaches FUN_006C3100; the body reads location and sequence u64 values, eight 0x0c-byte entries, and a low-byte count.",
+      "observation": "The owner-offset 0x18 thunk reaches FUN_006C3100. After the eight-byte game-message preamble, the 0x78-byte application payload carries location and sequence u64 values, eight compact 0x0c-byte content-member records at application offset 0x10, and a low-byte count at application offset 0x70. The full subpacket is 0x98 bytes. Client and capture evidence establish only the positional layout, not server behavior or member-field semantics.",
       "sourceRefs": [
         "xivl-client-structs:manifests/symbols.json#BCS-Y-0571",
-        "xivl-client-structs:manifests/unmapped_payload_decoding.json#s2c_0x0183"
+        "xivl-client-structs:manifests/unmapped_payload_decoding.json#s2c_0x0183",
+        "xivl-client-structs:manifests/director_group_wire_identity.json#layouts.0x0183",
+        "xivl-captures:studies/director-wire-identity/derived/verdicts.md#offset-cross-check",
+        "xivl-captures:studies/director-wire-identity/derived/group-members.csv#opcode=0x0183"
       ]
     },
     {
@@ -668,6 +674,23 @@
         "xivl-client-structs:manifests/c2s_coverage_synthesis.json#coverage[14]",
         "xivl-captures:derived/payload_layouts.json#c2s.0x00ce",
         "retail:ffxivgame.exe#sha256=9341f2b4567440b310a4d494f5cc5599ca334ba51c8042247317ff466492f2e9;vas=0x00763DC0,0x0076D610;run=opcode-semantics-c2s-00ce"
+      ]
+    },
+    {
+      "id": "s2c-017c",
+      "dependencyOrdinal": 39,
+      "opcodeHex": "0x017c",
+      "direction": "clientbound",
+      "function": "FUN_00576250",
+      "status": "closed",
+      "supportedLabel": "Group header with observational groupTypeId at application offset 0x30",
+      "tool": "XIVLegacy client-layout and retail-capture reconciliation",
+      "observation": "The client route reads a 0x78-byte application payload inside a 0x98-byte subpacket and treats the u32 at application offset 0x30 as a positional group-type identifier. Across 361 retained headers, the observed values are 10001 in 14 rows, 10002 in 265, 30001 in 65, 30006 in 4, 50001 in 2, and 80001 in 11. All 65 rows carrying 30001 occur in party_battle_leve.pcapng. These values are observations only and are not mapped to group-kind semantics.",
+      "sourceRefs": [
+        "xivl-client-structs:manifests/director_group_wire_identity.json#layouts.0x017C",
+        "xivl-captures:studies/director-wire-identity/derived/verdicts.md#director-wire-identity-verdicts",
+        "xivl-captures:studies/director-wire-identity/derived/accounting.json#group_type_candidate_distribution",
+        "xivl-captures:studies/director-wire-identity/derived/group-packets.csv#opcode=0x017C"
       ]
     }
   ]
