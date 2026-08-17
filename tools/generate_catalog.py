@@ -644,6 +644,11 @@ def swap_managed_prefix(current: str, expected_old: str, new_notes: str):
     # new_notes may start with expected_old, so test the applied form first.
     if current.startswith(new_notes):
         return current, "skipped"
+    # Pcap reconciliation removes this leading evidence token after overrides.
+    if new_notes.startswith(expected_old + ";") and current.startswith(
+        new_notes[len(expected_old) + 1 :].lstrip()
+    ):
+        return current, "skipped"
     if current.startswith(expected_old):
         return new_notes + current[len(expected_old):], "applied"
     return current, "mismatch"
@@ -836,6 +841,58 @@ def apply_zone_dummy_cluster(top: dict) -> tuple[int, int]:
 
     entries.sort(key=lambda entry: (entry["opcode"], entry["name"]))
     return applied, inserted
+
+
+def reconcile_pcap_notes(top: dict) -> tuple[int, int]:
+    """Keep pcap notes aligned with the observedIn evidence they describe."""
+    stale_removed = 0
+    ambiguity_added = 0
+    no_pcap_token = "no_pcap_evidence"
+    ambiguity_token = f"pcap_service_ambiguous={PCAP_AMBIGUOUS_SERVICES}"
+
+    def remove_token(notes: str, token: str) -> tuple[str, bool]:
+        if notes == token:
+            return "", True
+        prefix = token + ";"
+        if notes.startswith(prefix):
+            return notes[len(prefix):].lstrip(), True
+        for marker in ("; " + token, ";" + token):
+            start = notes.find(marker)
+            if start < 0:
+                continue
+            end = start + len(marker)
+            if end == len(notes) or notes[end] == ";":
+                return notes[:start] + notes[end:], True
+        return notes, False
+
+    observed_rows = []
+    for entries in top["lists"].values():
+        for entry in entries:
+            if entry.get("service") == "lobby" or not entry.get("observedIn"):
+                continue
+            notes, removed = remove_token(entry.get("notes", ""), no_pcap_token)
+            if removed:
+                entry["notes"] = notes
+                stale_removed += 1
+            observed_rows.append(entry)
+
+    by_key: dict[tuple[str, int], list[dict]] = {}
+    for entry in observed_rows:
+        key = (entry.get("direction"), entry.get("opcode"))
+        by_key.setdefault(key, []).append(entry)
+    for rows in by_key.values():
+        services = {entry.get("service") for entry in rows}
+        if services != {"map", "world"}:
+            continue
+        for entry in rows:
+            notes = entry.get("notes", "")
+            if ambiguity_token not in notes:
+                entry["notes"] = (
+                    f"{notes}; {ambiguity_token}" if notes else ambiguity_token
+                )
+                ambiguity_added += 1
+
+    return stale_removed, ambiguity_added
 
 
 def main() -> int:
@@ -1068,6 +1125,10 @@ def main() -> int:
         f"Applied {cluster_applied} Zone dummy-callback routes "
         f"({cluster_inserted} inserted catalog rows)"
     )
+
+    stale_removed, ambiguity_added = reconcile_pcap_notes(top)
+    print(f"Removed {stale_removed} stale no-pcap note tokens")
+    print(f"Added {ambiguity_added} pcap-ambiguity note tokens")
 
     if warned:
         print(f"Refusing to write opcodes.json after {warned} warning(s)", file=sys.stderr)
