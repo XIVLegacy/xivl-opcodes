@@ -24,6 +24,7 @@ EXPECTED_INBOUND = {
     "0x016d",
     "0x016e",
     "0x017a",
+    "0x017c",
     *{f"0x{opcode:04x}" for opcode in range(0x017D, 0x018C)},
     "0x018d",
     "0x018f",
@@ -98,7 +99,7 @@ OUTBOUND_OBSERVATION_FRAGMENTS = {
         "chat message",
         "FUN_00DB3E30",
     ),
-    "c2s-012d": ("opcode 0x012d", "body size 0xc8", "four u32", "one u8", "FUN_00DAE010", "216-byte total subpacket"),
+    "c2s-012d": ("opcode 0x012d", "record size 0xc8", "four u32", "one u8", "FUN_00DAE010", "126 captured 216-byte subpackets", "command.canFire", "100 owner IDs", "88 also join to gameCommand"),
     "c2s-012e": ("opcode 0x012e", "body size 0x68", "sixteen dwords", "FUN_004D6D30", "120-byte total subpacket"),
     "c2s-012f": ("opcode 0x012f", "record size 0x38", "leading dword", "32-byte", "four-byte stack tail", "_updateWork", "FUN_004D6D30", "72-byte subpackets"),
     "c2s-0131": ("opcode 0x0131", "size 0x18", "u32", "u8", "FUN_004D6D30"),
@@ -124,8 +125,8 @@ OUTBOUND_OBSERVATION_FRAGMENTS = {
 }
 EXPECTED_OPEN_MISSING_FRAGMENTS = {}
 BARE_FUNCTION = re.compile(r"^FUN_[0-9A-F]{8}$")
-SOURCE_REF = re.compile(r"^(xivl-client-structs|xivl-captures|retail):")
-EXPECTED_CAPTURE_ROWS = {"c2s-00c9", "c2s-00ce", "c2s-012d", "c2s-012e", "c2s-012f", "s2c-0187", "s2c-018b", "s2c-018d", "s2c-018f", "s2c-0190", "s2c-0191", "s2c-0193", "s2c-0196"}
+SOURCE_REF = re.compile(r"^(xivl-client-structs|xivl-client-scripts|xivl-captures|retail):")
+EXPECTED_CAPTURE_ROWS = {"c2s-00c9", "c2s-00ce", "c2s-012d", "c2s-012e", "c2s-012f", "s2c-017c", "s2c-017f", "s2c-0183", "s2c-0187", "s2c-018b", "s2c-018d", "s2c-018f", "s2c-0190", "s2c-0191", "s2c-0193", "s2c-0196"}
 
 
 def main() -> int:
@@ -142,10 +143,10 @@ def main() -> int:
     if evidence.get("binary") != EXPECTED_BINARY:
         errors.append("retail binary metadata or pinned SHA-256 drifted")
 
-    if len(rows) != 39:
-        errors.append(f"evidence row count is {len(rows)}, expected 39")
-    if {row.get("dependencyOrdinal") for row in rows} != set(range(39)):
-        errors.append("dependencyOrdinal values must be exactly 0 through 38")
+    if len(rows) != 40:
+        errors.append(f"evidence row count is {len(rows)}, expected 40")
+    if {row.get("dependencyOrdinal") for row in rows} != set(range(40)):
+        errors.append("dependencyOrdinal values must be exactly 0 through 39")
 
     inbound = {row.get("opcodeHex") for row in rows if row.get("direction") == "clientbound"}
     outbound = {row.get("opcodeHex") for row in rows if row.get("direction") == "serverbound"}
@@ -240,11 +241,78 @@ def main() -> int:
             errors.append(f"{label}: open row lost the required local anchor citation")
 
     anchors = [entry["decompAnchor"] for entry in entries if entry.get("decompAnchor")]
-    if len(anchors) != 75:
-        errors.append(f"catalog has {len(anchors)} decompAnchor values, expected 75")
+    if len(anchors) != 79:
+        errors.append(f"catalog has {len(anchors)} decompAnchor values, expected 79")
     bad_anchors = [anchor for anchor in anchors if not BARE_FUNCTION.fullmatch(anchor)]
     if bad_anchors:
         errors.append(f"non-bare decompAnchor values: {bad_anchors}")
+
+    group_expectations = {
+        "s2c-017c": {
+            "sub_size": 152,
+            "body_length": 136,
+            "catalog_fragments": (
+                "groupTypeId at application offset 0x30",
+                "application_payload=0x78 bytes",
+                "observed_subpacket=0x98 bytes",
+                "10001 x14,10002 x265,30001 x65,30006 x4,50001 x2,80001 x11",
+                "30001_scope=65/65 party_battle_leve.pcapng",
+                "no group-kind mapping",
+                "BCS-Y-0564",
+                "director_group_wire_identity.json#layouts.0x017C",
+            ),
+        },
+        "s2c-017f": {
+            "sub_size": 440,
+            "body_length": 424,
+            "catalog_fragments": (
+                "application_payload=0x198 bytes",
+                "observed_subpacket=0x1b8 bytes",
+                "eight 0x30-byte records at application offset 0x10",
+                "memberCount=u32 at application offset 0x190",
+                "director_group_wire_identity.json#layouts.0x017F",
+            ),
+        },
+        "s2c-0183": {
+            "sub_size": 152,
+            "body_length": 136,
+            "catalog_fragments": (
+                "application_payload=0x78 bytes",
+                "observed_subpacket=0x98 bytes",
+                "eight 0x0c-byte records at application offset 0x10",
+                "memberCount=low byte at application offset 0x70",
+                "director_group_wire_identity.json#layouts.0x0183",
+            ),
+        },
+    }
+    for row_id, expected in group_expectations.items():
+        row = next(row for row in rows if row.get("id") == row_id)
+        entry = next(
+            entry for entry in entries
+            if entry.get("opcodeHex") == row["opcodeHex"]
+            and entry.get("direction") == "clientbound"
+            and entry.get("decompAnchor") == row["function"]
+        )
+        layout = capture_layouts["layouts"]["s2c"][row["opcodeHex"]]
+        if layout.get("common_sub_size") != expected["sub_size"]:
+            errors.append(f"{row_id}: pinned subpacket size drifted")
+        if layout.get("body_length") != expected["body_length"]:
+            errors.append(f"{row_id}: pinned body length drifted")
+        notes = entry.get("notes", "")
+        for fragment in expected["catalog_fragments"]:
+            if fragment not in notes:
+                errors.append(f"{row_id}: catalog notes lost required fact {fragment!r}")
+
+    group_header = (REPO_ROOT / "structs" / "map" / "clientbound.h").read_text(encoding="ascii")
+    for pattern in (
+        r"uint32_t\s+groupTypeId;\s*// application\[\+0x30\]; positional observation",
+        r"uint8_t\s+members\[384\];\s*// eight 0x30-byte records at application\[\+0x10\]",
+        r"uint32_t\s+memberCount;\s*// application\[\+0x190\]",
+        r"uint8_t\s+members\[96\];\s*// eight 0x0c-byte records at application\[\+0x10\]",
+        r"uint8_t\s+memberCount;\s*// application\[\+0x70\]",
+    ):
+        if re.search(pattern, group_header) is None:
+            errors.append(f"generated Group-family structs lost pattern {pattern!r}")
 
     opaque_entry = next(
         entry
@@ -270,6 +338,69 @@ def main() -> int:
     ):
         if fragment not in opaque_notes:
             errors.append(f"c2s-00ce notes lost required fact {fragment!r}")
+
+    event_start_row = next(row for row in rows if row.get("id") == "c2s-012d")
+    event_start_observation = event_start_row.get("observation", "")
+    for fragment in (
+        "FUN_006EE680/FUN_0075E3A0",
+        "combat and noncombat scenarios",
+        "All 126 captured 216-byte subpackets",
+        "100 owner IDs have upper 16 bits 0xa0f0",
+        "88 also join to gameCommand",
+        "12 are command actors absent from that sheet",
+        "61/64 combat-example occurrences",
+        "39/62 other occurrences",
+        "retained 60-sample cap independently gives 41 staticactor",
+        "direct scalar gameCommand propagation",
+        "command.canFire",
+        "native dynamic dispatch",
+    ):
+        if fragment not in event_start_observation:
+            errors.append(f"c2s-012d observation lost required fact {fragment!r}")
+    event_start_entry = next(
+        entry
+        for entry in entries
+        if entry.get("opcodeHex") == "0x012d"
+        and entry.get("direction") == "serverbound"
+        and entry.get("decompAnchor") == "FUN_00776760"
+    )
+    event_start_notes = event_start_entry.get("notes", "")
+    if event_start_entry.get("name") != "EventStartPacket":
+        errors.append("c2s-012d canonical name must remain EventStartPacket")
+    if event_start_entry.get("implementationAnchor") is not None:
+        errors.append("c2s-012d must not retain an unproven implementation enum anchor")
+    if event_start_entry.get("confidence") != "decomp_routed":
+        errors.append("c2s-012d confidence must remain decomp_routed")
+    if event_start_entry.get("payloadLengths") != [216]:
+        errors.append("c2s-012d must retain the observed 216-byte wire length")
+    event_start_layout = capture_layouts.get("layouts", {}).get("c2s", {}).get("0x012d", {})
+    event_start_samples = capture_samples.get("samples", {}).get("c2s", {}).get("0x012d", {})
+    if (
+        event_start_layout.get("common_sub_size") != 216
+        or event_start_layout.get("sub_size_distribution") != {"216": 60}
+        or event_start_layout.get("sample_count") != 60
+        or event_start_layout.get("body_length") != 200
+    ):
+        errors.append("c2s-012d capture layout must remain 60 retained 216-byte samples with a 200-byte body")
+    if event_start_samples.get("sampleCount") != 60 or any(
+        sample.get("sub_size") != 216 for sample in event_start_samples.get("samples", [])
+    ):
+        errors.append("c2s-012d retained samples must remain exactly 60 216-byte subpackets")
+    for fragment in (
+        "client_prechecks=50-byte combined script-string limit",
+        "command_id_mapping=resolved for owner ids in the 0xa0f00000 static-actor block",
+        "application offset 0x04 low16 joins 100/100 /Command staticactor rows",
+        "88/100 gameCommand rows",
+        "non_gameCommand_command_actors=12",
+        "event_owner_scope=26/126 owners are outside the static block",
+        "pattern_scope=general EventStart envelope",
+        "retained_sample_cap=41/60 staticactor and 29/60 gameCommand joins",
+        "direct_gameCommand_scalar=unproven",
+        "prior_label=MapClientOpcode::EventStart",
+        "separate_family=0x01c3..0x01df",
+    ):
+        if fragment not in event_start_notes:
+            errors.append(f"c2s-012d notes lost required fact {fragment!r}")
 
     blacklist_row = next(row for row in rows if row.get("id") == "s2c-01cb")
     blacklist_observation = blacklist_row.get("observation", "")
@@ -393,7 +524,7 @@ def main() -> int:
         "120-byte application payload",
         "20-byte tail",
         "one aggregate event",
-        "no payload samples or layout",
+        "retained in login.pcapng as one 136-byte subpacket",
         "SetActiveLinkshell packet noun",
     ):
         if fragment not in manager_observation:
@@ -413,8 +544,10 @@ def main() -> int:
         errors.append("s2c-018a must not retain an unproven server implementation anchor")
     if manager_entry.get("confidence") != "decomp_routed":
         errors.append("s2c-018a confidence must remain decomp_routed")
-    if manager_entry.get("observedIn") != [] or manager_entry.get("payloadLengths") != []:
-        errors.append("s2c-018a must not invent retained capture metadata")
+    if manager_entry.get("observedIn") != ["login.pcapng"]:
+        errors.append("s2c-018a must retain only the verified login.pcapng observation")
+    if manager_entry.get("payloadLengths") != [136]:
+        errors.append("s2c-018a must retain only the verified 136-byte subpacket length")
     for fragment in (
         "FUN_00576380",
         "FUN_006C82A0",
@@ -425,7 +558,7 @@ def main() -> int:
         "unread_tail=20 bytes at +0x64..+0x77",
         "commit_boundary=unresolved FUN_006C58C0",
         "corpus_aggregate=1 event",
-        "retained_payload_evidence=none",
+        "retained_payload_evidence=1 136-byte subpacket in login.pcapng",
         "naming=placeholder retained",
         "candidate_label=SetActiveLinkshellPacket is an imported source-manifest term, not retail-proven",
         "client_only=",

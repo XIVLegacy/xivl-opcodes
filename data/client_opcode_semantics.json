@@ -162,10 +162,13 @@
       "status": "closed",
       "supportedLabel": "Eight-entry group-member update with 0x30-byte records",
       "tool": "XIVLegacy Ghidra DumpFunctionDecomp.java",
-      "observation": "The reached body reads location and sequence u64 values, eight 0x30-byte member records, and a member count whose low byte controls iteration.",
+      "observation": "After the eight-byte game-message preamble, the reached body reads location and sequence u64 values, eight 0x30-byte member records at application offset 0x10, and the member count at application offset 0x190 whose low byte controls iteration. The application payload is 0x198 bytes and the full subpacket is 0x1b8 bytes. Client and capture evidence establish only the positional layout, not server behavior.",
       "sourceRefs": [
         "xivl-client-structs:manifests/symbols.json#BCS-Y-0567",
-        "xivl-client-structs:manifests/unmapped_payload_decoding.json#s2c_0x017f"
+        "xivl-client-structs:manifests/unmapped_payload_decoding.json#s2c_0x017f",
+        "xivl-client-structs:manifests/director_group_wire_identity.json#layouts.0x017F",
+        "xivl-captures:studies/director-wire-identity/derived/verdicts.md#offset-cross-check",
+        "xivl-captures:studies/director-wire-identity/derived/group-members.csv#opcode=0x017F"
       ]
     },
     {
@@ -228,10 +231,13 @@
       "status": "closed",
       "supportedLabel": "Eight-entry content-member update with 0x0c-byte records",
       "tool": "XIVLegacy Ghidra DumpFunctionDecomp.java",
-      "observation": "The owner-offset 0x18 thunk reaches FUN_006C3100; the body reads location and sequence u64 values, eight 0x0c-byte entries, and a low-byte count.",
+      "observation": "The owner-offset 0x18 thunk reaches FUN_006C3100. After the eight-byte game-message preamble, the 0x78-byte application payload carries location and sequence u64 values, eight compact 0x0c-byte content-member records at application offset 0x10, and a low-byte count at application offset 0x70. The full subpacket is 0x98 bytes. Client and capture evidence establish only the positional layout, not server behavior or member-field semantics.",
       "sourceRefs": [
         "xivl-client-structs:manifests/symbols.json#BCS-Y-0571",
-        "xivl-client-structs:manifests/unmapped_payload_decoding.json#s2c_0x0183"
+        "xivl-client-structs:manifests/unmapped_payload_decoding.json#s2c_0x0183",
+        "xivl-client-structs:manifests/director_group_wire_identity.json#layouts.0x0183",
+        "xivl-captures:studies/director-wire-identity/derived/verdicts.md#offset-cross-check",
+        "xivl-captures:studies/director-wire-identity/derived/group-members.csv#opcode=0x0183"
       ]
     },
     {
@@ -326,7 +332,7 @@
       "status": "closed",
       "supportedLabel": "0x018a client manager-row copy and commit route with a 120-byte application payload",
       "tool": "XIVLegacy Ghidra DumpFunctionDecomp.java and corpus aggregate audit",
-      "observation": "FUN_00576380 forwards the application payload through FUN_006C82A0 to FUN_006C6A70. The helper uses the signed low byte at application offset 0x60 as its loop bound, copies one u32 from +0x40+4*i and one eight-byte pair from +8*i into each manager row, then commits through unresolved FUN_006C58C0. Static client evidence gives a 120-byte application payload with the copied arrays at +0 and +0x40 and an unread 20-byte tail at +0x64..+0x77. The corpus reports one aggregate event but retains no payload samples or layout, so observedIn and payloadLengths remain empty. This proves a client manager-row copy/commit route, not the imported SetActiveLinkshell packet noun, exact row domain, a server implementation declaration, or server behavior.",
+      "observation": "FUN_00576380 forwards the application payload through FUN_006C82A0 to FUN_006C6A70. The helper uses the signed low byte at application offset 0x60 as its loop bound, copies one u32 from +0x40+4*i and one eight-byte pair from +8*i into each manager row, then commits through unresolved FUN_006C58C0. Static client evidence gives a 120-byte application payload with the copied arrays at +0 and +0x40 and an unread 20-byte tail at +0x64..+0x77. The corpus reports one aggregate event, now retained in login.pcapng as one 136-byte subpacket, so observedIn and payloadLengths record that evidence. This proves a client manager-row copy/commit route, not the imported SetActiveLinkshell packet noun, exact row domain, a server implementation declaration, or server behavior.",
       "sourceRefs": [
         "xivl-client-structs:manifests/symbols.json#BCS-Y-0578",
         "xivl-client-structs:manifests/symbols.json#BCS-Y-0888",
@@ -623,13 +629,17 @@
       "direction": "serverbound",
       "function": "FUN_00776760",
       "status": "closed",
-      "supportedLabel": "0x012d builder for a 0xc8-byte tagged application body",
-      "tool": "XIVLegacy Ghidra FindOpcodeImmediate.java, DumpFunctionDecomp.java, and analyze_payload_layouts.py",
-      "observation": "The builder writes opcode 0x012d and body size 0xc8, stages four u32 values, one u8, 32 bytes, and 128 bytes, then sends through FUN_004D6D30, FUN_004E0240, and FUN_00DAE010; captures confirm a 216-byte total subpacket.",
+      "supportedLabel": "EventStartPacket generic command-event envelope",
+      "tool": "XIVLegacy retail asm, preserved-script metadata, and capture payload analysis",
+      "observation": "FUN_00776760 writes opcode 0x012d and record size 0xc8, stages four u32 values, one u8, 32 inline bytes, and a 128-byte event tail, then sends through FUN_004D6D30, FUN_004E0240, and FUN_00DAE010. The preserved PlayerBase command path reaches this builder through _callServerOnCommand and FUN_006EE680/FUN_0075E3A0. All 126 captured 216-byte subpackets, including combat and noncombat scenarios, were decoded at application payload offset 0x04: 100 owner IDs have upper 16 bits 0xa0f0, and all 100 low-16 values join to /Command staticactor rows; 88 also join to gameCommand and 12 are command actors absent from that sheet. The static-owner pattern is general to EventStart: 61/64 combat-example occurrences and 39/62 other occurrences use it. The remaining 26 owner IDs are event-owner actor IDs outside the static block and are not masked. The retained 60-sample cap independently gives 41 staticactor and 29 gameCommand joins. Command-specific eligibility remains behind command.canFire and native dynamic dispatch; direct scalar gameCommand propagation and server-side CanUse rules remain unproven.",
       "sourceRefs": [
         "xivl-client-structs:manifests/symbols.json#BCS-Y-0426",
         "xivl-client-structs:manifests/combat_action_c2s_findings.json#FUN_00776760",
-        "xivl-captures:derived/payload_layouts.json#c2s.0x012d"
+        "xivl-client-structs:manifests/combat_command_emission.json",
+        "xivl-client-scripts:lua/scripts/chara/player/playerbaseclass.calls.json",
+        "xivl-captures:derived/observations.json#inner_opcodes.c2s.0x012d",
+        "xivl-captures:derived/payload_layouts.json#c2s.0x012d",
+        "xivl-captures:derived/payload_samples.json#samples.c2s.0x012d"
       ]
     },
     {
@@ -664,6 +674,23 @@
         "xivl-client-structs:manifests/c2s_coverage_synthesis.json#coverage[14]",
         "xivl-captures:derived/payload_layouts.json#c2s.0x00ce",
         "retail:ffxivgame.exe#sha256=9341f2b4567440b310a4d494f5cc5599ca334ba51c8042247317ff466492f2e9;vas=0x00763DC0,0x0076D610;run=opcode-semantics-c2s-00ce"
+      ]
+    },
+    {
+      "id": "s2c-017c",
+      "dependencyOrdinal": 39,
+      "opcodeHex": "0x017c",
+      "direction": "clientbound",
+      "function": "FUN_00576250",
+      "status": "closed",
+      "supportedLabel": "Group header with observational groupTypeId at application offset 0x30",
+      "tool": "XIVLegacy client-layout and retail-capture reconciliation",
+      "observation": "The client route reads a 0x78-byte application payload inside a 0x98-byte subpacket and treats the u32 at application offset 0x30 as a positional group-type identifier. Across 361 retained headers, the observed values are 10001 in 14 rows, 10002 in 265, 30001 in 65, 30006 in 4, 50001 in 2, and 80001 in 11. All 65 rows carrying 30001 occur in party_battle_leve.pcapng. These values are observations only and are not mapped to group-kind semantics.",
+      "sourceRefs": [
+        "xivl-client-structs:manifests/director_group_wire_identity.json#layouts.0x017C",
+        "xivl-captures:studies/director-wire-identity/derived/verdicts.md#director-wire-identity-verdicts",
+        "xivl-captures:studies/director-wire-identity/derived/accounting.json#group_type_candidate_distribution",
+        "xivl-captures:studies/director-wire-identity/derived/group-packets.csv#opcode=0x017C"
       ]
     }
   ]

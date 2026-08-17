@@ -46,9 +46,32 @@ DIRECTION_TO_PREFERRED_BUCKETS = {
 # Stable, source-backed semantic comments keyed by generated bucket, opcode,
 # and rebased application-payload offset. Generated fields remain generic
 # unless a row has a reviewed semantic label here.
-FIELD_COMMENT_OVERRIDES = {
-    ("MapClientbound", "0x017f", 408):
-        "memberCount low byte at payload+0x190; not isOnline",
+FIELD_COMMENT_OVERRIDES = {}
+
+# Reviewed client+capture layouts that replace byte-diff field grouping. Offsets
+# in comments are application-payload offsets after the 8-byte game-message
+# preamble represented by the first field.
+STRUCT_LAYOUT_OVERRIDES = {
+    ("MapClientbound", "0x017c"): [
+        ("uint8_t", "gameMessagePreamble", 8, "body[+0..+7]; not application payload"),
+        ("uint8_t", "applicationPrefix", 0x30, "application[+0x00..+0x2f]"),
+        ("uint32_t", "groupTypeId", 1, "application[+0x30]; positional observation"),
+        ("uint8_t", "applicationTail", 0x44, "application[+0x34..+0x77]"),
+    ],
+    ("MapClientbound", "0x017f"): [
+        ("uint8_t", "gameMessagePreamble", 8, "body[+0..+7]; not application payload"),
+        ("uint8_t", "applicationPrefix", 0x10, "application[+0x00..+0x0f]"),
+        ("uint8_t", "members", 8 * 0x30, "eight 0x30-byte records at application[+0x10]"),
+        ("uint32_t", "memberCount", 1, "application[+0x190]"),
+        ("uint8_t", "reserved0", 4, "application[+0x194..+0x197]"),
+    ],
+    ("MapClientbound", "0x0183"): [
+        ("uint8_t", "gameMessagePreamble", 8, "body[+0..+7]; not application payload"),
+        ("uint8_t", "applicationPrefix", 0x10, "application[+0x00..+0x0f]"),
+        ("uint8_t", "members", 8 * 0x0C, "eight 0x0c-byte records at application[+0x10]"),
+        ("uint8_t", "memberCount", 1, "application[+0x70]"),
+        ("uint8_t", "reserved0", 7, "application[+0x71..+0x77]"),
+    ],
 }
 
 NAME_SUFFIX_STRIP = re.compile(r"(Packet|Handler)$")
@@ -237,6 +260,21 @@ def emit_struct(
         lines.append("};")
         return "\n".join(lines), 0, 0
 
+    reviewed = STRUCT_LAYOUT_OVERRIDES.get((bucket, opcode_hex.lower()))
+    if reviewed is not None:
+        type_widths = {"uint8_t": 1, "uint16_t": 2, "uint32_t": 4, "uint64_t": 8}
+        bytes_emitted = 0
+        for c_type, name, count, comment in reviewed:
+            suffix = f"[{count}]" if count != 1 else ""
+            lines.append(f"    {c_type} {name}{suffix}; // {comment}")
+            bytes_emitted += type_widths[c_type] * count
+        lines.append("};")
+        lines.append(
+            f"static_assert(sizeof({struct_name}) == {body_size},"
+            f" \"{struct_name} size mismatch\");"
+        )
+        return "\n".join(lines), bytes_emitted, body_size
+
     bytes_emitted = 0
     for i, f in enumerate(fields):
         line, w = emit_field(f, i, samples)
@@ -269,6 +307,14 @@ def validate_field_comment_overrides(
     missing = [key for key in FIELD_COMMENT_OVERRIDES if key not in available]
     if missing:
         raise ValueError(f"field comment override has no emitted layout row: {missing}")
+    available_structs = {
+        (bucket, opcode_hex.lower())
+        for bucket, entries in by_bucket.items()
+        for opcode_hex, _struct_name, _layout, _samples in entries
+    }
+    missing_structs = [key for key in STRUCT_LAYOUT_OVERRIDES if key not in available_structs]
+    if missing_structs:
+        raise ValueError(f"struct layout override has no generated row: {missing_structs}")
 
 
 def build_header(bucket: str, entries: list[tuple[str, str, dict, list[dict]]]) -> str:
