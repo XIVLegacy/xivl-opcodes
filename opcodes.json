@@ -299,12 +299,14 @@
           "direction": "serverbound",
           "implementationAnchor": "WorldClientOpcode::Login",
           "decompAnchor": null,
-          "observedIn": [],
+          "observedIn": [
+            "login.pcapng"
+          ],
           "payloadLengths": [
             40
           ],
           "confidence": "implemented",
-          "notes": "no_pcap_evidence"
+          "notes": "pcap_service_ambiguous=world,map"
         },
         {
           "name": "PartyChatMessagePacket",
@@ -339,6 +341,7 @@
             "gridania_to_coerthas.pcapng",
             "invite_join_party.pcapng",
             "local_leve_complete.pcapng",
+            "login.pcapng",
             "move_out_of_room.pcapng",
             "moving_around_gridania.pcapng",
             "party_battle_leve.pcapng",
@@ -395,10 +398,12 @@
           "direction": "clientbound",
           "implementationAnchor": "MapServerOpcode::Opaque0x02",
           "decompAnchor": null,
-          "observedIn": [],
+          "observedIn": [
+            "login.pcapng"
+          ],
           "payloadLengths": [],
           "confidence": "implemented",
-          "notes": "no_pcap_evidence; implementationServiceRelabel=LobbyOpcode::Error_at_lobby_clientbound_same_wire_integer; not_a_parity_discrepancy; lane_ruling=unresolved_no_s2c_observation; main_lane_count=0; chat_lane_count=0"
+          "notes": "implementationServiceRelabel=LobbyOpcode::Error_at_lobby_clientbound_same_wire_integer; not_a_parity_discrepancy; lane_ruling=unresolved_no_s2c_observation; main_lane_count=0; chat_lane_count=0; pcap_service_ambiguous=world,map"
         },
         {
           "name": "SendMessagePacket",
@@ -408,10 +413,12 @@
           "direction": "clientbound",
           "implementationAnchor": "MapServerOpcode::SendMessage",
           "decompAnchor": null,
-          "observedIn": [],
+          "observedIn": [
+            "login.pcapng"
+          ],
           "payloadLengths": [],
           "confidence": "implemented",
-          "notes": "no_pcap_evidence; lane_ruling=unresolved_no_s2c_observation; main_lane_count=0; chat_lane_count=0"
+          "notes": "lane_ruling=unresolved_no_s2c_observation; main_lane_count=0; chat_lane_count=0; pcap_service_ambiguous=world,map"
         },
         {
           "name": "PartyChatMessagePacket",
@@ -446,6 +453,7 @@
             "gridania_to_coerthas.pcapng",
             "invite_join_party.pcapng",
             "local_leve_complete.pcapng",
+            "login.pcapng",
             "move_out_of_room.pcapng",
             "moving_around_gridania.pcapng",
             "party_battle_leve.pcapng",
@@ -477,6 +485,7 @@
             "gridania_to_coerthas.pcapng",
             "invite_join_party.pcapng",
             "local_leve_complete.pcapng",
+            "login.pcapng",
             "move_out_of_room.pcapng",
             "moving_around_gridania.pcapng",
             "party_battle_leve.pcapng",
@@ -508,6 +517,7 @@
             "gridania_to_coerthas.pcapng",
             "invite_join_party.pcapng",
             "local_leve_complete.pcapng",
+            "login.pcapng",
             "move_out_of_room.pcapng",
             "moving_around_gridania.pcapng",
             "party_battle_leve.pcapng",
@@ -539,6 +549,7 @@
             "gridania_to_coerthas.pcapng",
             "invite_join_party.pcapng",
             "local_leve_complete.pcapng",
+            "login.pcapng",
             "move_out_of_room.pcapng",
             "moving_around_gridania.pcapng",
             "party_battle_leve.pcapng",
@@ -567,6 +578,7 @@
             "from_gridania_to_blackshroud.pcapng",
             "gridania_to_coerthas.pcapng",
             "invite_join_party.pcapng",
+            "login.pcapng",
             "move_out_of_room.pcapng",
             "moving_around_gridania.pcapng",
             "party_battle_leve.pcapng",
@@ -642,10 +654,12 @@
           "direction": "clientbound",
           "implementationAnchor": "MapServerOpcode::CreateNamedGroupMultiple",
           "decompAnchor": null,
-          "observedIn": [],
+          "observedIn": [
+            "login.pcapng"
+          ],
           "payloadLengths": [],
           "confidence": "implemented",
-          "notes": "no_pcap_evidence; lane_ruling=unresolved_no_s2c_observation; main_lane_count=0; chat_lane_count=0"
+          "notes": "lane_ruling=unresolved_no_s2c_observation; main_lane_count=0; chat_lane_count=0; pcap_service_ambiguous=world,map"
         },
         {
           "name": "SetActiveLinkshellPacket",
@@ -772,12 +786,14 @@
           "direction": "serverbound",
           "implementationAnchor": "MapClientOpcode::Login",
           "decompAnchor": null,
-          "observedIn": [],
+          "observedIn": [
+            "login.pcapng"
+          ],
           "payloadLengths": [
             40
           ],
           "confidence": "implemented",
-          "notes": "no_pcap_evidence"
+          "notes": "pcap_service_ambiguous=world,map"
         },
         {
           "name": "ZoneInCompletePacket",
@@ -1118,6 +1134,7 @@
             "gridania_to_coerthas.pcapng",
             "invite_join_party.pcapng",
             "local_leve_complete.pcapng",
+            "login.pcapng",
             "move_out_of_room.pcapng",
             "moving_around_gridania.pcapng",
             "party_battle_leve.pcapng",
@@ -1673,6 +1690,7 @@
             "inventory.pcapng",
             "invite_join_party.pcapng",
             "local_leve_complete.pcapng",
+            "login.pcapng",
             "mount_unmount_chocobo.pcapng",
             "move_around_gridania.pcapng",
             "move_out_of_room.pcapng",
@@ -1707,10 +1725,12 @@
           "direction": "clientbound",
           "implementationAnchor": "MapServerOpcode::Opaque0x02",
           "decompAnchor": null,
-          "observedIn": [],
+          "observedIn": [
+            "login.pcapng"
+          ],
           "payloadLengths": [],
           "confidence": "implemented",
-          "notes": "no_pcap_evidence; implementationServiceRelabel=LobbyOpcode::Error_at_lobby_clientbound_same_wire_integer; not_a_parity_discrepancy"
+          "notes": "implementationServiceRelabel=LobbyOpcode::Error_at_lobby_clientbound_same_wire_integer; not_a_parity_discrepancy; pcap_service_ambiguous=world,map"
         },
         {
           "name": "SendMessagePacket",
@@ -1720,10 +1740,12 @@
           "direction": "clientbound",
           "implementationAnchor": "MapServerOpcode::SendMessage",
           "decompAnchor": null,
-          "observedIn": [],
+          "observedIn": [
+            "login.pcapng"
+          ],
           "payloadLengths": [],
           "confidence": "implemented",
-          "notes": "no_pcap_evidence"
+          "notes": "pcap_service_ambiguous=world,map"
         },
         {
           "name": "SetMapPacket",
@@ -1875,6 +1897,7 @@
             "from_gridania_to_blackshroud.pcapng",
             "gridania_to_coerthas.pcapng",
             "local_leve_complete.pcapng",
+            "login.pcapng",
             "mount_unmount_chocobo.pcapng",
             "move_out_of_room.pcapng",
             "party_battle_leve.pcapng",
@@ -1937,6 +1960,7 @@
           "observedIn": [
             "from_gridania_to_blackshroud.pcapng",
             "gridania_to_coerthas.pcapng",
+            "login.pcapng",
             "move_out_of_room.pcapng",
             "moving_around_gridania.pcapng",
             "party_battle_leve.pcapng",
@@ -1963,6 +1987,7 @@
           "observedIn": [
             "from_gridania_to_blackshroud.pcapng",
             "gridania_to_coerthas.pcapng",
+            "login.pcapng",
             "move_out_of_room.pcapng",
             "moving_around_gridania.pcapng",
             "return_to_inn.pcapng",
@@ -4041,6 +4066,7 @@
             "gridania_to_coerthas.pcapng",
             "invite_join_party.pcapng",
             "local_leve_complete.pcapng",
+            "login.pcapng",
             "move_out_of_room.pcapng",
             "moving_around_gridania.pcapng",
             "party_battle_leve.pcapng",
@@ -4105,6 +4131,7 @@
             "gridania_to_coerthas.pcapng",
             "invite_join_party.pcapng",
             "local_leve_complete.pcapng",
+            "login.pcapng",
             "move_out_of_room.pcapng",
             "moving_around_gridania.pcapng",
             "party_battle_leve.pcapng",
@@ -4136,6 +4163,7 @@
             "gridania_to_coerthas.pcapng",
             "invite_join_party.pcapng",
             "local_leve_complete.pcapng",
+            "login.pcapng",
             "move_out_of_room.pcapng",
             "moving_around_gridania.pcapng",
             "party_battle_leve.pcapng",
@@ -4167,6 +4195,7 @@
             "gridania_to_coerthas.pcapng",
             "invite_join_party.pcapng",
             "local_leve_complete.pcapng",
+            "login.pcapng",
             "move_out_of_room.pcapng",
             "moving_around_gridania.pcapng",
             "party_battle_leve.pcapng",
@@ -4195,6 +4224,7 @@
             "from_gridania_to_blackshroud.pcapng",
             "gridania_to_coerthas.pcapng",
             "invite_join_party.pcapng",
+            "login.pcapng",
             "move_out_of_room.pcapng",
             "moving_around_gridania.pcapng",
             "party_battle_leve.pcapng",
@@ -4364,10 +4394,12 @@
           "direction": "clientbound",
           "implementationAnchor": "MapServerOpcode::CreateNamedGroupMultiple",
           "decompAnchor": "FUN_00576370",
-          "observedIn": [],
+          "observedIn": [
+            "login.pcapng"
+          ],
           "payloadLengths": [],
           "confidence": "implemented",
-          "notes": "no_pcap_evidence; client_semantics_evidence=data/client_opcode_semantics.json#s2c-0189; dependency_status=closed"
+          "notes": "pcap_service_ambiguous=world,map; client_semantics_evidence=data/client_opcode_semantics.json#s2c-0189; dependency_status=closed"
         },
         {
           "name": "_0x018A",
