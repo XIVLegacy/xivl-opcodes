@@ -669,10 +669,14 @@
           "direction": "clientbound",
           "implementationAnchor": "MapServerOpcode::SetActiveLinkshell",
           "decompAnchor": null,
-          "observedIn": [],
-          "payloadLengths": [],
+          "observedIn": [
+            "login.pcapng"
+          ],
+          "payloadLengths": [
+            136
+          ],
           "confidence": "implemented",
-          "notes": "no_pcap_evidence; role=server-to-client set-active-linkshell notification; inferred_not_observed_in_corpus; lane_ruling=unresolved_no_s2c_observation; main_lane_count=0; chat_lane_count=0"
+          "notes": "role=server-to-client set-active-linkshell notification; pcap_service_ambiguous=world,map"
         }
       ],
       "MapServerbound": [
@@ -4409,10 +4413,14 @@
           "direction": "clientbound",
           "implementationAnchor": null,
           "decompAnchor": "FUN_00576380",
-          "observedIn": [],
-          "payloadLengths": [],
+          "observedIn": [
+            "login.pcapng"
+          ],
+          "payloadLengths": [
+            136
+          ],
           "confidence": "decomp_routed",
-          "notes": "retail_client_analysis=FUN_00576380 forwards application payload through FUN_006C82A0 to FUN_006C6A70; application_payload=120 bytes; row_copy=u64[8] at +0 plus u32[8] at +0x40; loop_bound=signed low byte at +0x60; unread_tail=20 bytes at +0x64..+0x77; commit_boundary=unresolved FUN_006C58C0; corpus_aggregate=1 event; retained_payload_evidence=none, so observedIn and payloadLengths remain empty; semantic_status=decomp_routed; naming=placeholder retained because retail does not establish a stable packet noun; candidate_label=SetActiveLinkshellPacket is an imported source-manifest term, not retail-proven; client_only=row copy and commit route does not establish server behavior; prior_label=MapServerOpcode::SetActiveLinkshell; conflict=implementation anchor and packet noun lack a source-owned declaration; client_evidence=BCS-Y-0578,BCS-Y-0888; client_semantics_evidence=data/client_opcode_semantics.json#s2c-018a; dependency_status=closed"
+          "notes": "retail_client_analysis=FUN_00576380 forwards application payload through FUN_006C82A0 to FUN_006C6A70; application_payload=120 bytes; row_copy=u64[8] at +0 plus u32[8] at +0x40; loop_bound=signed low byte at +0x60; unread_tail=20 bytes at +0x64..+0x77; commit_boundary=unresolved FUN_006C58C0; corpus_aggregate=1 event; retained_payload_evidence=1 136-byte subpacket in login.pcapng; semantic_status=decomp_routed; naming=placeholder retained because retail does not establish a stable packet noun; candidate_label=SetActiveLinkshellPacket is an imported source-manifest term, not retail-proven; client_only=row copy and commit route does not establish server behavior; prior_label=MapServerOpcode::SetActiveLinkshell; conflict=implementation anchor and packet noun lack a source-owned declaration; client_evidence=BCS-Y-0578,BCS-Y-0888; client_semantics_evidence=data/client_opcode_semantics.json#s2c-018a; dependency_status=closed; pcap_service_ambiguous=world,map"
         },
         {
           "name": "SetGroupLayoutIDPacket",
