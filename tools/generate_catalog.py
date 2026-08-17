@@ -316,6 +316,8 @@ ZONE_DUMMY_CLUSTER_PRIOR = {
 # PCAP_LOBBY_PURGE removes lobby rows that inherited in-world captures.
 PCAP_AMBIGUOUS_SERVICES = "world,map"
 PCAP_AMBIGUOUS = [
+    ("WorldClientbound", "0x018a", "SetActiveLinkshellPacket"),
+    ("MapClientbound", "0x018a", "_0x018A"),
     ("WorldClientbound", "0x017a", "SynchGroupWorkValuesPacket"),
     ("MapClientbound", "0x017a", "SynchGroupWorkValuesPacket"),
     ("WorldClientbound", "0x017c", "GroupHeaderPacket"),
@@ -329,13 +331,17 @@ PCAP_AMBIGUOUS = [
     ("WorldServerbound", "0x0133", "GroupWorkUpdatePacket"),
     ("MapServerbound", "0x0133", "GroupWorkUpdatePacket"),
 ]
+PCAP_OBSERVATION_OVERRIDES = [
+    ("WorldClientbound", "0x018a", "SetActiveLinkshellPacket", "login.pcapng", 136),
+    ("MapClientbound", "0x018a", "_0x018A", "login.pcapng", 136),
+]
 
 LANE_MOVES = {
     "0x0007": ("DeleteAllActorsPacket", 12),
     "0x0008": ("_0x0008", 19),
     "0x0143": ("DeleteGroupPacket", 12),
 }
-LANE_UNRESOLVED = {"0x0002", "0x0003", "0x0188", "0x0189", "0x018a"}
+LANE_UNRESOLVED = {"0x0002", "0x0003", "0x0188", "0x0189"}
 PCAP_LOBBY_PURGE = [
     ("LobbyServerbound", "0x0003", "_0x0003Handler"),
     ("LobbyClientbound", "0x000c", "AccountListPacket"),
@@ -440,7 +446,7 @@ CLIENT_SEMANTICS_SPECIAL_NOTES = {
         "row_copy=u64[8] at +0 plus u32[8] at +0x40; loop_bound=signed low byte "
         "at +0x60; unread_tail=20 bytes at +0x64..+0x77; "
         "commit_boundary=unresolved FUN_006C58C0; corpus_aggregate=1 event; "
-        "retained_payload_evidence=none, so observedIn and payloadLengths remain empty; "
+        "retained_payload_evidence=1 136-byte subpacket in login.pcapng; "
         "semantic_status=decomp_routed; naming=placeholder retained because retail "
         "does not establish a stable packet noun; candidate_label=SetActiveLinkshellPacket "
         "is an imported source-manifest term, not retail-proven; client_only=row copy "
@@ -847,7 +853,12 @@ def reconcile_pcap_notes(top: dict) -> tuple[int, int]:
     """Keep pcap notes aligned with the observedIn evidence they describe."""
     stale_removed = 0
     ambiguity_added = 0
-    no_pcap_token = "no_pcap_evidence"
+    stale_tokens = ("no_pcap_evidence", "inferred_not_observed_in_corpus")
+    s2c_018a_stale_tokens = (
+        "lane_ruling=unresolved_no_s2c_observation",
+        "main_lane_count=0",
+        "chat_lane_count=0",
+    )
     ambiguity_token = f"pcap_service_ambiguous={PCAP_AMBIGUOUS_SERVICES}"
 
     def remove_token(notes: str, token: str) -> tuple[str, bool]:
@@ -870,10 +881,15 @@ def reconcile_pcap_notes(top: dict) -> tuple[int, int]:
         for entry in entries:
             if entry.get("service") == "lobby" or not entry.get("observedIn"):
                 continue
-            notes, removed = remove_token(entry.get("notes", ""), no_pcap_token)
-            if removed:
-                entry["notes"] = notes
-                stale_removed += 1
+            notes = entry.get("notes", "")
+            entry_stale_tokens = stale_tokens
+            if entry.get("direction") == "clientbound" and entry.get("opcode") == 0x018A:
+                entry_stale_tokens += s2c_018a_stale_tokens
+            for token in entry_stale_tokens:
+                notes, removed = remove_token(notes, token)
+                if removed:
+                    stale_removed += 1
+            entry["notes"] = notes
             observed_rows.append(entry)
 
     by_key: dict[tuple[str, int], list[dict]] = {}
@@ -1045,6 +1061,28 @@ def main() -> int:
     print(
         f"Applied {decomp_anchor_applied} decomp-anchor overrides "
         f"({decomp_anchor_skipped} skipped)"
+    )
+
+    observation_applied = 0
+    observation_skipped = 0
+    for bucket, opcode_hex, name, capture, payload_length in PCAP_OBSERVATION_OVERRIDES:
+        for e in top["lists"].get(bucket, []):
+            if e["opcodeHex"] == opcode_hex and e["name"] == name:
+                observed = sorted(set(e.get("observedIn", [])) | {capture})
+                lengths = sorted(set(e.get("payloadLengths", [])) | {payload_length})
+                if e.get("observedIn") == observed and e.get("payloadLengths") == lengths:
+                    observation_skipped += 1
+                else:
+                    e["observedIn"] = observed
+                    e["payloadLengths"] = lengths
+                    observation_applied += 1
+                break
+        else:
+            print(f"  WARN: no entry for pcap observation {bucket} {opcode_hex} {name}")
+            warned += 1
+    print(
+        f"Applied {observation_applied} pcap-observation overrides "
+        f"({observation_skipped} skipped)"
     )
 
     amb_token = f"pcap_service_ambiguous={PCAP_AMBIGUOUS_SERVICES}"

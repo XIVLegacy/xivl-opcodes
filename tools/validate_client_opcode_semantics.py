@@ -524,7 +524,7 @@ def main() -> int:
         "120-byte application payload",
         "20-byte tail",
         "one aggregate event",
-        "no payload samples or layout",
+        "retained in login.pcapng as one 136-byte subpacket",
         "SetActiveLinkshell packet noun",
     ):
         if fragment not in manager_observation:
@@ -544,8 +544,10 @@ def main() -> int:
         errors.append("s2c-018a must not retain an unproven server implementation anchor")
     if manager_entry.get("confidence") != "decomp_routed":
         errors.append("s2c-018a confidence must remain decomp_routed")
-    if manager_entry.get("observedIn") != [] or manager_entry.get("payloadLengths") != []:
-        errors.append("s2c-018a must not invent retained capture metadata")
+    if manager_entry.get("observedIn") != ["login.pcapng"]:
+        errors.append("s2c-018a must retain only the verified login.pcapng observation")
+    if manager_entry.get("payloadLengths") != [136]:
+        errors.append("s2c-018a must retain only the verified 136-byte subpacket length")
     for fragment in (
         "FUN_00576380",
         "FUN_006C82A0",
@@ -556,7 +558,7 @@ def main() -> int:
         "unread_tail=20 bytes at +0x64..+0x77",
         "commit_boundary=unresolved FUN_006C58C0",
         "corpus_aggregate=1 event",
-        "retained_payload_evidence=none",
+        "retained_payload_evidence=1 136-byte subpacket in login.pcapng",
         "naming=placeholder retained",
         "candidate_label=SetActiveLinkshellPacket is an imported source-manifest term, not retail-proven",
         "client_only=",
