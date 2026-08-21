@@ -17,7 +17,7 @@ Thumbs.db
 tmp/
 out/
 artifacts/
-_safe/
+/_retail-staging/
 *.log
 
 # Retail inputs and generated Ghidra projects
