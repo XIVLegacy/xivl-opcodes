@@ -444,7 +444,10 @@ def main(argv: list[str] | None = None) -> int:
     if schema_errors:
         errors.append("attestation schema rejected output")
         attestation["result"] = {"status": "fail"}
-    print(json.dumps(attestation, ensure_ascii=True, sort_keys=True, separators=(",", ":")))
+    payload = json.dumps(
+        attestation, ensure_ascii=True, sort_keys=True, separators=(",", ":")
+    ).encode("ascii") + b"\n"
+    sys.stdout.buffer.write(payload)
     for error in errors:
         print(f"ERROR: {error}", file=sys.stderr)
     return 1 if errors else 0

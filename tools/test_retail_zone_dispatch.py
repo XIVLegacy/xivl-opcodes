@@ -433,6 +433,17 @@ def main() -> int:
               first.returncode == second.returncode == 0
               and first.stdout.encode() == second.stdout.encode())
 
+        raw_output = subprocess.run(
+            [sys.executable, str(VERIFY), "--input", str(FIXTURE)],
+            cwd=REPO,
+            capture_output=True,
+            check=False,
+        )
+        check("attestation output uses canonical LF bytes",
+              raw_output.returncode == 0
+              and raw_output.stdout.endswith(b"\n")
+              and b"\r" not in raw_output.stdout)
+
     if FAILED:
         print("FAIL: " + "; ".join(FAILED))
         return 1
