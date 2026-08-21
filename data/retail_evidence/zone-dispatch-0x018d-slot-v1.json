@@ -1,0 +1,1 @@
+{"approvedInputSha256":"9341f2b4567440b310a4d494f5cc5599ca334ba51c8042247317ff466492f2e9","check":{"id":"zone-dispatch-0x018d-slot-v1","version":1},"publicRepositoryCommit":"3afad7544a49028de25ea59d001bd4cdc3fb3b73","result":{"status":"pass"},"schemaVersion":1,"toolVersions":{"ghidra":"12.1.3","jdk":"21.0.12.1+1","verifier":"1.0"}}
