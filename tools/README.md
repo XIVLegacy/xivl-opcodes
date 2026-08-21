@@ -75,6 +75,17 @@ writer. Abbreviated, uppercase, or omitted hashes are rejected.
   inner-payload-length fixture and its allow-list. The equation, exception,
   and exit-code contract is in `docs/ai_agents/verification.md`;
   `--manifests` is an explicit research override.
+- `verify_retail_zone_dispatch.py` validates the fixed retail-input grant,
+  expected `0x018d` dispatch route, private structured observation, tracked
+  source rows, and sanitized attestation contract. It also owns dispatch-ref and
+  retained-output validation for the manual workflow.
+- `test_retail_zone_dispatch.py` runs the credential-free mutation suite for
+  the retail dispatch contract. It needs no executable, private repository,
+  token, Ghidra installation, or sibling checkout.
+- `ghidra_scripts/ExportZoneDispatchRoute.java` verifies the fixed dispatcher
+  data flow in a fresh analyzed program and emits one private structured
+  observation. It emits no disassembly, bytes, paths, names, or expected
+  case/slot values.
 - `extractors/update_client_receivers.py` updates `data/client_receivers.json`
   in either `apply-chain` or `indirect` mode from an explicit evidence input.
   Re-run a mode only when its named evidence input changes.
@@ -122,3 +133,34 @@ framing audit asserts that the observed wire length equals the inner body plus
 the 16-byte sub-packet header and 16-byte game-message header. If the local
 fixture under `data/vendor/client-structs/` is missing or framing mismatches,
 validation fails. Any exception is a one-line, in-tool allow-list reason.
+
+## Retail dispatch validation
+
+Run the asset-free contract with the normal repository checks:
+
+```powershell
+python tools\test_retail_zone_dispatch.py
+python tools\verify_retail_zone_dispatch.py
+python tools\validate_repository.py
+```
+
+The binary-backed rehearsal is deliberately separate from normal validation.
+For each rehearsal, create a new empty Ghidra project, import the approved
+`ffxivgame.exe` as `x86:LE:32:default` with the Windows compiler
+specification, complete standard analysis, and then run
+`ExportZoneDispatchRoute.java` read-only with these environment values:
+
+```text
+XIVL_RETAIL_DISPATCHER_VA=0x00dbfd10
+XIVL_RETAIL_OPCODE=0x018d
+XIVL_RETAIL_BYTE_TABLE_VA=0x00dc1274
+XIVL_RETAIL_DWORD_TABLE_VA=0x00dc0f5c
+XIVL_RETAIL_OBSERVATIONS_OUT=<private output path>
+```
+
+Pass the private output to `verify_retail_zone_dispatch.py --input`. Two
+separate full imports must produce byte-identical observation and attestation
+files. Keep the executable, projects, logs, observations, and diagnostics only
+under an ignored private scratch root. Delete that root after recording the safe
+timing, footprint, sanitized hash, and verdict. The exact workflow and claim
+boundary are documented in [`retail-input-validation.md`](../docs/ai_agents/retail-input-validation.md).

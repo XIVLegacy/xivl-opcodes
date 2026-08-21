@@ -45,5 +45,6 @@ Read these pages in order:
 2. [Comments and prose](comments-and-prose.md)
 3. [Verification](verification.md)
 
+4. [Retail input validation](retail-input-validation.md)
 The catalog reference defines fields, evidence classes, confidence labels, vendor
 mirrors, and generated payload headers. The tool guide defines command details.

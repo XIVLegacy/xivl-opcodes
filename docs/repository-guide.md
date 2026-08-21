@@ -19,6 +19,8 @@ additional consumer catalog outputs.
 | `data/zone_handoff_evidence.json` | World-to-map handoff timing evidence derived from capture edge windows. |
 | `data/lua_actor_impl_slot_lua_bindings.json` | LuaActorImpl vftable slot-to-Lua-callback binding map. |
 | `data/sibling_sync_expected_gaps.json` | Expected xivl-client-structs BCS-Y opcode-binding candidates not yet cited by either root catalog. |
+| `data/retail_inputs.json` | Exact private-input identity and one-check grant for the manual retail-input workflow. |
+| `data/retail_zone_dispatch_check.json` | Fixed locators and expected derived values for the `0x018d` dispatch route. |
 
 ## Repository layout
 

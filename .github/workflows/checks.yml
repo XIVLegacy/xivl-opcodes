@@ -44,6 +44,9 @@ jobs:
       - name: Run repository gate
         run: python tools/validate_repository.py
 
+      - name: Test retail dispatch contract
+        run: python tools/test_retail_zone_dispatch.py
+
       - name: Check catalog regeneration
         run: git diff --exit-code
 

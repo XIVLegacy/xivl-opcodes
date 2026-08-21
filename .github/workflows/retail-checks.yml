@@ -1,0 +1,359 @@
+name: Retail Checks
+
+on:
+  workflow_dispatch:
+
+concurrency:
+  group: retail-checks
+  cancel-in-progress: false
+
+permissions:
+  contents: read
+
+jobs:
+  retail-preflight:
+    name: Retail Preflight Checks
+    runs-on: ubuntu-24.04
+    timeout-minutes: 10
+    steps:
+      - name: Check out reviewed revision
+        uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7.0.1
+        with:
+          persist-credentials: false
+
+      - name: Set up Python
+        uses: actions/setup-python@5fda3b95a4ea91299a34e894583c3862153e4b97 # v7.0.0
+        with:
+          python-version: "3.12"
+
+      - name: Reject untrusted dispatch refs
+        run: python tools/verify_retail_zone_dispatch.py --check-dispatch
+
+      - name: Verify the fixed public grant
+        shell: bash
+        run: |
+          set -euo pipefail
+          python tools/test_retail_zone_dispatch.py
+          python tools/verify_retail_zone_dispatch.py > "${RUNNER_TEMP}/asset-free-attestation.json"
+          rm -f -- "${RUNNER_TEMP}/asset-free-attestation.json"
+
+  zone-dispatch:
+    name: Zone Dispatch Checks
+    needs: retail-preflight
+    if: github.event_name == 'workflow_dispatch' && github.ref == 'refs/heads/main'
+    runs-on: ubuntu-24.04
+    timeout-minutes: 60
+    environment:
+      name: retail-evidence
+    steps:
+      - name: Check out approved public commit
+        uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7.0.1
+        with:
+          ref: ${{ github.sha }}
+          persist-credentials: false
+
+      - name: Set up Python
+        uses: actions/setup-python@5fda3b95a4ea91299a34e894583c3862153e4b97 # v7.0.0
+        with:
+          python-version: "3.12"
+
+      - name: Fetch the immutable private blob
+        id: fetch
+        continue-on-error: true
+        shell: bash
+        env:
+          RETAIL_INPUTS_REPOSITORY: ${{ vars.RETAIL_INPUTS_REPOSITORY }}
+          RETAIL_INPUTS_TOKEN: ${{ secrets.RETAIL_INPUTS_TOKEN }}
+        run: |
+          set -euo pipefail
+          umask 077
+          private_root="${RUNNER_TEMP}/retail-evidence-private"
+          api_root="${private_root}/api"
+          input_root="${private_root}/input"
+          auth_config="${private_root}/curl-auth.config"
+          mkdir -p "${api_root}" "${input_root}"
+          chmod 700 "${private_root}"
+          trap 'rm -rf -- "${api_root}"; rm -f -- "${auth_config}"' EXIT
+
+          repository="XIVLegacy/xivl-private-assets"
+          commit="aeb52f6dbde95a793ee6d52be28de9f28a885b15"
+          expected_path="ffxivgame.exe"
+          test "${RETAIL_INPUTS_REPOSITORY}" = "${repository}"
+          test -n "${RETAIL_INPUTS_TOKEN}"
+          printf 'header = "Authorization: Bearer %s"\n' \
+            "${RETAIL_INPUTS_TOKEN}" > "${auth_config}"
+          chmod 600 "${auth_config}"
+
+          request() {
+            local label="$1"
+            local endpoint="$2"
+            local output="$3"
+            local http_status
+            local curl_status
+
+            set +e
+            http_status="$(curl --silent --fail --location --max-time 180 \
+              --max-filesize 24000000 \
+              --config "${auth_config}" \
+              --header "Accept: application/vnd.github+json" \
+              --header "X-GitHub-Api-Version: 2022-11-28" \
+              --output "${output}" \
+              --write-out '%{http_code}' \
+              "https://api.github.com/repos/${repository}/${endpoint}" \
+              2>> "${api_root}/curl.log")"
+            curl_status=$?
+            set -e
+
+            if test "${curl_status}" -ne 0 || [[ "${http_status}" != 2?? ]]; then
+              rm -f -- "${output}"
+              printf 'Private API %s failed (curl %s, HTTP %s)\n' \
+                "${label}" "${curl_status}" "${http_status}" >&2
+              return 1
+            fi
+          }
+
+          request commit "git/commits/${commit}" "${api_root}/commit.json"
+          request compare "compare/${commit}...main" "${api_root}/compare.json"
+
+          PRIVATE_ROOT="${private_root}" API_ROOT="${api_root}" \
+          PINNED_COMMIT="${commit}" python - <<'PY'
+          import json
+          import os
+          from pathlib import Path
+
+          api = Path(os.environ["API_ROOT"])
+          commit = os.environ["PINNED_COMMIT"]
+          commit_doc = json.loads((api / "commit.json").read_text(encoding="utf-8"))
+          compare_doc = json.loads((api / "compare.json").read_text(encoding="utf-8"))
+          assert commit_doc.get("sha") == commit
+          tree_sha = commit_doc.get("tree", {}).get("sha")
+          assert isinstance(tree_sha, str) and len(tree_sha) == 40
+          assert compare_doc.get("status") in {"ahead", "identical"}
+          assert compare_doc.get("merge_base_commit", {}).get("sha") == commit
+          (Path(os.environ["PRIVATE_ROOT"]) / "tree-sha").write_text(
+              tree_sha + "\n", encoding="ascii"
+          )
+          PY
+
+          IFS= read -r tree_sha < "${private_root}/tree-sha"
+          request tree "git/trees/${tree_sha}" "${api_root}/tree.json"
+          PRIVATE_ROOT="${private_root}" API_ROOT="${api_root}" \
+          EXPECTED_PATH="${expected_path}" python - <<'PY'
+          import json
+          import os
+          from pathlib import Path
+
+          tree = json.loads((Path(os.environ["API_ROOT"]) / "tree.json").read_text(encoding="utf-8"))
+          entries = tree.get("tree")
+          expected_tree = (Path(os.environ["PRIVATE_ROOT"]) / "tree-sha").read_text(
+              encoding="ascii"
+          ).strip()
+          assert tree.get("sha") == expected_tree
+          assert tree.get("truncated") is False
+          assert isinstance(entries, list) and len(entries) == 1
+          entry = entries[0]
+          assert entry.get("path") == os.environ["EXPECTED_PATH"]
+          assert entry.get("type") == "blob"
+          assert entry.get("mode") == "100644"
+          assert entry.get("size") == 15996808
+          blob_sha = entry.get("sha")
+          assert isinstance(blob_sha, str) and len(blob_sha) == 40
+          (Path(os.environ["PRIVATE_ROOT"]) / "blob-sha").write_text(
+              blob_sha + "\n", encoding="ascii"
+          )
+          PY
+
+          IFS= read -r blob_sha < "${private_root}/blob-sha"
+          request blob "git/blobs/${blob_sha}" "${api_root}/blob.json"
+          API_ROOT="${api_root}" INPUT_ROOT="${input_root}" \
+          BLOB_SHA="${blob_sha}" python - <<'PY'
+          import base64
+          import json
+          import os
+          from pathlib import Path
+
+          document = json.loads((Path(os.environ["API_ROOT"]) / "blob.json").read_text(encoding="utf-8"))
+          assert document.get("sha") == os.environ["BLOB_SHA"]
+          assert document.get("size") == 15996808
+          assert document.get("encoding") == "base64"
+          content = "".join(document["content"].split())
+          data = base64.b64decode(content, validate=True)
+          assert len(data) == 15996808
+          (Path(os.environ["INPUT_ROOT"]) / "ffxivgame.exe").write_bytes(data)
+          PY
+
+      - name: Verify private input identity
+        id: identity
+        if: steps.fetch.outcome == 'success'
+        continue-on-error: true
+        shell: bash
+        run: |
+          set -euo pipefail
+          input="${RUNNER_TEMP}/retail-evidence-private/input/ffxivgame.exe"
+          test "$(stat --format=%s "${input}")" = "15996808"
+          test "$(sha256sum "${input}" | cut -d ' ' -f 1)" = \
+            "9341f2b4567440b310a4d494f5cc5599ca334ba51c8042247317ff466492f2e9"
+
+      - name: Install the pinned analysis toolchain
+        id: toolchain
+        if: steps.identity.outcome == 'success'
+        continue-on-error: true
+        shell: bash
+        run: |
+          set -euo pipefail
+          umask 077
+          private_root="${RUNNER_TEMP}/retail-evidence-private"
+          toolchain="${private_root}/toolchain"
+          mkdir -p "${toolchain}/jdk" "${toolchain}/ghidra"
+
+          jdk_archive="${toolchain}/OpenJDK21U-jdk_x64_linux_hotspot_21.0.12.1_1.tar.gz"
+          ghidra_archive="${toolchain}/ghidra_12.1.3_PUBLIC_20260817.zip"
+          curl --silent --fail --location --max-time 600 \
+            --max-filesize 250000000 \
+            --output "${jdk_archive}" \
+            "https://github.com/adoptium/temurin21-binaries/releases/download/jdk-21.0.12.1%2B1/OpenJDK21U-jdk_x64_linux_hotspot_21.0.12.1_1.tar.gz" \
+            2>> "${private_root}/toolchain-curl.log"
+          curl --silent --fail --location --max-time 600 \
+            --max-filesize 600000000 \
+            --output "${ghidra_archive}" \
+            "https://github.com/NationalSecurityAgency/ghidra/releases/download/Ghidra_12.1.3_build/ghidra_12.1.3_PUBLIC_20260817.zip" \
+            2>> "${private_root}/toolchain-curl.log"
+
+          echo "ce79869e1307ed8ee1e2baa86a412b1eb5b75d10a01006d788a6f968bcfaee94  ${jdk_archive}" | \
+            sha256sum --check --status
+          echo "93a5d11a9ad510622acaaf908c556a7b9b764d338e78a7567f3689bf5081fd54  ${ghidra_archive}" | \
+            sha256sum --check --status
+          tar -xzf "${jdk_archive}" -C "${toolchain}/jdk"
+          unzip -q "${ghidra_archive}" -d "${toolchain}/ghidra"
+          test -x "$(find "${toolchain}/jdk" -type f -path '*/bin/java' -print -quit)"
+          test -x "${toolchain}/ghidra/ghidra_12.1.3_PUBLIC/support/analyzeHeadless"
+
+      - name: Reproduce and verify zone dispatch evidence
+        id: analysis
+        if: steps.identity.outcome == 'success' && steps.toolchain.outcome == 'success'
+        continue-on-error: true
+        shell: bash
+        run: |
+          set -euo pipefail
+          umask 077
+          private_root="${RUNNER_TEMP}/retail-evidence-private"
+          safe_root="${GITHUB_WORKSPACE}/_safe"
+          project_root="${private_root}/project"
+          observations="${private_root}/observations.json"
+          mutated="${private_root}/observations-mutated.json"
+          mkdir -p "${safe_root}" "${project_root}"
+
+          java_path="$(find "${private_root}/toolchain/jdk" -type f -path '*/bin/java' -print -quit)"
+          java_home="$(dirname "$(dirname "${java_path}")")"
+          export JAVA_HOME="${java_home}"
+          export PATH="${JAVA_HOME}/bin:${PATH}"
+          export GHIDRA_HEADLESS_MAXMEM="6G"
+          export GHIDRA_JAVA_OPTIONS="-Dlog4j.skipJansi=true"
+          ghidra="${private_root}/toolchain/ghidra/ghidra_12.1.3_PUBLIC"
+          headless="${ghidra}/support/analyzeHeadless"
+          input="${private_root}/input/ffxivgame.exe"
+
+          timeout 45m "${headless}" "${project_root}" retail_zone_dispatch \
+            -import "${input}" \
+            -processor x86:LE:32:default \
+            -cspec windows \
+            -analysisTimeoutPerFile 2700 \
+            -max-cpu 2 \
+            > "${private_root}/import.log" 2>&1
+
+          export XIVL_RETAIL_DISPATCHER_VA="0x00dbfd10"
+          export XIVL_RETAIL_OPCODE="0x018d"
+          export XIVL_RETAIL_BYTE_TABLE_VA="0x00dc1274"
+          export XIVL_RETAIL_DWORD_TABLE_VA="0x00dc0f5c"
+          export XIVL_RETAIL_OBSERVATIONS_OUT="${observations}"
+          timeout 5m "${headless}" "${project_root}" retail_zone_dispatch \
+            -process ffxivgame.exe \
+            -noanalysis \
+            -readOnly \
+            -scriptPath "${GITHUB_WORKSPACE}/tools/ghidra_scripts" \
+            -postScript ExportZoneDispatchRoute.java \
+            > "${private_root}/verify.log" 2>&1
+
+          python tools/verify_retail_zone_dispatch.py --input "${observations}" \
+            > "${safe_root}/retail-evidence-attestation.json" \
+            2> "${private_root}/verifier.log"
+
+          OBSERVATIONS="${observations}" MUTATED="${mutated}" python - <<'PY'
+          import json
+          import os
+          from pathlib import Path
+
+          document = json.loads(Path(os.environ["OBSERVATIONS"]).read_text(encoding="ascii"))
+          document["case_index"] += 1
+          Path(os.environ["MUTATED"]).write_text(
+              json.dumps(document, sort_keys=True, separators=(",", ":")) + "\n",
+              encoding="ascii",
+          )
+          PY
+
+          set +e
+          python tools/verify_retail_zone_dispatch.py --input "${mutated}" \
+            > "${private_root}/negative-attestation.json" \
+            2> "${private_root}/negative-verifier.log"
+          negative_status=$?
+          set -e
+          test "${negative_status}" -ne 0
+          NEGATIVE="${private_root}/negative-attestation.json" python - <<'PY'
+          import json
+          import os
+          from pathlib import Path
+
+          import tools._schema_check as schema_check
+
+          document = json.loads(Path(os.environ["NEGATIVE"]).read_text(encoding="ascii"))
+          schema = schema_check.load_schema(
+              Path("schemas/retail-evidence-attestation-v1.schema.json")
+          )
+          assert document.get("result", {}).get("status") == "fail"
+          assert not schema_check.validate(document, schema)
+          PY
+
+      - name: Create a sanitized failure attestation
+        if: always() && !cancelled() && steps.analysis.outcome != 'success'
+        shell: bash
+        run: |
+          set -euo pipefail
+          safe_root="${GITHUB_WORKSPACE}/_safe"
+          mkdir -p "${safe_root}"
+          set +e
+          python tools/verify_retail_zone_dispatch.py \
+            --input "${RUNNER_TEMP}/retail-evidence-private/missing-observations.json" \
+            > "${safe_root}/retail-evidence-attestation.json" 2> /dev/null
+          status=$?
+          set -e
+          test "${status}" -ne 0
+
+      - name: Remove all private analysis material
+        id: cleanup
+        if: always()
+        continue-on-error: true
+        shell: bash
+        run: |
+          set -euo pipefail
+          rm -rf -- "${RUNNER_TEMP}/retail-evidence-private"
+
+      - name: Validate the only retained file
+        id: retained
+        if: always() && !cancelled() && steps.cleanup.outcome == 'success' && hashFiles('_safe/retail-evidence-attestation.json') != ''
+        run: python tools/verify_retail_zone_dispatch.py --validate-retained-output _safe
+
+      - name: Upload the sanitized attestation
+        if: always() && !cancelled() && steps.cleanup.outcome == 'success' && steps.retained.outcome == 'success'
+        uses: actions/upload-artifact@ea165f8d65b6e75b540449e92b4886f43607fa02 # v4.6.2
+        with:
+          name: retail-zone-dispatch-attestation
+          path: _safe/retail-evidence-attestation.json
+          if-no-files-found: error
+          retention-days: 30
+          compression-level: 0
+          overwrite: false
+          include-hidden-files: false
+
+      - name: Preserve a failed evidence result
+        if: always() && !cancelled() && (steps.fetch.outcome != 'success' || steps.identity.outcome != 'success' || steps.toolchain.outcome != 'success' || steps.analysis.outcome != 'success' || steps.cleanup.outcome != 'success' || steps.retained.outcome != 'success')
+        run: exit 1

@@ -11,12 +11,21 @@ validation entry point:
 
 ```powershell
 python -m pip install -r tools\requirements.txt
+python tools\test_retail_zone_dispatch.py
 python tools\validate_repository.py
 $headers = git ls-files -- '*.h' '*.hh' '*.hpp' '*.hxx'
 clang-format --dry-run --Werror $headers
 ```
 
 The gate can report schema validity only when the dependencies are available.
+
+## Manual retail-input workflow
+
+The manual [retail input validation](retail-input-validation.md) workflow can
+reproduce one already tracked static dispatch route from the exact approved
+retail executable. Its asset-free mutation suite is part of normal CI and does
+not require the executable, a credential, or a sibling checkout. The
+environment-bearing job is manual and is not required for merge.
 
 ## Payload framing audit
 
@@ -42,3 +51,8 @@ It does not prove retail behavior, a live client session, an external source's
 current state, or freshness beyond pinned provenance. Report any unverified
 edge and do not replace an absent check with agent output or an unrelated
 passing validator.
+
+A passing retail-input attestation additionally proves only the named static
+route described in the retail validation contract. It does not promote a
+packet name, payload claim, runtime behavior, server behavior, or live-client
+result.
