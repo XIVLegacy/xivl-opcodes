@@ -17,7 +17,16 @@ Thumbs.db
 tmp/
 out/
 artifacts/
+_safe/
 *.log
+
+# Retail inputs and generated Ghidra projects
+*.exe
+**/*.gpr
+**/*.rep/
+**/*.lock
+**/*.lock~
+**/projectData*
 
 # Python bytecode
 __pycache__/

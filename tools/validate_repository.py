@@ -9,6 +9,8 @@ import subprocess
 import sys
 from pathlib import Path
 
+import _schema_check
+import verify_retail_zone_dispatch as retail_verifier
 from _json_io import REPO_ROOT
 
 
@@ -54,9 +56,66 @@ def validate_json_syntax() -> int:
     return 0
 
 
+def validate_retail_contract() -> int:
+    """Validate the asset-free retail contract and any published attestation."""
+    errors: list[str] = []
+    try:
+        errors.extend(retail_verifier.verify())
+        schema = _schema_check.load_schema(retail_verifier.DEFAULT_SCHEMA)
+        for status in ("pass", "fail"):
+            sample = retail_verifier.build_attestation(status, "1" * 40)
+            errors.extend(
+                f"{status} attestation: {problem}"
+                for problem in _schema_check.validate(sample, schema)
+            )
+        evidence_root = REPO_ROOT / "data" / "retail_evidence"
+        if evidence_root.is_symlink():
+            errors.append("tracked retail evidence root is a symlink")
+        elif evidence_root.exists():
+            expected_name = f"{retail_verifier.CHECK_ID}.json"
+            entries = sorted(evidence_root.iterdir(), key=lambda path: path.name)
+            if (
+                evidence_root.is_symlink()
+                or len(entries) != 1
+                or entries[0].name != expected_name
+                or entries[0].is_symlink()
+                or not entries[0].is_file()
+            ):
+                errors.append("tracked retail evidence allowlist differs")
+            else:
+                document = json.loads(entries[0].read_text(encoding="ascii"))
+                errors.extend(
+                    f"tracked retail evidence: {problem}"
+                    for problem in _schema_check.validate(document, schema)
+                )
+                if document.get("result") != {"status": "pass"}:
+                    errors.append("tracked retail evidence is not a pass")
+    except (
+        OSError,
+        UnicodeError,
+        ValueError,
+        json.JSONDecodeError,
+        _schema_check.SchemaError,
+        retail_verifier.VerificationError,
+    ) as exc:
+        errors.append(f"retail contract could not be validated: {exc}")
+
+    if errors:
+        print(f"Retail dispatch FAILED ({len(errors)} problem(s)):", file=sys.stderr)
+        for error in errors:
+            print(f"  - {error}", file=sys.stderr)
+        return 1
+    print("Retail dispatch OK (fixed asset-free contract).")
+    return 0
+
+
 def main() -> int:
     print("== JSON syntax ==", flush=True)
     if validate_json_syntax() != 0:
+        return 1
+
+    print("\n== Retail dispatch ==", flush=True)
+    if validate_retail_contract() != 0:
         return 1
 
     tools_dir = Path(__file__).resolve().parent
