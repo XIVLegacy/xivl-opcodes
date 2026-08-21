@@ -1,0 +1,19 @@
+{
+  "schema_version": 1,
+  "check": {
+    "id": "zone-dispatch-0x018d-slot-v1",
+    "version": 1
+  },
+  "input_id": "ffxivgame-1.23b",
+  "locator": {
+    "dispatcher_va": "0x00dbfd10",
+    "opcode": "0x018d",
+    "byte_table_va": "0x00dc1274",
+    "dword_table_va": "0x00dc0f5c"
+  },
+  "expected": {
+    "byte_table_entry_va": "0x00dc1400",
+    "case_index": 134,
+    "vtable_slot": 136
+  }
+}

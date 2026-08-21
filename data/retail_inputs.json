@@ -1,0 +1,19 @@
+{
+  "schema_version": 1,
+  "inputs": [
+    {
+      "id": "ffxivgame-1.23b",
+      "filename": "ffxivgame.exe",
+      "size": 15996808,
+      "sha256": "9341f2b4567440b310a4d494f5cc5599ca334ba51c8042247317ff466492f2e9",
+      "source": {
+        "repository": "XIVLegacy/xivl-private-assets",
+        "commit": "aeb52f6dbde95a793ee6d52be28de9f28a885b15",
+        "path": "ffxivgame.exe"
+      },
+      "allowed_checks": [
+        "zone-dispatch-0x018d-slot-v1"
+      ]
+    }
+  ]
+}
