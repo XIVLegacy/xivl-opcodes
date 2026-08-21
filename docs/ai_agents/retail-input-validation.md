@@ -15,7 +15,7 @@ vtable slot 136?
 | Check | `zone-dispatch-0x018d-slot-v1` |
 | Input declaration | `data/retail_inputs.json` |
 | Expected result | `data/retail_zone_dispatch_check.json` |
-| Attestation schema | `schemas/retail-evidence-attestation-v1.schema.json` |
+| Attestation schema | `schemas/retail-evidence-attestation.schema.json` |
 | Protected environment | `retail-evidence` |
 | Private input repository | `XIVLegacy/xivl-retail-client-inputs` |
 

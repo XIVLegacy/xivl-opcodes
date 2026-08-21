@@ -1,6 +1,6 @@
 {
   "$schema": "https://json-schema.org/draft/2020-12/schema",
-  "$id": "https://github.com/XIVLegacy/xivl-opcodes/schemas/retail-evidence-attestation-v1.schema.json",
+  "$id": "https://github.com/XIVLegacy/xivl-opcodes/schemas/retail-evidence-attestation.schema.json",
   "title": "Retail evidence verification attestation, version 1",
   "description": "Strict sanitized output of a public retail-input verification check. Observation rows and diagnostics are intentionally excluded.",
   "type": "object",
