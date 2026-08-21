@@ -102,6 +102,19 @@ artifact for leakage. Only after a complete hosted pass may the byte-identical
 pass attestation be added under `data/retail_evidence/` with its public run
 record. A failure attestation is never tracked.
 
+## Reproduced result
+
+[Retail Checks run 32492349689](https://github.com/XIVLegacy/xivl-opcodes/actions/runs/32492349689)
+passed on 2026-08-21 for public commit
+`3afad7544a49028de25ea59d001bd4cdc3fb3b73`. Its evidence job completed in
+14 minutes 37 seconds. The downloaded pass attestation was byte-identical to a
+local regeneration for the same commit and is tracked as
+[`zone-dispatch-0x018d-slot-v1.json`](../../data/retail_evidence/zone-dispatch-0x018d-slot-v1.json).
+The retained file has SHA-256
+`ca867f06d2672ed1b00bd54c6f67cad9cab441bbb5cc4d86463a1e53fe324772`.
+Artifact allowlist, schema, cleanup, negative-control, and public-log leakage
+reviews passed.
+
 Stop on input, tree, toolchain, analysis, data-flow, case, slot, determinism,
 cleanup, allowlist, protected-ref, or normal-CI drift. On suspected credential
 or byte exposure, cancel the run, delete unsafe artifacts, disable the
