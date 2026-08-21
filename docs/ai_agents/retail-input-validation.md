@@ -109,7 +109,7 @@ passed on 2026-08-21 for public commit
 `3afad7544a49028de25ea59d001bd4cdc3fb3b73`. Its evidence job completed in
 14 minutes 37 seconds. The downloaded pass attestation was byte-identical to a
 local regeneration for the same commit and is tracked as
-[`zone-dispatch-0x018d-slot-v1.json`](../../data/retail_evidence/zone-dispatch-0x018d-slot-v1.json).
+[`zone-dispatch-0x018d-slot.json`](../../data/retail_evidence/zone-dispatch-0x018d-slot.json).
 The retained file has SHA-256
 `ca867f06d2672ed1b00bd54c6f67cad9cab441bbb5cc4d86463a1e53fe324772`.
 Artifact allowlist, schema, cleanup, negative-control, and public-log leakage
