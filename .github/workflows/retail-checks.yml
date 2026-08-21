@@ -307,7 +307,7 @@ jobs:
 
           document = json.loads(Path(os.environ["NEGATIVE"]).read_text(encoding="ascii"))
           schema = schema_check.load_schema(
-              Path("schemas/retail-evidence-attestation-v1.schema.json")
+              Path("schemas/retail-evidence-attestation.schema.json")
           )
           assert document.get("result", {}).get("status") == "fail"
           assert not schema_check.validate(document, schema)
