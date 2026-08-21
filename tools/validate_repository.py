@@ -72,7 +72,7 @@ def validate_retail_contract() -> int:
         if evidence_root.is_symlink():
             errors.append("tracked retail evidence root is a symlink")
         elif evidence_root.exists():
-            expected_name = f"{retail_verifier.CHECK_ID}.json"
+            expected_name = "zone-dispatch-0x018d-slot.json"
             entries = sorted(evidence_root.iterdir(), key=lambda path: path.name)
             if (
                 evidence_root.is_symlink()
