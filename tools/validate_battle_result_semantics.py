@@ -109,7 +109,6 @@ def main() -> int:
                 fail(f"{opcode_hex} is missing note token {token!r}")
         if opcode_hex == "0x013b" and row.get("observedIn"):
             fail("0x013b must remain capture-empty")
-
     queue = evidence["normalizedQueue"]
     if (queue["recordSize"], queue["headerSize"], queue["rowOffset"], queue["rowStride"], queue["rowCapacity"]) != (416, 56, 56, 20, 18):
         fail("normalized queue dimensions drifted")

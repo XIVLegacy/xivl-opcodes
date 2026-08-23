@@ -50,10 +50,6 @@ def _require_int(value: object, label: str) -> int:
     return value
 
 
-def load_schema_lengths(manifests_dir: Path) -> dict[tuple[str, int], int]:
-    return {key: length for key, (length, _) in load_schema_lengths_with_sources(manifests_dir).items()}
-
-
 def load_schema_lengths_with_sources(manifests_dir: Path) -> dict[tuple[str, int], tuple[int, str]]:
     """Merge lengths while retaining the source manifest for each key."""
     lengths: dict[tuple[str, int], int] = {}
@@ -186,7 +182,10 @@ def main() -> int:
             manifests_dir = Path(args.manifests)
             if not manifests_dir.is_dir():
                 raise AuditFatalError(f"--manifests {manifests_dir}: not a directory")
-            schema_lengths = load_schema_lengths(manifests_dir)
+            schema_lengths = {
+                key: length
+                for key, (length, _) in load_schema_lengths_with_sources(manifests_dir).items()
+            }
         else:
             schema_lengths = load_fixture_lengths(FIXTURE)
         catalog = _load_json(catalog_path)

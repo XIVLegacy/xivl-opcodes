@@ -154,7 +154,7 @@ def refresh_entry(entry: dict, directory: Path, checkouts: dict[str, Path], args
         )
 
     commit = args.commit
-    if not commit or not HEX40.fullmatch(commit):
+    if not HEX40.fullmatch(commit):
         raise RefreshError(f"--commit must be a full 40-hex lowercase hash naming the source revision to fetch, got {commit!r}")
     source_path = args.source_path or entry["sourcePath"]
 
@@ -212,7 +212,7 @@ def main() -> int:
     touched = 0
     for provenance_path in sorted(VENDOR.glob("*/PROVENANCE.json")):
         directory = provenance_path.parent
-        if only is not None and only.parent != directory:
+        if only.parent != directory:
             continue
         try:
             provenance = load_provenance(provenance_path)
@@ -235,7 +235,7 @@ def main() -> int:
         if dirty:
             write_provenance(provenance_path, provenance)
 
-    if only is not None and touched == 0 and exit_code == 0:
+    if touched == 0 and exit_code == 0:
         print(f"error: no PROVENANCE entry for {args.only}", file=sys.stderr)
         return 2
     return exit_code
