@@ -299,14 +299,10 @@
           "direction": "serverbound",
           "implementationAnchor": "WorldClientOpcode::Login",
           "decompAnchor": null,
-          "observedIn": [
-            "login.pcapng"
-          ],
-          "payloadLengths": [
-            40
-          ],
+          "observedIn": [],
+          "payloadLengths": [],
           "confidence": "implemented",
-          "notes": "pcap_service_ambiguous=world,map"
+          "notes": "login_service_exclusion=map_main_lane; login_evidence=xivl-captures:derived/lane_observations.json#lanes/main/c2s/0x0006; login_capture_sha256=28e06b54fe559870031f077f8549b9244caafa7e5177dbca08a7feae6c2b1b62"
         },
         {
           "name": "PartyChatMessagePacket",
@@ -341,7 +337,6 @@
             "gridania_to_coerthas.pcapng",
             "invite_join_party.pcapng",
             "local_leve_complete.pcapng",
-            "login.pcapng",
             "move_out_of_room.pcapng",
             "moving_around_gridania.pcapng",
             "party_battle_leve.pcapng",
@@ -356,7 +351,7 @@
             72
           ],
           "confidence": "implemented",
-          "notes": "role=client-to-server actor/group work update; the client sends one when it first observes a group or actor and asks the server to register that actor's event handlers. Same wire integer as the outbound generic-data opcode, disambiguated by direction. Captured payload is a u64 actor/group id plus a 16-byte ASCII event name and 16-byte reserved tail; observed across 15 captures; pcap_service_ambiguous=world,map"
+          "notes": "role=client-to-server actor/group work update; the client sends one when it first observes a group or actor and asks the server to register that actor's event handlers. Same wire integer as the outbound generic-data opcode, disambiguated by direction. Captured payload is a u64 actor/group id plus a 16-byte ASCII event name and 16-byte reserved tail; observed across 15 captures; pcap_service_ambiguous=world,map; login_service_exclusion=map_main_lane; login_evidence=xivl-captures:derived/lane_observations.json#lanes/main/c2s/0x0133; login_capture_sha256=28e06b54fe559870031f077f8549b9244caafa7e5177dbca08a7feae6c2b1b62"
         },
         {
           "name": "_0x012C",
@@ -398,12 +393,10 @@
           "direction": "clientbound",
           "implementationAnchor": "MapServerOpcode::Opaque0x02",
           "decompAnchor": null,
-          "observedIn": [
-            "login.pcapng"
-          ],
+          "observedIn": [],
           "payloadLengths": [],
           "confidence": "implemented",
-          "notes": "implementationServiceRelabel=LobbyOpcode::Error_at_lobby_clientbound_same_wire_integer; not_a_parity_discrepancy; lane_ruling=unresolved_no_s2c_observation; main_lane_count=0; chat_lane_count=0; pcap_service_ambiguous=world,map"
+          "notes": "implementationServiceRelabel=LobbyOpcode::Error_at_lobby_clientbound_same_wire_integer; not_a_parity_discrepancy; login_service_exclusion=map_main_lane; login_evidence=xivl-captures:derived/lane_observations.json#lanes/main/s2c/0x0002; login_capture_sha256=28e06b54fe559870031f077f8549b9244caafa7e5177dbca08a7feae6c2b1b62"
         },
         {
           "name": "SendMessagePacket",
@@ -413,12 +406,10 @@
           "direction": "clientbound",
           "implementationAnchor": "MapServerOpcode::SendMessage",
           "decompAnchor": null,
-          "observedIn": [
-            "login.pcapng"
-          ],
+          "observedIn": [],
           "payloadLengths": [],
           "confidence": "implemented",
-          "notes": "lane_ruling=unresolved_no_s2c_observation; main_lane_count=0; chat_lane_count=0; pcap_service_ambiguous=world,map"
+          "notes": "login_service_exclusion=map_main_lane; login_evidence=xivl-captures:derived/lane_observations.json#lanes/main/s2c/0x0003; login_capture_sha256=28e06b54fe559870031f077f8549b9244caafa7e5177dbca08a7feae6c2b1b62"
         },
         {
           "name": "PartyChatMessagePacket",
@@ -453,7 +444,6 @@
             "gridania_to_coerthas.pcapng",
             "invite_join_party.pcapng",
             "local_leve_complete.pcapng",
-            "login.pcapng",
             "move_out_of_room.pcapng",
             "moving_around_gridania.pcapng",
             "party_battle_leve.pcapng",
@@ -468,7 +458,7 @@
             176
           ],
           "confidence": "implemented",
-          "notes": "pcap_service_ambiguous=world,map"
+          "notes": "pcap_service_ambiguous=world,map; login_service_exclusion=map_main_lane; login_evidence=xivl-captures:derived/lane_observations.json#lanes/main/s2c/0x017a; login_capture_sha256=28e06b54fe559870031f077f8549b9244caafa7e5177dbca08a7feae6c2b1b62"
         },
         {
           "name": "GroupHeaderPacket",
@@ -485,7 +475,6 @@
             "gridania_to_coerthas.pcapng",
             "invite_join_party.pcapng",
             "local_leve_complete.pcapng",
-            "login.pcapng",
             "move_out_of_room.pcapng",
             "moving_around_gridania.pcapng",
             "party_battle_leve.pcapng",
@@ -500,7 +489,7 @@
             152
           ],
           "confidence": "implemented",
-          "notes": "pcap_service_ambiguous=world,map"
+          "notes": "pcap_service_ambiguous=world,map; login_service_exclusion=map_main_lane; login_evidence=xivl-captures:derived/lane_observations.json#lanes/main/s2c/0x017c; login_capture_sha256=28e06b54fe559870031f077f8549b9244caafa7e5177dbca08a7feae6c2b1b62"
         },
         {
           "name": "GroupMembersBeginPacket",
@@ -517,7 +506,6 @@
             "gridania_to_coerthas.pcapng",
             "invite_join_party.pcapng",
             "local_leve_complete.pcapng",
-            "login.pcapng",
             "move_out_of_room.pcapng",
             "moving_around_gridania.pcapng",
             "party_battle_leve.pcapng",
@@ -532,7 +520,7 @@
             64
           ],
           "confidence": "implemented",
-          "notes": "pcap_service_ambiguous=world,map"
+          "notes": "pcap_service_ambiguous=world,map; login_service_exclusion=map_main_lane; login_evidence=xivl-captures:derived/lane_observations.json#lanes/main/s2c/0x017d; login_capture_sha256=28e06b54fe559870031f077f8549b9244caafa7e5177dbca08a7feae6c2b1b62"
         },
         {
           "name": "GroupMembersEndPacket",
@@ -549,7 +537,6 @@
             "gridania_to_coerthas.pcapng",
             "invite_join_party.pcapng",
             "local_leve_complete.pcapng",
-            "login.pcapng",
             "move_out_of_room.pcapng",
             "moving_around_gridania.pcapng",
             "party_battle_leve.pcapng",
@@ -564,7 +551,7 @@
             56
           ],
           "confidence": "implemented",
-          "notes": "pcap_service_ambiguous=world,map"
+          "notes": "pcap_service_ambiguous=world,map; login_service_exclusion=map_main_lane; login_evidence=xivl-captures:derived/lane_observations.json#lanes/main/s2c/0x017e; login_capture_sha256=28e06b54fe559870031f077f8549b9244caafa7e5177dbca08a7feae6c2b1b62"
         },
         {
           "name": "GroupMembersX08Packet",
@@ -578,7 +565,6 @@
             "from_gridania_to_blackshroud.pcapng",
             "gridania_to_coerthas.pcapng",
             "invite_join_party.pcapng",
-            "login.pcapng",
             "move_out_of_room.pcapng",
             "moving_around_gridania.pcapng",
             "party_battle_leve.pcapng",
@@ -592,7 +578,7 @@
             440
           ],
           "confidence": "implemented",
-          "notes": "pcap_service_ambiguous=world,map"
+          "notes": "pcap_service_ambiguous=world,map; login_service_exclusion=map_main_lane; login_evidence=xivl-captures:derived/lane_observations.json#lanes/main/s2c/0x017f; login_capture_sha256=28e06b54fe559870031f077f8549b9244caafa7e5177dbca08a7feae6c2b1b62"
         },
         {
           "name": "GroupMembersX16Packet",
@@ -654,12 +640,10 @@
           "direction": "clientbound",
           "implementationAnchor": "MapServerOpcode::CreateNamedGroupMultiple",
           "decompAnchor": null,
-          "observedIn": [
-            "login.pcapng"
-          ],
+          "observedIn": [],
           "payloadLengths": [],
           "confidence": "implemented",
-          "notes": "lane_ruling=unresolved_no_s2c_observation; main_lane_count=0; chat_lane_count=0; pcap_service_ambiguous=world,map"
+          "notes": "login_service_exclusion=map_main_lane; login_evidence=xivl-captures:derived/lane_observations.json#lanes/main/s2c/0x0189; login_capture_sha256=28e06b54fe559870031f077f8549b9244caafa7e5177dbca08a7feae6c2b1b62"
         },
         {
           "name": "SetActiveLinkshellPacket",
@@ -669,14 +653,10 @@
           "direction": "clientbound",
           "implementationAnchor": "MapServerOpcode::SetActiveLinkshell",
           "decompAnchor": null,
-          "observedIn": [
-            "login.pcapng"
-          ],
-          "payloadLengths": [
-            136
-          ],
+          "observedIn": [],
+          "payloadLengths": [],
           "confidence": "implemented",
-          "notes": "role=server-to-client set-active-linkshell notification; pcap_service_ambiguous=world,map"
+          "notes": "role=server-to-client set-active-linkshell notification; login_service_exclusion=map_main_lane; login_evidence=xivl-captures:derived/lane_observations.json#lanes/main/s2c/0x018a; login_capture_sha256=28e06b54fe559870031f077f8549b9244caafa7e5177dbca08a7feae6c2b1b62"
         }
       ],
       "MapServerbound": [
@@ -797,7 +777,7 @@
             40
           ],
           "confidence": "implemented",
-          "notes": "pcap_service_ambiguous=world,map"
+          "notes": "login_service_attribution=map_main_lane; login_evidence=xivl-captures:derived/lane_observations.json#lanes/main/c2s/0x0006; login_capture_sha256=28e06b54fe559870031f077f8549b9244caafa7e5177dbca08a7feae6c2b1b62"
         },
         {
           "name": "ZoneInCompletePacket",
@@ -1153,7 +1133,7 @@
             72
           ],
           "confidence": "implemented",
-          "notes": "role=client-to-server actor/group work update; the client sends one when it first observes a group or actor and asks the server to register that actor's event handlers. Same wire integer as the outbound generic-data opcode, disambiguated by direction. Observed across 15 captures, 72-byte packet; corpus request_response_pairs.json: 268 total c2s 0x0133 firings paired with s2c responses within 200ms; top response is s2c 0x0137 SetActorProperty (180 pairs, 67% c2sShare = action command reliably triggers property update). Also reliably triggers s2c 0x00CC (161 pairs, 60%) and 0x0134 (161 pairs, 60%) - composite 5+ packet response. | pcap_observations merged from xivl-client-structs pcap_opcode_evidence.json.; pcap_service_ambiguous=world,map"
+          "notes": "role=client-to-server actor/group work update; the client sends one when it first observes a group or actor and asks the server to register that actor's event handlers. Same wire integer as the outbound generic-data opcode, disambiguated by direction. Observed across 16 captures, 72-byte packet; corpus request_response_pairs.json: 268 total c2s 0x0133 firings paired with s2c responses within 200ms; top response is s2c 0x0137 SetActorProperty (180 pairs, 67% c2sShare = action command reliably triggers property update). Also reliably triggers s2c 0x00CC (161 pairs, 60%) and 0x0134 (161 pairs, 60%) - composite 5+ packet response. | pcap_observations merged from xivl-client-structs pcap_opcode_evidence.json.; pcap_service_ambiguous=world,map; login_service_attribution=map_main_lane; login_evidence=xivl-captures:derived/lane_observations.json#lanes/main/c2s/0x0133; login_capture_sha256=28e06b54fe559870031f077f8549b9244caafa7e5177dbca08a7feae6c2b1b62"
         },
         {
           "name": "AchievementRateRequestPacket",
@@ -1719,7 +1699,7 @@
             64
           ],
           "confidence": "implemented",
-          "notes": ""
+          "notes": "login_service_attribution=map_main_lane; login_evidence=xivl-captures:derived/lane_observations.json#lanes/main/s2c/0x0001; login_capture_sha256=28e06b54fe559870031f077f8549b9244caafa7e5177dbca08a7feae6c2b1b62"
         },
         {
           "name": "_0x02Packet",
@@ -1732,9 +1712,11 @@
           "observedIn": [
             "login.pcapng"
           ],
-          "payloadLengths": [],
+          "payloadLengths": [
+            48
+          ],
           "confidence": "implemented",
-          "notes": "implementationServiceRelabel=LobbyOpcode::Error_at_lobby_clientbound_same_wire_integer; not_a_parity_discrepancy; pcap_service_ambiguous=world,map"
+          "notes": "implementationServiceRelabel=LobbyOpcode::Error_at_lobby_clientbound_same_wire_integer; not_a_parity_discrepancy; login_service_attribution=map_main_lane; login_evidence=xivl-captures:derived/lane_observations.json#lanes/main/s2c/0x0002; login_capture_sha256=28e06b54fe559870031f077f8549b9244caafa7e5177dbca08a7feae6c2b1b62"
         },
         {
           "name": "SendMessagePacket",
@@ -1747,9 +1729,11 @@
           "observedIn": [
             "login.pcapng"
           ],
-          "payloadLengths": [],
+          "payloadLengths": [
+            584
+          ],
           "confidence": "implemented",
-          "notes": "pcap_service_ambiguous=world,map"
+          "notes": "login_service_attribution=map_main_lane; login_evidence=xivl-captures:derived/lane_observations.json#lanes/main/s2c/0x0003; login_capture_sha256=28e06b54fe559870031f077f8549b9244caafa7e5177dbca08a7feae6c2b1b62"
         },
         {
           "name": "SetMapPacket",
@@ -1914,7 +1898,7 @@
             40
           ],
           "confidence": "implemented",
-          "notes": ""
+          "notes": "login_service_attribution=map_main_lane; login_evidence=xivl-captures:derived/lane_observations.json#lanes/main/s2c/0x000c; login_capture_sha256=28e06b54fe559870031f077f8549b9244caafa7e5177dbca08a7feae6c2b1b62"
         },
         {
           "name": "SetWeatherPacket",
@@ -1978,7 +1962,7 @@
             56
           ],
           "confidence": "implemented",
-          "notes": ""
+          "notes": "login_service_attribution=map_main_lane; login_evidence=xivl-captures:derived/lane_observations.json#lanes/main/s2c/0x000f; login_capture_sha256=28e06b54fe559870031f077f8549b9244caafa7e5177dbca08a7feae6c2b1b62"
         },
         {
           "name": "SetDalamudPacket",
@@ -2004,7 +1988,7 @@
             40
           ],
           "confidence": "implemented",
-          "notes": ""
+          "notes": "login_service_attribution=map_main_lane; login_evidence=xivl-captures:derived/lane_observations.json#lanes/main/s2c/0x0010; login_capture_sha256=28e06b54fe559870031f077f8549b9244caafa7e5177dbca08a7feae6c2b1b62"
         },
         {
           "name": "QuitPacket",
@@ -4085,7 +4069,7 @@
             176
           ],
           "confidence": "implemented",
-          "notes": "pcap_service_ambiguous=world,map; client_semantics_evidence=data/client_opcode_semantics.json#s2c-017a; dependency_status=closed"
+          "notes": "pcap_service_ambiguous=world,map; login_service_attribution=map_main_lane; login_evidence=xivl-captures:derived/lane_observations.json#lanes/main/s2c/0x017a; login_capture_sha256=28e06b54fe559870031f077f8549b9244caafa7e5177dbca08a7feae6c2b1b62; client_semantics_evidence=data/client_opcode_semantics.json#s2c-017a; dependency_status=closed"
         },
         {
           "name": "SetActorIsZoningPacket",
@@ -4150,7 +4134,7 @@
             152
           ],
           "confidence": "implemented",
-          "notes": "retail_client_analysis=FUN_00576250 routes the Group header and the client layout reads positional u32 groupTypeId at application offset 0x30; application_payload=0x78 bytes; observed_subpacket=0x98 bytes; observed_groupTypeId=10001 x14,10002 x265,30001 x65,30006 x4,50001 x2,80001 x11 across 361 headers; 30001_scope=65/65 party_battle_leve.pcapng; field_semantics=positional observation only, no group-kind mapping; client_evidence=BCS-Y-0564,xivl-client-structs:manifests/director_group_wire_identity.json#layouts.0x017C; capture_evidence=xivl-captures:studies/director-wire-identity/derived/accounting.json#group_type_candidate_distribution; client_only=layout and observed values do not establish server behavior; pcap_service_ambiguous=world,map; client_semantics_evidence=data/client_opcode_semantics.json#s2c-017c; dependency_status=closed"
+          "notes": "retail_client_analysis=FUN_00576250 routes the Group header and the client layout reads positional u32 groupTypeId at application offset 0x30; application_payload=0x78 bytes; observed_subpacket=0x98 bytes; observed_groupTypeId=10001 x14,10002 x265,30001 x65,30006 x4,50001 x2,80001 x11 across 361 headers; 30001_scope=65/65 party_battle_leve.pcapng; field_semantics=positional observation only, no group-kind mapping; client_evidence=BCS-Y-0564,xivl-client-structs:manifests/director_group_wire_identity.json#layouts.0x017C; capture_evidence=xivl-captures:studies/director-wire-identity/derived/accounting.json#group_type_candidate_distribution; client_only=layout and observed values do not establish server behavior; pcap_service_ambiguous=world,map; login_service_attribution=map_main_lane; login_evidence=xivl-captures:derived/lane_observations.json#lanes/main/s2c/0x017c; login_capture_sha256=28e06b54fe559870031f077f8549b9244caafa7e5177dbca08a7feae6c2b1b62; client_semantics_evidence=data/client_opcode_semantics.json#s2c-017c; dependency_status=closed"
         },
         {
           "name": "GroupMembersBeginPacket",
@@ -4182,7 +4166,7 @@
             64
           ],
           "confidence": "implemented",
-          "notes": "pcap_service_ambiguous=world,map; client_semantics_evidence=data/client_opcode_semantics.json#s2c-017d; dependency_status=closed"
+          "notes": "pcap_service_ambiguous=world,map; login_service_attribution=map_main_lane; login_evidence=xivl-captures:derived/lane_observations.json#lanes/main/s2c/0x017d; login_capture_sha256=28e06b54fe559870031f077f8549b9244caafa7e5177dbca08a7feae6c2b1b62; client_semantics_evidence=data/client_opcode_semantics.json#s2c-017d; dependency_status=closed"
         },
         {
           "name": "GroupMembersEndPacket",
@@ -4214,7 +4198,7 @@
             56
           ],
           "confidence": "implemented",
-          "notes": "pcap_service_ambiguous=world,map; client_semantics_evidence=data/client_opcode_semantics.json#s2c-017e; dependency_status=closed"
+          "notes": "pcap_service_ambiguous=world,map; login_service_attribution=map_main_lane; login_evidence=xivl-captures:derived/lane_observations.json#lanes/main/s2c/0x017e; login_capture_sha256=28e06b54fe559870031f077f8549b9244caafa7e5177dbca08a7feae6c2b1b62; client_semantics_evidence=data/client_opcode_semantics.json#s2c-017e; dependency_status=closed"
         },
         {
           "name": "GroupMembersX08Packet",
@@ -4242,7 +4226,7 @@
             440
           ],
           "confidence": "implemented",
-          "notes": "retail_client_analysis=FUN_005762E0 routes the eight-entry Group member update; application_payload=0x198 bytes; observed_subpacket=0x1b8 bytes; member_layout=eight 0x30-byte records at application offset 0x10; memberCount=u32 at application offset 0x190 with observed values 1 x12 and 2 x15; client_evidence=xivl-client-structs:manifests/director_group_wire_identity.json#layouts.0x017F; capture_evidence=xivl-captures:studies/director-wire-identity/derived/group-members.csv#opcode=0x017F; client_only=layout and observed values do not establish server behavior; pcap_service_ambiguous=world,map; client_semantics_evidence=data/client_opcode_semantics.json#s2c-017f; dependency_status=closed"
+          "notes": "retail_client_analysis=FUN_005762E0 routes the eight-entry Group member update; application_payload=0x198 bytes; observed_subpacket=0x1b8 bytes; member_layout=eight 0x30-byte records at application offset 0x10; memberCount=u32 at application offset 0x190 with observed values 1 x12 and 2 x15; client_evidence=xivl-client-structs:manifests/director_group_wire_identity.json#layouts.0x017F; capture_evidence=xivl-captures:studies/director-wire-identity/derived/group-members.csv#opcode=0x017F; client_only=layout and observed values do not establish server behavior; pcap_service_ambiguous=world,map; login_service_attribution=map_main_lane; login_evidence=xivl-captures:derived/lane_observations.json#lanes/main/s2c/0x017f; login_capture_sha256=28e06b54fe559870031f077f8549b9244caafa7e5177dbca08a7feae6c2b1b62; client_semantics_evidence=data/client_opcode_semantics.json#s2c-017f; dependency_status=closed"
         },
         {
           "name": "GroupMembersX16Packet",
@@ -4401,9 +4385,11 @@
           "observedIn": [
             "login.pcapng"
           ],
-          "payloadLengths": [],
+          "payloadLengths": [
+            552
+          ],
           "confidence": "implemented",
-          "notes": "pcap_service_ambiguous=world,map; client_semantics_evidence=data/client_opcode_semantics.json#s2c-0189; dependency_status=closed"
+          "notes": "login_service_attribution=map_main_lane; login_evidence=xivl-captures:derived/lane_observations.json#lanes/main/s2c/0x0189; login_capture_sha256=28e06b54fe559870031f077f8549b9244caafa7e5177dbca08a7feae6c2b1b62; client_semantics_evidence=data/client_opcode_semantics.json#s2c-0189; dependency_status=closed"
         },
         {
           "name": "_0x018A",
@@ -4420,7 +4406,7 @@
             136
           ],
           "confidence": "decomp_routed",
-          "notes": "retail_client_analysis=FUN_00576380 forwards application payload through FUN_006C82A0 to FUN_006C6A70; application_payload=120 bytes; row_copy=u64[8] at +0 plus u32[8] at +0x40; loop_bound=signed low byte at +0x60; unread_tail=20 bytes at +0x64..+0x77; commit_boundary=unresolved FUN_006C58C0; corpus_aggregate=1 event; retained_payload_evidence=1 136-byte subpacket in login.pcapng; semantic_status=decomp_routed; naming=placeholder retained because retail does not establish a stable packet noun; candidate_label=SetActiveLinkshellPacket is an imported source-manifest term, not retail-proven; client_only=row copy and commit route does not establish server behavior; prior_label=MapServerOpcode::SetActiveLinkshell; conflict=implementation anchor and packet noun lack a source-owned declaration; client_evidence=BCS-Y-0578,BCS-Y-0888; client_semantics_evidence=data/client_opcode_semantics.json#s2c-018a; dependency_status=closed; pcap_service_ambiguous=world,map"
+          "notes": "retail_client_analysis=FUN_00576380 forwards application payload through FUN_006C82A0 to FUN_006C6A70; application_payload=120 bytes; row_copy=u64[8] at +0 plus u32[8] at +0x40; loop_bound=signed low byte at +0x60; unread_tail=20 bytes at +0x64..+0x77; commit_boundary=unresolved FUN_006C58C0; corpus_aggregate=1 event; retained_payload_evidence=1 136-byte subpacket in login.pcapng; semantic_status=decomp_routed; naming=placeholder retained because retail does not establish a stable packet noun; candidate_label=SetActiveLinkshellPacket is an imported source-manifest term, not retail-proven; client_only=row copy and commit route does not establish server behavior; prior_label=MapServerOpcode::SetActiveLinkshell; conflict=implementation anchor and packet noun lack a source-owned declaration; client_evidence=BCS-Y-0578,BCS-Y-0888; login_service_attribution=map_main_lane; login_evidence=xivl-captures:derived/lane_observations.json#lanes/main/s2c/0x018a; login_capture_sha256=28e06b54fe559870031f077f8549b9244caafa7e5177dbca08a7feae6c2b1b62; client_semantics_evidence=data/client_opcode_semantics.json#s2c-018a; dependency_status=closed"
         },
         {
           "name": "SetGroupLayoutIDPacket",

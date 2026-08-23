@@ -27,7 +27,7 @@ Use the narrowest durable claim supported by the artifact family:
 
 | Artifact family | Claim boundary |
 |---|---|
-| Retail packet observation digest or capture name index | Wire opcode, direction, observed length, or stream phase. It is not a specific service when services share a wire integer. |
+| Retail packet observation digest or capture name index | Wire opcode, direction, observed length, or stream phase. A merged digest is not a specific service when services share a wire integer; a lane-preserving digest may support service attribution only when independent channel evidence maps that lane to the service. |
 | Retail client decompilation, receiver, or ABI record | Client routing, receiver identity, or expected payload shape; not server behavior. |
 | Recorded live-validation result | Verification that the retail 1.23b client accepted the behavior in a live session. Client acceptance is the evidence, and the implementation that drives the session is only the instrument. |
 

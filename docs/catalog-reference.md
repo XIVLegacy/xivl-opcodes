@@ -94,10 +94,18 @@ wire pair, not exclusive service ownership. Entries with an ambiguous service
 are tagged `pcap_service_ambiguous` in `notes`. One example is
 `pcap_service_ambiguous=world,map`.
 
-The observation set represents in-world packet traffic. Lobby login traffic
-uses a separate connection and is not represented by a non-empty
-`observedIn`. World-to-map backend rows are server-to-server and do not cross
-the client socket, so they do not carry packet observations.
+Lane-preserving evidence can narrow one capture witness when the retail
+connection class is independently established. The clear 54992 game traffic
+in `login.pcapng` is retained on its Map rows because every relevant pair is
+on the main Map/Zone lane; competing World rows carry a capture-specific
+exclusion note. This does not resolve service ambiguity for other captures
+whose evidence remains merged.
+
+The observation set represents game-protocol traffic. Lobby protocol traffic
+uses a separate connection and is not represented by a non-empty `observedIn`;
+the 54992 game lanes in `login.pcapng` are not lobby protocol. World-to-map
+backend rows are server-to-server and do not cross the client socket, so they
+do not carry packet observations.
 
 Opcode integers may also be reused across directions. For example, `0x00ca`
 is both a serverbound position update and a clientbound actor spawn broadcast

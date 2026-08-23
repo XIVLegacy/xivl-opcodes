@@ -41,9 +41,10 @@ writer. Abbreviated, uppercase, or omitted hashes are rejected.
 
 ## Tool index
 
-- `generate_catalog.py` reapplies curated catalog notes, ambiguity tags, and
-  other fields no extractor can derive, then rewrites root `opcodes.json` and
-  `constants.json` with the house JSON writer.
+- `generate_catalog.py` reapplies curated catalog notes, ambiguity tags,
+  capture-specific lane attributions, and other fields no extractor can derive.
+  It then rewrites root `opcodes.json` and `constants.json` with the house JSON
+  writer.
 - `_json_io.py` owns the repo paths and the shared UTF-8, LF, two-space JSON
   writer. `OPCODES_PATH` and `CONSTANTS_PATH` are the single catalog paths.
 - `validate_repository.py` is the complete human and CI check. It parses every

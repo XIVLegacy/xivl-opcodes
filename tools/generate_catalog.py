@@ -310,8 +310,6 @@ ZONE_DUMMY_CLUSTER_PRIOR = {
 # PCAP_LOBBY_PURGE removes lobby rows that inherited in-world captures.
 PCAP_AMBIGUOUS_SERVICES = "world,map"
 PCAP_AMBIGUOUS = [
-    ("WorldClientbound", "0x018a", "SetActiveLinkshellPacket"),
-    ("MapClientbound", "0x018a", "_0x018A"),
     ("WorldClientbound", "0x017a", "SynchGroupWorkValuesPacket"),
     ("MapClientbound", "0x017a", "SynchGroupWorkValuesPacket"),
     ("WorldClientbound", "0x017c", "GroupHeaderPacket"),
@@ -325,9 +323,25 @@ PCAP_AMBIGUOUS = [
     ("WorldServerbound", "0x0133", "GroupWorkUpdatePacket"),
     ("MapServerbound", "0x0133", "GroupWorkUpdatePacket"),
 ]
-PCAP_OBSERVATION_OVERRIDES = [
-    ("WorldClientbound", "0x018a", "SetActiveLinkshellPacket", "login.pcapng", 136),
-    ("MapClientbound", "0x018a", "_0x018A", "login.pcapng", 136),
+LOGIN_CAPTURE = "login.pcapng"
+LOGIN_CAPTURE_SHA256 = "28e06b54fe559870031f077f8549b9244caafa7e5177dbca08a7feae6c2b1b62"
+LOGIN_LANE_EVIDENCE = "xivl-captures:derived/lane_observations.json"
+LOGIN_PREZONE_ATTRIBUTIONS = [
+    ("MapServerbound", "0x0133", "GroupWorkUpdatePacket", "c2s", 72),
+    ("MapServerbound", "0x0006", "LangaugeCodePacket", "c2s", 40),
+    ("MapClientbound", "0x0001", "PongPacket", "s2c", 64),
+    ("MapClientbound", "0x017a", "SynchGroupWorkValuesPacket", "s2c", 176),
+    ("MapClientbound", "0x000c", "SetMusicPacket", "s2c", 40),
+    ("MapClientbound", "0x017c", "GroupHeaderPacket", "s2c", 152),
+    ("MapClientbound", "0x017d", "GroupMembersBeginPacket", "s2c", 64),
+    ("MapClientbound", "0x017e", "GroupMembersEndPacket", "s2c", 56),
+    ("MapClientbound", "0x0010", "SetDalamudPacket", "s2c", 40),
+    ("MapClientbound", "0x000f", "_0xFPacket", "s2c", 56),
+    ("MapClientbound", "0x017f", "GroupMembersX08Packet", "s2c", 440),
+    ("MapClientbound", "0x0002", "_0x02Packet", "s2c", 48),
+    ("MapClientbound", "0x0003", "SendMessagePacket", "s2c", 584),
+    ("MapClientbound", "0x018a", "_0x018A", "s2c", 136),
+    ("MapClientbound", "0x0189", "CreateNamedGroupMultiple", "s2c", 552),
 ]
 
 LANE_MOVES = {
@@ -335,7 +349,7 @@ LANE_MOVES = {
     "0x0008": ("_0x0008", 19),
     "0x0143": ("DeleteGroupPacket", 12),
 }
-LANE_UNRESOLVED = {"0x0002", "0x0003", "0x0188", "0x0189"}
+LANE_UNRESOLVED = {"0x0188"}
 PCAP_LOBBY_PURGE = [
     ("LobbyServerbound", "0x0003", "_0x0003Handler"),
     ("LobbyClientbound", "0x000c", "AccountListPacket"),
@@ -678,7 +692,14 @@ def apply_client_semantics(top: dict) -> tuple[int, int]:
 
         entry = matches[0]
         if row["id"] in CLIENT_SEMANTICS_SPECIAL_NOTES:
-            entry["notes"] = CLIENT_SEMANTICS_SPECIAL_NOTES[row["id"]]
+            login_parts = [
+                part.strip()
+                for part in entry.get("notes", "").split(";")
+                if part.strip().startswith("login_")
+            ]
+            entry["notes"] = "; ".join(
+                [CLIENT_SEMANTICS_SPECIAL_NOTES[row["id"]], *login_parts]
+            )
 
         parts = [part.strip() for part in entry.get("notes", "").split(";") if part.strip()]
         parts = [
@@ -843,66 +864,157 @@ def apply_zone_dummy_cluster(top: dict) -> tuple[int, int]:
     return applied, inserted
 
 
-def reconcile_pcap_notes(top: dict) -> tuple[int, int]:
-    """Keep pcap notes aligned with the observedIn evidence they describe."""
-    stale_removed = 0
-    ambiguity_added = 0
-    stale_tokens = ("no_pcap_evidence", "inferred_not_observed_in_corpus")
-    s2c_018a_stale_tokens = (
+def remove_note_token(notes: str, token: str) -> tuple[str, bool]:
+    if notes == token:
+        return "", True
+    prefix = token + ";"
+    if notes.startswith(prefix):
+        return notes[len(prefix):].lstrip(), True
+    for marker in ("; " + token,):
+        start = notes.find(marker)
+        if start < 0:
+            continue
+        end = start + len(marker)
+        if end == len(notes) or notes[end] == ";":
+            return notes[:start] + notes[end:], True
+    return notes, False
+
+
+def append_note_token(notes: str, token: str) -> str:
+    if token in notes:
+        return notes
+    return f"{notes}; {token}" if notes else token
+
+
+def apply_login_prezone_attributions(top: dict) -> tuple[int, int, int]:
+    """Assign login.pcapng observations to the captured main Map/Zone lane."""
+    applied = 0
+    skipped = 0
+    errors = 0
+    stale_lane_tokens = (
         "lane_ruling=unresolved_no_s2c_observation",
         "main_lane_count=0",
         "chat_lane_count=0",
     )
+
+    for bucket, opcode_hex, name, wire_direction, payload_length in LOGIN_PREZONE_ATTRIBUTIONS:
+        selected = None
+        for entry in top["lists"].get(bucket, []):
+            if entry["opcodeHex"] == opcode_hex and entry["name"] == name:
+                selected = entry
+                break
+        if selected is None:
+            print(f"  WARN: no entry for login attribution {bucket} {opcode_hex} {name}")
+            errors += 1
+            continue
+
+        evidence = f"{LOGIN_LANE_EVIDENCE}#lanes/main/{wire_direction}/{opcode_hex}"
+        attribution = "login_service_attribution=map_main_lane"
+        evidence_token = f"login_evidence={evidence}"
+        identity_token = f"login_capture_sha256={LOGIN_CAPTURE_SHA256}"
+        before = (
+            list(selected.get("observedIn", [])),
+            list(selected.get("payloadLengths", [])),
+            selected.get("notes", ""),
+        )
+        selected["observedIn"] = sorted(
+            set(selected.get("observedIn", [])) | {LOGIN_CAPTURE}
+        )
+        selected["payloadLengths"] = sorted(
+            set(selected.get("payloadLengths", [])) | {payload_length}
+        )
+        notes = selected.get("notes", "")
+        for token in (attribution, evidence_token, identity_token):
+            notes = append_note_token(notes, token)
+        selected["notes"] = notes
+
+        for entries in top["lists"].values():
+            for entry in entries:
+                if (
+                    entry is selected
+                    or entry.get("direction") != selected.get("direction")
+                    or entry.get("opcode") != selected.get("opcode")
+                    or entry.get("service") == selected.get("service")
+                ):
+                    continue
+                competitor_had_capture = LOGIN_CAPTURE in entry.get("observedIn", [])
+                if competitor_had_capture:
+                    entry["observedIn"] = sorted(
+                        set(entry.get("observedIn", [])) - {LOGIN_CAPTURE}
+                    )
+                    if not entry["observedIn"]:
+                        entry["payloadLengths"] = []
+                competitor_notes = entry.get("notes", "")
+                for token in stale_lane_tokens:
+                    competitor_notes, _ = remove_note_token(competitor_notes, token)
+                if entry.get("service") != "lobby":
+                    competitor_notes = append_note_token(
+                        competitor_notes, "login_service_exclusion=map_main_lane"
+                    )
+                    competitor_notes = append_note_token(competitor_notes, evidence_token)
+                    competitor_notes = append_note_token(competitor_notes, identity_token)
+                entry["notes"] = competitor_notes
+
+        after = (
+            selected.get("observedIn", []),
+            selected.get("payloadLengths", []),
+            selected.get("notes", ""),
+        )
+        if before == after:
+            skipped += 1
+        else:
+            applied += 1
+
+    return applied, skipped, errors
+
+
+def reconcile_pcap_notes(top: dict) -> tuple[int, int, int]:
+    """Keep pcap notes aligned with the observedIn evidence they describe."""
+    stale_removed = 0
+    ambiguity_added = 0
+    ambiguity_removed = 0
+    stale_tokens = ("no_pcap_evidence", "inferred_not_observed_in_corpus")
     ambiguity_token = f"pcap_service_ambiguous={PCAP_AMBIGUOUS_SERVICES}"
+    login_keys = {
+        ("serverbound" if wire_direction == "c2s" else "clientbound", int(opcode_hex, 16))
+        for _bucket, opcode_hex, _name, wire_direction, _length
+        in LOGIN_PREZONE_ATTRIBUTIONS
+    }
 
-    def remove_token(notes: str, token: str) -> tuple[str, bool]:
-        if notes == token:
-            return "", True
-        prefix = token + ";"
-        if notes.startswith(prefix):
-            return notes[len(prefix):].lstrip(), True
-        for marker in ("; " + token,):
-            start = notes.find(marker)
-            if start < 0:
-                continue
-            end = start + len(marker)
-            if end == len(notes) or notes[end] == ";":
-                return notes[:start] + notes[end:], True
-        return notes, False
-
-    observed_rows = []
+    non_lobby_rows = []
     for entries in top["lists"].values():
         for entry in entries:
-            if entry.get("service") == "lobby" or not entry.get("observedIn"):
+            if entry.get("service") == "lobby":
+                continue
+            non_lobby_rows.append(entry)
+            if not entry.get("observedIn"):
                 continue
             notes = entry.get("notes", "")
-            entry_stale_tokens = stale_tokens
-            if entry.get("direction") == "clientbound" and entry.get("opcode") == 0x018A:
-                entry_stale_tokens += s2c_018a_stale_tokens
-            for token in entry_stale_tokens:
-                notes, removed = remove_token(notes, token)
+            for token in stale_tokens:
+                notes, removed = remove_note_token(notes, token)
                 if removed:
                     stale_removed += 1
             entry["notes"] = notes
-            observed_rows.append(entry)
 
     by_key: dict[tuple[str, int], list[dict]] = {}
-    for entry in observed_rows:
+    for entry in non_lobby_rows:
         key = (entry.get("direction"), entry.get("opcode"))
         by_key.setdefault(key, []).append(entry)
-    for rows in by_key.values():
-        services = {entry.get("service") for entry in rows}
-        if services != {"map", "world"}:
-            continue
+    for key, rows in by_key.items():
+        observed_rows = [entry for entry in rows if entry.get("observedIn")]
+        services = {entry.get("service") for entry in observed_rows}
         for entry in rows:
             notes = entry.get("notes", "")
-            if ambiguity_token not in notes:
-                entry["notes"] = (
-                    f"{notes}; {ambiguity_token}" if notes else ambiguity_token
-                )
-                ambiguity_added += 1
+            if services == {"map", "world"} and entry in observed_rows:
+                if ambiguity_token not in notes:
+                    entry["notes"] = append_note_token(notes, ambiguity_token)
+                    ambiguity_added += 1
+            elif key in login_keys:
+                entry["notes"], removed = remove_note_token(notes, ambiguity_token)
+                if removed:
+                    ambiguity_removed += 1
 
-    return stale_removed, ambiguity_added
+    return stale_removed, ambiguity_added, ambiguity_removed
 
 
 def main() -> int:
@@ -1054,28 +1166,6 @@ def main() -> int:
         f"({decomp_anchor_skipped} skipped)"
     )
 
-    observation_applied = 0
-    observation_skipped = 0
-    for bucket, opcode_hex, name, capture, payload_length in PCAP_OBSERVATION_OVERRIDES:
-        for e in top["lists"].get(bucket, []):
-            if e["opcodeHex"] == opcode_hex and e["name"] == name:
-                observed = sorted(set(e.get("observedIn", [])) | {capture})
-                lengths = sorted(set(e.get("payloadLengths", [])) | {payload_length})
-                if e.get("observedIn") == observed and e.get("payloadLengths") == lengths:
-                    observation_skipped += 1
-                else:
-                    e["observedIn"] = observed
-                    e["payloadLengths"] = lengths
-                    observation_applied += 1
-                break
-        else:
-            print(f"  WARN: no entry for pcap observation {bucket} {opcode_hex} {name}")
-            warned += 1
-    print(
-        f"Applied {observation_applied} pcap-observation overrides "
-        f"({observation_skipped} skipped)"
-    )
-
     amb_token = f"pcap_service_ambiguous={PCAP_AMBIGUOUS_SERVICES}"
     amb_applied = 0
     amb_skipped = 0
@@ -1155,9 +1245,19 @@ def main() -> int:
         f"({cluster_inserted} inserted catalog rows)"
     )
 
-    stale_removed, ambiguity_added = reconcile_pcap_notes(top)
+    observation_applied, observation_skipped, observation_errors = (
+        apply_login_prezone_attributions(top)
+    )
+    warned += observation_errors
+    print(
+        f"Applied {observation_applied} login pre-zone attributions "
+        f"({observation_skipped} skipped)"
+    )
+
+    stale_removed, ambiguity_added, ambiguity_removed = reconcile_pcap_notes(top)
     print(f"Removed {stale_removed} stale no-pcap note tokens")
     print(f"Added {ambiguity_added} pcap-ambiguity note tokens")
+    print(f"Removed {ambiguity_removed} stale pcap-ambiguity note tokens")
 
     if warned:
         print(f"Refusing to write opcodes.json after {warned} warning(s)", file=sys.stderr)
