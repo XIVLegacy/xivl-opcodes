@@ -7,7 +7,6 @@ from __future__ import annotations
 
 import argparse
 import json
-import math
 import re
 import struct
 import subprocess
@@ -42,11 +41,6 @@ DIRECTION_TO_PREFERRED_BUCKETS = {
     "c2s": ["WorldMapBackend", "MapServerbound", "WorldServerbound", "LobbyServerbound"],
     "s2c": ["WorldMapBackend", "MapClientbound", "WorldClientbound", "LobbyClientbound"],
 }
-
-# Stable, source-backed semantic comments keyed by generated bucket, opcode,
-# and rebased application-payload offset. Generated fields remain generic
-# unless a row has a reviewed semantic label here.
-FIELD_COMMENT_OVERRIDES = {}
 
 # Reviewed client+capture layouts that replace byte-diff field grouping. Offsets
 # in comments are application-payload offsets after the 8-byte game-message
@@ -115,17 +109,12 @@ def detect_f32(samples: list[dict], body_offset: int) -> bool:
         if wire_offset + 4 > len(raw):
             continue
         word = raw[wire_offset : wire_offset + 4]
-        try:
-            u32 = struct.unpack("<I", word)[0]
-        except struct.error:
-            continue
+        u32 = struct.unpack("<I", word)[0]
         total += 1
         exp = (u32 >> 23) & 0xFF
         if exp == 0 or exp == 0xFF:
             continue
         val = struct.unpack("<f", word)[0]
-        if not math.isfinite(val):
-            continue
         if not (1.0e-4 <= abs(val) <= 1.0e6):
             continue
         finite += 1
@@ -156,10 +145,7 @@ def trim_to_body(fields: list[dict]) -> list[dict]:
             continue
         if f["offset"] < INNER_HEADER_LEN:
             new_offset = 0
-            new_width = end - INNER_HEADER_LEN
-            if new_width <= 0:
-                continue
-            out.append({**f, "offset": new_offset, "width": new_width})
+            out.append({**f, "offset": new_offset, "width": end - INNER_HEADER_LEN})
         else:
             out.append({**f, "offset": f["offset"] - INNER_HEADER_LEN})
     return out
@@ -222,7 +208,7 @@ def emit_field(field: dict, index: int, samples: list[dict]) -> tuple[str, int]:
             f"    uint64_t field{index};  // body[+{off}..+{end}] u64 ({distinct} distinct)",
             width,
         )
-    if width >= 4 and width % 4 == 0 and samples and detect_f32_array(samples, off, width):
+    if samples and detect_f32_array(samples, off, width):
         count = width // 4
         return (
             f"    float field{index}[{count}];  // body[+{off}..+{end}] {count}x f32 ({distinct} distinct)",
@@ -278,11 +264,6 @@ def emit_struct(
     bytes_emitted = 0
     for i, f in enumerate(fields):
         line, w = emit_field(f, i, samples)
-        semantic_comment = FIELD_COMMENT_OVERRIDES.get(
-            (bucket, opcode_hex.lower(), f["offset"])
-        )
-        if semantic_comment:
-            line = f"{line}; {semantic_comment}"
         lines.append(line)
         bytes_emitted += w
     lines.append("};")
@@ -294,19 +275,10 @@ def emit_struct(
     return "\n".join(lines), bytes_emitted, body_size
 
 
-def validate_field_comment_overrides(
+def validate_struct_layout_overrides(
     by_bucket: dict[str, list[tuple[str, str, dict, list[dict]]]]
 ) -> None:
-    """Reject semantic comments whose keyed layout row is no longer emitted."""
-    available = {
-        (bucket, opcode_hex.lower(), field["offset"])
-        for bucket, entries in by_bucket.items()
-        for opcode_hex, _struct_name, layout, _samples in entries
-        for field in trim_to_body(layout["fields"])
-    }
-    missing = [key for key in FIELD_COMMENT_OVERRIDES if key not in available]
-    if missing:
-        raise ValueError(f"field comment override has no emitted layout row: {missing}")
+    """Reject reviewed struct layouts whose catalog row is no longer emitted."""
     available_structs = {
         (bucket, opcode_hex.lower())
         for bucket, entries in by_bucket.items()
@@ -519,7 +491,7 @@ def main() -> int:
             samples = sample_index.get((direction, hex_key), [])
             by_bucket[bucket].append((hex_key, struct_name, layout, samples))
 
-    validate_field_comment_overrides(by_bucket)
+    validate_struct_layout_overrides(by_bucket)
 
     out_dir = Path(args.out_dir)
     out_dir.mkdir(parents=True, exist_ok=True)

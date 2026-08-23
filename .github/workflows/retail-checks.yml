@@ -150,8 +150,10 @@ jobs:
           ).strip()
           assert tree.get("sha") == expected_tree
           assert tree.get("truncated") is False
-          assert isinstance(entries, list) and len(entries) == 1
-          entry = entries[0]
+          assert isinstance(entries, list)
+          matching = [entry for entry in entries if entry.get("path") == os.environ["EXPECTED_PATH"]]
+          assert len(matching) == 1
+          entry = matching[0]
           assert entry.get("path") == os.environ["EXPECTED_PATH"]
           assert entry.get("type") == "blob"
           assert entry.get("mode") == "100644"

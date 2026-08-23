@@ -123,10 +123,65 @@ OUTBOUND_OBSERVATION_FRAGMENTS = {
         "FUN_004D6D30",
     ),
 }
-EXPECTED_OPEN_MISSING_FRAGMENTS = {}
 BARE_FUNCTION = re.compile(r"^FUN_[0-9A-F]{8}$")
 SOURCE_REF = re.compile(r"^(xivl-client-structs|xivl-client-scripts|xivl-captures|retail):")
 EXPECTED_CAPTURE_ROWS = {"c2s-00c9", "c2s-00ce", "c2s-012d", "c2s-012e", "c2s-012f", "s2c-017c", "s2c-017f", "s2c-0183", "s2c-0187", "s2c-018b", "s2c-018d", "s2c-018f", "s2c-0190", "s2c-0191", "s2c-0193", "s2c-0196"}
+
+CLIENT_ONLY_EXPECTATIONS = {
+    "c2s-00ce": ("0x00ce", "serverbound", "FUN_00763DC0"),
+    "c2s-012d": ("0x012d", "serverbound", "FUN_00776760"),
+    "s2c-01cb": ("0x01cb", "clientbound", "FUN_00DB8FA0"),
+    "s2c-0196": ("0x0196", "clientbound", "FUN_00576050"),
+    "s2c-018a": ("0x018a", "clientbound", "FUN_00576380"),
+    "s2c-0193": ("0x0193", "clientbound", "FUN_00578C90"),
+    "s2c-018f": ("0x018f", "clientbound", "FUN_00576C60"),
+    "s2c-0191": ("0x0191", "clientbound", "FUN_00576D40"),
+    "s2c-0190": ("0x0190", "clientbound", "FUN_00576CD0"),
+    "s2c-0187": ("0x0187", "clientbound", "FUN_00576390"),
+    "s2c-018b": ("0x018b", "clientbound", "FUN_005763A0"),
+    "s2c-018d": ("0x018d", "clientbound", "FUN_00575550"),
+    "c2s-012f": ("0x012f", "serverbound", "FUN_0075E770"),
+    "c2s-0135": ("0x0135", "serverbound", "FUN_0075ECD0"),
+}
+
+LAYOUT_SUMMARY_EXPECTATIONS = {
+    "s2c-0196": ("0x0196", {"sample_count": 11, "sub_size_distribution": {"56": 11}, "body_length": 40}),
+    "s2c-0193": ("0x0193", {"sample_count": 9, "sub_size_distribution": {"40": 9}, "body_length": 24}),
+    "s2c-018f": ("0x018f", {"sample_count": 15, "sub_size_distribution": {"40": 15}, "body_length": 24}),
+    "s2c-0191": ("0x0191", {"sample_count": 15, "sub_size_distribution": {"40": 15}, "body_length": 24}),
+    "s2c-0190": ("0x0190", {"sample_count": 32, "sub_size_distribution": {"136": 32}, "body_length": 120}),
+    "s2c-0187": ("0x0187", {"sample_count": 33, "sub_size_distribution": {"96": 33}, "body_length": 80}),
+    "s2c-018b": ("0x018b", {"sample_count": 31, "sub_size_distribution": {"88": 31}, "body_length": 72}),
+    "s2c-018d": ("0x018d", {"sample_count": 60, "sub_size_distribution": {"696": 60}, "body_length": 680}),
+}
+
+
+def validate_mechanical_expectations(
+    errors: list[str], entries: list[dict], capture_layouts: dict
+) -> None:
+    """Validate repeated client-only anchors and pinned layout summaries."""
+    for label, (opcode_hex, direction, anchor) in CLIENT_ONLY_EXPECTATIONS.items():
+        matches = [
+            entry for entry in entries
+            if entry.get("opcodeHex") == opcode_hex and entry.get("direction") == direction
+            and entry.get("decompAnchor") == anchor
+        ]
+        if len(matches) != 1:
+            errors.append(f"{label}: expected one {direction} catalog row")
+            continue
+        entry = matches[0]
+        if entry.get("decompAnchor") != anchor:
+            errors.append(f"{label}: decompAnchor is not {anchor}")
+        if entry.get("implementationAnchor") is not None:
+            errors.append(f"{label}: implementationAnchor must remain null")
+        if entry.get("confidence") != "decomp_routed":
+            errors.append(f"{label}: confidence must remain decomp_routed")
+
+    layouts = capture_layouts.get("layouts", {}).get("s2c", {})
+    for label, (opcode_hex, expected) in LAYOUT_SUMMARY_EXPECTATIONS.items():
+        layout = layouts.get(opcode_hex, {})
+        if any(layout.get(key) != value for key, value in expected.items()):
+            errors.append(f"{label} pinned layout summary drifted")
 
 
 def main() -> int:
@@ -201,13 +256,6 @@ def main() -> int:
         for ref in source_refs:
             if not isinstance(ref, str) or not SOURCE_REF.match(ref):
                 errors.append(f"{label}: invalid source reference {ref!r}")
-
-        missing_evidence = row.get("missingEvidence", "")
-        for fragment in EXPECTED_OPEN_MISSING_FRAGMENTS.get(label, ()):
-            if fragment not in missing_evidence:
-                errors.append(
-                    f"{label}: missing-evidence text lacks required fact {fragment!r}"
-                )
 
         if row.get("direction") == "serverbound":
             observation = row.get("observation", "")
@@ -324,10 +372,6 @@ def main() -> int:
     opaque_notes = opaque_entry.get("notes", "")
     if opaque_entry.get("name") != "_0x00CEHandler":
         errors.append("c2s-00ce must retain its placeholder name")
-    if opaque_entry.get("implementationAnchor") is not None:
-        errors.append("c2s-00ce must not retain an unsupported implementation anchor")
-    if opaque_entry.get("confidence") != "decomp_routed":
-        errors.append("c2s-00ce confidence must remain decomp_routed")
     if opaque_entry.get("payloadLengths") != [72]:
         errors.append("c2s-00ce must retain the observed 72-byte wire length")
     for fragment in (
@@ -367,10 +411,6 @@ def main() -> int:
     event_start_notes = event_start_entry.get("notes", "")
     if event_start_entry.get("name") != "EventStartPacket":
         errors.append("c2s-012d canonical name must remain EventStartPacket")
-    if event_start_entry.get("implementationAnchor") is not None:
-        errors.append("c2s-012d must not retain an unproven implementation enum anchor")
-    if event_start_entry.get("confidence") != "decomp_routed":
-        errors.append("c2s-012d confidence must remain decomp_routed")
     if event_start_entry.get("payloadLengths") != [216]:
         errors.append("c2s-012d must retain the observed 216-byte wire length")
     event_start_layout = capture_layouts.get("layouts", {}).get("c2s", {}).get("0x012d", {})
@@ -424,10 +464,6 @@ def main() -> int:
     blacklist_notes = blacklist_entry.get("notes", "")
     if blacklist_entry.get("name") != "_0x01CB":
         errors.append("s2c-01cb must retain a placeholder clientbound name")
-    if blacklist_entry.get("implementationAnchor") is not None:
-        errors.append("s2c-01cb must not retain a server implementation anchor")
-    if blacklist_entry.get("confidence") != "decomp_routed":
-        errors.append("s2c-01cb confidence must remain decomp_routed")
     for fragment in (
         "callback_body=ret 0xc",
         "prior_label=MapServerOpcode::SendBlacklist",
@@ -459,7 +495,6 @@ def main() -> int:
         if fragment not in special_observation:
             errors.append(f"s2c-0196 observation lost required fact: {fragment}")
 
-    special_layout = capture_layouts["layouts"]["s2c"]["0x0196"]
     special_samples = capture_samples["samples"]["s2c"]["0x0196"]
     retained_special = special_samples.get("samples", [])
     special_apps = [bytes.fromhex(sample["bytes"])[16:40] for sample in retained_special]
@@ -472,14 +507,6 @@ def main() -> int:
         errors.append("s2c-0196 retained capture count drifted from 8")
     if set(special_apps) != {expected_special_app}:
         errors.append("s2c-0196 retained flag/work/tail values drifted")
-    if (
-        special_layout.get("sample_count") != 11
-        or special_layout.get("sub_size_distribution") != {"56": 11}
-        or special_layout.get("body_length") != 40
-        or special_layout.get("body_length", 0) - 16 != 24
-    ):
-        errors.append("s2c-0196 pinned layout summary drifted")
-
     special_entry = next(
         entry
         for entry in entries
@@ -490,10 +517,6 @@ def main() -> int:
     special_notes = special_entry.get("notes", "")
     if special_entry.get("name") != "SetSpecialEventWorkPacket":
         errors.append("s2c-0196 lost its client-supported operation name")
-    if special_entry.get("implementationAnchor") is not None:
-        errors.append("s2c-0196 must not retain an unproven server implementation anchor")
-    if special_entry.get("confidence") != "decomp_routed":
-        errors.append("s2c-0196 confidence must remain decomp_routed")
     for fragment in (
         "FUN_00576050",
         "FUN_0075D2D0",
@@ -540,10 +563,6 @@ def main() -> int:
     manager_notes = manager_entry.get("notes", "")
     if manager_entry.get("name") != "_0x018A":
         errors.append("s2c-018a must retain its placeholder packet name")
-    if manager_entry.get("implementationAnchor") is not None:
-        errors.append("s2c-018a must not retain an unproven server implementation anchor")
-    if manager_entry.get("confidence") != "decomp_routed":
-        errors.append("s2c-018a confidence must remain decomp_routed")
     if manager_entry.get("observedIn") != ["login.pcapng"]:
         errors.append("s2c-018a must retain only the verified login.pcapng observation")
     if manager_entry.get("payloadLengths") != [136]:
@@ -590,7 +609,6 @@ def main() -> int:
         if fragment not in control_observation:
             errors.append(f"s2c-0193 observation lost required fact: {fragment}")
 
-    control_layout = capture_layouts["layouts"]["s2c"]["0x0193"]
     control_samples = capture_samples["samples"]["s2c"]["0x0193"]
     retained_control = control_samples.get("samples", [])
     subops: dict[int, int] = {}
@@ -606,14 +624,6 @@ def main() -> int:
         errors.append("s2c-0193 retained capture count drifted from 8")
     if subops != {0x14: 8, 0x12: 1}:
         errors.append(f"s2c-0193 retained subopcode distribution drifted: {subops}")
-    if (
-        control_layout.get("sample_count") != 9
-        or control_layout.get("sub_size_distribution") != {"40": 9}
-        or control_layout.get("body_length") != 24
-        or control_layout.get("body_length", 0) - 16 != 8
-    ):
-        errors.append("s2c-0193 pinned layout summary drifted")
-
     control_entry = next(
         entry
         for entry in entries
@@ -624,10 +634,6 @@ def main() -> int:
     control_notes = control_entry.get("notes", "")
     if control_entry.get("name") != "_0x0193":
         errors.append("s2c-0193 must retain its placeholder packet name")
-    if control_entry.get("implementationAnchor") is not None:
-        errors.append("s2c-0193 must not retain an unproven server implementation anchor")
-    if control_entry.get("confidence") != "decomp_routed":
-        errors.append("s2c-0193 confidence must remain decomp_routed")
     for fragment in (
         "FUN_00578C90",
         "application_payload=8 bytes",
@@ -668,7 +674,6 @@ def main() -> int:
         if fragment not in setup_observation:
             errors.append(f"s2c-018f observation lost required fact: {fragment}")
 
-    setup_layout = capture_layouts["layouts"]["s2c"]["0x018f"]
     setup_samples = capture_samples["samples"]["s2c"]["0x018f"]
     retained_setup = setup_samples.get("samples", [])
     if setup_samples.get("sampleCount") != 15 or len(retained_setup) != 15:
@@ -679,14 +684,6 @@ def main() -> int:
         errors.append("s2c-018f retained capture count drifted from 8")
     if any(bytes.fromhex(sample["bytes"])[16:24] != bytes(8) for sample in retained_setup):
         errors.append("s2c-018f retained application payload is no longer all zero")
-    if (
-        setup_layout.get("sample_count") != 15
-        or setup_layout.get("sub_size_distribution") != {"40": 15}
-        or setup_layout.get("body_length") != 24
-        or setup_layout.get("body_length", 0) - 16 != 8
-    ):
-        errors.append("s2c-018f pinned layout summary drifted")
-
     setup_entry = next(
         entry
         for entry in entries
@@ -697,10 +694,6 @@ def main() -> int:
     setup_notes = setup_entry.get("notes", "")
     if setup_entry.get("name") != "_0x018F":
         errors.append("s2c-018f must retain its placeholder packet name")
-    if setup_entry.get("implementationAnchor") is not None:
-        errors.append("s2c-018f must not retain an unproven server implementation anchor")
-    if setup_entry.get("confidence") != "decomp_routed":
-        errors.append("s2c-018f confidence must remain decomp_routed")
     for fragment in (
         "FUN_00576C60",
         "FUN_0076BE30",
@@ -741,7 +734,6 @@ def main() -> int:
         if fragment not in finalization_observation:
             errors.append(f"s2c-0191 observation lost required fact: {fragment}")
 
-    finalization_layout = capture_layouts["layouts"]["s2c"]["0x0191"]
     finalization_samples = capture_samples["samples"]["s2c"]["0x0191"]
     retained_finalization = finalization_samples.get("samples", [])
     if finalization_samples.get("sampleCount") != 15 or len(retained_finalization) != 15:
@@ -752,14 +744,6 @@ def main() -> int:
         errors.append("s2c-0191 retained capture count drifted from 8")
     if any(bytes.fromhex(sample["bytes"])[16:24] != bytes(8) for sample in retained_finalization):
         errors.append("s2c-0191 retained application payload is no longer all zero")
-    if (
-        finalization_layout.get("sample_count") != 15
-        or finalization_layout.get("sub_size_distribution") != {"40": 15}
-        or finalization_layout.get("body_length") != 24
-        or finalization_layout.get("body_length", 0) - 16 != 8
-    ):
-        errors.append("s2c-0191 pinned layout summary drifted")
-
     finalization_entry = next(
         entry
         for entry in entries
@@ -770,10 +754,6 @@ def main() -> int:
     finalization_notes = finalization_entry.get("notes", "")
     if finalization_entry.get("name") != "_0x0191":
         errors.append("s2c-0191 must retain its placeholder packet name")
-    if finalization_entry.get("implementationAnchor") is not None:
-        errors.append("s2c-0191 must not retain an unproven server implementation anchor")
-    if finalization_entry.get("confidence") != "decomp_routed":
-        errors.append("s2c-0191 confidence must remain decomp_routed")
     for fragment in (
         "FUN_00576D40",
         "FUN_0076BF10",
@@ -811,7 +791,6 @@ def main() -> int:
         if fragment not in modifier_observation:
             errors.append(f"s2c-0190 observation lost required fact: {fragment}")
 
-    modifier_layout = capture_layouts["layouts"]["s2c"]["0x0190"]
     modifier_samples = capture_samples["samples"]["s2c"]["0x0190"]
     retained_modifiers = modifier_samples.get("samples", [])
     if modifier_samples.get("sampleCount") != 32 or len(retained_modifiers) != 32:
@@ -820,14 +799,6 @@ def main() -> int:
         errors.append("s2c-0190 retained subpacket length drifted from 136")
     if len({sample.get("capture") for sample in retained_modifiers}) != 8:
         errors.append("s2c-0190 retained capture count drifted from 8")
-    if (
-        modifier_layout.get("sample_count") != 32
-        or modifier_layout.get("sub_size_distribution") != {"136": 32}
-        or modifier_layout.get("body_length") != 120
-        or modifier_layout.get("body_length", 0) - 16 != 104
-    ):
-        errors.append("s2c-0190 pinned layout summary drifted")
-
     modifier_entry = next(
         entry
         for entry in entries
@@ -838,10 +809,6 @@ def main() -> int:
     modifier_notes = modifier_entry.get("notes", "")
     if modifier_entry.get("name") != "_0x0190":
         errors.append("s2c-0190 must retain its placeholder packet name")
-    if modifier_entry.get("implementationAnchor") is not None:
-        errors.append("s2c-0190 must not retain an unproven server implementation anchor")
-    if modifier_entry.get("confidence") != "decomp_routed":
-        errors.append("s2c-0190 confidence must remain decomp_routed")
     for fragment in (
         "FUN_00576CD0",
         "FUN_0076BE60",
@@ -879,7 +846,6 @@ def main() -> int:
         if fragment not in occupancy_observation:
             errors.append(f"s2c-0187 observation lost required fact: {fragment}")
 
-    occupancy_layout = capture_layouts["layouts"]["s2c"]["0x0187"]
     occupancy_samples = capture_samples["samples"]["s2c"]["0x0187"]
     retained_occupancy = occupancy_samples.get("samples", [])
     if occupancy_samples.get("sampleCount") != 33 or len(retained_occupancy) != 33:
@@ -888,13 +854,6 @@ def main() -> int:
         errors.append("s2c-0187 retained subpacket length drifted from 96")
     if len({sample.get("capture") for sample in retained_occupancy}) != 13:
         errors.append("s2c-0187 retained capture count drifted from 13")
-    if (
-        occupancy_layout.get("sample_count") != 33
-        or occupancy_layout.get("sub_size_distribution") != {"96": 33}
-        or occupancy_layout.get("body_length") != 80
-    ):
-        errors.append("s2c-0187 pinned layout summary drifted")
-
     occupancy_entry = next(
         entry
         for entry in entries
@@ -905,10 +864,6 @@ def main() -> int:
     occupancy_notes = occupancy_entry.get("notes", "")
     if occupancy_entry.get("name") != "SetOccupancyGroupPacket":
         errors.append("s2c-0187 canonical name must reflect the client occupancy path")
-    if occupancy_entry.get("implementationAnchor") is not None:
-        errors.append("s2c-0187 must not retain an unproven server implementation anchor")
-    if occupancy_entry.get("confidence") != "decomp_routed":
-        errors.append("s2c-0187 confidence must remain decomp_routed")
     for fragment in (
         "FUN_00576390",
         "FUN_006C8340",
@@ -945,7 +900,6 @@ def main() -> int:
         if fragment not in group_layout_observation:
             errors.append(f"s2c-018b observation lost required fact: {fragment}")
 
-    group_layout_layout = capture_layouts["layouts"]["s2c"]["0x018b"]
     group_layout_samples = capture_samples["samples"]["s2c"]["0x018b"]
     retained_group_layout = group_layout_samples.get("samples", [])
     if group_layout_samples.get("sampleCount") != 31 or len(retained_group_layout) != 31:
@@ -954,14 +908,6 @@ def main() -> int:
         errors.append("s2c-018b retained subpacket length drifted from 88")
     if len({sample.get("capture") for sample in retained_group_layout}) != 13:
         errors.append("s2c-018b retained capture count drifted from 13")
-    if (
-        group_layout_layout.get("sample_count") != 31
-        or group_layout_layout.get("sub_size_distribution") != {"88": 31}
-        or group_layout_layout.get("body_length") != 72
-        or group_layout_layout.get("body_length", 0) - 16 != 56
-    ):
-        errors.append("s2c-018b pinned layout summary drifted")
-
     group_layout_entry = next(
         entry
         for entry in entries
@@ -972,10 +918,6 @@ def main() -> int:
     group_layout_notes = group_layout_entry.get("notes", "")
     if group_layout_entry.get("name") != "SetGroupLayoutIDPacket":
         errors.append("s2c-018b canonical name must reflect the client group-layout path")
-    if group_layout_entry.get("implementationAnchor") is not None:
-        errors.append("s2c-018b must not retain an unproven server implementation anchor")
-    if group_layout_entry.get("confidence") != "decomp_routed":
-        errors.append("s2c-018b confidence must remain decomp_routed")
     for fragment in (
         "FUN_005763A0",
         "FUN_006C5DF0",
@@ -1008,7 +950,6 @@ def main() -> int:
         if fragment not in party_marker_observation:
             errors.append(f"s2c-018d observation lost required fact: {fragment}")
 
-    party_marker_layout = capture_layouts["layouts"]["s2c"]["0x018d"]
     party_marker_samples = capture_samples["samples"]["s2c"]["0x018d"]
     retained_samples = party_marker_samples.get("samples", [])
     count_distribution: dict[int, int] = {}
@@ -1025,13 +966,6 @@ def main() -> int:
         errors.append("s2c-018d retained subpacket length drifted from 696")
     if count_distribution != {1: 58, 2: 2}:
         errors.append(f"s2c-018d count distribution drifted: {count_distribution}")
-    if (
-        party_marker_layout.get("sample_count") != 60
-        or party_marker_layout.get("sub_size_distribution") != {"696": 60}
-        or party_marker_layout.get("body_length") != 680
-    ):
-        errors.append("s2c-018d pinned layout summary drifted")
-
     party_marker_entry = next(
         entry
         for entry in entries
@@ -1042,10 +976,6 @@ def main() -> int:
     party_marker_notes = party_marker_entry.get("notes", "")
     if party_marker_entry.get("name") != "PartyMapMarkerUpdatePacket":
         errors.append("s2c-018d canonical name must reflect the client party-marker path")
-    if party_marker_entry.get("implementationAnchor") is not None:
-        errors.append("s2c-018d must not retain an unproven server implementation anchor")
-    if party_marker_entry.get("confidence") != "decomp_routed":
-        errors.append("s2c-018d confidence must remain decomp_routed")
     for fragment in (
         "FUN_00575550",
         "FUN_0055CF70",
@@ -1069,10 +999,6 @@ def main() -> int:
     work_state_notes = work_state_entry.get("notes", "")
     if work_state_entry.get("name") != "WorkStateUpdatePacket":
         errors.append("c2s-012f canonical name must remain client-derived and tentative")
-    if work_state_entry.get("implementationAnchor") is not None:
-        errors.append("c2s-012f must not retain an unproven implementation enum anchor")
-    if work_state_entry.get("confidence") != "decomp_routed":
-        errors.append("c2s-012f confidence must remain decomp_routed")
     for fragment in (
         "_updateWork",
         "record+0x3c",
@@ -1093,10 +1019,6 @@ def main() -> int:
     achievement_notes = achievement_entry.get("notes", "")
     if achievement_entry.get("name") != "AchievementRateRequestPacket":
         errors.append("c2s-0135 canonical name must reflect the registered client operation")
-    if achievement_entry.get("implementationAnchor") is not None:
-        errors.append("c2s-0135 must not invent an implementation enum anchor")
-    if achievement_entry.get("confidence") != "decomp_routed":
-        errors.append("c2s-0135 confidence must remain decomp_routed without pcap evidence")
     if "EXE decomp is the authority" in achievement_notes:
         errors.append("c2s-0135 retained the retired authority claim")
     if "_getAchievementRate" not in achievement_notes:
@@ -1107,6 +1029,8 @@ def main() -> int:
         errors.append("c2s-0135 notes must keep the client-derived name tentative")
     if "conflict=prior implementation label unsupported by retail" not in achievement_notes:
         errors.append("c2s-0135 notes lost the prior-label conflict")
+
+    validate_mechanical_expectations(errors, entries, capture_layouts)
 
     cluster_entries = [
         entry

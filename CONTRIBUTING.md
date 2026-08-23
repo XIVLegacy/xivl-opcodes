@@ -31,9 +31,8 @@ The doctrine pages under `docs/ai_agents/` are authoritative:
 Every opcode entry change must cite the evidence that supports it: a pcap
 observation, a client decompilation anchor, a catalog cross-reference, or a
 recorded live-validation result. State or preserve the supported confidence
-tier. An unsourced opcode claim is unreviewable and will be closed. The
-[RE-finding form](.github/ISSUE_TEMPLATE/re-finding.yml) collects these fields
-before a claim becomes a pull request.
+tier. An unsourced opcode claim is unreviewable and will be closed. Open an
+issue for evidence that is not ready to become a pull request.
 
 Edit canonical curator inputs and the owning tools, then regenerate. Use
 `tools/generate_catalog.py` as the catalog generation entry point and
@@ -56,18 +55,17 @@ Fork the repository and open a pull request onto `main`. Keep each pull request
 small and focused on one catalog claim, evidence batch, documentation change,
 or tool change. Use a draft pull request for work in progress.
 
-Complete the pull request template with the evidence, confidence effect, and
-verification a reviewer needs. Keep follow-up changes within the same focused
-scope. Do not merge while CI is failing.
+Include the evidence, confidence effect, and verification a reviewer needs.
+Keep follow-up changes within the same focused scope. Do not merge while CI is
+failing.
 
 ## Issues and community
 
 Join the [project Discord](https://discord.gg/PxK5RJYQjm) for questions and
 community support.
 Use [Issues](https://github.com/XIVLegacy/xivl-opcodes/issues) for bugs and
-research findings that need a durable record. Use the bug form for a
-reproducible repository defect and the RE-finding form for an opcode claim or
-evidence lead.
+research findings that need a durable record. Include reproduction steps for
+repository defects and supporting evidence for opcode claims or evidence leads.
 
 Report security problems through private vulnerability reporting under the
 repository Security tab. Do not open a public issue containing credentials or

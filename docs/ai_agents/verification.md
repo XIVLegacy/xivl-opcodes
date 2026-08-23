@@ -17,7 +17,9 @@ $headers = git ls-files -- '*.h' '*.hh' '*.hpp' '*.hxx'
 clang-format --dry-run --Werror $headers
 ```
 
-The gate can report schema validity only when the dependencies are available.
+In a bare checkout, referential checks still run when optional dependencies are
+absent. CI fails closed if `jsonschema` is unavailable, so hosted validation never
+silently skips schema validation.
 
 ## Manual retail-input workflow
 

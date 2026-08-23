@@ -113,12 +113,6 @@ OVERRIDES = [
     ),
 ]
 
-OVERRIDE_NAME_ALIASES = {
-    ("MapClientbound", "0x013b", "CommandResultX18Packet"): (
-        "BattleActionX18Packet",
-    ),
-}
-
 UNSUPPORTED_IMPLEMENTATION_OVERRIDES = [
     ("WorldMapBackend", "0x1000", "SessionBeginConfirmPacket"),
     ("WorldMapBackend", "0x1000", "SessionBeginPacket"),
@@ -867,7 +861,7 @@ def reconcile_pcap_notes(top: dict) -> tuple[int, int]:
         prefix = token + ";"
         if notes.startswith(prefix):
             return notes[len(prefix):].lstrip(), True
-        for marker in ("; " + token, ";" + token):
+        for marker in ("; " + token,):
             start = notes.find(marker)
             if start < 0:
                 continue
@@ -945,11 +939,8 @@ def main() -> int:
     skipped = 0
     for bucket, opcode_hex, name, expected_old, new_notes in OVERRIDES:
         found = False
-        accepted_names = (name,) + OVERRIDE_NAME_ALIASES.get(
-            (bucket, opcode_hex, name), ()
-        )
         for e in top["lists"][bucket]:
-            if e["opcodeHex"] == opcode_hex and e["name"] in accepted_names:
+            if e["opcodeHex"] == opcode_hex and e["name"] == name:
                 found = True
                 current = e.get("notes", "")
                 e["notes"], status = swap_managed_prefix(current, expected_old, new_notes)

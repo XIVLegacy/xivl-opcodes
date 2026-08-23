@@ -5,6 +5,7 @@ from __future__ import annotations
 
 import argparse
 import json
+import os
 import re
 import sys
 from pathlib import Path
@@ -50,6 +51,8 @@ def _load(path):
 
 def validate_schemas() -> None:
     if not _HAVE_JSONSCHEMA:
+        if os.environ.get("CI"):
+            errors.append("jsonschema is required in CI; schema checks unavailable")
         return
     pairs = [
         (OPCODES_PATH, SCHEMAS / "opcodes.schema.json", "opcodes.json"),
@@ -103,8 +106,20 @@ def validate_catalog(cap_names: set[str]) -> None:
             f"constants.json: {region}/Version {declared.get('Version')!r} "
             f"!= catalog version {top.get('version')!r}"
         )
-    services = set(declared.get("Services", []))
-    directions = set(declared.get("Directions", []))
+    expected_services = {service for service, _direction in BUCKET_MAP.values()}
+    expected_directions = {direction for _service, direction in BUCKET_MAP.values()}
+    missing_services = expected_services - set(declared.get("Services", []))
+    missing_directions = expected_directions - set(declared.get("Directions", []))
+    if missing_services:
+        errors.append(
+            "constants.json: Services missing catalog values "
+            + ", ".join(sorted(missing_services))
+        )
+    if missing_directions:
+        errors.append(
+            "constants.json: Directions missing catalog values "
+            + ", ".join(sorted(missing_directions))
+        )
     confidences = set(declared.get("ConfidenceLabels", []))
 
     for bucket, entries in top.get("lists", {}).items():
@@ -130,10 +145,6 @@ def validate_catalog(cap_names: set[str]) -> None:
                         f"{tag}: direction {entry.get('direction')} != {expect[1]} for bucket {bucket}"
                     )
 
-            if services and entry.get("service") not in services:
-                errors.append(f"{tag}: service {entry.get('service')} not declared in constants.json")
-            if directions and entry.get("direction") not in directions:
-                errors.append(f"{tag}: direction {entry.get('direction')} not declared in constants.json")
             if confidences and entry.get("confidence") not in confidences:
                 errors.append(
                     f"{tag}: confidence {entry.get('confidence')} not declared in constants.json"

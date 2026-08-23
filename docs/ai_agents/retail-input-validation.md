@@ -24,8 +24,9 @@ The approved input is only `ffxivgame-1.23b`: repository-relative private path
 `aeb52f6dbde95a793ee6d52be28de9f28a885b15`, size `15996808`, and SHA-256
 `9341f2b4567440b310a4d494f5cc5599ca334ba51c8042247317ff466492f2e9`.
 The workflow requires that commit to remain an ancestor of private `main`,
-requires its complete tree to contain only that file, and verifies size and
-SHA-256 before analysis.
+requires an untruncated tree response with the authorized executable entry at
+that path and its expected blob type, mode, size, and hash, and verifies size
+and SHA-256 before analysis. Sibling entries are outside this lane's claim.
 
 ## Exact assertion
 

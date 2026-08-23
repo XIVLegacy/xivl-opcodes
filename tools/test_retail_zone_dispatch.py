@@ -314,12 +314,22 @@ def main() -> int:
                   bool(verifier.exporter_source_errors(exporter + "\nint seeded = 134;\n")))
             check("exporter expected slot literal fails",
                   bool(verifier.exporter_source_errors(exporter + "\nint seeded = 0x88;\n")))
-        else:
-            check("exporter source check deferred to exporter lane", True)
-
         schema = _schema_check.load_schema(SCHEMA)
         attestation = verifier.build_attestation("pass", "1" * 40)
         check("passing attestation satisfies schema", not _schema_check.validate(attestation, schema))
+        check("const false is treated as data",
+              not _schema_check.validate(False, {"const": False})
+              and bool(_schema_check.validate(True, {"const": False})))
+        check("enum values are treated as data",
+              not _schema_check.validate({"ok": False}, {"enum": [{"ok": False}]})
+              and bool(_schema_check.validate({"ok": True}, {"enum": [{"ok": False}]})))
+        try:
+            _schema_check.validate("value", {"minLength": 1})
+        except _schema_check.SchemaError:
+            unsupported_keyword_fails_closed = True
+        else:
+            unsupported_keyword_fails_closed = False
+        check("unsupported schema keyword fails closed", unsupported_keyword_fails_closed)
         mutated = copy.deepcopy(attestation)
         mutated["schemaVersion"] = True
         check("boolean attestation schema version fails",
@@ -413,7 +423,7 @@ def main() -> int:
 
         failed = copy.deepcopy(baseline)
         failed["vtable_slot"] = 135
-        failed_path = _write(directory / "failed.json", failed)
+        failed_path = _write_observation(directory / "failed.json", failed)
         result = _run_cli(failed_path)
         try:
             output = json.loads(result.stdout)

@@ -34,7 +34,6 @@ def tracked_markdown() -> set[str] | None:
         path
         for path in paths
         if path.lower().endswith(".md")
-        and path
     }
 
 
