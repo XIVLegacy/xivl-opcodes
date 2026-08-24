@@ -535,6 +535,11 @@ def main() -> int:
 
     manager_row = next(row for row in rows if row.get("id") == "s2c-018a")
     manager_observation = manager_row.get("observation", "")
+    if manager_row.get("supportedLabel") != (
+        "0x018a Group-path keyed u32-to-u64 snapshot reconciliation with a "
+        "120-byte application payload"
+    ):
+        errors.append("s2c-018a supported operation label drifted")
     for fragment in (
         "FUN_00576380",
         "FUN_006C82A0",
@@ -544,10 +549,15 @@ def main() -> int:
         "+0x40+4*i",
         "+8*i",
         "FUN_006C58C0",
+        "persistent 0x18-byte state object",
+        "removes absent keys",
+        "Group::SharedWork virtual call",
         "120-byte application payload",
         "20-byte tail",
-        "one aggregate event",
-        "retained in login.pcapng as one 136-byte subpacket",
+        "120-byte inner body",
+        "104 captured bytes after its 16-byte game-message prefix are zero",
+        "non-mutating consumer",
+        "single 0x0137 -> 0x018a -> 0x0189 chronology does not prove causality",
         "SetActiveLinkshell packet noun",
     ):
         if fragment not in manager_observation:
@@ -572,12 +582,17 @@ def main() -> int:
         "FUN_006C82A0",
         "FUN_006C6A70",
         "application_payload=120 bytes",
-        "u64[8] at +0 plus u32[8] at +0x40",
+        "map_build=u32 keys at +0x40 to u64 values at +0",
         "loop_bound=signed low byte at +0x60",
         "unread_tail=20 bytes at +0x64..+0x77",
-        "commit_boundary=unresolved FUN_006C58C0",
+        "commit=FUN_006C58C0 reconciles the temporary ordered map",
+        "removing absent keys and inserting or replacing changed values",
+        "consumer_boundary=no Group::SharedWork virtual call",
+        "persistent map's non-mutating consumer and both field domains",
         "corpus_aggregate=1 event",
-        "retained_payload_evidence=1 136-byte subpacket in login.pcapng",
+        "retained_payload_evidence=1 136-byte subpacket with a 120-byte inner body",
+        "104 captured bytes after the 16-byte game-message prefix are zero",
+        "therefore count zero and an empty input snapshot",
         "naming=placeholder retained",
         "candidate_label=SetActiveLinkshellPacket is an imported source-manifest term, not retail-proven",
         "client_only=",

@@ -330,15 +330,16 @@
       "direction": "clientbound",
       "function": "FUN_00576380",
       "status": "closed",
-      "supportedLabel": "0x018a client manager-row copy and commit route with a 120-byte application payload",
-      "tool": "XIVLegacy Ghidra DumpFunctionDecomp.java and corpus aggregate audit",
-      "observation": "FUN_00576380 forwards the application payload through FUN_006C82A0 to FUN_006C6A70. The helper uses the signed low byte at application offset 0x60 as its loop bound, copies one u32 from +0x40+4*i and one eight-byte pair from +8*i into each manager row, then commits through unresolved FUN_006C58C0. Static client evidence gives a 120-byte application payload with the copied arrays at +0 and +0x40 and an unread 20-byte tail at +0x64..+0x77. The corpus reports one aggregate event, now retained in login.pcapng as one 136-byte subpacket, so observedIn and payloadLengths record that evidence. This proves a client manager-row copy/commit route, not the imported SetActiveLinkshell packet noun, exact row domain, a server implementation declaration, or server behavior.",
+      "supportedLabel": "0x018a Group-path keyed u32-to-u64 snapshot reconciliation with a 120-byte application payload",
+      "tool": "XIVLegacy Ghidra DecompileToText.java, FindCallers.java, and retained payload audit",
+      "observation": "FUN_00576380 loads a child object from dispatch-owner offset +0x18 and forwards the application payload through FUN_006C82A0 to FUN_006C6A70. The latter uses the signed low byte at application offset 0x60 as its loop bound and builds a temporary ordered map keyed by the u32 at +0x40+4*i with the u64 at +8*i as its mapped value. FUN_006C58C0 reconciles that temporary map into a persistent 0x18-byte state object lazily installed at child offset +0x10: it removes absent keys, inserts missing keys, replaces changed u64 values, and finishes through generic container copy helpers. Its only direct caller is FUN_006C6A70, and the commit body makes no Group::SharedWork virtual call. Static client evidence gives a 120-byte application payload with an unread 20-byte tail at +0x64..+0x77. The sole retained 136-byte subpacket in login.pcapng stores a 120-byte inner body; the 104 captured bytes after its 16-byte game-message prefix are zero, including the count at application offset +0x60. The static path's commit input is therefore an empty snapshot, but the capture does not provide nonzero field-domain witnesses. This closes the commit operation but not the semantic noun: the first unresolved boundary is the non-mutating consumer of the persistent child +0x10 map, and neither the u32 key nor u64 value domain is independently named. The single 0x0137 -> 0x018a -> 0x0189 chronology does not prove causality, the imported SetActiveLinkshell packet noun, a server implementation declaration, or server behavior.",
       "sourceRefs": [
         "xivl-client-structs:manifests/symbols.json#BCS-Y-0578",
         "xivl-client-structs:manifests/symbols.json#BCS-Y-0888",
         "xivl-client-structs:manifests/data_dependency_catalog.json#s2c_0x018a",
         "xivl-client-structs:manifests/high_switch_enumeration.json#0x018A",
-        "retail:ffxivgame.exe#sha256=9341f2b4567440b310a4d494f5cc5599ca334ba51c8042247317ff466492f2e9;vas=0x004DD12D,0x00576380,0x006C82A0,0x006C6A70;run=opcode-semantics-s2c-018a"
+        "xivl-captures:derived/payload_samples.json#s2c.0x018a",
+        "retail:ffxivgame.exe#sha256=9341f2b4567440b310a4d494f5cc5599ca334ba51c8042247317ff466492f2e9;vas=0x004DD12D,0x00576380,0x006C82A0,0x006C6A70,0x006C58C0,0x006C5860,0x006D0430,0x006D05B0,0x007783E0,0x0077F690;run=opcode-semantics-s2c-018a-commit"
       ]
     },
     {
