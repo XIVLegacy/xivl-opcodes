@@ -644,19 +644,6 @@
           "payloadLengths": [],
           "confidence": "implemented",
           "notes": "login_service_exclusion=map_main_lane; login_evidence=xivl-captures:derived/lane_observations.json#lanes/main/s2c/0x0189; login_capture_sha256=28e06b54fe559870031f077f8549b9244caafa7e5177dbca08a7feae6c2b1b62"
-        },
-        {
-          "name": "SetActiveLinkshellPacket",
-          "opcode": 394,
-          "opcodeHex": "0x018a",
-          "service": "world",
-          "direction": "clientbound",
-          "implementationAnchor": "MapServerOpcode::SetActiveLinkshell",
-          "decompAnchor": null,
-          "observedIn": [],
-          "payloadLengths": [],
-          "confidence": "implemented",
-          "notes": "role=server-to-client set-active-linkshell notification; login_service_exclusion=map_main_lane; login_evidence=xivl-captures:derived/lane_observations.json#lanes/main/s2c/0x018a; login_capture_sha256=28e06b54fe559870031f077f8549b9244caafa7e5177dbca08a7feae6c2b1b62"
         }
       ],
       "MapServerbound": [

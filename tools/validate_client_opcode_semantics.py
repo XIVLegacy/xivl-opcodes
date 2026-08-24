@@ -622,6 +622,14 @@ def main() -> int:
         if fragment not in manager_notes:
             errors.append(f"s2c-018a notes lost required fragment: {fragment}")
 
+    world_018a = [
+        entry
+        for entry in catalog["lists"]["WorldClientbound"]
+        if entry.get("opcodeHex") == "0x018a"
+    ]
+    if world_018a:
+        errors.append("s2c-018a must not retain a WorldClientbound catalog row")
+
     control_row = next(row for row in rows if row.get("id") == "s2c-0193")
     control_observation = control_row.get("observation", "")
     for fragment in (

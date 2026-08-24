@@ -348,6 +348,7 @@ LANE_MOVES = {
     "0x0007": ("DeleteAllActorsPacket", 12),
     "0x0008": ("_0x0008", 19),
     "0x0143": ("DeleteGroupPacket", 12),
+    "0x018a": ("_0x018A", 1),
 }
 LANE_UNRESOLVED = {"0x0188"}
 PCAP_LOBBY_PURGE = [
