@@ -536,7 +536,7 @@ def main() -> int:
     manager_row = next(row for row in rows if row.get("id") == "s2c-018a")
     manager_observation = manager_row.get("observation", "")
     if manager_row.get("supportedLabel") != (
-        "0x018a Group-path keyed u32-to-u64 snapshot reconciliation with a "
+        "0x018a Group-current u32-to-u64 snapshot reconciliation with a "
         "120-byte application payload"
     ):
         errors.append("s2c-018a supported operation label drifted")
@@ -556,7 +556,18 @@ def main() -> int:
         "20-byte tail",
         "120-byte inner body",
         "104 captured bytes after its 16-byte game-message prefix are zero",
-        "non-mutating consumer",
+        "FUN_00578970 -> FUN_006CDF20",
+        "FUN_006C2200",
+        "FUN_00700E70",
+        "FUN_00700FF0",
+        "_onUpdateGroupCurrent",
+        "changed-snapshot key",
+        "FUN_00585020",
+        "FUN_006C1510",
+        "FUN_006D1020",
+        "GroupBase-reference state-pair key",
+        "GroupReferenceRecord",
+        "two component meanings remain unresolved",
         "single 0x0137 -> 0x018a -> 0x0189 chronology does not prove causality",
         "SetActiveLinkshell packet noun",
     ):
@@ -587,8 +598,17 @@ def main() -> int:
         "unread_tail=20 bytes at +0x64..+0x77",
         "commit=FUN_006C58C0 reconciles the temporary ordered map",
         "removing absent keys and inserting or replacing changed values",
-        "consumer_boundary=no Group::SharedWork virtual call",
-        "persistent map's non-mutating consumer and both field domains",
+        "consumer_route=frame FUN_00578970 reaches FUN_006CDF20",
+        "change_drain=FUN_006C2200 drains the state +0x0c changed-key list",
+        "FUN_00700E70 and FUN_00700FF0 _onUpdateGroupCurrent fire sites",
+        "u32_domain=changed snapshot key",
+        "FUN_00585020 as a numeric callback argument",
+        "u64_domain=GroupBase-reference state-pair key",
+        "FUN_006C1510 and FUN_006D1020",
+        "GroupReferenceRecord",
+        "consumer_boundary=positive callback consumer and field domains",
+        "no Group::SharedWork virtual call in the commit body",
+        "both u64 component meanings unresolved",
         "corpus_aggregate=1 event",
         "retained_payload_evidence=1 136-byte subpacket with a 120-byte inner body",
         "104 captured bytes after the 16-byte game-message prefix are zero",
@@ -597,7 +617,7 @@ def main() -> int:
         "candidate_label=SetActiveLinkshellPacket is an imported source-manifest term, not retail-proven",
         "client_only=",
         "conflict=implementation anchor and packet noun lack a source-owned declaration",
-        "BCS-Y-0578,BCS-Y-0888",
+        "BCS-Y-0578,BCS-Y-0888,BCS-Y-1632,BCS-Y-1633,BCS-S-0244",
     ):
         if fragment not in manager_notes:
             errors.append(f"s2c-018a notes lost required fragment: {fragment}")
