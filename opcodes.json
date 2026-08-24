@@ -2391,13 +2391,13 @@
           "notes": ""
         },
         {
-          "name": "PlayAnimationOnActorPacket",
+          "name": "_0x00DA",
           "opcode": 218,
           "opcodeHex": "0x00da",
           "service": "map",
           "direction": "clientbound",
-          "implementationAnchor": "MapServerOpcode::PlayAnimationOnActor",
-          "decompAnchor": null,
+          "implementationAnchor": null,
+          "decompAnchor": "FUN_0058CAD0",
           "observedIn": [
             "gear_changesoul.pcapng",
             "local_leve_complete.pcapng",
@@ -2410,8 +2410,8 @@
           "payloadLengths": [
             40
           ],
-          "confidence": "implemented",
-          "notes": "retail_client_analysis=FUN_004DC690 resolves the target Element and calls primary vtable slot 9 with the packet pointer; CharaElement slot 9 FUN_0058CCA0 case 0x00DA reaches FUN_0058CAD0 -> FUN_0058C690 -> FUN_005901D0 and stages an actor-local battle-effect queue at +0xA84..+0xA90; per-frame FUN_0058DA10 drains one entry and type-gates visual adapters; non-Chara Element implementations and restricted CharaElement state drop the opcode; separation=not the internal Element slot-8 MainPacket bus and no static CharaActionController/CharaActionQue edge; bcsy_ref=BCS-Y-0540 + BCS-Y-1025"
+          "confidence": "decomp_routed",
+          "notes": "retail_client_analysis=FUN_004DC690 resolves the actor through FUN_004D9910 and CharaElement slot 9 FUN_0058CCA0 case 0x00DA reaches FUN_0058CAD0 -> FUN_0058C690; producer=FUN_005901D0 pushes a 0x1a0-byte battle-effect record into the CharaElement ring at +0xa84..+0xa90; discriminator=record+0x04 is the derived visual class and the wire opcode is not retained; producer_difference=0x00DA forces source and target to the resolved actor with header control 0, 0x00E0 uses the packet target with control 0, and 0x00E1 uses the packet target plus packet u16 control; per_frame=FUN_0058DF90 calls FUN_0058DA10, which drains one record and requeues it by visual class at +0x878+class*0x14; presentation=FUN_0058DA10 broadcasts Scene op 4 through FUN_004D7980, then FUN_004E9700 -> FUN_0060C140 -> FUN_007C93C0 resolves the CharaActor and dispatches vtable+0x274; first_controller_edge=CharaActor FUN_00662D30 case 4 directly calls FUN_00846080 on CharaActor+0x2858 with the record payload, and FUN_00845E80 allocates a concrete CharaActionQue and inserts it into the type-selected controller bucket; local_visual_path=classes 3..0x0b also call FUN_0058CA80 but that gate is not the proven controller edge; observed=16 retained 40-byte subpackets across 7 captures with an 8-byte application payload and zero second u32; naming=placeholder retained because the imported PlayAnimationOnActor scalar noun is not established by the client route; prior_label=PlayAnimationOnActorPacket / MapServerOpcode::PlayAnimationOnActor; conflict=imported packet noun and implementation anchor are unsupported by retail body semantics; client_only=queue and presentation routing do not establish server behavior; bcsy_ref=BCS-Y-0053,BCS-Y-0625,BCS-Y-1843,BCS-Y-1845; client_semantics_evidence=data/client_opcode_semantics.json#s2c-00da; dependency_status=closed"
         },
         {
           "name": "SetActorTargetPacket",

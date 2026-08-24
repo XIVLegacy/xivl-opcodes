@@ -19,6 +19,7 @@ EXPECTED_BINARY = {
     "sha256": "9341f2b4567440b310a4d494f5cc5599ca334ba51c8042247317ff466492f2e9",
 }
 EXPECTED_INBOUND = {
+    "0x00da",
     "0x0143",
     "0x0146",
     "0x016d",
@@ -125,9 +126,10 @@ OUTBOUND_OBSERVATION_FRAGMENTS = {
 }
 BARE_FUNCTION = re.compile(r"^FUN_[0-9A-F]{8}$")
 SOURCE_REF = re.compile(r"^(xivl-client-structs|xivl-client-scripts|xivl-captures|retail):")
-EXPECTED_CAPTURE_ROWS = {"c2s-00c9", "c2s-00ce", "c2s-012d", "c2s-012e", "c2s-012f", "s2c-017c", "s2c-017f", "s2c-0183", "s2c-0187", "s2c-018b", "s2c-018d", "s2c-018f", "s2c-0190", "s2c-0191", "s2c-0193", "s2c-0196"}
+EXPECTED_CAPTURE_ROWS = {"c2s-00c9", "c2s-00ce", "c2s-012d", "c2s-012e", "c2s-012f", "s2c-00da", "s2c-017c", "s2c-017f", "s2c-0183", "s2c-0187", "s2c-018b", "s2c-018d", "s2c-018f", "s2c-0190", "s2c-0191", "s2c-0193", "s2c-0196"}
 
 CLIENT_ONLY_EXPECTATIONS = {
+    "s2c-00da": ("0x00da", "clientbound", "FUN_0058CAD0"),
     "c2s-00ce": ("0x00ce", "serverbound", "FUN_00763DC0"),
     "c2s-012d": ("0x012d", "serverbound", "FUN_00776760"),
     "s2c-01cb": ("0x01cb", "clientbound", "FUN_00DB8FA0"),
@@ -145,6 +147,7 @@ CLIENT_ONLY_EXPECTATIONS = {
 }
 
 LAYOUT_SUMMARY_EXPECTATIONS = {
+    "s2c-00da": ("0x00da", {"sample_count": 16, "sub_size_distribution": {"40": 16}, "body_length": 24}),
     "s2c-0196": ("0x0196", {"sample_count": 11, "sub_size_distribution": {"56": 11}, "body_length": 40}),
     "s2c-0193": ("0x0193", {"sample_count": 9, "sub_size_distribution": {"40": 9}, "body_length": 24}),
     "s2c-018f": ("0x018f", {"sample_count": 15, "sub_size_distribution": {"40": 15}, "body_length": 24}),
@@ -198,15 +201,15 @@ def main() -> int:
     if evidence.get("binary") != EXPECTED_BINARY:
         errors.append("retail binary metadata or pinned SHA-256 drifted")
 
-    if len(rows) != 40:
-        errors.append(f"evidence row count is {len(rows)}, expected 40")
-    if {row.get("dependencyOrdinal") for row in rows} != set(range(40)):
-        errors.append("dependencyOrdinal values must be exactly 0 through 39")
+    if len(rows) != 41:
+        errors.append(f"evidence row count is {len(rows)}, expected 41")
+    if {row.get("dependencyOrdinal") for row in rows} != set(range(41)):
+        errors.append("dependencyOrdinal values must be exactly 0 through 40")
 
     inbound = {row.get("opcodeHex") for row in rows if row.get("direction") == "clientbound"}
     outbound = {row.get("opcodeHex") for row in rows if row.get("direction") == "serverbound"}
     if inbound != EXPECTED_INBOUND:
-        errors.append("clientbound opcode set does not match the 29-row ledger slice")
+        errors.append("clientbound opcode set does not match the 31-row ledger slice")
     if outbound != EXPECTED_OUTBOUND:
         errors.append("serverbound opcode set does not match the 10-row ledger slice")
 
@@ -289,11 +292,67 @@ def main() -> int:
             errors.append(f"{label}: open row lost the required local anchor citation")
 
     anchors = [entry["decompAnchor"] for entry in entries if entry.get("decompAnchor")]
-    if len(anchors) != 79:
-        errors.append(f"catalog has {len(anchors)} decompAnchor values, expected 79")
+    if len(anchors) != 80:
+        errors.append(f"catalog has {len(anchors)} decompAnchor values, expected 80")
     bad_anchors = [anchor for anchor in anchors if not BARE_FUNCTION.fullmatch(anchor)]
     if bad_anchors:
         errors.append(f"non-bare decompAnchor values: {bad_anchors}")
+
+    battle_effect_row = next(row for row in rows if row.get("id") == "s2c-00da")
+    battle_effect_observation = battle_effect_row.get("observation", "")
+    for fragment in (
+        "FUN_004D9910",
+        "FUN_0058CAD0",
+        "0x00e0 supplies a packet target with zero header control",
+        "0x00e1 supplies both a packet target and packet u16 control",
+        "does not retain the wire opcode",
+        "FUN_0058DF90 calls FUN_0058DA10",
+        "FUN_004E9700 and FUN_0060C140 to FUN_007C93C0",
+        "vtable offset +0x274",
+        "FUN_00662D30 case 4 directly calls FUN_00846080",
+        "FUN_00845E80",
+        "first proven controller presentation operation",
+    ):
+        if fragment not in battle_effect_observation:
+            errors.append(f"s2c-00da observation lost required fact: {fragment}")
+
+    battle_effect_samples = capture_samples["samples"]["s2c"]["0x00da"]
+    retained_battle_effects = battle_effect_samples.get("samples", [])
+    if battle_effect_samples.get("sampleCount") != 16 or len(retained_battle_effects) != 16:
+        errors.append("s2c-00da retained sample count drifted from 16")
+    if {sample.get("sub_size") for sample in retained_battle_effects} != {40}:
+        errors.append("s2c-00da retained subpacket length drifted from 40")
+    if len({sample.get("capture") for sample in retained_battle_effects}) != 7:
+        errors.append("s2c-00da retained capture count drifted from 7")
+    if any(bytes.fromhex(sample["bytes"])[20:24] != b"\0\0\0\0" for sample in retained_battle_effects):
+        errors.append("s2c-00da retained second application u32 is no longer uniformly zero")
+
+    battle_effect_entry = next(
+        entry
+        for entry in entries
+        if entry.get("opcodeHex") == "0x00da"
+        and entry.get("direction") == "clientbound"
+        and entry.get("decompAnchor") == "FUN_0058CAD0"
+    )
+    battle_effect_notes = battle_effect_entry.get("notes", "")
+    if battle_effect_entry.get("name") != "_0x00DA":
+        errors.append("s2c-00da must retain a placeholder packet name")
+    if battle_effect_entry.get("implementationAnchor") is not None:
+        errors.append("s2c-00da must not retain the imported implementation anchor")
+    for fragment in (
+        "discriminator=record+0x04 is the derived visual class",
+        "producer_difference=0x00DA forces source and target",
+        "per_frame=FUN_0058DF90 calls FUN_0058DA10",
+        "FUN_007C93C0 resolves the CharaActor",
+        "first_controller_edge=CharaActor FUN_00662D30 case 4 directly calls FUN_00846080",
+        "FUN_00845E80 allocates a concrete CharaActionQue",
+        "local_visual_path=classes 3..0x0b also call FUN_0058CA80",
+        "naming=placeholder retained",
+        "prior_label=PlayAnimationOnActorPacket / MapServerOpcode::PlayAnimationOnActor",
+        "conflict=imported packet noun and implementation anchor are unsupported",
+    ):
+        if fragment not in battle_effect_notes:
+            errors.append(f"s2c-00da notes lost required fact: {fragment}")
 
     group_expectations = {
         "s2c-017c": {
