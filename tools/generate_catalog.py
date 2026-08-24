@@ -148,6 +148,13 @@ REVERIFY_OVERRIDES = [
 NAME_OVERRIDES = [
     (
         "MapClientbound",
+        "0x00e1",
+        "ActorDoEmotePacket",
+        "_0x00E1",
+        None,
+    ),
+    (
+        "MapClientbound",
         "0x0196",
         "SetSpecialEventWorkPacket",
         "SetSpecialEventWorkPacket",
@@ -268,6 +275,7 @@ NAME_OVERRIDE_PRIOR_ALIASES = {
 }
 
 DECOMP_ANCHOR_OVERRIDES = [
+    ("MapClientbound", "0x00e1", "_0x00E1", "FUN_0058C690"),
     ("MapServerbound", "0x00ce", "_0x00CEHandler", "FUN_00763DC0"),
     ("MapClientbound", "0x01cb", "_0x01CB", "FUN_00DB8FA0"),
 ]
@@ -360,6 +368,31 @@ PCAP_LOBBY_PURGE = [
 
 
 CLIENT_SEMANTICS_SPECIAL_NOTES = {
+    "s2c-00e1": (
+        "retail_client_analysis=FUN_004DC690 case 12 resolves the packet actor through "
+        "FUN_004D9910 and calls CharaElement slot 9 FUN_0058CCA0; case 0x00E1 at "
+        "VA 0x0058D020 reads application u32 +0, u32 +4, and u16 +8 before calling "
+        "FUN_0058C690; wire_application=effect-or-action selector u32 at +0, target actor "
+        "u32 at +4, staged control u16 at +8, and six unread trailing bytes; "
+        "staging=resolved actor becomes source, packet +4 becomes target, packet +0 becomes "
+        "effect-or-action value, row count is fixed to one, and FUN_00585800 derives the "
+        "record+0x04 visual/action type; producer_difference=0x00E0 calls FUN_0058C690 "
+        "with the same packet selector and target but forces control zero, while 0x00DA "
+        "forces both source and target to the resolved actor and forces control zero; "
+        "retained_fields=record+0x04 "
+        "visual/action type,+0x0c source,+0x10 effect-or-action,+0x30 row count,+0x32 "
+        "control,+0x38 first target; producer_identity=wire opcode is dropped, so an 0x00E1 "
+        "record with zero control cannot be distinguished from a matching 0x00E0 record, "
+        "and a matching self-target zero-control record cannot be distinguished from 0x00DA; "
+        "presentation=FUN_005901D0 queue -> FUN_0058DA10 -> Scene op 4 -> FUN_00662D30 "
+        "case 4 -> FUN_00846080 -> FUN_00845E80 CharaActionQue insertion; observed=3 "
+        "retained 48-byte subpackets across 3 captures with 16 application bytes and a zero "
+        "six-byte tail; naming=placeholder retained because the generic action-family route "
+        "does not establish an emote operation and capture filenames are not semantic proof; "
+        "prior_label=ActorDoEmotePacket / MapServerOpcode::ActorDoEmote; conflict=imported "
+        "packet noun and implementation anchor are unsupported by retail client semantics; "
+        "client_only=queue and presentation routing do not establish server behavior"
+    ),
     "s2c-017c": (
         "retail_client_analysis=FUN_00576250 routes the Group header and the client "
         "layout reads positional u32 groupTypeId at application offset 0x30; "
@@ -748,7 +781,7 @@ def apply_client_semantics(top: dict) -> tuple[int, int]:
             ]
         )
         entry["notes"] = "; ".join(parts)
-        if row["id"] in {"s2c-00da", "s2c-0187", "s2c-018a", "s2c-018b", "s2c-018d", "s2c-018f", "s2c-0190", "s2c-0191", "s2c-0193", "s2c-0196", "s2c-01cb", "c2s-00ce", "c2s-012d"}:
+        if row["id"] in {"s2c-00da", "s2c-00e1", "s2c-0187", "s2c-018a", "s2c-018b", "s2c-018d", "s2c-018f", "s2c-0190", "s2c-0191", "s2c-0193", "s2c-0196", "s2c-01cb", "c2s-00ce", "c2s-012d"}:
             entry["confidence"] = "decomp_routed"
         elif row["id"] == "c2s-012f":
             entry["confidence"] = "decomp_routed"

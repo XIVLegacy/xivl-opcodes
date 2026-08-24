@@ -606,7 +606,7 @@ struct _0x00DEBody
 static_assert(sizeof(_0x00DEBody) == 16, "_0x00DEBody size mismatch");
 
 // 0x00e1 (opcode 225) - sub_size=48B body=24B samples=3
-struct ActorDoEmoteBody
+struct _0x00E1Body
 {
     uint8_t  field0[3]; // body[+0..+2] 3B (3 distinct)
     uint8_t  _const1;   // body[+3] = 0x50
@@ -618,7 +618,7 @@ struct ActorDoEmoteBody
     uint8_t  _pad7[6];  // body[+18..+23] zero
 };
 
-static_assert(sizeof(ActorDoEmoteBody) == 24, "ActorDoEmoteBody size mismatch");
+static_assert(sizeof(_0x00E1Body) == 24, "_0x00E1Body size mismatch");
 
 // 0x00e2 (opcode 226) - sub_size=40B body=16B samples=8
 struct _0xE2Body

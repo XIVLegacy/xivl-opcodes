@@ -20,6 +20,7 @@ EXPECTED_BINARY = {
 }
 EXPECTED_INBOUND = {
     "0x00da",
+    "0x00e1",
     "0x0143",
     "0x0146",
     "0x016d",
@@ -126,10 +127,11 @@ OUTBOUND_OBSERVATION_FRAGMENTS = {
 }
 BARE_FUNCTION = re.compile(r"^FUN_[0-9A-F]{8}$")
 SOURCE_REF = re.compile(r"^(xivl-client-structs|xivl-client-scripts|xivl-captures|retail):")
-EXPECTED_CAPTURE_ROWS = {"c2s-00c9", "c2s-00ce", "c2s-012d", "c2s-012e", "c2s-012f", "s2c-00da", "s2c-017c", "s2c-017f", "s2c-0183", "s2c-0187", "s2c-018b", "s2c-018d", "s2c-018f", "s2c-0190", "s2c-0191", "s2c-0193", "s2c-0196"}
+EXPECTED_CAPTURE_ROWS = {"c2s-00c9", "c2s-00ce", "c2s-012d", "c2s-012e", "c2s-012f", "s2c-00da", "s2c-00e1", "s2c-017c", "s2c-017f", "s2c-0183", "s2c-0187", "s2c-018b", "s2c-018d", "s2c-018f", "s2c-0190", "s2c-0191", "s2c-0193", "s2c-0196"}
 
 CLIENT_ONLY_EXPECTATIONS = {
     "s2c-00da": ("0x00da", "clientbound", "FUN_0058CAD0"),
+    "s2c-00e1": ("0x00e1", "clientbound", "FUN_0058C690"),
     "c2s-00ce": ("0x00ce", "serverbound", "FUN_00763DC0"),
     "c2s-012d": ("0x012d", "serverbound", "FUN_00776760"),
     "s2c-01cb": ("0x01cb", "clientbound", "FUN_00DB8FA0"),
@@ -148,6 +150,7 @@ CLIENT_ONLY_EXPECTATIONS = {
 
 LAYOUT_SUMMARY_EXPECTATIONS = {
     "s2c-00da": ("0x00da", {"sample_count": 16, "sub_size_distribution": {"40": 16}, "body_length": 24}),
+    "s2c-00e1": ("0x00e1", {"sample_count": 3, "sub_size_distribution": {"48": 3}, "body_length": 32}),
     "s2c-0196": ("0x0196", {"sample_count": 11, "sub_size_distribution": {"56": 11}, "body_length": 40}),
     "s2c-0193": ("0x0193", {"sample_count": 9, "sub_size_distribution": {"40": 9}, "body_length": 24}),
     "s2c-018f": ("0x018f", {"sample_count": 15, "sub_size_distribution": {"40": 15}, "body_length": 24}),
@@ -201,15 +204,15 @@ def main() -> int:
     if evidence.get("binary") != EXPECTED_BINARY:
         errors.append("retail binary metadata or pinned SHA-256 drifted")
 
-    if len(rows) != 41:
-        errors.append(f"evidence row count is {len(rows)}, expected 41")
-    if {row.get("dependencyOrdinal") for row in rows} != set(range(41)):
-        errors.append("dependencyOrdinal values must be exactly 0 through 40")
+    if len(rows) != 42:
+        errors.append(f"evidence row count is {len(rows)}, expected 42")
+    if {row.get("dependencyOrdinal") for row in rows} != set(range(42)):
+        errors.append("dependencyOrdinal values must be exactly 0 through 41")
 
     inbound = {row.get("opcodeHex") for row in rows if row.get("direction") == "clientbound"}
     outbound = {row.get("opcodeHex") for row in rows if row.get("direction") == "serverbound"}
     if inbound != EXPECTED_INBOUND:
-        errors.append("clientbound opcode set does not match the 31-row ledger slice")
+        errors.append("clientbound opcode set does not match the 32-row ledger slice")
     if outbound != EXPECTED_OUTBOUND:
         errors.append("serverbound opcode set does not match the 10-row ledger slice")
 
@@ -292,8 +295,8 @@ def main() -> int:
             errors.append(f"{label}: open row lost the required local anchor citation")
 
     anchors = [entry["decompAnchor"] for entry in entries if entry.get("decompAnchor")]
-    if len(anchors) != 80:
-        errors.append(f"catalog has {len(anchors)} decompAnchor values, expected 80")
+    if len(anchors) != 81:
+        errors.append(f"catalog has {len(anchors)} decompAnchor values, expected 81")
     bad_anchors = [anchor for anchor in anchors if not BARE_FUNCTION.fullmatch(anchor)]
     if bad_anchors:
         errors.append(f"non-bare decompAnchor values: {bad_anchors}")
@@ -303,8 +306,14 @@ def main() -> int:
     for fragment in (
         "FUN_004D9910",
         "FUN_0058CAD0",
-        "0x00e0 supplies a packet target with zero header control",
-        "0x00e1 supplies both a packet target and packet u16 control",
+        "forwards application u32 +0 while forcing both staged source and target "
+        "to the resolved CharaElement actor and forcing staged u16 control to zero",
+        "0x00e0 calls FUN_0058C690 with the resolved source, application u32 +0 as "
+        "selector, application u32 +4 as target, and control zero",
+        "0x00e1 calls FUN_0058C690 with the resolved source, application u32 +0 as "
+        "selector, application u32 +4 as target, and application u16 +8 as control",
+        "FUN_0058C690 fixes row count to one",
+        "visual/action type at record +0x04",
         "does not retain the wire opcode",
         "FUN_0058DF90 calls FUN_0058DA10",
         "FUN_004E9700 and FUN_0060C140 to FUN_007C93C0",
@@ -353,6 +362,97 @@ def main() -> int:
     ):
         if fragment not in battle_effect_notes:
             errors.append(f"s2c-00da notes lost required fact: {fragment}")
+
+    action_family_row = next(row for row in rows if row.get("id") == "s2c-00e1")
+    action_family_observation = action_family_row.get("observation", "")
+    for fragment in (
+        "0x00e1 case at VA 0x0058D020",
+        "application u32 +0, u32 +4, and u16 +8",
+        "passes them to FUN_0058C690 as effect-or-action selector, target actor, "
+        "and staged control",
+        "resolved CharaElement actor becomes the staged source",
+        "0x00e0 case at VA 0x0058D00A calls FUN_0058C690 with the same selector "
+        "and target fields but control zero",
+        "0x00da case at VA 0x0058CFFA enters FUN_0058CAD0, which uses the same "
+        "selector but forces target equal to the resolved source and control zero",
+        "No producer tag or wire opcode survives",
+        "FUN_00662D30 case 4",
+        "FUN_00845E80",
+        "ActorDoEmotePacket is rejected as unsupported",
+    ):
+        if fragment not in action_family_observation:
+            errors.append(f"s2c-00e1 observation lost required fact: {fragment}")
+
+    action_family_samples = capture_samples["samples"]["s2c"]["0x00e1"]
+    retained_action_family = action_family_samples.get("samples", [])
+    if action_family_samples.get("sampleCount") != 3 or len(retained_action_family) != 3:
+        errors.append("s2c-00e1 retained sample count drifted from 3")
+    if {sample.get("sub_size") for sample in retained_action_family} != {48}:
+        errors.append("s2c-00e1 retained subpacket length drifted from 48")
+    if len({sample.get("capture") for sample in retained_action_family}) != 3:
+        errors.append("s2c-00e1 retained capture count drifted from 3")
+    action_family_bytes = [bytes.fromhex(sample["bytes"]) for sample in retained_action_family]
+    if {int.from_bytes(value[16:20], "little") for value in action_family_bytes} != {
+        0x0500B000,
+        0x05010000,
+        0x05013000,
+    }:
+        errors.append("s2c-00e1 effect-or-action selector values drifted")
+    if {int.from_bytes(value[20:24], "little") for value in action_family_bytes} != {
+        0x029B2941,
+        0x45606E27,
+    }:
+        errors.append("s2c-00e1 target actor values drifted")
+    if {int.from_bytes(value[24:26], "little") for value in action_family_bytes} != {
+        0x526E,
+        0x529F,
+        0x52BE,
+    }:
+        errors.append("s2c-00e1 staged control values drifted")
+    if any(value[26:32] != bytes(6) for value in action_family_bytes):
+        errors.append("s2c-00e1 six-byte tail is no longer uniformly zero")
+
+    action_family_entry = next(
+        entry
+        for entry in entries
+        if entry.get("opcodeHex") == "0x00e1"
+        and entry.get("direction") == "clientbound"
+        and entry.get("decompAnchor") == "FUN_0058C690"
+    )
+    if action_family_entry.get("name") != "_0x00E1":
+        errors.append("s2c-00e1 must retain a placeholder packet name")
+    if action_family_entry.get("implementationAnchor") is not None:
+        errors.append("s2c-00e1 must not retain the imported implementation anchor")
+    if action_family_entry.get("observedIn") != [
+        "emote_dance.pcapng",
+        "emote_kneel.pcapng",
+        "war_quest_update2.pcapng",
+    ]:
+        errors.append("s2c-00e1 catalog capture list drifted")
+    if action_family_entry.get("payloadLengths") != [48]:
+        errors.append("s2c-00e1 catalog payload length drifted")
+    for fragment in (
+        "case 0x00E1 at VA 0x0058D020",
+        "wire_application=effect-or-action selector u32 at +0",
+        "staging=resolved actor becomes source, packet +4 becomes target, packet +0 "
+        "becomes effect-or-action value, row count is fixed to one",
+        "producer_difference=0x00E0 calls FUN_0058C690 with the same packet selector "
+        "and target but forces control zero, while 0x00DA forces both source and target to the "
+        "resolved actor and forces control zero",
+        "producer_identity=wire opcode is dropped",
+        "FUN_00845E80 CharaActionQue insertion",
+        "naming=placeholder retained",
+        "prior_label=ActorDoEmotePacket / MapServerOpcode::ActorDoEmote",
+        "capture filenames are not semantic proof",
+    ):
+        if fragment not in action_family_entry.get("notes", ""):
+            errors.append(f"s2c-00e1 notes lost required fact: {fragment}")
+
+    if any(
+        entry.get("opcodeHex") == "0x00e0" and entry.get("direction") == "clientbound"
+        for entry in entries
+    ):
+        errors.append("s2c-00e0 must not gain an unobserved catalog row")
 
     group_expectations = {
         "s2c-017c": {
