@@ -641,6 +641,25 @@ CLIENT_SEMANTICS_SPECIAL_NOTES = {
     ),
 }
 
+BATTLE_EFFECT_PRESENTATION_NOTES = (
+    "concrete_visual=FUN_00843B50 constructs CharaActionVisual, whose primary slots +0x54, "
+    "+0x58, and +0x60 resolve to FUN_00798BF0, FUN_00799C90, and FUN_00798A40; "
+    "resource_behavior=the +0x54 and +0x58 paths call FUN_00D39290 and "
+    "FUN_006320C0 for resource lookup and slot assignment, +0x58 explicitly builds a "
+    "/client/vfx/ path, and +0x60 only dispatches bounded category names; "
+    "queue_back_pointer=visual +0x24 resolves to CharaActionQue slot 9 FUN_00843DE0 "
+    "and visual +0x1c resolves to slot 7 FUN_00844660; "
+    "controller_targets=slots 2..5 reach visual dispatch and local flags, "
+    "RaptureSchEffectController +0x18 resolves to membership test FUN_0080B6C0, slot 11 "
+    "reaches FUN_00846220 then constant-one slot 10 FUN_007254A0, and slot 12 reaches "
+    "FUN_00843E20 then visual record accessor FUN_00799FE0; "
+    "unresolved_virtuals=factory-created action-object +0x2c, +0x34, and related calls "
+    "remain runtime-polymorphic; presentation_boundary=the concrete route proves "
+    "category-specific visual/VFX resource lookup and load-assignment attempts plus local "
+    "queue flag updates, not an exact animation resource, named controller state "
+    "transition, completion callback, or restored producer opcode"
+)
+
 
 def scrub_emulator_notes(notes: str) -> tuple[str, int]:
     """Remove unsupported server-source notes while preserving local evidence tails."""
@@ -760,6 +779,21 @@ def apply_client_semantics(top: dict) -> tuple[int, int]:
             if not part.startswith("client_semantics_evidence=")
             and not part.startswith("dependency_status=")
         ]
+        if row["id"] in {"s2c-00da", "s2c-00e1"}:
+            presentation_keys = (
+                "concrete_visual=",
+                "resource_behavior=",
+                "queue_back_pointer=",
+                "controller_targets=",
+                "unresolved_virtuals=",
+                "presentation_boundary=",
+            )
+            parts = [part for part in parts if not part.startswith(presentation_keys)]
+            parts.extend(
+                part.strip()
+                for part in BATTLE_EFFECT_PRESENTATION_NOTES.split(";")
+                if part.strip()
+            )
         if row["status"] == "closed":
             parts = [
                 part

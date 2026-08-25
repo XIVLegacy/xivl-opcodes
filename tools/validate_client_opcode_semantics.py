@@ -321,6 +321,17 @@ def main() -> int:
         "FUN_00662D30 case 4 directly calls FUN_00846080",
         "FUN_00845E80",
         "first proven controller presentation operation",
+        "CharaActionVisual primary slots +0x54, +0x58, and +0x60 resolve to "
+        "FUN_00798BF0, FUN_00799C90, and FUN_00798A40",
+        "+0x58 explicitly builds a /client/vfx/ resource path",
+        "resource lookup FUN_00D39290 and resource-slot assignment helper FUN_006320C0",
+        "queue back-pointer +0x24 call resolves to CharaActionQue slot 9 FUN_00843DE0",
+        "RaptureSchEffectController +0x18 call resolves to FUN_0080B6C0, a membership test",
+        "concrete slot 10 FUN_007254A0, which returns one",
+        "Factory-created action-object calls at +0x2c, +0x34, and related offsets remain "
+        "runtime-polymorphic",
+        "not an exact animation resource, a named controller state transition, or a "
+        "completion callback",
     ):
         if fragment not in battle_effect_observation:
             errors.append(f"s2c-00da observation lost required fact: {fragment}")
@@ -356,6 +367,14 @@ def main() -> int:
         "first_controller_edge=CharaActor FUN_00662D30 case 4 directly calls FUN_00846080",
         "FUN_00845E80 allocates a concrete CharaActionQue",
         "local_visual_path=classes 3..0x0b also call FUN_0058CA80",
+        "concrete_visual=FUN_00843B50 constructs CharaActionVisual",
+        "resource_behavior=the +0x54 and +0x58 paths call FUN_00D39290 and FUN_006320C0",
+        "queue_back_pointer=visual +0x24 resolves to CharaActionQue slot 9 FUN_00843DE0",
+        "RaptureSchEffectController +0x18 resolves to membership test FUN_0080B6C0",
+        "unresolved_virtuals=factory-created action-object +0x2c, +0x34, and related calls "
+        "remain runtime-polymorphic",
+        "not an exact animation resource, named controller state transition, completion "
+        "callback, or restored producer opcode",
         "naming=placeholder retained",
         "prior_label=PlayAnimationOnActorPacket / MapServerOpcode::PlayAnimationOnActor",
         "conflict=imported packet noun and implementation anchor are unsupported",
@@ -378,6 +397,15 @@ def main() -> int:
         "No producer tag or wire opcode survives",
         "FUN_00662D30 case 4",
         "FUN_00845E80",
+        "CharaActionVisual primary slots +0x54, +0x58, and +0x60 resolve to "
+        "FUN_00798BF0, FUN_00799C90, and FUN_00798A40",
+        "+0x58 explicitly builds a /client/vfx/ resource path",
+        "RaptureSchEffectController +0x18 call resolves to FUN_0080B6C0, a membership test",
+        "Factory-created action-object calls at +0x2c, +0x34, and related offsets remain "
+        "runtime-polymorphic",
+        "not an exact animation resource, a named controller state transition, or a "
+        "completion callback",
+        "shared presentation route cannot restore the lost producer opcode",
         "ActorDoEmotePacket is rejected as unsupported",
     ):
         if fragment not in action_family_observation:
@@ -441,6 +469,13 @@ def main() -> int:
         "resolved actor and forces control zero",
         "producer_identity=wire opcode is dropped",
         "FUN_00845E80 CharaActionQue insertion",
+        "concrete_visual=FUN_00843B50 constructs CharaActionVisual",
+        "resource_behavior=the +0x54 and +0x58 paths call FUN_00D39290 and FUN_006320C0",
+        "controller_targets=slots 2..5 reach visual dispatch and local flags",
+        "unresolved_virtuals=factory-created action-object +0x2c, +0x34, and related calls "
+        "remain runtime-polymorphic",
+        "not an exact animation resource, named controller state transition, completion "
+        "callback, or restored producer opcode",
         "naming=placeholder retained",
         "prior_label=ActorDoEmotePacket / MapServerOpcode::ActorDoEmote",
         "capture filenames are not semantic proof",
