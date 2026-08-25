@@ -20,6 +20,25 @@ BCSY_OPCODE_BINDINGS = (
     REPO_ROOT / "data" / "vendor" / "client-structs" / "bcsy-opcode-bindings.json"
 )
 BCSY_EXPECTED_GAPS = REPO_ROOT / "data" / "sibling_sync_expected_gaps.json"
+LOGIN_CAPTURE = "login.pcapng"
+LOGIN_CAPTURE_SHA256 = "28e06b54fe559870031f077f8549b9244caafa7e5177dbca08a7feae6c2b1b62"
+LOBBY_CENSUS_COMMIT = "32a39d2a92f2268d64ab3586b8d791fa93ed19f1"
+LOBBY_CENSUS_EVIDENCE = (
+    f"xivl-captures@{LOBBY_CENSUS_COMMIT}:"
+    "studies/lobby-handshake-triage/derived/record-census.md"
+    "#client-dispatch-correspondence"
+)
+LOBBY_CENSUS_ATTRIBUTIONS = {
+    ("LobbyServerbound", "0x0003", "_0x0003Handler"): 48,
+    ("LobbyServerbound", "0x0004", "SelectCharacterPacket"): 56,
+    ("LobbyServerbound", "0x0005", "SessionPacket"): 176,
+    ("LobbyClientbound", "0x000c", "AccountListPacket"): 624,
+    ("LobbyClientbound", "0x000d", "CharacterListPacket"): 976,
+    ("LobbyClientbound", "0x000f", "SelectCharacterConfirmPacket"): 184,
+    ("LobbyClientbound", "0x0015", "WorldListPacket"): 528,
+    ("LobbyClientbound", "0x0016", "ImportListPacket"): 528,
+    ("LobbyClientbound", "0x0017", "RetainerListPacket"): 496,
+}
 
 # Enforce each bucket's (service, direction) pair; JSON Schema cannot express it.
 BUCKET_MAP = {
@@ -121,6 +140,7 @@ def validate_catalog(cap_names: set[str]) -> None:
             + ", ".join(sorted(missing_directions))
         )
     confidences = set(declared.get("ConfidenceLabels", []))
+    seen_lobby_census: set[tuple[str, str, str]] = set()
 
     for bucket, entries in top.get("lists", {}).items():
         expect = BUCKET_MAP.get(bucket)
@@ -162,9 +182,32 @@ def validate_catalog(cap_names: set[str]) -> None:
             if "pcap_observations merged" in (entry.get("notes") or "") and not entry.get("observedIn"):
                 errors.append(f"{tag}: notes claim 'pcap_observations merged' but observedIn is empty")
 
-            # Lobby rows cannot carry pcap evidence; enforce PCAP_LOBBY_PURGE.
             if entry.get("service") == "lobby" and entry.get("observedIn"):
-                errors.append(f"{tag}: lobby-service row must not carry pcap observedIn")
+                key = (bucket, entry.get("opcodeHex"), entry.get("name"))
+                expected_length = LOBBY_CENSUS_ATTRIBUTIONS.get(key)
+                if expected_length is None:
+                    errors.append(f"{tag}: lobby observation is not in the promoted census")
+                    continue
+                seen_lobby_census.add(key)
+                if entry.get("observedIn") != [LOGIN_CAPTURE]:
+                    errors.append(
+                        f"{tag}: lobby observedIn must be exactly [{LOGIN_CAPTURE!r}]"
+                    )
+                if entry.get("payloadLengths") != [expected_length]:
+                    errors.append(
+                        f"{tag}: payloadLengths must be exactly [{expected_length}]"
+                    )
+                notes = entry.get("notes") or ""
+                evidence_token = f"lobby_census_evidence={LOBBY_CENSUS_EVIDENCE}"
+                identity_token = f"login_capture_sha256={LOGIN_CAPTURE_SHA256}"
+                for token in (evidence_token, identity_token):
+                    if token not in notes:
+                        errors.append(f"{tag}: notes lack {token}")
+
+    for key in sorted(set(LOBBY_CENSUS_ATTRIBUTIONS) - seen_lobby_census):
+        errors.append(
+            f"{key[0]}/{key[1]} {key[2]}: promoted lobby census observation missing"
+        )
 
     # Pcap keys are direction+opcode only; shared services require pcap_service_ambiguous.
     obs_by_dir_op = {}

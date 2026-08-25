@@ -314,8 +314,7 @@ ZONE_DUMMY_CLUSTER_PRIOR = {
 }
 
 
-# Pcap joins use (direction, opcode) only; PCAP_AMBIGUOUS marks shared services and
-# PCAP_LOBBY_PURGE removes lobby rows that inherited in-world captures.
+# Pcap joins use (direction, opcode) only; PCAP_AMBIGUOUS marks shared services.
 PCAP_AMBIGUOUS_SERVICES = "world,map"
 PCAP_AMBIGUOUS = [
     ("WorldClientbound", "0x017a", "SynchGroupWorkValuesPacket"),
@@ -351,6 +350,23 @@ LOGIN_PREZONE_ATTRIBUTIONS = [
     ("MapClientbound", "0x018a", "_0x018A", "s2c", 136),
     ("MapClientbound", "0x0189", "CreateNamedGroupMultiple", "s2c", 552),
 ]
+LOBBY_CENSUS_COMMIT = "32a39d2a92f2268d64ab3586b8d791fa93ed19f1"
+LOBBY_CENSUS_EVIDENCE = (
+    f"xivl-captures@{LOBBY_CENSUS_COMMIT}:"
+    "studies/lobby-handshake-triage/derived/record-census.md"
+    "#client-dispatch-correspondence"
+)
+LOBBY_CENSUS_ATTRIBUTIONS = [
+    ("LobbyServerbound", "0x0003", "_0x0003Handler", 48),
+    ("LobbyServerbound", "0x0004", "SelectCharacterPacket", 56),
+    ("LobbyServerbound", "0x0005", "SessionPacket", 176),
+    ("LobbyClientbound", "0x000c", "AccountListPacket", 624),
+    ("LobbyClientbound", "0x000d", "CharacterListPacket", 976),
+    ("LobbyClientbound", "0x000f", "SelectCharacterConfirmPacket", 184),
+    ("LobbyClientbound", "0x0015", "WorldListPacket", 528),
+    ("LobbyClientbound", "0x0016", "ImportListPacket", 528),
+    ("LobbyClientbound", "0x0017", "RetainerListPacket", 496),
+]
 
 LANE_MOVES = {
     "0x0007": ("DeleteAllActorsPacket", 12),
@@ -359,12 +375,6 @@ LANE_MOVES = {
     "0x018a": ("_0x018A", 1),
 }
 LANE_UNRESOLVED = {"0x0188"}
-PCAP_LOBBY_PURGE = [
-    ("LobbyServerbound", "0x0003", "_0x0003Handler"),
-    ("LobbyClientbound", "0x000c", "AccountListPacket"),
-    ("LobbyClientbound", "0x000d", "CharacterListPacket"),
-    ("LobbyClientbound", "0x000f", "SelectCharacterConfirmPacket"),
-]
 
 
 CLIENT_SEMANTICS_SPECIAL_NOTES = {
@@ -1021,6 +1031,7 @@ def apply_login_prezone_attributions(top: dict) -> tuple[int, int, int]:
                     or entry.get("direction") != selected.get("direction")
                     or entry.get("opcode") != selected.get("opcode")
                     or entry.get("service") == selected.get("service")
+                    or entry.get("service") == "lobby"
                 ):
                     continue
                 competitor_had_capture = LOGIN_CAPTURE in entry.get("observedIn", [])
@@ -1040,6 +1051,63 @@ def apply_login_prezone_attributions(top: dict) -> tuple[int, int, int]:
                     competitor_notes = append_note_token(competitor_notes, evidence_token)
                     competitor_notes = append_note_token(competitor_notes, identity_token)
                 entry["notes"] = competitor_notes
+
+        after = (
+            selected.get("observedIn", []),
+            selected.get("payloadLengths", []),
+            selected.get("notes", ""),
+        )
+        if before == after:
+            skipped += 1
+        else:
+            applied += 1
+
+    return applied, skipped, errors
+
+
+def apply_lobby_census_attributions(top: dict) -> tuple[int, int, int]:
+    """Apply the sanitized port-54994 inner-route census."""
+    applied = 0
+    skipped = 0
+    errors = 0
+    evidence_token = f"lobby_census_evidence={LOBBY_CENSUS_EVIDENCE}"
+    identity_token = f"login_capture_sha256={LOGIN_CAPTURE_SHA256}"
+    stale_tokens = (
+        "no_pcap_evidence",
+        "pcap_evidence_dropped=lobby_not_in_capture_corpus",
+    )
+
+    for bucket, opcode_hex, name, payload_length in LOBBY_CENSUS_ATTRIBUTIONS:
+        selected = next(
+            (
+                entry
+                for entry in top["lists"].get(bucket, [])
+                if entry["opcodeHex"] == opcode_hex and entry["name"] == name
+            ),
+            None,
+        )
+        if selected is None:
+            print(f"  WARN: no entry for lobby census {bucket} {opcode_hex} {name}")
+            errors += 1
+            continue
+
+        before = (
+            list(selected.get("observedIn", [])),
+            list(selected.get("payloadLengths", [])),
+            selected.get("notes", ""),
+        )
+        selected["observedIn"] = sorted(
+            set(selected.get("observedIn", [])) | {LOGIN_CAPTURE}
+        )
+        selected["payloadLengths"] = sorted(
+            set(selected.get("payloadLengths", [])) | {payload_length}
+        )
+        notes = selected.get("notes", "")
+        for token in stale_tokens:
+            notes, _ = remove_note_token(notes, token)
+        for token in (evidence_token, identity_token):
+            notes = append_note_token(notes, token)
+        selected["notes"] = notes
 
         after = (
             selected.get("observedIn", []),
@@ -1270,27 +1338,6 @@ def main() -> int:
             warned += 1
     print(f"Applied {amb_applied} pcap-ambiguity marks ({amb_skipped} skipped)")
 
-    purge_token = "pcap_evidence_dropped=lobby_not_in_capture_corpus"
-    purge_applied = 0
-    purge_skipped = 0
-    for bucket, opcode_hex, name in PCAP_LOBBY_PURGE:
-        for e in top["lists"].get(bucket, []):
-            if e["opcodeHex"] == opcode_hex and e["name"] == name:
-                notes = e.get("notes", "")
-                if not e.get("observedIn") and purge_token in notes:
-                    purge_skipped += 1
-                else:
-                    e["observedIn"] = []
-                    e["payloadLengths"] = []
-                    if purge_token not in notes:
-                        e["notes"] = f"{notes}; {purge_token}" if notes else purge_token
-                    purge_applied += 1
-                break
-        else:
-            print(f"  WARN: no entry for lobby purge {bucket} {opcode_hex} {name}")
-            warned += 1
-    print(f"Applied {purge_applied} lobby pcap purges ({purge_skipped} skipped)")
-
     world = top["lists"]["WorldClientbound"]
     before = len(world)
     top["lists"]["WorldClientbound"] = [
@@ -1338,6 +1385,13 @@ def main() -> int:
     print(
         f"Applied {observation_applied} login pre-zone attributions "
         f"({observation_skipped} skipped)"
+    )
+
+    lobby_applied, lobby_skipped, lobby_errors = apply_lobby_census_attributions(top)
+    warned += lobby_errors
+    print(
+        f"Applied {lobby_applied} lobby census attributions "
+        f"({lobby_skipped} skipped)"
     )
 
     stale_removed, ambiguity_added, ambiguity_removed = reconcile_pcap_notes(top)

@@ -13,10 +13,14 @@
           "direction": "serverbound",
           "implementationAnchor": "LobbyOpcode::GetCharacters",
           "decompAnchor": null,
-          "observedIn": [],
-          "payloadLengths": [],
+          "observedIn": [
+            "login.pcapng"
+          ],
+          "payloadLengths": [
+            48
+          ],
           "confidence": "implemented",
-          "notes": "pcap_evidence_dropped=lobby_not_in_capture_corpus",
+          "notes": "lobby_census_evidence=xivl-captures@32a39d2a92f2268d64ab3586b8d791fa93ed19f1:studies/lobby-handshake-triage/derived/record-census.md#client-dispatch-correspondence; login_capture_sha256=28e06b54fe559870031f077f8549b9244caafa7e5177dbca08a7feae6c2b1b62",
           "retail_class_name": "Application::Network::LobbyClient::ServiceLoginOperation"
         },
         {
@@ -27,10 +31,14 @@
           "direction": "serverbound",
           "implementationAnchor": "LobbyOpcode::SelectCharacter",
           "decompAnchor": null,
-          "observedIn": [],
-          "payloadLengths": [],
+          "observedIn": [
+            "login.pcapng"
+          ],
+          "payloadLengths": [
+            56
+          ],
           "confidence": "implemented",
-          "notes": "no_pcap_evidence",
+          "notes": "lobby_census_evidence=xivl-captures@32a39d2a92f2268d64ab3586b8d791fa93ed19f1:studies/lobby-handshake-triage/derived/record-census.md#client-dispatch-correspondence; login_capture_sha256=28e06b54fe559870031f077f8549b9244caafa7e5177dbca08a7feae6c2b1b62",
           "retail_class_name": "Application::Network::LobbyClient::GameLoginOperation"
         },
         {
@@ -41,10 +49,14 @@
           "direction": "serverbound",
           "implementationAnchor": "LobbyOpcode::Session",
           "decompAnchor": null,
-          "observedIn": [],
-          "payloadLengths": [],
+          "observedIn": [
+            "login.pcapng"
+          ],
+          "payloadLengths": [
+            176
+          ],
           "confidence": "implemented",
-          "notes": "no_pcap_evidence",
+          "notes": "lobby_census_evidence=xivl-captures@32a39d2a92f2268d64ab3586b8d791fa93ed19f1:studies/lobby-handshake-triage/derived/record-census.md#client-dispatch-correspondence; login_capture_sha256=28e06b54fe559870031f077f8549b9244caafa7e5177dbca08a7feae6c2b1b62",
           "retail_class_name": "Application::Network::LobbyClient::LobbyLoginOperation"
         },
         {
@@ -157,10 +169,14 @@
           "direction": "clientbound",
           "implementationAnchor": "LobbyOpcode::AccountList",
           "decompAnchor": null,
-          "observedIn": [],
-          "payloadLengths": [],
+          "observedIn": [
+            "login.pcapng"
+          ],
+          "payloadLengths": [
+            624
+          ],
           "confidence": "implemented",
-          "notes": "pcap_evidence_dropped=lobby_not_in_capture_corpus",
+          "notes": "lobby_census_evidence=xivl-captures@32a39d2a92f2268d64ab3586b8d791fa93ed19f1:studies/lobby-handshake-triage/derived/record-census.md#client-dispatch-correspondence; login_capture_sha256=28e06b54fe559870031f077f8549b9244caafa7e5177dbca08a7feae6c2b1b62",
           "retail_class_name": "Application::Network::LobbyClient::LobbyLoginOperation"
         },
         {
@@ -171,10 +187,14 @@
           "direction": "clientbound",
           "implementationAnchor": "LobbyOpcode::CharacterList",
           "decompAnchor": null,
-          "observedIn": [],
-          "payloadLengths": [],
+          "observedIn": [
+            "login.pcapng"
+          ],
+          "payloadLengths": [
+            976
+          ],
           "confidence": "implemented",
-          "notes": "pcap_evidence_dropped=lobby_not_in_capture_corpus",
+          "notes": "lobby_census_evidence=xivl-captures@32a39d2a92f2268d64ab3586b8d791fa93ed19f1:studies/lobby-handshake-triage/derived/record-census.md#client-dispatch-correspondence; login_capture_sha256=28e06b54fe559870031f077f8549b9244caafa7e5177dbca08a7feae6c2b1b62",
           "retail_class_name": "Application::Network::LobbyClient::ServiceLoginOperation"
         },
         {
@@ -199,10 +219,14 @@
           "direction": "clientbound",
           "implementationAnchor": "LobbyOpcode::SelectCharacterConfirm",
           "decompAnchor": null,
-          "observedIn": [],
-          "payloadLengths": [],
+          "observedIn": [
+            "login.pcapng"
+          ],
+          "payloadLengths": [
+            184
+          ],
           "confidence": "implemented",
-          "notes": "pcap_evidence_dropped=lobby_not_in_capture_corpus",
+          "notes": "lobby_census_evidence=xivl-captures@32a39d2a92f2268d64ab3586b8d791fa93ed19f1:studies/lobby-handshake-triage/derived/record-census.md#client-dispatch-correspondence; login_capture_sha256=28e06b54fe559870031f077f8549b9244caafa7e5177dbca08a7feae6c2b1b62",
           "retail_class_name": "Application::Network::LobbyClient::GameLoginOperation"
         },
         {
@@ -227,10 +251,14 @@
           "direction": "clientbound",
           "implementationAnchor": "LobbyOpcode::WorldList",
           "decompAnchor": null,
-          "observedIn": [],
-          "payloadLengths": [],
+          "observedIn": [
+            "login.pcapng"
+          ],
+          "payloadLengths": [
+            528
+          ],
           "confidence": "implemented",
-          "notes": "no_pcap_evidence",
+          "notes": "lobby_census_evidence=xivl-captures@32a39d2a92f2268d64ab3586b8d791fa93ed19f1:studies/lobby-handshake-triage/derived/record-census.md#client-dispatch-correspondence; login_capture_sha256=28e06b54fe559870031f077f8549b9244caafa7e5177dbca08a7feae6c2b1b62",
           "retail_class_name": "Application::Network::LobbyClient::ServiceLoginOperation"
         },
         {
@@ -241,10 +269,14 @@
           "direction": "clientbound",
           "implementationAnchor": "LobbyOpcode::ImportList",
           "decompAnchor": null,
-          "observedIn": [],
-          "payloadLengths": [],
+          "observedIn": [
+            "login.pcapng"
+          ],
+          "payloadLengths": [
+            528
+          ],
           "confidence": "implemented",
-          "notes": "no_pcap_evidence",
+          "notes": "lobby_census_evidence=xivl-captures@32a39d2a92f2268d64ab3586b8d791fa93ed19f1:studies/lobby-handshake-triage/derived/record-census.md#client-dispatch-correspondence; login_capture_sha256=28e06b54fe559870031f077f8549b9244caafa7e5177dbca08a7feae6c2b1b62",
           "retail_class_name": "Application::Network::LobbyClient::ServiceLoginOperation"
         },
         {
@@ -255,10 +287,14 @@
           "direction": "clientbound",
           "implementationAnchor": "LobbyOpcode::RetainerList",
           "decompAnchor": null,
-          "observedIn": [],
-          "payloadLengths": [],
+          "observedIn": [
+            "login.pcapng"
+          ],
+          "payloadLengths": [
+            496
+          ],
           "confidence": "implemented",
-          "notes": "no_pcap_evidence",
+          "notes": "lobby_census_evidence=xivl-captures@32a39d2a92f2268d64ab3586b8d791fa93ed19f1:studies/lobby-handshake-triage/derived/record-census.md#client-dispatch-correspondence; login_capture_sha256=28e06b54fe559870031f077f8549b9244caafa7e5177dbca08a7feae6c2b1b62",
           "retail_class_name": "Application::Network::LobbyClient::ServiceLoginOperation"
         },
         {
