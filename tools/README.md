@@ -50,7 +50,7 @@ writer. Abbreviated, uppercase, or omitted hashes are rejected.
 - `validate_repository.py` is the complete human and CI check. It parses every
   repository JSON file, then runs the vendor, corpus, client-opcode-semantic,
   docs-index, and payload-framing validators in order.
-- `validate_client_opcode_semantics.py` checks the 37-row retail-client body
+- `validate_client_opcode_semantics.py` checks the 44-row retail-client body
   evidence ledger, catalog evidence links, open/closed dispositions, and the
   bare `decompAnchor` contract.
 - `generate_structs.py` emits packed C++ payload headers under `structs/` from

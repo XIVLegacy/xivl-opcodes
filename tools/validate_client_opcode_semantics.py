@@ -22,10 +22,12 @@ EXPECTED_INBOUND = {
     "0x00da",
     "0x00e1",
     "0x0143",
+    "0x0144",
     "0x0146",
     "0x016d",
     "0x016e",
     "0x017a",
+    "0x0179",
     "0x017c",
     *{f"0x{opcode:04x}" for opcode in range(0x017D, 0x018C)},
     "0x018d",
@@ -127,7 +129,7 @@ OUTBOUND_OBSERVATION_FRAGMENTS = {
 }
 BARE_FUNCTION = re.compile(r"^FUN_[0-9A-F]{8}$")
 SOURCE_REF = re.compile(r"^(xivl-client-structs|xivl-client-scripts|xivl-captures|retail):")
-EXPECTED_CAPTURE_ROWS = {"c2s-00c9", "c2s-00ce", "c2s-012d", "c2s-012e", "c2s-012f", "s2c-00da", "s2c-00e1", "s2c-017c", "s2c-017f", "s2c-0183", "s2c-0187", "s2c-018b", "s2c-018d", "s2c-018f", "s2c-0190", "s2c-0191", "s2c-0193", "s2c-0196"}
+EXPECTED_CAPTURE_ROWS = {"c2s-00c9", "c2s-00ce", "c2s-012d", "c2s-012e", "c2s-012f", "s2c-00da", "s2c-00e1", "s2c-0144", "s2c-0179", "s2c-017c", "s2c-017f", "s2c-0183", "s2c-0187", "s2c-018b", "s2c-018d", "s2c-018f", "s2c-0190", "s2c-0191", "s2c-0193", "s2c-0196"}
 
 CLIENT_ONLY_EXPECTATIONS = {
     "s2c-00da": ("0x00da", "clientbound", "FUN_0058CAD0"),
@@ -149,6 +151,8 @@ CLIENT_ONLY_EXPECTATIONS = {
 }
 
 LAYOUT_SUMMARY_EXPECTATIONS = {
+    "s2c-0144": ("0x0144", {"sample_count": 60, "sub_size_distribution": {"40": 60}, "body_length": 24}),
+    "s2c-0179": ("0x0179", {"sample_count": 55, "sub_size_distribution": {"72": 55}, "body_length": 56}),
     "s2c-00da": ("0x00da", {"sample_count": 16, "sub_size_distribution": {"40": 16}, "body_length": 24}),
     "s2c-00e1": ("0x00e1", {"sample_count": 3, "sub_size_distribution": {"48": 3}, "body_length": 32}),
     "s2c-0196": ("0x0196", {"sample_count": 11, "sub_size_distribution": {"56": 11}, "body_length": 40}),
@@ -159,6 +163,23 @@ LAYOUT_SUMMARY_EXPECTATIONS = {
     "s2c-0187": ("0x0187", {"sample_count": 33, "sub_size_distribution": {"96": 33}, "body_length": 80}),
     "s2c-018b": ("0x018b", {"sample_count": 31, "sub_size_distribution": {"88": 31}, "body_length": 72}),
     "s2c-018d": ("0x018d", {"sample_count": 60, "sub_size_distribution": {"696": 60}, "body_length": 680}),
+}
+
+CHANT_BOUNDARY_EXPECTATIONS = {
+    "s2c-0144": (
+        "FUN_0075A9A0 constructs ChangeActorSubStatModeBorderReceiver from application offset 4",
+        "FUN_006EECB0 writes only that byte to CharaSubStatStorage+0x18",
+        "does not write the status-word bits 8..15",
+        "does not establish a chant enum",
+    ),
+    "s2c-0179": (
+        "u16 statusIds[20]",
+        "kind 1 selects bits 12..15 with >> 12 & 0xf",
+        "kind 2 selects bits 8..11 with >> 8 & 0xf",
+        "Zero values and unsupported kind tags return nil",
+        "bits 8..11, bits 14..15, and bits 12..13",
+        "no client table or branch maps values 1..15 to stable semantic nouns",
+    ),
 }
 
 
@@ -204,15 +225,15 @@ def main() -> int:
     if evidence.get("binary") != EXPECTED_BINARY:
         errors.append("retail binary metadata or pinned SHA-256 drifted")
 
-    if len(rows) != 42:
-        errors.append(f"evidence row count is {len(rows)}, expected 42")
-    if {row.get("dependencyOrdinal") for row in rows} != set(range(42)):
-        errors.append("dependencyOrdinal values must be exactly 0 through 41")
+    if len(rows) != 44:
+        errors.append(f"evidence row count is {len(rows)}, expected 44")
+    if {row.get("dependencyOrdinal") for row in rows} != set(range(44)):
+        errors.append("dependencyOrdinal values must be exactly 0 through 43")
 
     inbound = {row.get("opcodeHex") for row in rows if row.get("direction") == "clientbound"}
     outbound = {row.get("opcodeHex") for row in rows if row.get("direction") == "serverbound"}
     if inbound != EXPECTED_INBOUND:
-        errors.append("clientbound opcode set does not match the 32-row ledger slice")
+        errors.append("clientbound opcode set does not match the 34-row ledger slice")
     if outbound != EXPECTED_OUTBOUND:
         errors.append("serverbound opcode set does not match the 10-row ledger slice")
 
@@ -294,9 +315,16 @@ def main() -> int:
         if row.get("status") == "open" and local_anchor_token not in notes:
             errors.append(f"{label}: open row lost the required local anchor citation")
 
+    rows_by_id = {row.get("id"): row for row in rows}
+    for label, fragments in CHANT_BOUNDARY_EXPECTATIONS.items():
+        observation = rows_by_id.get(label, {}).get("observation", "")
+        for fragment in fragments:
+            if fragment not in observation:
+                errors.append(f"{label}: chant boundary lacks required fact {fragment!r}")
+
     anchors = [entry["decompAnchor"] for entry in entries if entry.get("decompAnchor")]
-    if len(anchors) != 81:
-        errors.append(f"catalog has {len(anchors)} decompAnchor values, expected 81")
+    if len(anchors) != 83:
+        errors.append(f"catalog has {len(anchors)} decompAnchor values, expected 83")
     bad_anchors = [anchor for anchor in anchors if not BARE_FUNCTION.fullmatch(anchor)]
     if bad_anchors:
         errors.append(f"non-bare decompAnchor values: {bad_anchors}")

@@ -3015,7 +3015,7 @@
           "service": "map",
           "direction": "clientbound",
           "implementationAnchor": "MapServerOpcode::SetActorSubState",
-          "decompAnchor": null,
+          "decompAnchor": "FUN_008A32C0",
           "observedIn": [
             "action_and_traits.pcapng",
             "add_str.pcapng",
@@ -3049,7 +3049,7 @@
             40
           ],
           "confidence": "implemented",
-          "notes": "",
+          "notes": "retail_client_analysis=the 8-byte application payload retains structural byte labels, but FUN_0075A9A0 constructs ChangeActorSubStatModeBorderReceiver from application offset 4 and FUN_008A32C0 applies only that byte through FUN_006EECB0 to CharaSubStatStorage+0x18; callback=FUN_008A3310->FUN_007084E0 fires _onChangeSubStatMode for a changed byte; chant_boundary=application offset 1 has the historical chantId layout label but this retained route does not copy it into the status-word bits 8..15 or establish a chant enum; observed=60 retained 40-byte subpackets with 8 application bytes; client_only=layout, store, and callback do not establish server behavior or packet ordering; client_semantics_evidence=data/client_opcode_semantics.json#s2c-0144; dependency_status=closed",
           "retail_class_name": "Application::Lua::Script::Client::Command::System::ChangeActorSubStatModeBorderReceiver"
         },
         {
@@ -4036,7 +4036,7 @@
           "service": "map",
           "direction": "clientbound",
           "implementationAnchor": "MapServerOpcode::SetActorStatusAll",
-          "decompAnchor": null,
+          "decompAnchor": "FUN_008A3630",
           "observedIn": [
             "combat_autoattack.pcapng",
             "from_gridania_to_blackshroud.pcapng",
@@ -4059,7 +4059,7 @@
             72
           ],
           "confidence": "implemented",
-          "notes": "",
+          "notes": "retail_client_analysis=the 40-byte application payload is u16 statusIds[20]; FUN_008A3350 maps each nonzero identifier through the client status-data table, retains its resolved handle and slot byte, and FUN_008A3630 passes them through FUN_007084B0 to FUN_00707D60; storage=FUN_00707D60 replaces one full u32 status reference and _onChangeSubStatStatus receives one-based slot plus whole new and old references; chant_reader=FUN_006F9EC0 kind 1 selects bits 12..15 with >> 12 & 0xf, kind 2 selects bits 8..11 with >> 8 & 0xf, and zero or unsupported kinds return nil; overlap=FUN_006F9F70 also reads bits 8..11,14..15,12..13 as an object descriptor; naming=the two nibble domains remain numeric because no table or branch maps values 1..15 to stable semantic nouns; observed=55 retained 72-byte subpackets with 40 application bytes and only one nonzero retained status identifier; client_only=lookup, storage, and reader projections do not establish server behavior or packet ordering; client_semantics_evidence=data/client_opcode_semantics.json#s2c-0179; dependency_status=closed",
           "retail_class_name": "Application::Lua::Script::Client::Command::System::ChangeActorSubStatStatusReceiver"
         },
         {

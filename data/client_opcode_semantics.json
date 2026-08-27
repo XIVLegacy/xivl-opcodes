@@ -5,7 +5,7 @@
     "version": "1.23b",
     "sha256": "9341f2b4567440b310a4d494f5cc5599ca334ba51c8042247317ff466492f2e9"
   },
-  "scope": "Independent retail-client body evidence for the 40 legacy semantic dependency rows and the s2c 0x00da/0x00e1 action-family queue-to-presentation routes consumed by this catalog.",
+  "scope": "Independent retail-client body evidence for the 42 legacy semantic dependency rows and the s2c 0x00da/0x00e1 action-family queue-to-presentation routes consumed by this catalog.",
   "rule": "Address, opcode, size, symbol, or dispatch-edge agreement alone is a cross-check. A closed row requires a body observation that supports the retained label or a narrower replacement label.",
   "rows": [
     {
@@ -743,6 +743,44 @@
         "retail:ffxivgame.exe#sha256=9341f2b4567440b310a4d494f5cc5599ca334ba51c8042247317ff466492f2e9;vas=0x004DC690,0x004D9910,0x0058CCA0,0x0058CFFA,0x0058D00A,0x0058D020,0x0058CAD0,0x0058C690,0x00585800,0x00587210,0x00587370,0x005901D0,0x0058DF90,0x0058DA10,0x004D7980,0x004E9700,0x0060C140,0x007C93C0,0x00662D30,0x00846080,0x00845E80;run=opcode-semantics-s2c-00e1-lane3",
         "xivl-client-structs:manifests/structs.json#ApplicationSceneVfxRaptureSchEffectController",
         "retail:ffxivgame.exe#sha256=9341f2b4567440b310a4d494f5cc5599ca334ba51c8042247317ff466492f2e9;vas=0x00798470,0x00798BF0,0x00799C90,0x00798A40,0x00798640,0x00843B50,0x00843DB0,0x00844150,0x008441B0,0x00844200,0x00846220,0x007254A0,0x00843E20,0x00843DE0,0x00844660,0x0080B6C0,0x00799FE0,0x006320C0,0x00D39290;run=opcode-semantics-battle-effect-indirects-lane4"
+      ]
+    },
+    {
+      "id": "s2c-0144",
+      "dependencyOrdinal": 42,
+      "opcodeHex": "0x0144",
+      "direction": "clientbound",
+      "function": "FUN_008A32C0",
+      "status": "closed",
+      "supportedLabel": "SetActorSubStatePacket with a proven mode/border-byte consumer and no proven chant-enum consumer",
+      "tool": "XIVLegacy Ghidra read-only receiver, storage-writer, callback, layout, and capture analysis",
+      "observation": "The 8-byte application payload retains structural labels for breakage at +0, chantId at +1, guard at +2, waste at +3, mode at +4, an unknown byte at +5, and motionPack at +6. FUN_0075A9A0 constructs ChangeActorSubStatModeBorderReceiver from application offset 4. FUN_008A32C0 applies the receiver byte through FUN_006EECB0; FUN_006EECB0 writes only that byte to CharaSubStatStorage+0x18. The sibling callback route FUN_008A3310 -> FUN_007084E0 fires _onChangeSubStatMode only when the byte changes. This retained client route does not write the status-word bits 8..15. In particular, the historical chantId label at application offset 1 does not establish a chant enum, a presentation type, or a connection to the packed nibble readers. Sixty retained samples are 40-byte subpackets with 8 application bytes; their proximity and capture context do not establish server behavior or causal packet ordering.",
+      "sourceRefs": [
+        "xivl-client-structs:manifests/s2c_payload_decoding_lua_bound.json#payloadStructs.s2c_0x0144",
+        "xivl-client-structs:manifests/cast_chant_presentation.json#chantStatusBoundary.modePacketFence",
+        "xivl-captures:derived/payload_layouts.json#s2c.0x0144",
+        "xivl-captures:derived/payload_samples.json#samples.s2c.0x0144",
+        "retail:ffxivgame.exe#sha256=9341f2b4567440b310a4d494f5cc5599ca334ba51c8042247317ff466492f2e9;vas=0x0075A9A0,0x008A3210,0x008A32C0,0x006EECB0,0x008A3310,0x007084E0;run=opcode-semantics-s2c-0144-0179-chant"
+      ]
+    },
+    {
+      "id": "s2c-0179",
+      "dependencyOrdinal": 43,
+      "opcodeHex": "0x0179",
+      "direction": "clientbound",
+      "function": "FUN_008A3630",
+      "status": "closed",
+      "supportedLabel": "SetActorStatusAllPacket carrying 20 status identifiers resolved to client status records with packed-word projections",
+      "tool": "XIVLegacy Ghidra read-only receiver, status-table, packed-reader, Lua-callsite, layout, and capture analysis",
+      "observation": "The 40-byte application payload is u16 statusIds[20]. FUN_008A3350 maps each nonzero identifier through the client status-data table, retaining the resolved handle and the slot byte; zero selects the shared empty sentinel. FUN_008A3630 passes the resolved handle and slot through FUN_007084B0 to FUN_00707D60. FUN_00707D60 replaces one full u32 status reference and, when enabled, fires _onChangeSubStatStatus with the one-based slot plus the whole new and old references. FUN_0075C1D0 resolves a stored handle to the client status word. FUN_006F9EC0 then implements the Chant projection: kind 1 selects bits 12..15 with >> 12 & 0xf, and kind 2 selects bits 8..11 with >> 8 & 0xf. Zero values and unsupported kind tags return nil. The overlapping FUN_006F9F70 Object projection reads bits 8..11, bits 14..15, and bits 12..13 from the same word, so the two nibbles are reader domains rather than exclusive packed-field identities. The retained Lua callsite treats the result numerically and supplies no value table. Therefore no client table or branch maps values 1..15 to stable semantic nouns: the defensible names remain numeric high nibble selected by kind 1 and numeric low nibble selected by kind 2. Fifty-five retained samples are 72-byte subpackets with 40 application bytes; only one retained payload contains a nonzero status identifier, 0x5adf in slot 0, which cannot expose the resolved status-word nibble identities without a supported table join. These client facts do not establish server behavior, status causality, or packet ordering.",
+      "sourceRefs": [
+        "xivl-client-structs:manifests/s2c_payload_decoding_lua_bound.json#payloadStructs.s2c_0x0179",
+        "xivl-client-structs:manifests/status_effect_findings.json#facetBitLayoutMap",
+        "xivl-client-structs:manifests/cast_chant_presentation.json#chantStatusBoundary",
+        "xivl-client-scripts:lua/scripts/commanddebugger/commanddebuggerdev.calls.json#calls._getSubStatChant",
+        "xivl-captures:derived/payload_layouts.json#s2c.0x0179",
+        "xivl-captures:derived/payload_samples.json#samples.s2c.0x0179",
+        "retail:ffxivgame.exe#sha256=9341f2b4567440b310a4d494f5cc5599ca334ba51c8042247317ff466492f2e9;vas=0x0076C720,0x008A3350,0x008A3630,0x007084B0,0x00707D60,0x0075C1D0,0x006F9EC0,0x006F9F70;run=opcode-semantics-s2c-0144-0179-chant"
       ]
     }
   ]
