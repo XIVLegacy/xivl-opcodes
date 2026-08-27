@@ -22,6 +22,7 @@ SEMANTICS = REPO / "data" / "client_opcode_semantics.json"
 LAYOUTS = REPO / "data" / "vendor" / "captures" / "payload_layouts.json"
 SAMPLES = REPO / "data" / "vendor" / "captures" / "payload_samples.json"
 CATALOG = REPO / "opcodes.json"
+MUTATION_COUNT = 13
 
 
 def load(path: Path) -> object:
@@ -89,6 +90,74 @@ def main() -> int:
         if run_validator(directory, semantics=semantics) == 0:
             failures.append("imported noun mutation must fail")
 
+        semantics = copy.deepcopy(load(SEMANTICS))
+        row = semantic_row(semantics)
+        row["observation"] = row["observation"].replace(
+            "gate only on greater than zero", "gate on any nonzero value"
+        )
+        if run_validator(directory, semantics=semantics) == 0:
+            failures.append("ActionCheck signed-predicate mutation must fail")
+
+        semantics = copy.deepcopy(load(SEMANTICS))
+        row = semantic_row(semantics)
+        row["observation"] = row["observation"].replace(
+            "Lua arguments 1..16 map exactly to native indices 0..15",
+            "Lua arguments map to native indices",
+        )
+        if run_validator(directory, semantics=semantics) == 0:
+            failures.append("occupancy index-map mutation must fail")
+
+        semantics = copy.deepcopy(load(SEMANTICS))
+        row = semantic_row(semantics)
+        row["observation"] = row["observation"].replace(
+            "0x3c-byte member at RaptureElementContainer+0x510",
+            "member near RaptureUserControl",
+        )
+        if run_validator(directory, semantics=semantics) == 0:
+            failures.append("route-state ownership mutation must fail")
+
+        semantics = copy.deepcopy(load(SEMANTICS))
+        row = semantic_row(semantics)
+        row["observation"] = row["observation"].replace(
+            "places the packet-header clock in the Unix-compatible whole-second domain",
+            "packet-header clock is an arbitrary counter",
+        )
+        if run_validator(directory, semantics=semantics) == 0:
+            failures.append("clock-domain mutation must fail")
+
+        semantics = copy.deepcopy(load(SEMANTICS))
+        row = semantic_row(semantics)
+        row["observation"] = row["observation"].replace(
+            "drain consumer additionally excludes a null route-state pointer at +0x4",
+            "drain consumer accepts a null route-state pointer at +0x4",
+        )
+        if run_validator(directory, semantics=semantics) == 0:
+            failures.append("ActionCheck null-state mutation must fail")
+
+        semantics = copy.deepcopy(load(SEMANTICS))
+        row = semantic_row(semantics)
+        row["observation"] = row["observation"].replace(
+            "0x10000000..0x10ffffff", "0x10000000..0x11ffffff"
+        )
+        if run_validator(directory, semantics=semantics) == 0:
+            failures.append("ActionCheck selector-exclusion mutation must fail")
+
+        semantics = copy.deepcopy(load(SEMANTICS))
+        row = semantic_row(semantics)
+        row["observation"] = row["observation"].replace(
+            "no packet emission, Lua/N-API result, UI, movement, animation, targeting, or actor-state edge",
+            "no diagnostic edge",
+        )
+        if run_validator(directory, semantics=semantics) == 0:
+            failures.append("ActionCheck edge-boundary mutation must fail")
+
+        semantics = copy.deepcopy(load(SEMANTICS))
+        semantic_row(semantics)["sourceRefs"].remove(
+            "xivl-client-scripts:manifests/myplayer_timer_consumers.json#occupancyArgumentMap"
+        )
+        if run_validator(directory, semantics=semantics) == 0:
+            failures.append("cross-repository citation mutation must fail")
+
         samples = copy.deepcopy(load(SAMPLES))
         body = bytearray.fromhex(retained_samples(samples)[0]["bytes"])
         body[8] ^= 1
@@ -118,7 +187,7 @@ def main() -> int:
         for failure in failures:
             print(f"  - {failure}", file=sys.stderr)
         return 1
-    print("0x0193 route mutation tests OK (5 mutations rejected).")
+    print(f"0x0193 route mutation tests OK ({MUTATION_COUNT} mutations rejected).")
     return 0
 
 

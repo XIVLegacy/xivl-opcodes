@@ -84,7 +84,10 @@ writer. Abbreviated, uppercase, or omitted hashes are rejected.
   the retail dispatch contract. It needs no executable, private repository,
   token, Ghidra installation, or sibling checkout.
 - `test_0193_route.py` rejects mutations to the retained 0x0193 header clock,
-  application delta, same-frame ordering, and placeholder-name boundary.
+  application delta, same-frame ordering, placeholder-name boundary, and
+  route-state ownership. It also rejects mutations to the Lua/native index map,
+  signed ActionCheck gate, negative edge and timer-unit boundaries, null-state
+  exclusion, and semantic citations.
 - `ghidra_scripts/ExportZoneDispatchRoute.java` verifies the fixed dispatcher
   data flow in a fresh analyzed program and emits one private structured
   observation. It emits no disassembly, bytes, paths, names, or expected
