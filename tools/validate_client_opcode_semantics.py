@@ -22,10 +22,12 @@ EXPECTED_INBOUND = {
     "0x00da",
     "0x00e1",
     "0x0143",
+    "0x0144",
     "0x0146",
     "0x016d",
     "0x016e",
     "0x017a",
+    "0x0179",
     "0x017c",
     *{f"0x{opcode:04x}" for opcode in range(0x017D, 0x018C)},
     "0x018d",
@@ -107,16 +109,20 @@ OUTBOUND_OBSERVATION_FRAGMENTS = {
     "c2s-0131": ("opcode 0x0131", "size 0x18", "u32", "u8", "FUN_004D6D30"),
     "c2s-0132": ("opcode 0x0132", "size 0x18", "u32", "u16", "u8", "FUN_004D6D30"),
     "c2s-0134": (
+        "MyPlayer slot 103",
+        "_setAchievementTitle",
+        "PlayerBase+0xE8",
         "opcode 0x0134",
         "body size 0x28",
-        "u32 argument at application offset 0",
-        "u32 token-helper result at offset 4",
-        "16-byte nonce buffer",
-        "15 generated ASCII letters",
-        "trailing NUL",
+        "title value at application offset 0",
+        "computes CRC32 over a 16-byte generated ASCII buffer",
+        "writes it at offset 4",
+        "position-specific letters A through O or a through o",
+        "position 15 is trailing NUL",
         "offsets 8 through 0x17",
         "two qwords",
         "FUN_004D6D30",
+        "No nonce, challenge, authorization-token, acknowledgement, or server-policy meaning is established",
     ),
     "c2s-0135": (
         "opcode 0x0135",
@@ -126,8 +132,10 @@ OUTBOUND_OBSERVATION_FRAGMENTS = {
     ),
 }
 BARE_FUNCTION = re.compile(r"^FUN_[0-9A-F]{8}$")
-SOURCE_REF = re.compile(r"^(xivl-client-structs|xivl-client-scripts|xivl-captures|retail):")
-EXPECTED_CAPTURE_ROWS = {"c2s-00c9", "c2s-00ce", "c2s-012d", "c2s-012e", "c2s-012f", "s2c-00da", "s2c-00e1", "s2c-017c", "s2c-017f", "s2c-0183", "s2c-0187", "s2c-018b", "s2c-018d", "s2c-018f", "s2c-0190", "s2c-0191", "s2c-0193", "s2c-0196"}
+SOURCE_REF = re.compile(
+    r"^(xivl-client-structs|xivl-client-scripts|xivl-client-data|xivl-captures|xivl-decomp|retail):"
+)
+EXPECTED_CAPTURE_ROWS = {"c2s-00c9", "c2s-00ce", "c2s-012d", "c2s-012e", "c2s-012f", "s2c-00da", "s2c-00e1", "s2c-0144", "s2c-0179", "s2c-017c", "s2c-017f", "s2c-0183", "s2c-0187", "s2c-018b", "s2c-018d", "s2c-018f", "s2c-0190", "s2c-0191", "s2c-0193", "s2c-0196"}
 
 CLIENT_ONLY_EXPECTATIONS = {
     "s2c-00da": ("0x00da", "clientbound", "FUN_0058CAD0"),
@@ -149,6 +157,8 @@ CLIENT_ONLY_EXPECTATIONS = {
 }
 
 LAYOUT_SUMMARY_EXPECTATIONS = {
+    "s2c-0144": ("0x0144", {"sample_count": 60, "sub_size_distribution": {"40": 60}, "body_length": 24}),
+    "s2c-0179": ("0x0179", {"sample_count": 55, "sub_size_distribution": {"72": 55}, "body_length": 56}),
     "s2c-00da": ("0x00da", {"sample_count": 16, "sub_size_distribution": {"40": 16}, "body_length": 24}),
     "s2c-00e1": ("0x00e1", {"sample_count": 3, "sub_size_distribution": {"48": 3}, "body_length": 32}),
     "s2c-0196": ("0x0196", {"sample_count": 11, "sub_size_distribution": {"56": 11}, "body_length": 40}),
@@ -159,6 +169,35 @@ LAYOUT_SUMMARY_EXPECTATIONS = {
     "s2c-0187": ("0x0187", {"sample_count": 33, "sub_size_distribution": {"96": 33}, "body_length": 80}),
     "s2c-018b": ("0x018b", {"sample_count": 31, "sub_size_distribution": {"88": 31}, "body_length": 72}),
     "s2c-018d": ("0x018d", {"sample_count": 60, "sub_size_distribution": {"696": 60}, "body_length": 680}),
+}
+
+EXPECTED_0193_SAMPLES = (
+    ("gridania_to_coerthas.pcapng", 0x50E0F492, 0x14, 15),
+    ("move_out_of_room.pcapng", 0x50E0E9D5, 0x14, 15),
+    ("party_battle_leve.pcapng", 0x50E11DE8, 0x14, 2),
+    ("return_to_inn.pcapng", 0x50E0EDDB, 0x12, 900),
+    ("return_to_inn.pcapng", 0x50E0EDDB, 0x14, 2),
+    ("teleport_to_camp_nine_ivies.pcapng", 0x50E0F7F2, 0x14, 2),
+    ("teleport_to_camp_tranquil.pcapng", 0x50E0EB11, 0x14, 2),
+    ("teleport_to_gridania.pcapng", 0x50E0EC64, 0x14, 2),
+    ("war_quest_update2.pcapng", 0x50E15B05, 0x14, 2),
+)
+
+CHANT_BOUNDARY_EXPECTATIONS = {
+    "s2c-0144": (
+        "FUN_0075A9A0 constructs ChangeActorSubStatModeBorderReceiver from application offset 4",
+        "FUN_006EECB0 writes only that byte to CharaSubStatStorage+0x18",
+        "does not write the status-word bits 8..15",
+        "does not establish a chant enum",
+    ),
+    "s2c-0179": (
+        "u16 statusIds[20]",
+        "kind 1 selects bits 12..15 with >> 12 & 0xf",
+        "kind 2 selects bits 8..11 with >> 8 & 0xf",
+        "Zero values and unsupported kind tags return nil",
+        "bits 8..11, bits 14..15, and bits 12..13",
+        "no client table or branch maps values 1..15 to stable semantic nouns",
+    ),
 }
 
 
@@ -204,15 +243,15 @@ def main() -> int:
     if evidence.get("binary") != EXPECTED_BINARY:
         errors.append("retail binary metadata or pinned SHA-256 drifted")
 
-    if len(rows) != 42:
-        errors.append(f"evidence row count is {len(rows)}, expected 42")
-    if {row.get("dependencyOrdinal") for row in rows} != set(range(42)):
-        errors.append("dependencyOrdinal values must be exactly 0 through 41")
+    if len(rows) != 44:
+        errors.append(f"evidence row count is {len(rows)}, expected 44")
+    if {row.get("dependencyOrdinal") for row in rows} != set(range(44)):
+        errors.append("dependencyOrdinal values must be exactly 0 through 43")
 
     inbound = {row.get("opcodeHex") for row in rows if row.get("direction") == "clientbound"}
     outbound = {row.get("opcodeHex") for row in rows if row.get("direction") == "serverbound"}
     if inbound != EXPECTED_INBOUND:
-        errors.append("clientbound opcode set does not match the 32-row ledger slice")
+        errors.append("clientbound opcode set does not match the 34-row ledger slice")
     if outbound != EXPECTED_OUTBOUND:
         errors.append("serverbound opcode set does not match the 10-row ledger slice")
 
@@ -294,9 +333,16 @@ def main() -> int:
         if row.get("status") == "open" and local_anchor_token not in notes:
             errors.append(f"{label}: open row lost the required local anchor citation")
 
+    rows_by_id = {row.get("id"): row for row in rows}
+    for label, fragments in CHANT_BOUNDARY_EXPECTATIONS.items():
+        observation = rows_by_id.get(label, {}).get("observation", "")
+        for fragment in fragments:
+            if fragment not in observation:
+                errors.append(f"{label}: chant boundary lacks required fact {fragment!r}")
+
     anchors = [entry["decompAnchor"] for entry in entries if entry.get("decompAnchor")]
-    if len(anchors) != 81:
-        errors.append(f"catalog has {len(anchors)} decompAnchor values, expected 81")
+    if len(anchors) != 86:
+        errors.append(f"catalog has {len(anchors)} decompAnchor values, expected 86")
     bad_anchors = [anchor for anchor in anchors if not BARE_FUNCTION.fullmatch(anchor)]
     if bad_anchors:
         errors.append(f"non-bare decompAnchor values: {bad_anchors}")
@@ -840,34 +886,93 @@ def main() -> int:
         errors.append("s2c-018a must not retain a WorldClientbound catalog row")
 
     control_row = next(row for row in rows if row.get("id") == "s2c-0193")
+    if control_row.get("supportedLabel") != (
+        "0x0193 multiplexed client timer/config/command dispatcher with an 8-byte application payload"
+    ):
+        errors.append("s2c-0193 supported structural label drifted")
     control_observation = control_row.get("observation", "")
     for fragment in (
         "FUN_00578C90",
-        "first application u32",
-        "below 0x10",
+        "packet-header u32 +0x08",
+        "application payload is 8 bytes, not 12",
+        "header_clock + application_delta",
+        "0x00..0x0f",
         "FUN_0075F3E0",
-        "0x10 through 0x12 and 0x16",
-        "0x13",
-        "0x14",
-        "0x15",
+        "runtime dword length",
+        "error path still reaches the raw write",
+        "FUN_0075F420",
+        "FUN_00705450",
+        "0x3c-byte member at RaptureElementContainer+0x510",
+        "RaptureUserControl object at RaptureElementContainer+0x17758 is a separate member",
+        "_getOccupancyContentsTime decrements its Lua argument",
+        "Lua arguments 1..16 map exactly to native indices 0..15",
+        "sixteen documented client presentation rows",
+        "0x10, 0x11, 0x12, and 0x16",
+        "+0x10, +0x14, +0x18, and +0x1c",
+        "_getNormalBehestTime, _getCompanyBehestTime, _getWarpRecastTime, and _getNMRushUpdateTime respectively",
+        "consume stored values as endpoints",
+        "places the packet-header clock in the Unix-compatible whole-second domain",
+        "application values are offsets in that same integer unit",
+        "0x12 value 900 produces a stored endpoint about 900 seconds after frame completion",
+        "does not establish authoritative eligibility, reset policy, or server scheduling",
+        "ActionCheck field at +0x38",
+        "field is not diagnostic-only",
+        "interpret it as signed and gate only on greater than zero",
+        "actor-key insertion when absent during battle-result record staging",
+        "equal-key erasure during queued-record drain",
+        "zero and negative values suppress those local ordered-container mutations",
+        "selector 0x7c000062",
+        "0x10000000..0x10ffffff",
+        "0x14000000..0x14ffffff",
+        "drain consumer additionally excludes a null route-state pointer at +0x4",
+        "insert iterator remains local and unused",
+        "erase count is ignored",
+        "no packet emission, Lua/N-API result, UI, movement, animation, targeting, or actor-state edge",
+        "RaptureUserControl vtable",
+        "RaptureCommands callbacks",
         "FUN_00576020",
-        "9 retained subpackets",
-        "40 bytes",
+        "FUN_0075B360",
+        "9 retained 40-byte subpackets",
         "8 captures",
-        "9 aggregate events",
-        "0x14 in 8 samples and 0x12 in 1 sample",
-        "exact low-range/string/0x15 semantics",
+        "0x14 x8 or 0x12 x1",
+        "0x50e0eddb/900",
+        "ordered 0x12 then 0x14 in one frame",
+        "0x50e0f15f",
+        "does not name the +0x510 state class or ActionCheck ordered container",
+        "no stable cross-branch packet noun",
+        "no stable cross-branch packet noun, server implementation declaration, server behavior, server policy, server scheduling, or login causality",
     ):
         if fragment not in control_observation:
             errors.append(f"s2c-0193 observation lost required fact: {fragment}")
+    required_control_refs = {
+        "xivl-decomp:config/s2c_0193_native_state.json#route",
+        "xivl-decomp:config/s2c_0193_native_state.json#timerState",
+        "xivl-decomp:config/s2c_0193_native_state.json#raptureUserControl",
+        "xivl-decomp:config/s2c_0193_native_state.json#actionCheck",
+        "xivl-decomp:asm/ffxivgame/00178390_FUN_00578390.s#0x005783BA-0x00578410",
+        "xivl-decomp:asm/ffxivgame/001785d0_FUN_005785d0.s#0x005785F7-0x0057864F",
+        "xivl-client-scripts:manifests/myplayer_timer_consumers.json#nativeMapping",
+        "xivl-client-scripts:manifests/myplayer_timer_consumers.json#occupancyArgumentMap",
+        "xivl-client-scripts:manifests/myplayer_timer_consumers.json#scalarConsumerChains",
+        "xivl-captures:studies/map-0193-clock-contract/derived/verdicts.md#clock-and-arithmetic-verdict",
+    }
+    if not required_control_refs.issubset(control_row.get("sourceRefs", [])):
+        errors.append("s2c-0193 cross-repository semantic citations drifted")
 
     control_samples = capture_samples["samples"]["s2c"]["0x0193"]
     retained_control = control_samples.get("samples", [])
     subops: dict[int, int] = {}
+    observed_control: list[tuple[str, int, int, int]] = []
     for sample in retained_control:
-        payload = bytes.fromhex(sample["bytes"])[16:24]
+        body = bytes.fromhex(sample["bytes"])
+        header_clock = int.from_bytes(body[8:12], "little")
+        payload = body[16:24]
         subop = int.from_bytes(payload[:4], "little")
+        application_delta = int.from_bytes(payload[4:8], "little")
         subops[subop] = subops.get(subop, 0) + 1
+        observed_control.append(
+            (sample.get("capture", ""), header_clock, subop, application_delta)
+        )
     if control_samples.get("sampleCount") != 9 or len(retained_control) != 9:
         errors.append("s2c-0193 retained sample count drifted from 9")
     if {sample.get("sub_size") for sample in retained_control} != {40}:
@@ -876,6 +981,8 @@ def main() -> int:
         errors.append("s2c-0193 retained capture count drifted from 8")
     if subops != {0x14: 8, 0x12: 1}:
         errors.append(f"s2c-0193 retained subopcode distribution drifted: {subops}")
+    if tuple(observed_control) != EXPECTED_0193_SAMPLES:
+        errors.append("s2c-0193 retained header/subopcode/delta chronology drifted")
     control_entry = next(
         entry
         for entry in entries
@@ -889,19 +996,44 @@ def main() -> int:
     for fragment in (
         "FUN_00578C90",
         "application_payload=8 bytes",
-        "<0x10 to FUN_0075F3E0",
-        "0x13 string/config path",
-        "0x14 one-time init gate",
-        "0x15 unresolved FUN_00576020",
+        "third_scalar=packet-header u32 +0x08, not application +0x08",
+        "route_state=structurally bounded 0x3c-byte RaptureElementContainer+0x510 member",
+        "separate_member=0x58-byte RaptureUserControl at RaptureElementContainer+0x17758",
+        "0x00..0x0f write a sixteen-entry u32 vector at index subopcode",
+        "runtime-length error path still reaches the raw write",
+        "paired reader=FUN_0075F420",
+        "occupancy_reader=MyPlayer _getOccupancyContentsTime decrements Lua arguments 1..16 to native indices 0..15",
+        "sixteen documented client presentation rows",
+        "scalar_readers=0x10 _getNormalBehestTime,0x11 _getCompanyBehestTime,0x12 _getWarpRecastTime,0x16 _getNMRushUpdateTime",
+        "presentation=Lua timer paths consume stored values as endpoints",
+        "clock_contract=the packet-header clock is Unix-compatible whole seconds and application values are offsets in the same integer unit",
+        "captured_0x12_delta=900 produces a stored endpoint about 900 seconds after frame completion",
+        "timer_boundary=no authoritative eligibility, reset policy, or server scheduling established",
+        "actioncheck=0x13 queries on 0xffffffff or writes ActionCheck u32 +0x38",
+        "predicate=signed greater than zero",
+        "positive_effect=insert absent actor key during battle-result record staging and erase equal actor keys during queued-record drain",
+        "suppressed_effect=zero and negative values cause no local container mutation",
+        "selector_exclusions=0x7c000062,0x10000000..0x10ffffff,0x14000000..0x14ffffff",
+        "null_state_exclusion=queued-record drain also excludes null route state +0x4",
+        "result_boundary=insert iterator local and unused, erase count ignored",
+        "edge_boundary=no packet emission, Lua/N-API result, UI, movement, animation, targeting, or actor-state edge",
+        "0x14 guards zero-to-one around FUN_0075B300",
+        "RaptureUserControl targets increment u32 counts +0x18/+0x2c/+0x40/+0x54",
+        "0x15 reaches FUN_00576020 and FUN_0075B360",
         "observed=9 retained 40-byte subpackets across 8 captures",
         "retained_subops=0x14 x8, 0x12 x1",
+        "50e0eddb/900,50e0eddb/2",
+        "retained_order=return_to_inn has 0x12 then 0x14 in one frame",
+        "captured_0x12_store=0x50e0f15f",
         "corpus_aggregate=9 events",
-        "unresolved=low-range,0x13 string/config,0x15 helper semantics",
+        "unresolved=+0x510 state class, computed or dynamic indirect ActionCheck consumers, high-level ActionCheck ordered-container purpose",
+        "first_reader_wrappers=FUN_00705450,FUN_007054D0,FUN_00705510,FUN_00705550,FUN_00706A00",
         "naming=placeholder retained",
         "candidate_label=SetControlStatePacket is an imported source-manifest term, not retail-proven",
         "client_only=",
+        "does not establish server behavior, server policy, server scheduling, or login causality",
         "conflict=implementation anchor and packet noun lack a source-owned declaration",
-        "BCS-Y-0584,BCS-Y-0990",
+        "BCS-Y-0584,BCS-Y-0990,BCS-Y-0991,BCS-Y-0992,BCS-Y-0993,BCS-Y-0996,BCS-Y-0997,BCS-Y-0998",
     ):
         if fragment not in control_notes:
             errors.append(f"s2c-0193 notes lost required fragment: {fragment}")
@@ -1189,15 +1321,34 @@ def main() -> int:
             errors.append(f"s2c-018b notes lost required fragment: {fragment}")
 
     party_marker_row = next(row for row in rows if row.get("id") == "s2c-018d")
+    if party_marker_row.get("supportedLabel") != (
+        "_0x018D client route with a fixed 0x298-byte application layout and "
+        "native MapScreenControl presentation"
+    ):
+        errors.append("s2c-018d supported label lost the neutral identity boundary")
     party_marker_observation = party_marker_row.get("observation", "")
     for fragment in (
+        "FUN_004DC690",
         "FUN_00575550",
         "FUN_0055CF70",
-        "0x290",
-        "0x28-byte",
-        "All 60 retained subpackets are 696-byte subpackets",
-        "observed max=2",
-        "no compare or clamp to 16",
+        "application +0x0c is unread",
+        "0x28-byte wire rows begin at application +0x10",
+        "count byte at application +0x290",
+        "no rejection, clamp, or truncation",
+        "592 fixed 696-byte subpackets",
+        "415 carried one row and 177 carried two",
+        "prior +0x0c and +0x20 claims",
+        "unsafe client behavior, not a server implementation prescription",
+        "native MapScreenControl UI property presentation",
+        "wire +0x14 and +0x1c binary32 values with CVTTSS2SI to X:Int and Z:Int",
+        "projected wire +0x18 is not read there",
+        "Wire +0x00 is the primary tagged-referent selector",
+        "+0x08 is fallback only after signed -1",
+        "+0x0c is eligibility-only",
+        "The resolved Utf8String minus every literal !!! becomes Text:String",
+        "matched referent +0x00 becomes Layout:Int",
+        "MapMarkerParty is supplied as a Template:String value",
+        "Static marker resources exist, but no runtime edge joins them to 0x018D",
     ):
         if fragment not in party_marker_observation:
             errors.append(f"s2c-018d observation lost required fact: {fragment}")
@@ -1207,8 +1358,9 @@ def main() -> int:
     count_distribution: dict[int, int] = {}
     for sample in retained_samples:
         body = bytes.fromhex(sample["bytes"])
+        if len(body) != 680:
+            errors.append(f"s2c-018d retained sample body length drifted: {len(body)}")
         if len(body) <= 672:
-            errors.append("s2c-018d retained sample is too short for the count byte")
             continue
         count = body[672]
         count_distribution[count] = count_distribution.get(count, 0) + 1
@@ -1226,20 +1378,38 @@ def main() -> int:
         and entry.get("decompAnchor") == "FUN_00575550"
     )
     party_marker_notes = party_marker_entry.get("notes", "")
-    if party_marker_entry.get("name") != "PartyMapMarkerUpdatePacket":
-        errors.append("s2c-018d canonical name must reflect the client party-marker path")
+    if party_marker_entry.get("name") != "_0x018D":
+        errors.append("s2c-018d canonical name must remain the neutral placeholder")
     for fragment in (
+        "wire_layout=data/s2c_018d_wire_layout.json",
         "FUN_00575550",
         "FUN_0055CF70",
-        "0x290",
-        "0x28-byte",
-        "696-byte",
-        "observed max=2",
+        "record_offset=0x10",
+        "record_stride=0x28",
+        "count_offset=0x290",
+        "count_check=none",
+        "observed_events=592",
+        "first_outward_consumer=native MapScreenControl UI property presentation",
+        "presentation_projection=wire +0x14 and +0x1c become X:Int and Z:Int after CVTTSS2SI",
+        "middle_projected_float=not read by the presentation consumer",
+        "record_lookup=wire +0x00 is the primary tagged-referent selector, +0x08 is fallback only after signed -1, and +0x0c is eligibility-only",
+        "helper_outputs=resolved Utf8String minus every literal !!! becomes Text:String, and matched referent +0x00 becomes Layout:Int",
+        "template_boundary=MapMarkerParty is a Template:String value, not a packet or native class name",
+        "static_resource_boundary=no runtime edge joins marker resources to 0x018D",
+        "name_boundary=placeholder retained",
         "client_only=",
-        "conflict=implementation anchor lacks a source-owned declaration",
     ):
         if fragment not in party_marker_notes:
             errors.append(f"s2c-018d notes lost required fragment: {fragment}")
+    required_party_marker_refs = {
+        "xivl-client-structs:manifests/s2c_018d_map_marker_presentation.json",
+        "xivl-decomp:config/s2c_018d_client_consumer.json",
+        "xivl-decomp:docs/net/s2c-018d-client-consumer.md",
+        "xivl-captures:studies/party-marker-018d-chronology/derived/field-verdicts.md",
+        "xivl-client-data:manifests/map_marker_resources.json",
+    }
+    if not required_party_marker_refs.issubset(party_marker_row.get("sourceRefs", [])):
+        errors.append("s2c-018d lost native presentation source references")
 
     work_state_entry = next(
         entry

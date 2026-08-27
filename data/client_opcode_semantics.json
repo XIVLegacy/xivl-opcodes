@@ -5,7 +5,7 @@
     "version": "1.23b",
     "sha256": "9341f2b4567440b310a4d494f5cc5599ca334ba51c8042247317ff466492f2e9"
   },
-  "scope": "Independent retail-client body evidence for the 40 legacy semantic dependency rows and the s2c 0x00da/0x00e1 action-family queue-to-presentation routes consumed by this catalog.",
+  "scope": "Independent retail-client body evidence for the 42 legacy semantic dependency rows and the s2c 0x00da/0x00e1 action-family queue-to-presentation routes consumed by this catalog.",
   "rule": "Address, opcode, size, symbol, or dispatch-edge agreement alone is a cross-check. A closed row requires a body observation that supports the retained label or a narrower replacement label.",
   "rows": [
     {
@@ -46,16 +46,21 @@
       "direction": "clientbound",
       "function": "FUN_00575550",
       "status": "closed",
-      "supportedLabel": "PartyMapMarkerUpdatePacket client route with sixteen reserved 0x28-byte rows and a count byte at application offset 0x290",
-      "tool": "XIVLegacy Ghidra DumpFunctionDecomp.java, build_data_dependency_catalog.py, and capture payload analysis",
-      "observation": "The central dispatcher routes opcode 0x018d through FUN_00575550, which gates on owner offset 0x4d8 and forwards the application data to FUN_0055CF70. That apply function copies three header dwords, sign-extends the u8 count at application offset 0x290, and transposes count 0x28-byte source rows into 0x78-byte client rows. The wire layout reserves sixteen source rows, but retail contains no compare or clamp to 16. All 60 retained subpackets are 696-byte subpackets; count is 1 in 58 samples and 2 in 2 samples, so observed max=2. This establishes the client-side party map-marker update route and layout, not a server implementation declaration or behavior.",
+      "supportedLabel": "_0x018D client route with a fixed 0x298-byte application layout and native MapScreenControl presentation",
+      "tool": "XIVLegacy Ghidra DumpVAs.java read-only export, canonical retail assembly, and exhaustive sanitized capture reconciliation",
+      "observation": "FUN_004DC690 case 0x018d null-tests RaptureElementContainer+0x4d8, advances the ClientWorkElement pointee by +0x98 for ClientWorkStorage, advances the game-message pointer by +0x10 for the application, calls FUN_00575550, and then calls FUN_0055CF70. The apply function copies application u32 +0x00, +0x04, and +0x08 into storage +0x08, +0x0c, and +0x10; application +0x0c is unread. Sixteen reserved 0x28-byte wire rows begin at application +0x10. For each row, wire +0x00/+0x08/+0x0c u32 and +0x14/+0x18/+0x1c f32 project to the 0x78-byte ClientWorkStorage row at +0x00/+0x08/+0x0c/+0x10/+0x14/+0x18. MOVSX loads the raw count byte at application +0x290 into storage +0x14. There is no rejection, clamp, or truncation: counts above 16 overrun the fixed wire and storage arrays, while raw values 128..255 become enormous unsigned loop bounds after sign extension. This is unsafe client behavior, not a server implementation prescription. The complete 54-capture study admitted 592 fixed 696-byte subpackets: 415 carried one row and 177 carried two, for 769 rows and zero size, shape, capacity, or reserved-tail exclusions. The first row is application +0x10, game-message +0x20, and subpacket +0x30; prior +0x0c and +0x20 claims respectively packed after only the three consumed header dwords and used the game-message base. The first outward consumer is native MapScreenControl UI property presentation at FUN_00671400. It converts projected wire +0x14 and +0x1c binary32 values with CVTTSS2SI to X:Int and Z:Int; projected wire +0x18 is not read there. Wire +0x00 is the primary tagged-referent selector, +0x08 is fallback only after signed -1, and +0x0c is eligibility-only; none receives a semantic field noun. The resolved Utf8String minus every literal !!! becomes Text:String, and matched referent +0x00 becomes Layout:Int. MapMarkerParty is supplied as a Template:String value, not a native class or canonical packet name. Static marker resources exist, but no runtime edge joins them to 0x018D. This establishes only the client route, stable numeric layout, and presentation classification, not field nouns, coordinate system, marker identity, party policy, permissions, causality, creation trigger, update cadence, or server behavior.",
       "sourceRefs": [
-        "xivl-client-structs:manifests/symbols.json#BCS-Y-0580",
-        "xivl-client-structs:manifests/data_dependency_catalog.json#s2c_0x018d",
-        "xivl-client-structs:manifests/party_subsystem.json#0x018D",
-        "xivl-captures:derived/payload_layouts.json#s2c.0x018d",
-        "xivl-captures:derived/payload_samples.json#s2c.0x018d",
-        "retail:ffxivgame.exe#sha256=9341f2b4567440b310a4d494f5cc5599ca334ba51c8042247317ff466492f2e9;vas=0x004DD195,0x00575550,0x0055CF70;run=opcode-semantics-s2c-018d"
+        "xivl-decomp:asm/ffxivgame/000dc690_FUN_004dc690.s#0x004DD167-0x004DD1C0",
+        "xivl-decomp:asm/ffxivgame/0015cf70_FUN_0055cf70.s",
+        "xivl-client-structs:manifests/rapture_selector_0d_clientwork.json",
+        "xivl-client-structs:manifests/s2c_018d_map_marker_presentation.json",
+        "xivl-decomp:config/s2c_018d_client_consumer.json",
+        "xivl-decomp:docs/net/s2c-018d-client-consumer.md",
+        "xivl-captures:studies/party-marker-018d-chronology/derived/accounting.json",
+        "xivl-captures:studies/party-marker-018d-chronology/derived/verdicts.md",
+        "xivl-captures:studies/party-marker-018d-chronology/derived/field-verdicts.md",
+        "xivl-client-data:manifests/map_marker_resources.json",
+        "retail:ffxivgame.exe#sha256=9341f2b4567440b310a4d494f5cc5599ca334ba51c8042247317ff466492f2e9;vas=0x004DC690,0x00575550,0x0055CF70;run=s2c-018d-wire-layout"
       ]
     },
     {
@@ -354,7 +359,7 @@
       "function": "FUN_00576390",
       "status": "closed",
       "supportedLabel": "SetOccupancyGroupPacket client route with a 0x40-byte application payload",
-      "tool": "XIVLegacy Ghidra DumpFunctionDecomp.java and capture payload analysis",
+      "tool": "XIVLegacy Ghidra DumpVAs.java and capture payload analysis",
       "observation": "The central dispatcher routes opcode 0x0187 through FUN_00576390, FUN_006C8340, and FUN_006C6B20 into the client Group/SharedWork property-update path. The 0x40-byte application payload contains an opaque 16-byte group header, two occupancy-work u32 values at offset 0x10, a localized-name u32 at 0x18, and a 36-byte occupancy name at 0x1c. All 33 retained subpackets are 96 bytes across 13 captures. This establishes the client-side occupancy-group route and layout, not a server implementation declaration or behavior.",
       "sourceRefs": [
         "xivl-client-structs:manifests/symbols.json#BCS-Y-0575",
@@ -515,16 +520,31 @@
       "direction": "clientbound",
       "function": "FUN_00578C90",
       "status": "closed",
-      "supportedLabel": "0x0193 multiplexed client state/config dispatcher with an 8-byte application payload",
+      "supportedLabel": "0x0193 multiplexed client timer/config/command dispatcher with an 8-byte application payload",
       "tool": "XIVLegacy Ghidra DumpFunctionDecomp.java and capture payload analysis",
-      "observation": "The central dispatcher passes packet fields +0x10, +0x14, and +0x08 to FUN_00578C90. That handler switches on the first application u32: values below 0x10 enter the indexed FUN_0075F3E0 worker; 0x10 through 0x12 and 0x16 write direct state slots; 0x13 enters a string/config path; 0x14 performs a one-time init gate; and 0x15 enters unresolved FUN_00576020. All 9 retained subpackets are 40 bytes across 8 captures, matching the 9 aggregate events. The retained subopcode distribution is 0x14 in 8 samples and 0x12 in 1 sample; this proves a multiplexed client state/config route but not the imported SetControlState packet noun, exact low-range/string/0x15 semantics, a server implementation declaration, or server behavior.",
+      "observation": "The central dispatcher passes application u32 +0x00, application u32 +0x04, and packet-header u32 +0x08 to FUN_00578C90; the application payload is 8 bytes, not 12. Except when application +0x04 is 0xffffffff, the handler derives header_clock + application_delta. The route-state owner is the structurally bounded 0x3c-byte member at RaptureElementContainer+0x510; the nearby 0x58-byte RaptureUserControl object at RaptureElementContainer+0x17758 is a separate member. Subopcodes 0x00..0x0f write the derived u32 through FUN_0075F3E0 to vector index subopcode. The helper tests the index against the runtime dword length but its error path still reaches the raw write; FUN_0075F420 is the paired reader and FUN_00705450 is its sole static wrapper. MyPlayer _getOccupancyContentsTime decrements its Lua argument before reading the sixteen-entry vector, so recovered Lua arguments 1..16 map exactly to native indices 0..15 and deterministically correspond to the sixteen documented client presentation rows. Subopcodes 0x10, 0x11, 0x12, and 0x16 write u32 slots +0x10, +0x14, +0x18, and +0x1c of the same state object; MyPlayer reads them through _getNormalBehestTime, _getCompanyBehestTime, _getWarpRecastTime, and _getNMRushUpdateTime respectively. Recovered Lua timer paths consume stored values as endpoints. Complete capture chronology places the packet-header clock in the Unix-compatible whole-second domain and proves application values are offsets in that same integer unit; the sole observed 0x12 value 900 produces a stored endpoint about 900 seconds after frame completion. This does not establish authoritative eligibility, reset policy, or server scheduling. Subopcode 0x13 uses application +0x04 of 0xffffffff to query, or any other u32 to write, the ActionCheck field at +0x38 of the owner reached through route state +0x4 then +0xec; the query and write retain their diagnostic formatting, but the field is not diagnostic-only. Two native consumers interpret it as signed and gate only on greater than zero. Positive values allow caller-supplied actor-key insertion when absent during battle-result record staging and equal-key erasure during queued-record drain; zero and negative values suppress those local ordered-container mutations. Both consumers exclude selector 0x7c000062 and unsigned ranges 0x10000000..0x10ffffff and 0x14000000..0x14ffffff; the drain consumer additionally excludes a null route-state pointer at +0x4. The insert iterator remains local and unused, and the erase count is ignored. The gated operations have no packet emission, Lua/N-API result, UI, movement, animation, targeting, or actor-state edge. Subopcode 0x14 requires handler byte +0x3a to be zero and application +0x04 outside 0, 0x15, and 0x16, invokes FUN_0075B300 virtual setup slots +0x04, +0x10, +0x1c, and +0x28, then sets the byte to one. The resolved RaptureUserControl vtable maps those slots to setup paths that increment u32 reference counts at +0x18, +0x2c, +0x40, and +0x54 and register RaptureCommands callbacks where applicable. Subopcode 0x15 reaches FUN_00576020, which applies the inverse argument and byte guard, uses FUN_0075B360 to read those four counts and decrement each positive count through paired virtual slots, then clears the byte; a movement-state caller is its only other direct caller. All 9 retained 40-byte subpackets across 8 captures are 0x14 x8 or 0x12 x1. Their (packet-header +0x08, application +0x04) pairs are 0x50e0f492/15, 0x50e0e9d5/15, 0x50e11de8/2, 0x50e0eddb/900, 0x50e0eddb/2, 0x50e0f7f2/2, 0x50e0eb11/2, 0x50e0ec64/2, and 0x50e15b05/2 in retained sample order; only return_to_inn contains two samples, ordered 0x12 then 0x14 in one frame, and the 0x12 branch stores 0x50e0f15f. The route does not name the +0x510 state class or ActionCheck ordered container and proves no stable cross-branch packet noun, server implementation declaration, server behavior, server policy, server scheduling, or login causality.",
       "sourceRefs": [
         "xivl-client-structs:manifests/symbols.json#BCS-Y-0584",
         "xivl-client-structs:manifests/symbols.json#BCS-Y-0990",
-        "xivl-client-structs:manifests/setcontrolstate_subdispatcher.json#FUN_00578C90",
+        "xivl-client-structs:manifests/symbols.json#BCS-Y-0991",
+        "xivl-client-structs:manifests/symbols.json#BCS-Y-0992",
+        "xivl-client-structs:manifests/symbols.json#BCS-Y-0993",
+        "xivl-client-structs:manifests/symbols.json#BCS-Y-0996",
+        "xivl-client-structs:manifests/symbols.json#BCS-Y-0997",
+        "xivl-client-structs:manifests/symbols.json#BCS-Y-0998",
+        "xivl-decomp:config/s2c_0193_native_state.json#route",
+        "xivl-decomp:config/s2c_0193_native_state.json#timerState",
+        "xivl-decomp:config/s2c_0193_native_state.json#raptureUserControl",
+        "xivl-decomp:config/s2c_0193_native_state.json#actionCheck",
+        "xivl-decomp:asm/ffxivgame/00178390_FUN_00578390.s#0x005783BA-0x00578410",
+        "xivl-decomp:asm/ffxivgame/001785d0_FUN_005785d0.s#0x005785F7-0x0057864F",
+        "xivl-client-scripts:manifests/myplayer_timer_consumers.json#nativeMapping",
+        "xivl-client-scripts:manifests/myplayer_timer_consumers.json#occupancyArgumentMap",
+        "xivl-client-scripts:manifests/myplayer_timer_consumers.json#scalarConsumerChains",
+        "xivl-captures:studies/map-0193-clock-contract/derived/verdicts.md#clock-and-arithmetic-verdict",
         "xivl-captures:derived/payload_layouts.json#s2c.0x0193",
         "xivl-captures:derived/payload_samples.json#s2c.0x0193",
-        "retail:ffxivgame.exe#sha256=9341f2b4567440b310a4d494f5cc5599ca334ba51c8042247317ff466492f2e9;vas=0x004DD37D,0x00578C90;run=opcode-semantics-s2c-0193"
+        "retail:ffxivgame.exe#sha256=9341f2b4567440b310a4d494f5cc5599ca334ba51c8042247317ff466492f2e9;vas=0x004DC690,0x004D7580,0x004D7A60,0x004DBAF0,0x004DBF40,0x0054B440,0x0054B600,0x0054B610,0x0054B620,0x0054B630,0x0054B640,0x0054B650,0x0054B660,0x0054B670,0x0054B680,0x0054B8C0,0x0054B8D0,0x0054E440,0x00576020,0x00577FD0,0x00578C90,0x00589030,0x00705450,0x007054D0,0x00705510,0x00705550,0x00706A00,0x0075B300,0x0075B360,0x0075BC90,0x0075D210,0x0075D230,0x0075D250,0x0075D270,0x0075F3E0,0x0075F420;run=opcode-semantics-s2c-0193-close-20260827"
       ]
     },
     {
@@ -600,11 +620,17 @@
       "direction": "serverbound",
       "function": "FUN_0075EBA0",
       "status": "closed",
-      "supportedLabel": "0x0134 builder for a 0x28-byte body containing two u32 values and a 16-byte generated nonce buffer",
+      "supportedLabel": "_setAchievementTitle client request carrying a title value, CRC32, and generated 16-byte ASCII buffer",
       "tool": "XIVLegacy Ghidra DecompileToText.java",
-      "observation": "The builder writes opcode 0x0134 and body size 0x28, writes its u32 argument at application offset 0 and a u32 token-helper result at offset 4, writes a 16-byte nonce buffer containing 15 generated ASCII letters and a trailing NUL at offsets 8 through 0x17 as two qwords, and sends through FUN_004D6D30.",
+      "observation": "MyPlayer slot 103 implements the registered _setAchievementTitle operation, writes the full u32 argument to PlayerBase+0xE8, and forwards it unchanged to FUN_0075EBA0. The builder writes opcode 0x0134 and body size 0x28, writes the title value at application offset 0, computes CRC32 over a 16-byte generated ASCII buffer and writes it at offset 4, writes that buffer at offsets 8 through 0x17 as two qwords, and sends through FUN_004D6D30. Buffer positions 0 through 14 are the position-specific letters A through O or a through o selected only by case branches, and position 15 is trailing NUL. No nonce, challenge, authorization-token, acknowledgement, or server-policy meaning is established.",
       "sourceRefs": [
+        "xivl-client-structs:manifests/symbols.json#BCS-Y-1927",
         "xivl-client-structs:manifests/reverse_bfs_send_helpers.json#FUN_0075EBA0",
+        "xivl-decomp:config/ffxivgame.symbol_evidence.json#PacketBuilder_opcode_0x0134_u32PairAndGeneratedAscii16",
+        "xivl-decomp:asm/ffxivgame/0035eba0_FUN_0075eba0.s",
+        "xivl-decomp:asm/ffxivgame/0093ab60_FUN_00d3ab60.s",
+        "xivl-decomp:asm/ffxivgame/0093a380_FUN_00d3a380.s",
+        "xivl-decomp:asm/ffxivgame/0093aae0_FUN_00d3aae0.s",
         "retail:ffxivgame.exe#sha256=9341f2b4567440b310a4d494f5cc5599ca334ba51c8042247317ff466492f2e9;va=0x0075EBA0;run=opcode-semantics-c2s-open-senders-body"
       ]
     },
@@ -743,6 +769,44 @@
         "retail:ffxivgame.exe#sha256=9341f2b4567440b310a4d494f5cc5599ca334ba51c8042247317ff466492f2e9;vas=0x004DC690,0x004D9910,0x0058CCA0,0x0058CFFA,0x0058D00A,0x0058D020,0x0058CAD0,0x0058C690,0x00585800,0x00587210,0x00587370,0x005901D0,0x0058DF90,0x0058DA10,0x004D7980,0x004E9700,0x0060C140,0x007C93C0,0x00662D30,0x00846080,0x00845E80;run=opcode-semantics-s2c-00e1-lane3",
         "xivl-client-structs:manifests/structs.json#ApplicationSceneVfxRaptureSchEffectController",
         "retail:ffxivgame.exe#sha256=9341f2b4567440b310a4d494f5cc5599ca334ba51c8042247317ff466492f2e9;vas=0x00798470,0x00798BF0,0x00799C90,0x00798A40,0x00798640,0x00843B50,0x00843DB0,0x00844150,0x008441B0,0x00844200,0x00846220,0x007254A0,0x00843E20,0x00843DE0,0x00844660,0x0080B6C0,0x00799FE0,0x006320C0,0x00D39290;run=opcode-semantics-battle-effect-indirects-lane4"
+      ]
+    },
+    {
+      "id": "s2c-0144",
+      "dependencyOrdinal": 42,
+      "opcodeHex": "0x0144",
+      "direction": "clientbound",
+      "function": "FUN_008A32C0",
+      "status": "closed",
+      "supportedLabel": "SetActorSubStatePacket with a proven mode/border-byte consumer and no proven chant-enum consumer",
+      "tool": "XIVLegacy Ghidra read-only receiver, storage-writer, callback, layout, and capture analysis",
+      "observation": "The 8-byte application payload retains structural labels for breakage at +0, chantId at +1, guard at +2, waste at +3, mode at +4, an unknown byte at +5, and motionPack at +6. FUN_0075A9A0 constructs ChangeActorSubStatModeBorderReceiver from application offset 4. FUN_008A32C0 applies the receiver byte through FUN_006EECB0; FUN_006EECB0 writes only that byte to CharaSubStatStorage+0x18. The sibling callback route FUN_008A3310 -> FUN_007084E0 fires _onChangeSubStatMode only when the byte changes. This retained client route does not write the status-word bits 8..15. In particular, the historical chantId label at application offset 1 does not establish a chant enum, a presentation type, or a connection to the packed nibble readers. Sixty retained samples are 40-byte subpackets with 8 application bytes; their proximity and capture context do not establish server behavior or causal packet ordering.",
+      "sourceRefs": [
+        "xivl-client-structs:manifests/s2c_payload_decoding_lua_bound.json#payloadStructs.s2c_0x0144",
+        "xivl-client-structs:manifests/cast_chant_presentation.json#chantStatusBoundary.modePacketFence",
+        "xivl-captures:derived/payload_layouts.json#s2c.0x0144",
+        "xivl-captures:derived/payload_samples.json#samples.s2c.0x0144",
+        "retail:ffxivgame.exe#sha256=9341f2b4567440b310a4d494f5cc5599ca334ba51c8042247317ff466492f2e9;vas=0x0075A9A0,0x008A3210,0x008A32C0,0x006EECB0,0x008A3310,0x007084E0;run=opcode-semantics-s2c-0144-0179-chant"
+      ]
+    },
+    {
+      "id": "s2c-0179",
+      "dependencyOrdinal": 43,
+      "opcodeHex": "0x0179",
+      "direction": "clientbound",
+      "function": "FUN_008A3630",
+      "status": "closed",
+      "supportedLabel": "SetActorStatusAllPacket carrying 20 status identifiers resolved to client status records with packed-word projections",
+      "tool": "XIVLegacy Ghidra read-only receiver, status-table, packed-reader, Lua-callsite, layout, and capture analysis",
+      "observation": "The 40-byte application payload is u16 statusIds[20]. FUN_008A3350 maps each nonzero identifier through the client status-data table, retaining the resolved handle and the slot byte; zero selects the shared empty sentinel. FUN_008A3630 passes the resolved handle and slot through FUN_007084B0 to FUN_00707D60. FUN_00707D60 replaces one full u32 status reference and, when enabled, fires _onChangeSubStatStatus with the one-based slot plus the whole new and old references. FUN_0075C1D0 resolves a stored handle to the client status word. FUN_006F9EC0 then implements the Chant projection: kind 1 selects bits 12..15 with >> 12 & 0xf, and kind 2 selects bits 8..11 with >> 8 & 0xf. Zero values and unsupported kind tags return nil. The overlapping FUN_006F9F70 Object projection reads bits 8..11, bits 14..15, and bits 12..13 from the same word, so the two nibbles are reader domains rather than exclusive packed-field identities. The retained Lua callsite treats the result numerically and supplies no value table. Therefore no client table or branch maps values 1..15 to stable semantic nouns: the defensible names remain numeric high nibble selected by kind 1 and numeric low nibble selected by kind 2. Fifty-five retained samples are 72-byte subpackets with 40 application bytes; only one retained payload contains a nonzero status identifier, 0x5adf in slot 0, which cannot expose the resolved status-word nibble identities without a supported table join. These client facts do not establish server behavior, status causality, or packet ordering.",
+      "sourceRefs": [
+        "xivl-client-structs:manifests/s2c_payload_decoding_lua_bound.json#payloadStructs.s2c_0x0179",
+        "xivl-client-structs:manifests/status_effect_findings.json#facetBitLayoutMap",
+        "xivl-client-structs:manifests/cast_chant_presentation.json#chantStatusBoundary",
+        "xivl-client-scripts:lua/scripts/commanddebugger/commanddebuggerdev.calls.json#calls._getSubStatChant",
+        "xivl-captures:derived/payload_layouts.json#s2c.0x0179",
+        "xivl-captures:derived/payload_samples.json#samples.s2c.0x0179",
+        "retail:ffxivgame.exe#sha256=9341f2b4567440b310a4d494f5cc5599ca334ba51c8042247317ff466492f2e9;vas=0x0076C720,0x008A3350,0x008A3630,0x007084B0,0x00707D60,0x0075C1D0,0x006F9EC0,0x006F9F70;run=opcode-semantics-s2c-0144-0179-chant"
       ]
     }
   ]

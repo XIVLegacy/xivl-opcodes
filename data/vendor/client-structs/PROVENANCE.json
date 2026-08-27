@@ -4,7 +4,7 @@
       "file": "bcsy-ids.json",
       "sourceRepo": "xivl-client-structs",
       "sourcePath": "manifests/symbols.json",
-      "sha256": "9c3ded90e9452447cabdfc48eaf1907c4f5f385ac95c9d64bfdc2cd83361766d",
+      "sha256": "c162c1c459c06520a325cbfde791214b16d14883f62a114ca3c282623b943ad1",
       "refreshMode": "derive",
       "deriver": "bcsy-ids",
       "evidenceTier": "client ABI catalog id space; an existence index only, it carries no client facts",
@@ -14,11 +14,11 @@
       "file": "bcsy-opcode-bindings.json",
       "sourceRepo": "xivl-client-structs",
       "sourcePath": "manifests/ir_catalog.json",
-      "sha256": "b885d434493488fe61ffadb71fbbcbce107af2ebb18c2a6921c0c34917173b55",
+      "sha256": "6eda962da49e007019bbf8dd38022715b558a227c9ae911684ee530d77639bda",
       "refreshMode": "derive",
       "deriver": "bcsy-opcode-bindings",
       "evidenceTier": "structured client opcode relationships projected for reverse catalog sync reporting",
-      "transformation": "one candidate per distinct BCS-Y id listed on a direction-qualified opcode relationship, with its name, kind, and sorted opcode bindings"
+      "transformation": "one candidate per distinct BCS-Y id listed on a direction-qualified opcode relationship, with its kind and sorted opcode bindings; unsupported 0x018D descriptive names on BCS-Y-1032 and BCS-Y-1033 are reduced to bare FUN addresses"
     },
     {
       "file": "payload-inner-lengths.json",
