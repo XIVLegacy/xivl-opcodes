@@ -83,6 +83,9 @@ writer. Abbreviated, uppercase, or omitted hashes are rejected.
 - `test_retail_zone_dispatch.py` runs the credential-free mutation suite for
   the retail dispatch contract. It needs no executable, private repository,
   token, Ghidra installation, or sibling checkout.
+- `test_018d_wire_layout.py` rejects mutations to the neutral identity,
+  application framing, wire-to-storage projection, native presentation
+  classification, and unsafe client count boundary.
 - `test_0193_route.py` rejects mutations to the retained 0x0193 header clock,
   application delta, same-frame ordering, placeholder-name boundary, and
   route-state ownership. It also rejects mutations to the Lua/native index map,

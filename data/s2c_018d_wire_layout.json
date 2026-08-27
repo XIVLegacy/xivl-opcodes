@@ -107,6 +107,41 @@
     "truncation": false,
     "overflow": "A count above 16 reads beyond the reserved wire array and writes beyond the sixteen-record ClientWorkStorage array; no rejection, clamp, or recovery is present in the traced case or apply function."
   },
+  "consumerClassification": {
+    "class": "Application::Main::SqwtInterface::CustomControl::MapScreenControl",
+    "function": "FUN_00671400",
+    "kind": "native UI property presentation",
+    "scope": "This is the first outward consumer established by the recorded static route; computed, indirect, dynamic, and runtime-only consumers remain outside the result.",
+    "networkBoundary": "The consumer reads client-owned projected storage and performs UI property operations; it is not a packet builder, network sender, Lua callback, or server implementation edge.",
+    "presentationProjection": [
+      {
+        "wireOffset": 20,
+        "storageOffset": 16,
+        "conversion": "binary32 CVTTSS2SI",
+        "uiProperty": "X",
+        "uiType": "Int"
+      },
+      {
+        "wireOffset": 28,
+        "storageOffset": 24,
+        "conversion": "binary32 CVTTSS2SI",
+        "uiProperty": "Z",
+        "uiType": "Int"
+      }
+    ],
+    "unreadProjectedFloat": {
+      "wireOffset": 24,
+      "storageOffset": 20,
+      "boundary": "The middle projected binary32 value is not read by FUN_00671400."
+    },
+    "template": {
+      "property": "Template",
+      "type": "String",
+      "value": "MapMarkerParty",
+      "boundary": "MapMarkerParty is an exact presentation value, not a native class or canonical packet name."
+    },
+    "fieldBoundary": "X and Z are exact UI property names after local conversion. They do not assign coordinate-system or other semantic nouns to the wire fields."
+  },
   "offsetReconciliation": {
     "applicationPlus0C": "This was the inferred packed start immediately after the three consumed header dwords. The instruction trace leaves application+0x0C..+0x0F unread, so it is not the record base.",
     "gameMessagePlus20": "This is the same address as application+0x10 because the application pointer is game-message+0x10. It is not application+0x20.",
@@ -133,14 +168,20 @@
   "rejectedInterpretations": [
     "The wire application layout is not the ClientWorkStorage in-memory layout.",
     "The opcode and copied fields do not establish marker nouns, party policy, permissions, server causality, coordinate meanings, or selector creation.",
-    "The sixteen reserved wire records are a physical capacity, not a validated runtime limit."
+    "The sixteen reserved wire records are a physical capacity, not a validated runtime limit.",
+    "Static marker resources do not establish a runtime edge to 0x018D or assign a wire-field noun."
   ],
-  "remainingBoundary": "The three copied header dwords, the unread application header dword, the unprojected record spans, the higher-level use of projected fields, and behavior after the first out-of-bounds access remain semantically unresolved.",
+  "remainingBoundary": "The three copied header dwords, the unread application header dword, the unprojected record spans, key dword domains, coordinate system, marker identity, server policy, creation trigger, update cadence, and behavior after the first out-of-bounds access remain semantically unresolved.",
   "sourceRefs": [
     "xivl-decomp:asm/ffxivgame/000dc690_FUN_004dc690.s#0x004DD167-0x004DD1C0",
     "xivl-decomp:asm/ffxivgame/0015cf70_FUN_0055cf70.s",
     "xivl-client-structs:manifests/rapture_selector_0d_clientwork.json",
+    "xivl-client-structs:manifests/s2c_018d_map_marker_presentation.json",
+    "xivl-decomp:config/s2c_018d_client_consumer.json",
+    "xivl-decomp:docs/net/s2c-018d-client-consumer.md",
     "xivl-captures:studies/party-marker-018d-chronology/derived/accounting.json",
-    "xivl-captures:studies/party-marker-018d-chronology/derived/verdicts.md"
+    "xivl-captures:studies/party-marker-018d-chronology/derived/verdicts.md",
+    "xivl-captures:studies/party-marker-018d-chronology/derived/field-verdicts.md",
+    "xivl-client-data:manifests/map_marker_resources.json"
   ]
 }

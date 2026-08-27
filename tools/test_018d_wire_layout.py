@@ -21,6 +21,7 @@ REPO = Path(__file__).resolve().parents[1]
 EVIDENCE = REPO / "data" / "s2c_018d_wire_layout.json"
 CATALOG = REPO / "opcodes.json"
 HEADER = REPO / "structs" / "map" / "clientbound.h"
+BINDINGS = REPO / "data" / "vendor" / "client-structs" / "bcsy-opcode-bindings.json"
 
 
 def load(path: Path) -> object:
@@ -37,15 +38,20 @@ def run_validator(
     evidence: dict,
     catalog: list | None = None,
     header: str | None = None,
+    bindings: dict | None = None,
 ) -> int:
     evidence_path = write(directory / "evidence.json", evidence)
     catalog_path = write(directory / "catalog.json", load(CATALOG) if catalog is None else catalog)
     header_path = directory / "clientbound.h"
     header_path.write_text(HEADER.read_text(encoding="utf-8") if header is None else header, encoding="utf-8")
+    bindings_path = write(
+        directory / "bindings.json", load(BINDINGS) if bindings is None else bindings
+    )
     with (
         mock.patch.object(validator, "EVIDENCE_PATH", evidence_path),
         mock.patch.object(validator, "OPCODES_PATH", catalog_path),
         mock.patch.object(validator, "HEADER_PATH", header_path),
+        mock.patch.object(validator, "BCSY_BINDINGS_PATH", bindings_path),
         contextlib.redirect_stdout(io.StringIO()),
         contextlib.redirect_stderr(io.StringIO()),
     ):
@@ -84,6 +90,18 @@ def main() -> int:
             ("capture distribution", lambda row: row["captureReconciliation"].__setitem__("countDistribution", {"1": 416, "2": 176})),
             ("projection", lambda row: row["storage"]["projection"][3].__setitem__("wireOffset", 32)),
             ("offset basis", lambda row: row["offsetReconciliation"].__setitem__("resolved", "application+0x0C")),
+            ("pointer adjustment", lambda row: row["route"]["pointerAdjustments"].__setitem__(0, "subpacket+0x10 is application")),
+            ("unprojected spans", lambda row: row["storage"].__setitem__("unprojectedWireSpans", [])),
+            ("consumer class", lambda row: row["consumerClassification"].__setitem__("class", "MapMarkerParty")),
+            ("consumer kind", lambda row: row["consumerClassification"].__setitem__("kind", "packet handler")),
+            ("consumer scope", lambda row: row["consumerClassification"].__setitem__("scope", "all consumers")),
+            ("X projection", lambda row: row["consumerClassification"]["presentationProjection"][0].__setitem__("wireOffset", 24)),
+            ("float conversion", lambda row: row["consumerClassification"]["presentationProjection"][0].__setitem__("conversion", "round")),
+            ("middle float", lambda row: row["consumerClassification"]["unreadProjectedFloat"].__setitem__("wireOffset", 20)),
+            ("template identity", lambda row: row["consumerClassification"]["template"].__setitem__("boundary", "canonical packet name")),
+            ("consumer citation", lambda row: row.__setitem__("sourceRefs", [ref for ref in row["sourceRefs"] if "s2c_018d_map_marker_presentation" not in ref])),
+            ("rejected boundary", lambda row: row.__setitem__("rejectedInterpretations", [])),
+            ("remaining boundary", lambda row: row.__setitem__("remainingBoundary", "resolved")),
         )
         for label, mutate in mutations:
             document = copy.deepcopy(baseline)
@@ -102,12 +120,20 @@ def main() -> int:
         if run_validator(directory, baseline, header=header) == 0:
             failures.append("generated preamble mutation must fail")
 
+        bindings = copy.deepcopy(load(BINDINGS))
+        next(
+            row for row in bindings["syncCandidates"]
+            if row.get("bcsyId") == "BCS-Y-1032"
+        )["name"] = "PartySubsystem_CrossOpcodeUpdateGateway_FUN_006C1570"
+        if run_validator(directory, baseline, bindings=bindings) == 0:
+            failures.append("unsupported vendor binding noun mutation must fail")
+
     if failures:
         print(f"0x018D wire mutation tests FAILED ({len(failures)}):", file=sys.stderr)
         for failure in failures:
             print(f"  - {failure}", file=sys.stderr)
         return 1
-    print("0x018D wire mutation tests OK (15 mutations rejected).")
+    print("0x018D wire mutation tests OK (28 mutations rejected).")
     return 0
 
 

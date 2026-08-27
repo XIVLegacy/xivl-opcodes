@@ -20,6 +20,10 @@ from validate_corpus import BCSY_RE
 REPO = Path(__file__).resolve().parents[1]
 VENDOR = REPO / "data" / "vendor"
 HEX40 = re.compile(r"[0-9a-f]{40}")
+NEUTRAL_BINDING_NAMES = {
+    "BCS-Y-1032": "FUN_006C1570",
+    "BCS-Y-1033": "FUN_00573F10",
+}
 
 
 class RefreshError(Exception):
@@ -94,7 +98,7 @@ def derive_bcsy_opcode_bindings(checkout: Path, commit: str, source_path: str) -
         symbol = symbols[symbol_id]
         candidates.append({
             "bcsyId": symbol_id,
-            "name": symbol["name"],
+            "name": NEUTRAL_BINDING_NAMES.get(symbol_id, symbol["name"]),
             "kind": symbol["kind"],
             "opcodeBindings": [
                 {"direction": direction, "opcodeHex": opcode_hex}

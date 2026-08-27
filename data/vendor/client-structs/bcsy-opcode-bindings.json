@@ -1550,6 +1550,10 @@
       "opcodeBindings": [
         {
           "direction": "s2c",
+          "opcodeHex": "0x013d"
+        },
+        {
+          "direction": "s2c",
           "opcodeHex": "0x0157"
         },
         {
@@ -3724,7 +3728,7 @@
     },
     {
       "bcsyId": "BCS-Y-0891",
-      "name": "GroupPropertyUpdater_UnnamedOp0143_FUN_006C5DE0",
+      "name": "Group_DeleteGroupIngress_FUN_006C5DE0",
       "kind": "function",
       "opcodeBindings": [
         {
@@ -6227,7 +6231,7 @@
     },
     {
       "bcsyId": "BCS-Y-1032",
-      "name": "PartySubsystem_CrossOpcodeUpdateGateway_FUN_006C1570",
+      "name": "FUN_006C1570",
       "kind": "function",
       "opcodeBindings": [
         {
@@ -6238,7 +6242,7 @@
     },
     {
       "bcsyId": "BCS-Y-1033",
-      "name": "PartySubsystem_MarkerFireForwarder_FUN_00573F10",
+      "name": "FUN_00573F10",
       "kind": "function",
       "opcodeBindings": [
         {
@@ -7091,6 +7095,28 @@
         {
           "direction": "s2c",
           "opcodeHex": "0x00d3"
+        }
+      ]
+    },
+    {
+      "bcsyId": "BCS-Y-2143",
+      "name": "DeleteGroup_ValidateAndQueueBreakup_FUN_006C5150",
+      "kind": "function",
+      "opcodeBindings": [
+        {
+          "direction": "s2c",
+          "opcodeHex": "0x0143"
+        }
+      ]
+    },
+    {
+      "bcsyId": "BCS-Y-2144",
+      "name": "Group_BreakupBuilder_ctor_FUN_006D6F10",
+      "kind": "function",
+      "opcodeBindings": [
+        {
+          "direction": "s2c",
+          "opcodeHex": "0x0143"
         }
       ]
     }

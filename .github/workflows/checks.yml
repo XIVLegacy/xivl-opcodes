@@ -76,6 +76,9 @@ jobs:
       - name: Test retail dispatch contract
         run: python tools/test_retail_zone_dispatch.py
 
+      - name: Test 0x018D wire and consumer evidence
+        run: python tools/test_018d_wire_layout.py
+
       - name: Test 0x0193 route evidence
         run: python tools/test_0193_route.py
 

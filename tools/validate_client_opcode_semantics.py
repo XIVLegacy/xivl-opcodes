@@ -128,7 +128,9 @@ OUTBOUND_OBSERVATION_FRAGMENTS = {
     ),
 }
 BARE_FUNCTION = re.compile(r"^FUN_[0-9A-F]{8}$")
-SOURCE_REF = re.compile(r"^(xivl-client-structs|xivl-client-scripts|xivl-captures|xivl-decomp|retail):")
+SOURCE_REF = re.compile(
+    r"^(xivl-client-structs|xivl-client-scripts|xivl-client-data|xivl-captures|xivl-decomp|retail):"
+)
 EXPECTED_CAPTURE_ROWS = {"c2s-00c9", "c2s-00ce", "c2s-012d", "c2s-012e", "c2s-012f", "s2c-00da", "s2c-00e1", "s2c-0144", "s2c-0179", "s2c-017c", "s2c-017f", "s2c-0183", "s2c-0187", "s2c-018b", "s2c-018d", "s2c-018f", "s2c-0190", "s2c-0191", "s2c-0193", "s2c-0196"}
 
 CLIENT_ONLY_EXPECTATIONS = {
@@ -1315,6 +1317,11 @@ def main() -> int:
             errors.append(f"s2c-018b notes lost required fragment: {fragment}")
 
     party_marker_row = next(row for row in rows if row.get("id") == "s2c-018d")
+    if party_marker_row.get("supportedLabel") != (
+        "_0x018D client route with a fixed 0x298-byte application layout and "
+        "native MapScreenControl presentation"
+    ):
+        errors.append("s2c-018d supported label lost the neutral identity boundary")
     party_marker_observation = party_marker_row.get("observation", "")
     for fragment in (
         "FUN_004DC690",
@@ -1327,6 +1334,12 @@ def main() -> int:
         "592 fixed 696-byte subpackets",
         "415 carried one row and 177 carried two",
         "prior +0x0c and +0x20 claims",
+        "unsafe client behavior, not a server implementation prescription",
+        "native MapScreenControl UI property presentation",
+        "wire +0x14 and +0x1c binary32 values with CVTTSS2SI to X:Int and Z:Int",
+        "projected wire +0x18 is not read there",
+        "MapMarkerParty is supplied as a Template:String value",
+        "Static marker resources exist, but no runtime edge joins them to 0x018D",
     ):
         if fragment not in party_marker_observation:
             errors.append(f"s2c-018d observation lost required fact: {fragment}")
@@ -1336,8 +1349,9 @@ def main() -> int:
     count_distribution: dict[int, int] = {}
     for sample in retained_samples:
         body = bytes.fromhex(sample["bytes"])
+        if len(body) != 680:
+            errors.append(f"s2c-018d retained sample body length drifted: {len(body)}")
         if len(body) <= 672:
-            errors.append("s2c-018d retained sample is too short for the count byte")
             continue
         count = body[672]
         count_distribution[count] = count_distribution.get(count, 0) + 1
@@ -1366,11 +1380,25 @@ def main() -> int:
         "count_offset=0x290",
         "count_check=none",
         "observed_events=592",
+        "first_outward_consumer=native MapScreenControl UI property presentation",
+        "presentation_projection=wire +0x14 and +0x1c become X:Int and Z:Int after CVTTSS2SI",
+        "middle_projected_float=not read by the presentation consumer",
+        "template_boundary=MapMarkerParty is a Template:String value, not a packet or native class name",
+        "static_resource_boundary=no runtime edge joins marker resources to 0x018D",
         "name_boundary=placeholder retained",
         "client_only=",
     ):
         if fragment not in party_marker_notes:
             errors.append(f"s2c-018d notes lost required fragment: {fragment}")
+    required_party_marker_refs = {
+        "xivl-client-structs:manifests/s2c_018d_map_marker_presentation.json",
+        "xivl-decomp:config/s2c_018d_client_consumer.json",
+        "xivl-decomp:docs/net/s2c-018d-client-consumer.md",
+        "xivl-captures:studies/party-marker-018d-chronology/derived/field-verdicts.md",
+        "xivl-client-data:manifests/map_marker_resources.json",
+    }
+    if not required_party_marker_refs.issubset(party_marker_row.get("sourceRefs", [])):
+        errors.append("s2c-018d lost native presentation source references")
 
     work_state_entry = next(
         entry

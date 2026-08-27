@@ -212,7 +212,7 @@ NAME_OVERRIDES = [
     (
         "MapClientbound",
         "0x018d",
-        "PartyMapMarkerUpdatePacket",
+        "_0x018D",
         "_0x018D",
         None,
     ),
@@ -678,8 +678,15 @@ CLIENT_SEMANTICS_SPECIAL_NOTES = {
         "count_offset=0x290; count_width=1; count_load=MOVSX; count_check=none; "
         "storage_record_offset=0x18; storage_record_stride=0x78; "
         "observed_events=592; observed_counts=1x415,2x177; "
+        "first_outward_consumer=native MapScreenControl UI property presentation; "
+        "presentation_projection=wire +0x14 and +0x1c become X:Int and Z:Int after "
+        "CVTTSS2SI; middle_projected_float=not read by the presentation consumer; "
+        "template_boundary=MapMarkerParty is a Template:String value, not a packet "
+        "or native class name; "
+        "static_resource_boundary=no runtime edge joins marker resources to 0x018D; "
         "semantic_status=decomp_routed; name_boundary=placeholder retained; "
-        "client_only=route and numeric layout do not establish server behavior"
+        "client_only=route, layout, and presentation do not establish wire field "
+        "nouns or server behavior"
     ),
     "c2s-012f": (
         "retail_client_analysis=FUN_0075E770 writes opcode 0x012f and record size 0x38, "
