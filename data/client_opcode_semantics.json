@@ -620,11 +620,17 @@
       "direction": "serverbound",
       "function": "FUN_0075EBA0",
       "status": "closed",
-      "supportedLabel": "0x0134 builder for a 0x28-byte body containing two u32 values and a 16-byte generated nonce buffer",
+      "supportedLabel": "_setAchievementTitle client request carrying a title value, CRC32, and generated 16-byte ASCII buffer",
       "tool": "XIVLegacy Ghidra DecompileToText.java",
-      "observation": "The builder writes opcode 0x0134 and body size 0x28, writes its u32 argument at application offset 0 and a u32 token-helper result at offset 4, writes a 16-byte nonce buffer containing 15 generated ASCII letters and a trailing NUL at offsets 8 through 0x17 as two qwords, and sends through FUN_004D6D30.",
+      "observation": "MyPlayer slot 103 implements the registered _setAchievementTitle operation, writes the full u32 argument to PlayerBase+0xE8, and forwards it unchanged to FUN_0075EBA0. The builder writes opcode 0x0134 and body size 0x28, writes the title value at application offset 0, computes CRC32 over a 16-byte generated ASCII buffer and writes it at offset 4, writes that buffer at offsets 8 through 0x17 as two qwords, and sends through FUN_004D6D30. Buffer positions 0 through 14 are the position-specific letters A through O or a through o selected only by case branches, and position 15 is trailing NUL. No nonce, challenge, authorization-token, acknowledgement, or server-policy meaning is established.",
       "sourceRefs": [
+        "xivl-client-structs:manifests/symbols.json#BCS-Y-1927",
         "xivl-client-structs:manifests/reverse_bfs_send_helpers.json#FUN_0075EBA0",
+        "xivl-decomp:config/ffxivgame.symbol_evidence.json#PacketBuilder_opcode_0x0134_u32PairAndGeneratedAscii16",
+        "xivl-decomp:asm/ffxivgame/0035eba0_FUN_0075eba0.s",
+        "xivl-decomp:asm/ffxivgame/0093ab60_FUN_00d3ab60.s",
+        "xivl-decomp:asm/ffxivgame/0093a380_FUN_00d3a380.s",
+        "xivl-decomp:asm/ffxivgame/0093aae0_FUN_00d3aae0.s",
         "retail:ffxivgame.exe#sha256=9341f2b4567440b310a4d494f5cc5599ca334ba51c8042247317ff466492f2e9;va=0x0075EBA0;run=opcode-semantics-c2s-open-senders-body"
       ]
     },

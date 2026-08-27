@@ -53,6 +53,12 @@ writer. Abbreviated, uppercase, or omitted hashes are rejected.
 - `validate_client_opcode_semantics.py` checks the 44-row retail-client body
   evidence ledger, catalog evidence links, open/closed dispositions, and the
   bare `decompAnchor` contract.
+- `validate_achievement_lifecycle.py` checks the direction-scoped 0x0134 title
+  request versus actor-state collision, the actual 0x019D title update, and the
+  0x0135/0x019F achievement-rate request/update boundary.
+- `test_achievement_lifecycle.py` rejects mutations to the five managed routes,
+  exact application fields, retained-corpus absences, state writes, callback
+  boundary, and non-causal relationship claims.
 - `generate_structs.py` emits packed C++ payload headers under `structs/` from
   the pinned packet-observation layouts and samples plus the root catalog.
   `--digest`, `--layouts`, and `--samples` are explicit research overrides.

@@ -1,0 +1,157 @@
+{
+  "schemaVersion": 1,
+  "binary": {
+    "name": "ffxivgame.exe",
+    "version": "1.23b",
+    "sha256": "9341f2b4567440b310a4d494f5cc5599ca334ba51c8042247317ff466492f2e9"
+  },
+  "scope": "Bounded retail-client and retained-corpus evidence for the achievement-title and achievement-rate request/update routes.",
+  "corpusSnapshots": {
+    "current": {
+      "sourceRef": "xivl-captures@db6a3b43a1d6a073f3cc72ade0ec4aebb89cd069",
+      "captureCount": 54,
+      "role": "Point-in-time current-corpus occurrence, capture, and chronology counts recorded by this evidence ledger."
+    },
+    "pinned": {
+      "sourceRef": "data/vendor/captures/PROVENANCE.json",
+      "captureCount": 53,
+      "payloadSamplesSha256": "3d08a4ed4407738c02ce13b0fe853b6e8dba6340930e59dc94734055f8b8da38",
+      "role": "Repository-local byte-identical fixture used by validation and generated structs; its 0x019D sample count predates the current-corpus login witness."
+    }
+  },
+  "rows": [
+    {
+      "id": "c2s-0134-achievement-title-request",
+      "opcodeHex": "0x0134",
+      "direction": "serverbound",
+      "name": "AchievementTitleRequestPacket",
+      "nameConfidence": "tentative_client_operation",
+      "function": "FUN_0075EBA0",
+      "applicationSize": 24,
+      "builderRecordSize": 40,
+      "observedOccurrences": 0,
+      "captureCount": 0,
+      "retainedSamples": 0,
+      "fields": "title_value:u32@+0x00,generated_ascii_crc32:u32@+0x04,generated_ascii[16]@+0x08",
+      "flow": "MyPlayer slot 103 implements _setAchievementTitle. It reads the first runtime argument as a u32, writes the full value to PlayerBase+0xE8, and passes it unchanged to FUN_0075EBA0. The builder zeroes a 16-byte buffer, fills bytes 0..14 with position-specific A..O or a..o characters selected by rand() case branches, leaves byte 15 NUL, computes CRC32 over all 16 bytes, and sends the u32 value, CRC32, and buffer through FUN_004D6D30.",
+      "sourceRefs": [
+        "xivl-client-structs:manifests/symbols.json#BCS-Y-1927",
+        "xivl-client-structs:manifests/structs.json#BCS-S-0011",
+        "xivl-decomp:config/ffxivgame.symbol_evidence.json#PacketBuilder_opcode_0x0134_u32PairAndGeneratedAscii16",
+        "xivl-decomp:asm/ffxivgame/0035eba0_FUN_0075eba0.s",
+        "xivl-decomp:asm/ffxivgame/0093ab60_FUN_00d3ab60.s",
+        "xivl-decomp:asm/ffxivgame/0093a380_FUN_00d3a380.s",
+        "xivl-decomp:asm/ffxivgame/0093aae0_FUN_00d3aae0.s",
+        "xivl-decomp:docs/net/wire-protocol.md#reviewed-outbound-builders",
+        "xivl-captures:derived/observations.json#inner_opcodes.c2s.0x0134"
+      ]
+    },
+    {
+      "id": "s2c-0134-actor-state",
+      "opcodeHex": "0x0134",
+      "direction": "clientbound",
+      "name": "SetActorStatePacket",
+      "nameConfidence": "confirmed",
+      "function": "FUN_00588BA0",
+      "applicationSize": 8,
+      "observedSubpacketSize": 40,
+      "observedOccurrences": 912,
+      "captureCount": 20,
+      "retainedSamples": 60,
+      "pinnedRetainedSamples": 60,
+      "pinnedSampleCaptureCount": 17,
+      "fields": "main_state:u8@+0x00,discarded_byte:u8@+0x01,unknown[6]@+0x02",
+      "flow": "CharaElement slot 9 routes opcode 0x0134 to FUN_00588BA0. The route isolates the low main-state byte, replaces the adjacent wire byte with zero in its temporary record, writes state to CharaElement+0xF4 and conditionally +0xF0, calls the state-transition helpers, and broadcasts scene records 0x39 and 0x3A. It does not construct or invoke AchievementTitleReceiver.",
+      "sourceRefs": [
+        "xivl-client-structs:manifests/structs.json#BCS-S-0334",
+        "xivl-client-structs:manifests/symbols.json#BCS-Y-0636",
+        "xivl-client-structs:manifests/fun_0058cca0_walk.json#0x0134",
+        "xivl-captures:derived/observations.json#inner_opcodes.s2c.0x0134",
+        "xivl-captures:derived/payload_layouts.json#layouts.s2c.0x0134",
+        "xivl-captures:derived/payload_samples.json#samples.s2c.0x0134"
+      ]
+    },
+    {
+      "id": "s2c-019d-achievement-title-update",
+      "opcodeHex": "0x019d",
+      "direction": "clientbound",
+      "name": "SetPlayerTitlePacket",
+      "nameConfidence": "confirmed",
+      "function": "FUN_005751E0",
+      "applicationSize": 8,
+      "observedSubpacketSize": 40,
+      "observedOccurrences": 14,
+      "captureCount": 11,
+      "retainedSamples": 14,
+      "pinnedRetainedSamples": 13,
+      "pinnedSampleCaptureCount": 10,
+      "fields": "title_value:u32@+0x00,unknown[4]@+0x04",
+      "flow": "CharaElement slot 9 routes opcode 0x019D through FUN_005751E0 to LuaActorImpl slot 75 and AchievementTitleReceiver. The receiver copies the full title-value dword to PlayerBase+0xE8 after a successful PlayerBase cast. The retained typed layout identifies only the low byte at +0xE8 as achievement_title; the meanings of the adjacent three overwritten bytes remain unresolved.",
+      "sourceRefs": [
+        "xivl-client-structs:manifests/symbols.json#BCS-Y-0036",
+        "xivl-client-structs:manifests/symbols.json#BCS-Y-0650",
+        "xivl-client-structs:manifests/structs.json#BCS-S-0011",
+        "xivl-client-structs:manifests/structs.json#BCS-S-0421",
+        "xivl-captures:derived/observations.json#inner_opcodes.s2c.0x019d",
+        "xivl-captures:derived/payload_layouts.json#layouts.s2c.0x019d",
+        "xivl-captures:derived/payload_samples.json#samples.s2c.0x019d"
+      ]
+    },
+    {
+      "id": "c2s-0135-achievement-rate-request",
+      "opcodeHex": "0x0135",
+      "direction": "serverbound",
+      "name": "AchievementRateRequestPacket",
+      "nameConfidence": "tentative_client_operation",
+      "function": "FUN_0075ECD0",
+      "applicationSize": 4,
+      "builderRecordSize": 24,
+      "observedOccurrences": 0,
+      "captureCount": 0,
+      "retainedSamples": 0,
+      "fields": "achievement_id:u32@+0x00",
+      "flow": "MyPlayer slot 112 implements _getAchievementRate. It reads the first runtime argument as a u32 achievement-id lookup key and forwards it unchanged to FUN_0075ECD0, which sends it as the only application field through FUN_004D6D30.",
+      "sourceRefs": [
+        "xivl-client-structs:manifests/symbols.json#BCS-Y-1976",
+        "xivl-client-structs:manifests/bulk_napi_classification.json#_getAchievementRate",
+        "xivl-client-structs:manifests/data_dependency_catalog.json#s2c_0x019f",
+        "xivl-decomp:config/ffxivgame.symbol_evidence.json#PacketBuilder_opcode_0x0135_singleU32_24B",
+        "xivl-captures:derived/observations.json#inner_opcodes.c2s.0x0135"
+      ]
+    },
+    {
+      "id": "s2c-019f-achievement-rate-update",
+      "opcodeHex": "0x019f",
+      "direction": "clientbound",
+      "name": "SendAchievementRatePacket",
+      "nameConfidence": "decomp_routed",
+      "function": "FUN_00575200",
+      "applicationSize": 16,
+      "observedOccurrences": 0,
+      "captureCount": 0,
+      "retainedSamples": 0,
+      "fields": "achievement_id:u32@+0x00,progress_count:u32@+0x04,progress_flags:u32@+0x08,unknown:u32@+0x0C",
+      "flow": "CharaElement slot 9 routes opcode 0x019F through FUN_00575200 to LuaActorImpl slot 77 and AchievementAchievedCountReceiver. The receiver copies the first three dwords into its temporary object and forwards them to _onReceiveAchievementRate; the closing dword is not copied by this route. No persistent client-state write is established before the Lua callback.",
+      "sourceRefs": [
+        "xivl-client-structs:manifests/symbols.json#BCS-Y-0040",
+        "xivl-client-structs:manifests/symbols.json#BCS-Y-1641",
+        "xivl-client-structs:manifests/symbols.json#BCS-Y-0652",
+        "xivl-client-structs:manifests/structs.json#BCS-S-0278",
+        "xivl-client-structs:manifests/structs.json#BCS-S-0453",
+        "xivl-captures:derived/observations.json#inner_opcodes.s2c.0x019f"
+      ]
+    }
+  ],
+  "relationships": {
+    "sameNumberBoundary": "Wire integer 0x0134 is direction-scoped: c2s is the _setAchievementTitle builder, while s2c is SetActorState. Same-number reuse is not an acknowledgement relationship.",
+    "titleLifecycle": "The actual inbound AchievementTitleReceiver route is s2c 0x019D, not s2c 0x0134. The shared title value and PlayerBase+0xE8 state slot support a bounded request/update correlation, but the retained corpus contains no c2s 0x0134 event and therefore cannot establish acknowledgement, response timing, acceptance, rejection, or server policy.",
+    "rateLifecycle": "c2s 0x0135 carries one achievement id and s2c 0x019F carries achievement id plus progress count and flags. The retained corpus contains neither opcode, so client structure supports a subsystem correlation only; it does not establish that 0x019F acknowledges or responds to 0x0135.",
+    "chronology": "The retained corpus has zero c2s 0x0134, zero c2s 0x0135, and zero s2c 0x019F observations. It has 912 s2c 0x0134 actor-state observations and 14 s2c 0x019D title updates. Chronology alone supplies no causal edge among these operations."
+  },
+  "unresolvedBoundaries": [
+    "The exact server method and acknowledgement policy for both client requests are not embedded in the retail client.",
+    "The semantic noun for the generated 16-byte ASCII buffer is unresolved; calling it a nonce, challenge, or authorization token would exceed the direct evidence.",
+    "The individual meanings of progress_flags bits and the closing s2c 0x019F dword are unresolved.",
+    "The three bytes adjacent to PlayerBase achievement_title at +0xE9..+0xEB remain unknown even though both title paths overwrite the containing dword."
+  ]
+}

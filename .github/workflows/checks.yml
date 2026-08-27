@@ -82,6 +82,9 @@ jobs:
       - name: Test 0x0193 route evidence
         run: python tools/test_0193_route.py
 
+      - name: Test achievement lifecycle evidence
+        run: python tools/test_achievement_lifecycle.py
+
       - name: Check catalog regeneration
         run: git diff --exit-code
 

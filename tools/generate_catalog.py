@@ -10,6 +10,7 @@ EXPECTED_TOP_DESC = "FFXIV 1.23b opcode catalog joined with pcap observations an
 REVERIFY_METHOD = "live-validation: verify that the retail 1.23b client accepts the behavior in a live session"
 CLIENT_SEMANTICS_PATH = Path(__file__).resolve().parent.parent / "data" / "client_opcode_semantics.json"
 BATTLE_RESULT_SEMANTICS_PATH = Path(__file__).resolve().parent.parent / "data" / "battle_result_semantics.json"
+ACHIEVEMENT_LIFECYCLE_PATH = Path(__file__).resolve().parent.parent / "data" / "achievement_lifecycle.json"
 ZONE_DUMMY_CLUSTER_EVIDENCE = "xivl-client-structs:manifests/zone_dummy_callback_cluster.json"
 LOCAL_DECOMP_ANCHOR_EVIDENCE = {
     "FUN_0075ECD0": "data/client_opcode_semantics.json#c2s-0135",
@@ -351,6 +352,8 @@ LOGIN_PREZONE_ATTRIBUTIONS = [
     ("MapClientbound", "0x0003", "SendMessagePacket", "s2c", 584),
     ("MapClientbound", "0x018a", "_0x018A", "s2c", 136),
     ("MapClientbound", "0x0189", "CreateNamedGroupMultiple", "s2c", 552),
+    ("MapClientbound", "0x0134", "SetActorStatePacket", "s2c", 40),
+    ("MapClientbound", "0x019d", "SetPlayerTitlePacket", "s2c", 40),
 ]
 LOBBY_CENSUS_COMMIT = "32a39d2a92f2268d64ab3586b8d791fa93ed19f1"
 LOBBY_CENSUS_EVIDENCE = (
@@ -959,6 +962,82 @@ def apply_battle_result_semantics(top: dict) -> tuple[int, int]:
     return applied, errors
 
 
+def apply_achievement_lifecycle(top: dict) -> tuple[int, int]:
+    """Apply the bounded achievement request and update routes."""
+    evidence = json.loads(ACHIEVEMENT_LIFECYCLE_PATH.read_text(encoding="utf-8"))
+    applied = 0
+    errors = 0
+
+    for row in evidence["rows"]:
+        matches = [
+            entry
+            for entries in top["lists"].values()
+            for entry in entries
+            if entry["opcodeHex"].lower() == row["opcodeHex"].lower()
+            and entry["direction"] == row["direction"]
+            and entry.get("service") == "map"
+        ]
+        if len(matches) != 1:
+            print(f"  WARN: achievement row {row['id']} matched {len(matches)} catalog rows")
+            errors += 1
+            continue
+
+        entry = matches[0]
+        entry["name"] = row["name"]
+        entry["decompAnchor"] = row["function"]
+        entry["confidence"] = (
+            "confirmed" if row["nameConfidence"] == "confirmed" else "decomp_routed"
+        )
+        if row["direction"] == "serverbound":
+            entry["observedIn"] = []
+            entry["payloadLengths"] = []
+
+        observed = row["observedOccurrences"]
+        captures = row["captureCount"]
+        samples = row["retainedSamples"]
+        parts = [
+            f"achievement_lifecycle=data/achievement_lifecycle.json#{row['id']}",
+            f"retail_client_analysis={row['flow']}",
+            f"wire_application={row['fields']}",
+            f"application_size={row['applicationSize']}",
+            f"observed_occurrences={observed}",
+            f"capture_count={captures}",
+            f"retained_samples={samples}",
+        ]
+        if "builderRecordSize" in row:
+            parts.append(f"builder_record_size={row['builderRecordSize']}")
+        if "observedSubpacketSize" in row:
+            parts.append(f"observed_subpacket_size={row['observedSubpacketSize']}")
+        if observed == 0:
+            parts.append("no_pcap_evidence")
+        if row["direction"] == "serverbound":
+            semantic_id = f"c2s-{row['opcodeHex'][2:]}"
+            parts.extend(
+                [
+                    f"client_semantics_evidence=data/client_opcode_semantics.json#{semantic_id}",
+                    "dependency_status=closed",
+                ]
+            )
+        if row["nameConfidence"] == "tentative_client_operation":
+            parts.extend(
+                [
+                    "naming=tentative, derived from the registered client Lua N-API operation",
+                    "exact server method and request policy remain unproven",
+                ]
+            )
+        if row["id"] == "c2s-0135-achievement-rate-request":
+            parts.extend(
+                [
+                    "prior_label=BindingSubscribeRequestPacket",
+                    "conflict=prior implementation label unsupported by retail",
+                ]
+            )
+        entry["notes"] = "; ".join(parts)
+        applied += 1
+
+    return applied, errors
+
+
 def apply_zone_dummy_cluster(top: dict) -> tuple[int, int]:
     """Replace imported 0x01c3..0x01df s2c nouns with retail no-op routes."""
     entries = top["lists"]["MapClientbound"]
@@ -1440,6 +1519,10 @@ def main() -> int:
     battle_applied, battle_errors = apply_battle_result_semantics(top)
     warned += battle_errors
     print(f"Applied {battle_applied} battle-result semantic routes")
+
+    achievement_applied, achievement_errors = apply_achievement_lifecycle(top)
+    warned += achievement_errors
+    print(f"Applied {achievement_applied} achievement lifecycle routes")
 
     cluster_applied, cluster_inserted = apply_zone_dummy_cluster(top)
     print(

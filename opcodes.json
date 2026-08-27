@@ -1169,7 +1169,7 @@
           "observedIn": [],
           "payloadLengths": [],
           "confidence": "decomp_routed",
-          "notes": "no_pcap_evidence; semantic_status=decomp_routed; naming=tentative, derived from the registered client Lua N-API operation; retail_client_analysis=FUN_00705EB0 is MyPlayer vtable slot 112 and the _getAchievementRate implementation; FUN_005819A0 returns the first runtime argument-vector entry +0x8 value on the valid path; FUN_0075ECD0 emits that achievement-id lookup key as the sole u32 payload in opcode 0x0135 with packet length 0x18; exact server packet class and request noun remain unproven; prior_label=BindingSubscribeRequestPacket; conflict=prior implementation label unsupported by retail; client_semantics_evidence=data/client_opcode_semantics.json#c2s-0135; dependency_status=closed"
+          "notes": "achievement_lifecycle=data/achievement_lifecycle.json#c2s-0135-achievement-rate-request; retail_client_analysis=MyPlayer slot 112 implements _getAchievementRate. It reads the first runtime argument as a u32 achievement-id lookup key and forwards it unchanged to FUN_0075ECD0, which sends it as the only application field through FUN_004D6D30.; wire_application=achievement_id:u32@+0x00; application_size=4; observed_occurrences=0; capture_count=0; retained_samples=0; builder_record_size=24; no_pcap_evidence; client_semantics_evidence=data/client_opcode_semantics.json#c2s-0135; dependency_status=closed; naming=tentative, derived from the registered client Lua N-API operation; exact server method and request policy remain unproven; prior_label=BindingSubscribeRequestPacket; conflict=prior implementation label unsupported by retail"
         },
         {
           "name": "StartRecruitingRequestPacket",
@@ -1638,7 +1638,7 @@
           "notes": "decomp_source=xivl-client-structs catalog-gap recovery; bcsy_ref=BCS-Y-0383; evidence=FUN_0075EAC0 builds stack record with opcode literal 0x132 and size literal 0x18 then routes through FUN_004D6D30 -> FUN_004E0240 -> FUN_00DAE010 wire send (the canonical c2s map send path); lua_trigger=ItemBase._updateWork (confirmed_direct_emit binding via reverse-BFS from send-helper caller lists, BCS-Y-0382 + BCS-Y-0383 catalog-gap recovery); naming=tentative, derived from Lua N-API trigger name and neighbor convention (0x0131 UpdateItemPackagePacket sibling); client_semantics_evidence=data/client_opcode_semantics.json#c2s-0132; dependency_status=closed"
         },
         {
-          "name": "_0x0134",
+          "name": "AchievementTitleRequestPacket",
           "opcode": 308,
           "opcodeHex": "0x0134",
           "service": "map",
@@ -1646,11 +1646,9 @@
           "implementationAnchor": null,
           "decompAnchor": "FUN_0075EBA0",
           "observedIn": [],
-          "payloadLengths": [
-            40
-          ],
+          "payloadLengths": [],
           "confidence": "decomp_routed",
-          "notes": "decomp_source=xivl-client-structs expanded reverse-BFS catalog gap; bcsy_ref=BCS-Y-0384; evidence=FUN_0075EBA0 builds stack record with opcode literal 0x134 and size literal 0x28 then calls a known send helper in the canonical c2s map send path; no_lua_reach_in_scan (reverse-BFS from 56 send-helper / packet-builder entry points found no Lua N-API path to this builder); likely_role=item or group-adjacent based on builder VA proximity to the 0x0075E* family (item/group packet builders such as FUN_0075E860 for 0x0130 UpdateGroup, FUN_0075EA50 for 0x0131 UpdateItemPackage, FUN_0075EAC0 for 0x0132 ItemWorkUpdate); client_semantics_evidence=data/client_opcode_semantics.json#c2s-0134; dependency_status=closed"
+          "notes": "achievement_lifecycle=data/achievement_lifecycle.json#c2s-0134-achievement-title-request; retail_client_analysis=MyPlayer slot 103 implements _setAchievementTitle. It reads the first runtime argument as a u32, writes the full value to PlayerBase+0xE8, and passes it unchanged to FUN_0075EBA0. The builder zeroes a 16-byte buffer, fills bytes 0..14 with position-specific A..O or a..o characters selected by rand() case branches, leaves byte 15 NUL, computes CRC32 over all 16 bytes, and sends the u32 value, CRC32, and buffer through FUN_004D6D30.; wire_application=title_value:u32@+0x00,generated_ascii_crc32:u32@+0x04,generated_ascii[16]@+0x08; application_size=24; observed_occurrences=0; capture_count=0; retained_samples=0; builder_record_size=40; no_pcap_evidence; client_semantics_evidence=data/client_opcode_semantics.json#c2s-0134; dependency_status=closed; naming=tentative, derived from the registered client Lua N-API operation; exact server method and request policy remain unproven"
         }
       ],
       "MapClientbound": [
@@ -2752,7 +2750,7 @@
           "service": "map",
           "direction": "clientbound",
           "implementationAnchor": "MapServerOpcode::SetActorState",
-          "decompAnchor": null,
+          "decompAnchor": "FUN_00588BA0",
           "observedIn": [
             "battle_mode_passive_mode.pcapng",
             "combat_autoattack.pcapng",
@@ -2761,6 +2759,7 @@
             "gather_wood.pcapng",
             "gridania_to_coerthas.pcapng",
             "local_leve_complete.pcapng",
+            "login.pcapng",
             "mount_unmount_chocobo.pcapng",
             "move_around_gridania.pcapng",
             "move_out_of_room.pcapng",
@@ -2777,8 +2776,8 @@
           "payloadLengths": [
             40
           ],
-          "confidence": "implemented",
-          "notes": ""
+          "confidence": "confirmed",
+          "notes": "achievement_lifecycle=data/achievement_lifecycle.json#s2c-0134-actor-state; retail_client_analysis=CharaElement slot 9 routes opcode 0x0134 to FUN_00588BA0. The route isolates the low main-state byte, replaces the adjacent wire byte with zero in its temporary record, writes state to CharaElement+0xF4 and conditionally +0xF0, calls the state-transition helpers, and broadcasts scene records 0x39 and 0x3A. It does not construct or invoke AchievementTitleReceiver.; wire_application=main_state:u8@+0x00,discarded_byte:u8@+0x01,unknown[6]@+0x02; application_size=8; observed_occurrences=912; capture_count=20; retained_samples=60; observed_subpacket_size=40; login_service_attribution=map_main_lane; login_evidence=xivl-captures:derived/lane_observations.json#lanes/main/s2c/0x0134; login_capture_sha256=28e06b54fe559870031f077f8549b9244caafa7e5177dbca08a7feae6c2b1b62"
         },
         {
           "name": "SetEventStatusPacket",
@@ -4858,10 +4857,11 @@
           "service": "map",
           "direction": "clientbound",
           "implementationAnchor": "MapServerOpcode::SetPlayerTitle",
-          "decompAnchor": null,
+          "decompAnchor": "FUN_005751E0",
           "observedIn": [
             "from_gridania_to_blackshroud.pcapng",
             "gridania_to_coerthas.pcapng",
+            "login.pcapng",
             "move_out_of_room.pcapng",
             "moving_around_gridania.pcapng",
             "party_battle_leve.pcapng",
@@ -4874,8 +4874,8 @@
           "payloadLengths": [
             40
           ],
-          "confidence": "implemented",
-          "notes": "",
+          "confidence": "confirmed",
+          "notes": "achievement_lifecycle=data/achievement_lifecycle.json#s2c-019d-achievement-title-update; retail_client_analysis=CharaElement slot 9 routes opcode 0x019D through FUN_005751E0 to LuaActorImpl slot 75 and AchievementTitleReceiver. The receiver copies the full title-value dword to PlayerBase+0xE8 after a successful PlayerBase cast. The retained typed layout identifies only the low byte at +0xE8 as achievement_title; the meanings of the adjacent three overwritten bytes remain unresolved.; wire_application=title_value:u32@+0x00,unknown[4]@+0x04; application_size=8; observed_occurrences=14; capture_count=11; retained_samples=14; observed_subpacket_size=40; login_service_attribution=map_main_lane; login_evidence=xivl-captures:derived/lane_observations.json#lanes/main/s2c/0x019d; login_capture_sha256=28e06b54fe559870031f077f8549b9244caafa7e5177dbca08a7feae6c2b1b62",
           "retail_class_name": "Application::Lua::Script::Client::Command::Network::AchievementTitleReceiver"
         },
         {
@@ -4899,11 +4899,11 @@
           "service": "map",
           "direction": "clientbound",
           "implementationAnchor": "MapServerOpcode::AchievementAchievedCount",
-          "decompAnchor": null,
+          "decompAnchor": "FUN_00575200",
           "observedIn": [],
           "payloadLengths": [],
-          "confidence": "implemented",
-          "notes": "no_pcap_evidence",
+          "confidence": "decomp_routed",
+          "notes": "achievement_lifecycle=data/achievement_lifecycle.json#s2c-019f-achievement-rate-update; retail_client_analysis=CharaElement slot 9 routes opcode 0x019F through FUN_00575200 to LuaActorImpl slot 77 and AchievementAchievedCountReceiver. The receiver copies the first three dwords into its temporary object and forwards them to _onReceiveAchievementRate; the closing dword is not copied by this route. No persistent client-state write is established before the Lua callback.; wire_application=achievement_id:u32@+0x00,progress_count:u32@+0x04,progress_flags:u32@+0x08,unknown:u32@+0x0C; application_size=16; observed_occurrences=0; capture_count=0; retained_samples=0; no_pcap_evidence",
           "retail_class_name": "Application::Lua::Script::Client::Command::Network::AchievementAchievedCountReceiver"
         },
         {

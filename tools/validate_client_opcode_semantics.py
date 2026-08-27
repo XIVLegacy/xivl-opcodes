@@ -109,16 +109,20 @@ OUTBOUND_OBSERVATION_FRAGMENTS = {
     "c2s-0131": ("opcode 0x0131", "size 0x18", "u32", "u8", "FUN_004D6D30"),
     "c2s-0132": ("opcode 0x0132", "size 0x18", "u32", "u16", "u8", "FUN_004D6D30"),
     "c2s-0134": (
+        "MyPlayer slot 103",
+        "_setAchievementTitle",
+        "PlayerBase+0xE8",
         "opcode 0x0134",
         "body size 0x28",
-        "u32 argument at application offset 0",
-        "u32 token-helper result at offset 4",
-        "16-byte nonce buffer",
-        "15 generated ASCII letters",
-        "trailing NUL",
+        "title value at application offset 0",
+        "computes CRC32 over a 16-byte generated ASCII buffer",
+        "writes it at offset 4",
+        "position-specific letters A through O or a through o",
+        "position 15 is trailing NUL",
         "offsets 8 through 0x17",
         "two qwords",
         "FUN_004D6D30",
+        "No nonce, challenge, authorization-token, acknowledgement, or server-policy meaning is established",
     ),
     "c2s-0135": (
         "opcode 0x0135",
@@ -337,8 +341,8 @@ def main() -> int:
                 errors.append(f"{label}: chant boundary lacks required fact {fragment!r}")
 
     anchors = [entry["decompAnchor"] for entry in entries if entry.get("decompAnchor")]
-    if len(anchors) != 83:
-        errors.append(f"catalog has {len(anchors)} decompAnchor values, expected 83")
+    if len(anchors) != 86:
+        errors.append(f"catalog has {len(anchors)} decompAnchor values, expected 86")
     bad_anchors = [anchor for anchor in anchors if not BARE_FUNCTION.fullmatch(anchor)]
     if bad_anchors:
         errors.append(f"non-bare decompAnchor values: {bad_anchors}")
