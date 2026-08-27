@@ -18,6 +18,7 @@ VALIDATORS = (
     ("Vendor provenance", "validate_vendor.py"),
     ("Corpus", "validate_corpus.py"),
     ("Client opcode semantics", "validate_client_opcode_semantics.py"),
+    ("0x018D wire layout", "validate_018d_wire_layout.py"),
     ("Battle result semantics", "validate_battle_result_semantics.py"),
     ("Docs index", "validate_docs_index.py"),
     ("Payload framing", "audit_payload_framing.py"),

@@ -66,6 +66,35 @@ STRUCT_LAYOUT_OVERRIDES = {
         ("uint8_t", "memberCount", 1, "application[+0x70]"),
         ("uint8_t", "reserved0", 7, "application[+0x71..+0x77]"),
     ],
+    ("MapClientbound", "0x018d"): [
+        ("uint8_t", "gameMessagePreamble", 8, "body[+0..+7]; not application payload"),
+        ("uint32_t", "applicationField00", 1, "application[+0x00]; copied to storage+0x08"),
+        ("uint32_t", "applicationField04", 1, "application[+0x04]; copied to storage+0x0c"),
+        ("uint32_t", "applicationField08", 1, "application[+0x08]; copied to storage+0x10"),
+        ("uint8_t", "unreadApplication0C", 4, "application[+0x0c..+0x0f]; not read by FUN_0055CF70"),
+        ("_0x018DRecord", "records", 16, "sixteen 0x28-byte records at application[+0x10]"),
+        ("int8_t", "recordCount", 1, "application[+0x290]; loaded with MOVSX, no capacity check"),
+        ("uint8_t", "reservedTail", 7, "application[+0x291..+0x297]"),
+    ],
+}
+
+STRUCT_PREAMBLES = {
+    ("MapClientbound", "0x018d"): [
+        "struct _0x018DRecord",
+        "{",
+        "    uint32_t field00;      // record[+0x00]; storage record +0x00",
+        "    uint8_t  unread04[4];  // record[+0x04..+0x07]",
+        "    uint32_t field08;      // record[+0x08]; storage record +0x08",
+        "    uint32_t field0C;      // record[+0x0c]; storage record +0x0c",
+        "    uint8_t  unread10[4];  // record[+0x10..+0x13]",
+        "    float    field14;      // record[+0x14]; storage record +0x10",
+        "    float    field18;      // record[+0x18]; storage record +0x14",
+        "    float    field1C;      // record[+0x1c]; storage record +0x18",
+        "    uint8_t  unread20[8];  // record[+0x20..+0x27]",
+        "};",
+        "static_assert(sizeof(_0x018DRecord) == 40, \"_0x018DRecord size mismatch\");",
+        "",
+    ],
 }
 
 NAME_SUFFIX_STRIP = re.compile(r"(Packet|Handler)$")
@@ -239,8 +268,9 @@ def emit_struct(
     lines = [
         f"// 0x{opcode_hex[2:].lower()} (opcode {layout['opcode']}) - sub_size={layout['common_sub_size']}B"
         f" body={body_size}B samples={layout['sample_count']}",
-        f"struct {struct_name} {{",
     ]
+    lines.extend(STRUCT_PREAMBLES.get((bucket, opcode_hex.lower()), []))
+    lines.append(f"struct {struct_name} {{")
     if body_size == 0:
         lines.append("    // no payload after inner header")
         lines.append("};")
@@ -248,7 +278,14 @@ def emit_struct(
 
     reviewed = STRUCT_LAYOUT_OVERRIDES.get((bucket, opcode_hex.lower()))
     if reviewed is not None:
-        type_widths = {"uint8_t": 1, "uint16_t": 2, "uint32_t": 4, "uint64_t": 8}
+        type_widths = {
+            "int8_t": 1,
+            "uint8_t": 1,
+            "uint16_t": 2,
+            "uint32_t": 4,
+            "uint64_t": 8,
+            "_0x018DRecord": 0x28,
+        }
         bytes_emitted = 0
         for c_type, name, count, comment in reviewed:
             suffix = f"[{count}]" if count != 1 else ""
@@ -348,7 +385,7 @@ def build_header(bucket: str, entries: list[tuple[str, str, dict, list[dict]]]) 
 
 
 DECL_RE = re.compile(
-    r"^\s*(uint8_t|uint16_t|uint32_t|uint64_t|float)\s+([A-Za-z_][A-Za-z0-9_]*)"
+    r"^\s*(int8_t|uint8_t|uint16_t|uint32_t|uint64_t|float|_0x018DRecord)\s+([A-Za-z_][A-Za-z0-9_]*)"
     r"(?:\[(\d+)\])?\s*;"
 )
 STATIC_ASSERT_RE = re.compile(
@@ -357,11 +394,13 @@ STATIC_ASSERT_RE = re.compile(
 STRUCT_DECL_RE = re.compile(r"^struct\s+([A-Za-z_][A-Za-z0-9_]*)\s*(\{)?\s*$")
 STRUCT_CLOSE_RE = re.compile(r"^\};\s*$")
 TYPE_WIDTHS = {
+    "int8_t": 1,
     "uint8_t": 1,
     "uint16_t": 2,
     "uint32_t": 4,
     "uint64_t": 8,
     "float": 4,
+    "_0x018DRecord": 40,
 }
 
 

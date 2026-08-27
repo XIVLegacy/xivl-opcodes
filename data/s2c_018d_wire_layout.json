@@ -1,0 +1,146 @@
+{
+  "schemaVersion": 1,
+  "binary": {
+    "name": "ffxivgame.exe",
+    "version": "1.23b",
+    "sha256": "9341f2b4567440b310a4d494f5cc5599ca334ba51c8042247317ff466492f2e9"
+  },
+  "opcodeHex": "0x018d",
+  "direction": "clientbound",
+  "name": "_0x018D",
+  "route": {
+    "dispatcher": "FUN_004DC690",
+    "caseInstruction": "0x004DD167",
+    "prepareCall": "0x004DD195",
+    "apply": "FUN_0055CF70",
+    "applyCall": "0x004DD1A9",
+    "pointerAdjustments": [
+      "The dispatcher receives the 16-byte game-message header at offset +0x10 from the start of the subpacket.",
+      "The case advances that game-message pointer by +0x10 before passing the application pointer to FUN_0055CF70.",
+      "The case reads RaptureElementContainer+0x4D8, rejects null, then adds +0x98 to the ClientWorkElement pointee for the ClientWorkStorage this pointer."
+    ]
+  },
+  "framing": {
+    "subpacketSize": 696,
+    "subpacketHeaderSize": 16,
+    "gameMessageHeaderSize": 16,
+    "applicationOffsetFromSubpacket": 32,
+    "applicationSize": 664
+  },
+  "application": {
+    "headerSize": 16,
+    "consumedHeaderDwordOffsets": [
+      0,
+      4,
+      8
+    ],
+    "unreadHeaderOffset": 12,
+    "unreadHeaderSize": 4,
+    "recordOffset": 16,
+    "recordStride": 40,
+    "recordCapacity": 16,
+    "recordExtent": 640,
+    "countOffset": 656,
+    "countWidth": 1,
+    "tailOffset": 657,
+    "tailSize": 7
+  },
+  "storage": {
+    "countOffset": 20,
+    "recordOffset": 24,
+    "recordStride": 120,
+    "recordCapacity": 16,
+    "tailFlagOffset": 1944,
+    "tailFlagBehavior": "If storage+0x798 is zero, FUN_0055CF70 sets it to one exactly when the loaded count is greater than one; a preexisting nonzero value is preserved.",
+    "perRecordHelper": "After the six direct field projections, FUN_0055CF70 calls FUN_00573FC0 with pointers into the current 0x78-byte storage row and the context prepared by FUN_00575550. No additional wire span is read directly by FUN_0055CF70.",
+    "projection": [
+      {
+        "wireOffset": 0,
+        "storageOffset": 0,
+        "width": 4,
+        "kind": "u32"
+      },
+      {
+        "wireOffset": 8,
+        "storageOffset": 8,
+        "width": 4,
+        "kind": "u32"
+      },
+      {
+        "wireOffset": 12,
+        "storageOffset": 12,
+        "width": 4,
+        "kind": "u32"
+      },
+      {
+        "wireOffset": 20,
+        "storageOffset": 16,
+        "width": 4,
+        "kind": "f32"
+      },
+      {
+        "wireOffset": 24,
+        "storageOffset": 20,
+        "width": 4,
+        "kind": "f32"
+      },
+      {
+        "wireOffset": 28,
+        "storageOffset": 24,
+        "width": 4,
+        "kind": "f32"
+      }
+    ],
+    "unprojectedWireSpans": [
+      "+0x04..+0x07",
+      "+0x10..+0x13",
+      "+0x20..+0x27"
+    ]
+  },
+  "countBehavior": {
+    "load": "MOVSX from the raw byte at application+0x290",
+    "zero": "No record is copied.",
+    "positiveRange": "Raw values 1..127 copy exactly that many records.",
+    "highBitRange": "Raw values 128..255 sign-extend to 0xFFFFFF80..0xFFFFFFFF and become an enormous unsigned loop bound.",
+    "maximumAcceptedCount": null,
+    "capacityCheck": false,
+    "truncation": false,
+    "overflow": "A count above 16 reads beyond the reserved wire array and writes beyond the sixteen-record ClientWorkStorage array; no rejection, clamp, or recovery is present in the traced case or apply function."
+  },
+  "offsetReconciliation": {
+    "applicationPlus0C": "This was the inferred packed start immediately after the three consumed header dwords. The instruction trace leaves application+0x0C..+0x0F unread, so it is not the record base.",
+    "gameMessagePlus20": "This is the same address as application+0x10 because the application pointer is game-message+0x10. It is not application+0x20.",
+    "resolved": "The first record starts at application+0x10, game-message+0x20, and subpacket+0x30."
+  },
+  "captureReconciliation": {
+    "captures": 54,
+    "events": 592,
+    "subpacketSize": 696,
+    "subpacketSizeDistribution": {
+      "696": 592
+    },
+    "recordStride": 40,
+    "countDistribution": {
+      "1": 415,
+      "2": 177
+    },
+    "records": 769,
+    "shapeExclusions": 0,
+    "capacityExclusions": 0,
+    "tailExclusions": 0,
+    "nonfiniteFloatExclusions": 0
+  },
+  "rejectedInterpretations": [
+    "The wire application layout is not the ClientWorkStorage in-memory layout.",
+    "The opcode and copied fields do not establish marker nouns, party policy, permissions, server causality, coordinate meanings, or selector creation.",
+    "The sixteen reserved wire records are a physical capacity, not a validated runtime limit."
+  ],
+  "remainingBoundary": "The three copied header dwords, the unread application header dword, the unprojected record spans, the higher-level use of projected fields, and behavior after the first out-of-bounds access remain semantically unresolved.",
+  "sourceRefs": [
+    "xivl-decomp:asm/ffxivgame/000dc690_FUN_004dc690.s#0x004DD167-0x004DD1C0",
+    "xivl-decomp:asm/ffxivgame/0015cf70_FUN_0055cf70.s",
+    "xivl-client-structs:manifests/rapture_selector_0d_clientwork.json",
+    "xivl-captures:studies/party-marker-018d-chronology/derived/accounting.json",
+    "xivl-captures:studies/party-marker-018d-chronology/derived/verdicts.md"
+  ]
+}

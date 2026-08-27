@@ -212,8 +212,8 @@ NAME_OVERRIDES = [
     (
         "MapClientbound",
         "0x018d",
-        "_0x018D",
         "PartyMapMarkerUpdatePacket",
+        "_0x018D",
         None,
     ),
     (
@@ -656,15 +656,15 @@ CLIENT_SEMANTICS_SPECIAL_NOTES = {
         "client_evidence=BCS-Y-0575 dispatcher and BCS-Y-0885 GroupSharedWork_SetOccupancy"
     ),
     "s2c-018d": (
-        "retail_client_analysis=FUN_00575550 gates the central opcode 0x018d route "
-        "and FUN_0055CF70 copies three header dwords, reads the u8 count at "
-        "application offset 0x290, and transposes count 0x28-byte source rows into "
-        "0x78-byte client rows; wire_capacity=16 reserved source rows with no static "
-        "compare or clamp; observed=60 696-byte subpackets; observed max=2; "
-        "semantic_status=decomp_routed; naming=client-derived from the party map-marker "
-        "apply path; client_only=route and layout do not establish server behavior; "
-        "prior_label=MapServerOpcode::PartyMapMarkerUpdate; "
-        "conflict=implementation anchor lacks a source-owned declaration"
+        "retail_client_analysis=FUN_004DC690 case 0x018d calls FUN_00575550 and "
+        "FUN_0055CF70; wire_layout=data/s2c_018d_wire_layout.json; "
+        "subpacket_size=0x2b8; application_size=0x298; application_header=0x10; "
+        "record_offset=0x10; record_stride=0x28; wire_capacity=16; "
+        "count_offset=0x290; count_width=1; count_load=MOVSX; count_check=none; "
+        "storage_record_offset=0x18; storage_record_stride=0x78; "
+        "observed_events=592; observed_counts=1x415,2x177; "
+        "semantic_status=decomp_routed; name_boundary=placeholder retained; "
+        "client_only=route and numeric layout do not establish server behavior"
     ),
     "c2s-012f": (
         "retail_client_analysis=FUN_0075E770 writes opcode 0x012f and record size 0x38, "

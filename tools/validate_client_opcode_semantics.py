@@ -128,7 +128,7 @@ OUTBOUND_OBSERVATION_FRAGMENTS = {
     ),
 }
 BARE_FUNCTION = re.compile(r"^FUN_[0-9A-F]{8}$")
-SOURCE_REF = re.compile(r"^(xivl-client-structs|xivl-client-scripts|xivl-captures|retail):")
+SOURCE_REF = re.compile(r"^(xivl-client-structs|xivl-client-scripts|xivl-captures|xivl-decomp|retail):")
 EXPECTED_CAPTURE_ROWS = {"c2s-00c9", "c2s-00ce", "c2s-012d", "c2s-012e", "c2s-012f", "s2c-00da", "s2c-00e1", "s2c-0144", "s2c-0179", "s2c-017c", "s2c-017f", "s2c-0183", "s2c-0187", "s2c-018b", "s2c-018d", "s2c-018f", "s2c-0190", "s2c-0191", "s2c-0193", "s2c-0196"}
 
 CLIENT_ONLY_EXPECTATIONS = {
@@ -1266,13 +1266,16 @@ def main() -> int:
     party_marker_row = next(row for row in rows if row.get("id") == "s2c-018d")
     party_marker_observation = party_marker_row.get("observation", "")
     for fragment in (
+        "FUN_004DC690",
         "FUN_00575550",
         "FUN_0055CF70",
-        "0x290",
-        "0x28-byte",
-        "All 60 retained subpackets are 696-byte subpackets",
-        "observed max=2",
-        "no compare or clamp to 16",
+        "application +0x0c is unread",
+        "0x28-byte wire rows begin at application +0x10",
+        "count byte at application +0x290",
+        "no rejection, clamp, or truncation",
+        "592 fixed 696-byte subpackets",
+        "415 carried one row and 177 carried two",
+        "prior +0x0c and +0x20 claims",
     ):
         if fragment not in party_marker_observation:
             errors.append(f"s2c-018d observation lost required fact: {fragment}")
@@ -1301,17 +1304,19 @@ def main() -> int:
         and entry.get("decompAnchor") == "FUN_00575550"
     )
     party_marker_notes = party_marker_entry.get("notes", "")
-    if party_marker_entry.get("name") != "PartyMapMarkerUpdatePacket":
-        errors.append("s2c-018d canonical name must reflect the client party-marker path")
+    if party_marker_entry.get("name") != "_0x018D":
+        errors.append("s2c-018d canonical name must remain the neutral placeholder")
     for fragment in (
+        "wire_layout=data/s2c_018d_wire_layout.json",
         "FUN_00575550",
         "FUN_0055CF70",
-        "0x290",
-        "0x28-byte",
-        "696-byte",
-        "observed max=2",
+        "record_offset=0x10",
+        "record_stride=0x28",
+        "count_offset=0x290",
+        "count_check=none",
+        "observed_events=592",
+        "name_boundary=placeholder retained",
         "client_only=",
-        "conflict=implementation anchor lacks a source-owned declaration",
     ):
         if fragment not in party_marker_notes:
             errors.append(f"s2c-018d notes lost required fragment: {fragment}")

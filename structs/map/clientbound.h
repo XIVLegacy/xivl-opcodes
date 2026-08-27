@@ -2584,43 +2584,34 @@ struct SetGroupLayoutIDBody
 static_assert(sizeof(SetGroupLayoutIDBody) == 64, "SetGroupLayoutIDBody size mismatch");
 
 // 0x018d (opcode 397) - sub_size=696B body=672B samples=60
-struct PartyMapMarkerUpdateBody
+struct _0x018DRecord
 {
-    uint8_t  field0[3];   // body[+0..+2] 3B (53 distinct)
-    uint8_t  _const1;     // body[+3] = 0x50
-    uint8_t  _pad2[4];    // body[+4..+7] zero
-    uint8_t  _const3;     // body[+8] = 0xac
-    uint8_t  _const4;     // body[+9] = 0xe9
-    uint8_t  _const5;     // body[+10] = 0x77
-    uint8_t  _pad6[4];    // body[+11..+14] zero
-    uint8_t  _const7;     // body[+15] = 0x80
-    uint8_t  _const8;     // body[+16] = 0x11
-    uint8_t  _const9;     // body[+17] = 0x27
-    uint8_t  _pad10[6];   // body[+18..+23] zero
-    uint8_t  _const11;    // body[+24] = 0x41
-    uint8_t  _const12;    // body[+25] = 0x29
-    uint8_t  _const13;    // body[+26] = 0x9b
-    uint8_t  _const14;    // body[+27] = 0x02
-    uint8_t  _pad15[4];   // body[+28..+31] zero
-    uint8_t  _const16;    // body[+32] = 0x09
-    uint8_t  _const17;    // body[+33] = 0x79
-    uint8_t  _const18;    // body[+34] = 0xc1
-    uint8_t  _pad19[9];   // body[+35..+43] zero
-    float    field20[4];  // body[+44..+59] 4x f32 (25 distinct)
-    uint8_t  _pad21[4];   // body[+60..+63] zero
-    uint32_t field22;     // body[+64..+67] u32 (2 distinct)
-    uint8_t  _pad23[4];   // body[+68..+71] zero
-    uint8_t  field24[3];  // body[+72..+74] 3B (2 distinct)
-    uint8_t  _pad25[9];   // body[+75..+83] zero
-    uint32_t field26;     // body[+84..+87] u32 (2 distinct)
-    uint8_t  _pad27[2];   // body[+88..+89] zero
-    uint8_t  field28[10]; // body[+90..+99] 10B (2 distinct)
-    uint8_t  _pad29[564]; // body[+100..+663] zero
-    uint8_t  field30;     // body[+664] u8 (2 distinct)
-    uint8_t  _pad31[7];   // body[+665..+671] zero
+    uint32_t field00;     // record[+0x00]; storage record +0x00
+    uint8_t  unread04[4]; // record[+0x04..+0x07]
+    uint32_t field08;     // record[+0x08]; storage record +0x08
+    uint32_t field0C;     // record[+0x0c]; storage record +0x0c
+    uint8_t  unread10[4]; // record[+0x10..+0x13]
+    float    field14;     // record[+0x14]; storage record +0x10
+    float    field18;     // record[+0x18]; storage record +0x14
+    float    field1C;     // record[+0x1c]; storage record +0x18
+    uint8_t  unread20[8]; // record[+0x20..+0x27]
 };
 
-static_assert(sizeof(PartyMapMarkerUpdateBody) == 672, "PartyMapMarkerUpdateBody size mismatch");
+static_assert(sizeof(_0x018DRecord) == 40, "_0x018DRecord size mismatch");
+
+struct _0x018DBody
+{
+    uint8_t       gameMessagePreamble[8]; // body[+0..+7]; not application payload
+    uint32_t      applicationField00;     // application[+0x00]; copied to storage+0x08
+    uint32_t      applicationField04;     // application[+0x04]; copied to storage+0x0c
+    uint32_t      applicationField08;     // application[+0x08]; copied to storage+0x10
+    uint8_t       unreadApplication0C[4]; // application[+0x0c..+0x0f]; not read by FUN_0055CF70
+    _0x018DRecord records[16];            // sixteen 0x28-byte records at application[+0x10]
+    int8_t        recordCount;            // application[+0x290]; loaded with MOVSX, no capacity check
+    uint8_t       reservedTail[7];        // application[+0x291..+0x297]
+};
+
+static_assert(sizeof(_0x018DBody) == 672, "_0x018DBody size mismatch");
 
 // 0x018f (opcode 399) - sub_size=40B body=16B samples=15
 struct _0x018FBody

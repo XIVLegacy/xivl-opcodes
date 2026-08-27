@@ -4461,7 +4461,7 @@
           "notes": "retail_client_analysis=FUN_005763A0 forwards opcode 0x018b through FUN_006C5DF0 and FUN_006C5240 into the client Group/SharedWork layout path; application_payload=0x38 bytes with an opaque 8-byte group header, group-handle u32 at +0x08, localized-name u32 at +0x0c, signed layout-id dword at +0x10, unresolved layout-kind byte at +0x14, unresolved reserved byte at +0x15, and layout name char[34] at +0x16; observed=31 retained 88-byte subpackets across 13 captures; semantic_status=decomp_routed; naming=client-derived from the Group/SharedWork layout path; client_only=route and shape do not establish server behavior; alternate_spelling=SetGroupLayoutIdPacket; prior_label=MapServerOpcode::SetGroupLayoutId; conflict=implementation anchor lacks a source-owned declaration; client_evidence=BCS-Y-0579 dispatcher and BCS-Y-0889 GroupSharedWork layout path; client_semantics_evidence=data/client_opcode_semantics.json#s2c-018b; dependency_status=closed"
         },
         {
-          "name": "PartyMapMarkerUpdatePacket",
+          "name": "_0x018D",
           "opcode": 397,
           "opcodeHex": "0x018d",
           "service": "map",
@@ -4512,7 +4512,7 @@
             696
           ],
           "confidence": "decomp_routed",
-          "notes": "retail_client_analysis=FUN_00575550 gates the central opcode 0x018d route and FUN_0055CF70 copies three header dwords, reads the u8 count at application offset 0x290, and transposes count 0x28-byte source rows into 0x78-byte client rows; wire_capacity=16 reserved source rows with no static compare or clamp; observed=60 696-byte subpackets; observed max=2; semantic_status=decomp_routed; naming=client-derived from the party map-marker apply path; client_only=route and layout do not establish server behavior; prior_label=MapServerOpcode::PartyMapMarkerUpdate; conflict=implementation anchor lacks a source-owned declaration; client_semantics_evidence=data/client_opcode_semantics.json#s2c-018d; dependency_status=closed"
+          "notes": "retail_client_analysis=FUN_004DC690 case 0x018d calls FUN_00575550 and FUN_0055CF70; wire_layout=data/s2c_018d_wire_layout.json; subpacket_size=0x2b8; application_size=0x298; application_header=0x10; record_offset=0x10; record_stride=0x28; wire_capacity=16; count_offset=0x290; count_width=1; count_load=MOVSX; count_check=none; storage_record_offset=0x18; storage_record_stride=0x78; observed_events=592; observed_counts=1x415,2x177; semantic_status=decomp_routed; name_boundary=placeholder retained; client_only=route and numeric layout do not establish server behavior; client_semantics_evidence=data/client_opcode_semantics.json#s2c-018d; dependency_status=closed"
         },
         {
           "name": "_0x018E",

@@ -46,16 +46,16 @@
       "direction": "clientbound",
       "function": "FUN_00575550",
       "status": "closed",
-      "supportedLabel": "PartyMapMarkerUpdatePacket client route with sixteen reserved 0x28-byte rows and a count byte at application offset 0x290",
-      "tool": "XIVLegacy Ghidra DumpFunctionDecomp.java, build_data_dependency_catalog.py, and capture payload analysis",
-      "observation": "The central dispatcher routes opcode 0x018d through FUN_00575550, which gates on owner offset 0x4d8 and forwards the application data to FUN_0055CF70. That apply function copies three header dwords, sign-extends the u8 count at application offset 0x290, and transposes count 0x28-byte source rows into 0x78-byte client rows. The wire layout reserves sixteen source rows, but retail contains no compare or clamp to 16. All 60 retained subpackets are 696-byte subpackets; count is 1 in 58 samples and 2 in 2 samples, so observed max=2. This establishes the client-side party map-marker update route and layout, not a server implementation declaration or behavior.",
+      "supportedLabel": "_0x018D client route with a fixed 0x298-byte application layout, sixteen reserved 0x28-byte rows, and a count byte at application offset 0x290",
+      "tool": "XIVLegacy Ghidra DumpVAs.java read-only export, canonical retail assembly, and exhaustive sanitized capture reconciliation",
+      "observation": "FUN_004DC690 case 0x018d null-tests RaptureElementContainer+0x4d8, advances the ClientWorkElement pointee by +0x98 for ClientWorkStorage, advances the game-message pointer by +0x10 for the application, calls FUN_00575550, and then calls FUN_0055CF70. The apply function copies application u32 +0x00, +0x04, and +0x08 into storage +0x08, +0x0c, and +0x10; application +0x0c is unread. Sixteen reserved 0x28-byte wire rows begin at application +0x10. For each row, wire +0x00/+0x08/+0x0c u32 and +0x14/+0x18/+0x1c f32 project to the 0x78-byte ClientWorkStorage row at +0x00/+0x08/+0x0c/+0x10/+0x14/+0x18. MOVSX loads the raw count byte at application +0x290 into storage +0x14. There is no rejection, clamp, or truncation: counts above 16 overrun the fixed wire and storage arrays, while raw values 128..255 become enormous unsigned loop bounds after sign extension. The complete 54-capture study admitted 592 fixed 696-byte subpackets: 415 carried one row and 177 carried two, for 769 rows and zero size, shape, capacity, or reserved-tail exclusions. The first row is application +0x10, game-message +0x20, and subpacket +0x30; prior +0x0c and +0x20 claims respectively packed after only the three consumed header dwords and used the game-message base. This establishes only the client route and stable numeric layout, not field nouns, party policy, permissions, causality, coordinate meanings, selector creation, or server behavior.",
       "sourceRefs": [
-        "xivl-client-structs:manifests/symbols.json#BCS-Y-0580",
-        "xivl-client-structs:manifests/data_dependency_catalog.json#s2c_0x018d",
-        "xivl-client-structs:manifests/party_subsystem.json#0x018D",
-        "xivl-captures:derived/payload_layouts.json#s2c.0x018d",
-        "xivl-captures:derived/payload_samples.json#s2c.0x018d",
-        "retail:ffxivgame.exe#sha256=9341f2b4567440b310a4d494f5cc5599ca334ba51c8042247317ff466492f2e9;vas=0x004DD195,0x00575550,0x0055CF70;run=opcode-semantics-s2c-018d"
+        "xivl-decomp:asm/ffxivgame/000dc690_FUN_004dc690.s#0x004DD167-0x004DD1C0",
+        "xivl-decomp:asm/ffxivgame/0015cf70_FUN_0055cf70.s",
+        "xivl-client-structs:manifests/rapture_selector_0d_clientwork.json",
+        "xivl-captures:studies/party-marker-018d-chronology/derived/accounting.json",
+        "xivl-captures:studies/party-marker-018d-chronology/derived/verdicts.md",
+        "retail:ffxivgame.exe#sha256=9341f2b4567440b310a4d494f5cc5599ca334ba51c8042247317ff466492f2e9;vas=0x004DC690,0x00575550,0x0055CF70;run=s2c-018d-wire-layout"
       ]
     },
     {
