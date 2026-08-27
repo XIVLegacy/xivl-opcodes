@@ -12,6 +12,7 @@ validation entry point:
 ```powershell
 python -m pip install -r tools\requirements.txt
 python tools\test_retail_zone_dispatch.py
+python tools\test_0193_route.py
 python tools\validate_repository.py
 $headers = git ls-files -- '*.h' '*.hh' '*.hpp' '*.hxx'
 clang-format --dry-run --Werror $headers

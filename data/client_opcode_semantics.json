@@ -354,7 +354,7 @@
       "function": "FUN_00576390",
       "status": "closed",
       "supportedLabel": "SetOccupancyGroupPacket client route with a 0x40-byte application payload",
-      "tool": "XIVLegacy Ghidra DumpFunctionDecomp.java and capture payload analysis",
+      "tool": "XIVLegacy Ghidra DumpVAs.java and capture payload analysis",
       "observation": "The central dispatcher routes opcode 0x0187 through FUN_00576390, FUN_006C8340, and FUN_006C6B20 into the client Group/SharedWork property-update path. The 0x40-byte application payload contains an opaque 16-byte group header, two occupancy-work u32 values at offset 0x10, a localized-name u32 at 0x18, and a 36-byte occupancy name at 0x1c. All 33 retained subpackets are 96 bytes across 13 captures. This establishes the client-side occupancy-group route and layout, not a server implementation declaration or behavior.",
       "sourceRefs": [
         "xivl-client-structs:manifests/symbols.json#BCS-Y-0575",
@@ -515,16 +515,21 @@
       "direction": "clientbound",
       "function": "FUN_00578C90",
       "status": "closed",
-      "supportedLabel": "0x0193 multiplexed client state/config dispatcher with an 8-byte application payload",
+      "supportedLabel": "0x0193 multiplexed client timer/config/command dispatcher with an 8-byte application payload",
       "tool": "XIVLegacy Ghidra DumpFunctionDecomp.java and capture payload analysis",
-      "observation": "The central dispatcher passes packet fields +0x10, +0x14, and +0x08 to FUN_00578C90. That handler switches on the first application u32: values below 0x10 enter the indexed FUN_0075F3E0 worker; 0x10 through 0x12 and 0x16 write direct state slots; 0x13 enters a string/config path; 0x14 performs a one-time init gate; and 0x15 enters unresolved FUN_00576020. All 9 retained subpackets are 40 bytes across 8 captures, matching the 9 aggregate events. The retained subopcode distribution is 0x14 in 8 samples and 0x12 in 1 sample; this proves a multiplexed client state/config route but not the imported SetControlState packet noun, exact low-range/string/0x15 semantics, a server implementation declaration, or server behavior.",
+      "observation": "The central dispatcher passes application u32 +0x00, application u32 +0x04, and packet-header u32 +0x08 to FUN_00578C90; the application payload is 8 bytes, not 12. Except when application +0x04 is 0xffffffff, the handler derives header_clock + application_delta. Subopcodes 0x00..0x0f write that u32 through FUN_0075F3E0 to vector index subopcode. The helper tests the index against the runtime dword length but its error path still reaches the raw write; FUN_0075F420 is the paired reader and FUN_00705450 is its sole static wrapper. Subopcodes 0x10, 0x11, 0x12, and 0x16 write u32 slots +0x10, +0x14, +0x18, and +0x1c of the same state object; their paired readers first reach wrappers FUN_007054D0, FUN_00705510, FUN_00705550, and FUN_00706A00. Subopcode 0x13 uses application +0x04 of 0xffffffff to query, or any other u32 to write, the ActionCheck field at +0x38 of the owner reached through zone state +0xec; both paths format static labels and send the result to the debug-log path. Subopcode 0x14 requires handler byte +0x3a to be zero and application +0x04 outside 0, 0x15, and 0x16, invokes FUN_0075B300 virtual setup slots +0x04, +0x10, +0x1c, and +0x28, then sets the byte to one. The resolved RaptureUserControl vtable maps those slots to setup paths that increment u32 reference counts at +0x18, +0x2c, +0x40, and +0x54 and register RaptureCommands callbacks where applicable. Subopcode 0x15 reaches FUN_00576020, which applies the inverse argument and byte guard, uses FUN_0075B360 to read those four counts and decrement each positive count through paired virtual slots, then clears the byte; a movement-state caller is its only other direct caller. Static evidence does not prove that the final dereferenced +0x17758 base is the central RaptureElementContainer, semantic names for the timer fields, the exact command membership of all four groups, individual low-vector meanings, or an ActionCheck consumer beyond its diagnostic query. All 9 retained 40-byte subpackets across 8 captures are 0x14 x8 or 0x12 x1. Their (packet-header +0x08, application +0x04) pairs are 0x50e0f492/15, 0x50e0e9d5/15, 0x50e11de8/2, 0x50e0eddb/900, 0x50e0eddb/2, 0x50e0f7f2/2, 0x50e0eb11/2, 0x50e0ec64/2, and 0x50e15b05/2 in retained sample order; only return_to_inn contains two samples, ordered 0x12 then 0x14 in one frame, and the 0x12 branch stores 0x50e0f15f. The route proves no stable cross-branch packet noun, server implementation declaration, server behavior, or login causality.",
       "sourceRefs": [
         "xivl-client-structs:manifests/symbols.json#BCS-Y-0584",
         "xivl-client-structs:manifests/symbols.json#BCS-Y-0990",
-        "xivl-client-structs:manifests/setcontrolstate_subdispatcher.json#FUN_00578C90",
+        "xivl-client-structs:manifests/symbols.json#BCS-Y-0991",
+        "xivl-client-structs:manifests/symbols.json#BCS-Y-0992",
+        "xivl-client-structs:manifests/symbols.json#BCS-Y-0993",
+        "xivl-client-structs:manifests/symbols.json#BCS-Y-0996",
+        "xivl-client-structs:manifests/symbols.json#BCS-Y-0997",
+        "xivl-client-structs:manifests/symbols.json#BCS-Y-0998",
         "xivl-captures:derived/payload_layouts.json#s2c.0x0193",
         "xivl-captures:derived/payload_samples.json#s2c.0x0193",
-        "retail:ffxivgame.exe#sha256=9341f2b4567440b310a4d494f5cc5599ca334ba51c8042247317ff466492f2e9;vas=0x004DD37D,0x00578C90;run=opcode-semantics-s2c-0193"
+        "retail:ffxivgame.exe#sha256=9341f2b4567440b310a4d494f5cc5599ca334ba51c8042247317ff466492f2e9;vas=0x004DC690,0x004D7580,0x004D7A60,0x004DBAF0,0x004DBF40,0x0054B440,0x0054B600,0x0054B610,0x0054B620,0x0054B630,0x0054B640,0x0054B650,0x0054B660,0x0054B670,0x0054B680,0x0054B8C0,0x0054B8D0,0x0054E440,0x00576020,0x00577FD0,0x00578C90,0x00589030,0x00705450,0x007054D0,0x00705510,0x00705550,0x00706A00,0x0075B300,0x0075B360,0x0075BC90,0x0075D210,0x0075D230,0x0075D250,0x0075D270,0x0075F3E0,0x0075F420;run=opcode-semantics-s2c-0193-close-20260827"
       ]
     },
     {

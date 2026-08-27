@@ -165,6 +165,18 @@ LAYOUT_SUMMARY_EXPECTATIONS = {
     "s2c-018d": ("0x018d", {"sample_count": 60, "sub_size_distribution": {"696": 60}, "body_length": 680}),
 }
 
+EXPECTED_0193_SAMPLES = (
+    ("gridania_to_coerthas.pcapng", 0x50E0F492, 0x14, 15),
+    ("move_out_of_room.pcapng", 0x50E0E9D5, 0x14, 15),
+    ("party_battle_leve.pcapng", 0x50E11DE8, 0x14, 2),
+    ("return_to_inn.pcapng", 0x50E0EDDB, 0x12, 900),
+    ("return_to_inn.pcapng", 0x50E0EDDB, 0x14, 2),
+    ("teleport_to_camp_nine_ivies.pcapng", 0x50E0F7F2, 0x14, 2),
+    ("teleport_to_camp_tranquil.pcapng", 0x50E0EB11, 0x14, 2),
+    ("teleport_to_gridania.pcapng", 0x50E0EC64, 0x14, 2),
+    ("war_quest_update2.pcapng", 0x50E15B05, 0x14, 2),
+)
+
 CHANT_BOUNDARY_EXPECTATIONS = {
     "s2c-0144": (
         "FUN_0075A9A0 constructs ChangeActorSubStatModeBorderReceiver from application offset 4",
@@ -868,23 +880,40 @@ def main() -> int:
         errors.append("s2c-018a must not retain a WorldClientbound catalog row")
 
     control_row = next(row for row in rows if row.get("id") == "s2c-0193")
+    if control_row.get("supportedLabel") != (
+        "0x0193 multiplexed client timer/config/command dispatcher with an 8-byte application payload"
+    ):
+        errors.append("s2c-0193 supported structural label drifted")
     control_observation = control_row.get("observation", "")
     for fragment in (
         "FUN_00578C90",
-        "first application u32",
-        "below 0x10",
+        "packet-header u32 +0x08",
+        "application payload is 8 bytes, not 12",
+        "header_clock + application_delta",
+        "0x00..0x0f",
         "FUN_0075F3E0",
-        "0x10 through 0x12 and 0x16",
-        "0x13",
-        "0x14",
-        "0x15",
+        "runtime dword length",
+        "error path still reaches the raw write",
+        "FUN_0075F420",
+        "FUN_00705450",
+        "0x10, 0x11, 0x12, and 0x16",
+        "+0x10, +0x14, +0x18, and +0x1c",
+        "ActionCheck field at +0x38",
+        "RaptureUserControl vtable",
+        "RaptureCommands callbacks",
         "FUN_00576020",
-        "9 retained subpackets",
-        "40 bytes",
+        "FUN_0075B360",
+        "9 retained 40-byte subpackets",
         "8 captures",
-        "9 aggregate events",
-        "0x14 in 8 samples and 0x12 in 1 sample",
-        "exact low-range/string/0x15 semantics",
+        "0x14 x8 or 0x12 x1",
+        "0x50e0eddb/900",
+        "ordered 0x12 then 0x14 in one frame",
+        "0x50e0f15f",
+        "final dereferenced +0x17758 base",
+        "exact command membership of all four groups",
+        "ActionCheck consumer beyond its diagnostic query",
+        "semantic names for the timer fields",
+        "no stable cross-branch packet noun",
     ):
         if fragment not in control_observation:
             errors.append(f"s2c-0193 observation lost required fact: {fragment}")
@@ -892,10 +921,17 @@ def main() -> int:
     control_samples = capture_samples["samples"]["s2c"]["0x0193"]
     retained_control = control_samples.get("samples", [])
     subops: dict[int, int] = {}
+    observed_control: list[tuple[str, int, int, int]] = []
     for sample in retained_control:
-        payload = bytes.fromhex(sample["bytes"])[16:24]
+        body = bytes.fromhex(sample["bytes"])
+        header_clock = int.from_bytes(body[8:12], "little")
+        payload = body[16:24]
         subop = int.from_bytes(payload[:4], "little")
+        application_delta = int.from_bytes(payload[4:8], "little")
         subops[subop] = subops.get(subop, 0) + 1
+        observed_control.append(
+            (sample.get("capture", ""), header_clock, subop, application_delta)
+        )
     if control_samples.get("sampleCount") != 9 or len(retained_control) != 9:
         errors.append("s2c-0193 retained sample count drifted from 9")
     if {sample.get("sub_size") for sample in retained_control} != {40}:
@@ -904,6 +940,8 @@ def main() -> int:
         errors.append("s2c-0193 retained capture count drifted from 8")
     if subops != {0x14: 8, 0x12: 1}:
         errors.append(f"s2c-0193 retained subopcode distribution drifted: {subops}")
+    if tuple(observed_control) != EXPECTED_0193_SAMPLES:
+        errors.append("s2c-0193 retained header/subopcode/delta chronology drifted")
     control_entry = next(
         entry
         for entry in entries
@@ -917,19 +955,28 @@ def main() -> int:
     for fragment in (
         "FUN_00578C90",
         "application_payload=8 bytes",
-        "<0x10 to FUN_0075F3E0",
-        "0x13 string/config path",
-        "0x14 one-time init gate",
-        "0x15 unresolved FUN_00576020",
+        "third_scalar=packet-header u32 +0x08, not application +0x08",
+        "0x00..0x0f write a u32 vector at index subopcode",
+        "runtime-length error path still reaches the raw write",
+        "paired reader=FUN_0075F420",
+        "+0x10/+0x14/+0x18/+0x1c",
+        "0x13 queries or writes ActionCheck u32 +0x38",
+        "0x14 guards zero-to-one around FUN_0075B300",
+        "RaptureUserControl targets increment u32 counts +0x18/+0x2c/+0x40/+0x54",
+        "0x15 reaches FUN_00576020 and FUN_0075B360",
         "observed=9 retained 40-byte subpackets across 8 captures",
         "retained_subops=0x14 x8, 0x12 x1",
+        "50e0eddb/900,50e0eddb/2",
+        "retained_order=return_to_inn has 0x12 then 0x14 in one frame",
+        "captured_0x12_store=0x50e0f15f",
         "corpus_aggregate=9 events",
-        "unresolved=low-range,0x13 string/config,0x15 helper semantics",
+        "unresolved=final +0x17758 base ownership, individual low-vector meanings, semantic timer-field names, exact command membership of all four groups, external ActionCheck consumer",
+        "first_reader_wrappers=FUN_00705450,FUN_007054D0,FUN_00705510,FUN_00705550,FUN_00706A00",
         "naming=placeholder retained",
         "candidate_label=SetControlStatePacket is an imported source-manifest term, not retail-proven",
         "client_only=",
         "conflict=implementation anchor and packet noun lack a source-owned declaration",
-        "BCS-Y-0584,BCS-Y-0990",
+        "BCS-Y-0584,BCS-Y-0990,BCS-Y-0991,BCS-Y-0992,BCS-Y-0993,BCS-Y-0996,BCS-Y-0997,BCS-Y-0998",
     ):
         if fragment not in control_notes:
             errors.append(f"s2c-0193 notes lost required fragment: {fragment}")

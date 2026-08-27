@@ -83,6 +83,8 @@ writer. Abbreviated, uppercase, or omitted hashes are rejected.
 - `test_retail_zone_dispatch.py` runs the credential-free mutation suite for
   the retail dispatch contract. It needs no executable, private repository,
   token, Ghidra installation, or sibling checkout.
+- `test_0193_route.py` rejects mutations to the retained 0x0193 header clock,
+  application delta, same-frame ordering, and placeholder-name boundary.
 - `ghidra_scripts/ExportZoneDispatchRoute.java` verifies the fixed dispatcher
   data flow in a fresh analyzed program and emits one private structured
   observation. It emits no disassembly, bytes, paths, names, or expected
