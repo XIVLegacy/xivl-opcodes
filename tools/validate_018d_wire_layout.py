@@ -72,9 +72,11 @@ EXPECTED_REJECTED_INTERPRETATIONS = [
 ]
 EXPECTED_REMAINING_BOUNDARY = (
     "The three copied header dwords, the unread application header dword, the "
-    "unprojected record spans, key dword domains, coordinate system, marker "
-    "identity, server policy, creation trigger, update cadence, and behavior "
-    "after the first out-of-bounds access remain semantically unresolved."
+    "unprojected record spans, semantic names and cross-update stability of the "
+    "three lookup/eligibility dwords, tagged-owner types outside the proven helper "
+    "paths, coordinate system, marker identity, server policy, creation trigger, "
+    "update cadence, and behavior after the first out-of-bounds access remain "
+    "semantically unresolved."
 )
 
 
@@ -149,6 +151,34 @@ def main() -> int:
     behavior = evidence["countBehavior"]
     if behavior != EXPECTED_COUNT_BEHAVIOR:
         fail("unbounded signed-count behavior drifted")
+
+    lookup = evidence.get("recordLookupSemantics", {})
+    primary = lookup.get("primary", {})
+    fallback = lookup.get("fallback", {})
+    eligibility = lookup.get("eligibilityOnly", {})
+    helper_outputs = lookup.get("helperOutputs", {})
+    if tuple(primary.get(key) for key in ("wireOffset", "storageOffset", "role")) != (
+        0, 0, "primary tagged-referent lookup selector"
+    ) or not all(
+        token in primary.get("zeroBehavior", "") + primary.get("selectedComparison", "")
+        for token in ("Zero is still looked up", "+0x88 registry key")
+    ):
+        fail("primary tagged-referent selector behavior drifted")
+    if tuple(fallback.get(key) for key in ("wireOffset", "storageOffset", "role")) != (
+        8, 8, "fallback tagged-referent lookup selector"
+    ) or "signed -1" not in fallback.get("condition", ""):
+        fail("fallback tagged-referent selector behavior drifted")
+    if tuple(eligibility.get(key) for key in ("wireOffset", "storageOffset")) != (12, 12) \
+            or "not used as a helper lookup key" not in eligibility.get("role", ""):
+        fail("eligibility-only dword behavior drifted")
+    if not all(
+        token in helper_outputs.get("text", "")
+        for token in ("+0x20 Utf8String", "every literal !!!", "Text:String")
+    ) or not all(
+        token in helper_outputs.get("layout", "")
+        for token in ("+0x74", "referent +0x00", "Layout:Int")
+    ):
+        fail("helper-derived Text or Layout behavior drifted")
 
     consumer = evidence["consumerClassification"]
     if tuple(consumer.get(key) for key in ("class", "function", "kind")) != (

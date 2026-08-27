@@ -102,6 +102,11 @@ def main() -> int:
             ("consumer citation", lambda row: row.__setitem__("sourceRefs", [ref for ref in row["sourceRefs"] if "s2c_018d_map_marker_presentation" not in ref])),
             ("rejected boundary", lambda row: row.__setitem__("rejectedInterpretations", [])),
             ("remaining boundary", lambda row: row.__setitem__("remainingBoundary", "resolved")),
+            ("primary selector", lambda row: row["recordLookupSemantics"]["primary"].__setitem__("role", "actor ID")),
+            ("fallback sentinel", lambda row: row["recordLookupSemantics"]["fallback"].__setitem__("condition", "zero")),
+            ("eligibility selector", lambda row: row["recordLookupSemantics"]["eligibilityOnly"].__setitem__("role", "lookup key")),
+            ("helper text", lambda row: row["recordLookupSemantics"]["helperOutputs"].__setitem__("text", "label")),
+            ("helper layout", lambda row: row["recordLookupSemantics"]["helperOutputs"].__setitem__("layout", "layout ID")),
         )
         for label, mutate in mutations:
             document = copy.deepcopy(baseline)
@@ -133,7 +138,7 @@ def main() -> int:
         for failure in failures:
             print(f"  - {failure}", file=sys.stderr)
         return 1
-    print("0x018D wire mutation tests OK (28 mutations rejected).")
+    print("0x018D wire mutation tests OK (33 mutations rejected).")
     return 0
 
 

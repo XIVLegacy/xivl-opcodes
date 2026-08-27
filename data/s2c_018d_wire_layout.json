@@ -107,6 +107,32 @@
     "truncation": false,
     "overflow": "A count above 16 reads beyond the reserved wire array and writes beyond the sixteen-record ClientWorkStorage array; no rejection, clamp, or recovery is present in the traced case or apply function."
   },
+  "recordLookupSemantics": {
+    "primary": {
+      "wireOffset": 0,
+      "storageOffset": 0,
+      "role": "primary tagged-referent lookup selector",
+      "zeroBehavior": "Zero is still looked up and is not a wire miss sentinel.",
+      "selectedComparison": "The projected dword is also compared with the stable +0x88 registry key of the selected RaptureElement.",
+      "identityBoundary": "Per-update equality compatibility with a stable native registry key does not prove a stable wire identity or semantic field noun."
+    },
+    "fallback": {
+      "wireOffset": 8,
+      "storageOffset": 8,
+      "role": "fallback tagged-referent lookup selector",
+      "condition": "Used only when the primary lookup returns signed -1.",
+      "zeroBehavior": "Zero is allowed and is not the lookup miss sentinel."
+    },
+    "eligibilityOnly": {
+      "wireOffset": 12,
+      "storageOffset": 12,
+      "role": "Participates with the fallback selector in the presentation eligibility test and is not used as a helper lookup key."
+    },
+    "helperOutputs": {
+      "text": "Each iterated row resets its +0x20 Utf8String, resolves a tag-specific referent string when available, removes every literal !!! occurrence, and presents the result as Text:String.",
+      "layout": "Each iterated row clears +0x74, copies matched referent +0x00 on success, and presents the unchanged dword as Layout:Int."
+    }
+  },
   "consumerClassification": {
     "class": "Application::Main::SqwtInterface::CustomControl::MapScreenControl",
     "function": "FUN_00671400",
@@ -171,7 +197,7 @@
     "The sixteen reserved wire records are a physical capacity, not a validated runtime limit.",
     "Static marker resources do not establish a runtime edge to 0x018D or assign a wire-field noun."
   ],
-  "remainingBoundary": "The three copied header dwords, the unread application header dword, the unprojected record spans, key dword domains, coordinate system, marker identity, server policy, creation trigger, update cadence, and behavior after the first out-of-bounds access remain semantically unresolved.",
+  "remainingBoundary": "The three copied header dwords, the unread application header dword, the unprojected record spans, semantic names and cross-update stability of the three lookup/eligibility dwords, tagged-owner types outside the proven helper paths, coordinate system, marker identity, server policy, creation trigger, update cadence, and behavior after the first out-of-bounds access remain semantically unresolved.",
   "sourceRefs": [
     "xivl-decomp:asm/ffxivgame/000dc690_FUN_004dc690.s#0x004DD167-0x004DD1C0",
     "xivl-decomp:asm/ffxivgame/0015cf70_FUN_0055cf70.s",
