@@ -341,8 +341,8 @@ def main() -> int:
                 errors.append(f"{label}: chant boundary lacks required fact {fragment!r}")
 
     anchors = [entry["decompAnchor"] for entry in entries if entry.get("decompAnchor")]
-    if len(anchors) != 86:
-        errors.append(f"catalog has {len(anchors)} decompAnchor values, expected 86")
+    if len(anchors) != 93:
+        errors.append(f"catalog has {len(anchors)} decompAnchor values, expected 93")
     bad_anchors = [anchor for anchor in anchors if not BARE_FUNCTION.fullmatch(anchor)]
     if bad_anchors:
         errors.append(f"non-bare decompAnchor values: {bad_anchors}")
@@ -1518,6 +1518,8 @@ def main() -> int:
                         f"s2c 0x{opcode:04x} lost prior-lineage fact {fragment!r}"
                     )
         expected_observed = {
+            0x01CB: (["login.pcapng"], [680]),
+            0x01CE: (["login.pcapng"], [840]),
             0x01CF: (["friendlist_search.pcapng", "invite_join_party.pcapng"], [1640]),
             0x01DF: (["friendlist_search.pcapng"], [968]),
         }.get(opcode, ([], []))
@@ -1525,6 +1527,114 @@ def main() -> int:
             errors.append(f"s2c 0x{opcode:04x} observedIn drifted")
         if entry.get("payloadLengths") != expected_observed[1]:
             errors.append(f"s2c 0x{opcode:04x} payloadLengths drifted")
+        if opcode in (0x01CB, 0x01CE):
+            fragment = (
+                "login_payload_evidence=xivl-captures:derived/observations.json"
+                f"#inner_opcodes.s2c.0x{opcode:04x}"
+            )
+            if fragment not in notes:
+                errors.append(
+                    f"s2c 0x{opcode:04x} lost exact login payload evidence"
+                )
+        if opcode == 0x01CF:
+            fragment = (
+                "capture_layout_evidence=xivl-captures:derived/payload_layouts.json"
+                "#layouts.s2c.0x01cf"
+            )
+            if fragment not in notes:
+                errors.append("s2c 0x01cf lost captured payload-layout evidence")
+            layout = capture_layouts.get("layouts", {}).get("s2c", {}).get("0x01cf", {})
+            expected_layout = {
+                "common_sub_size": 1640,
+                "sub_size_distribution": {"1640": 2},
+                "sample_count": 2,
+                "body_length": 1624,
+            }
+            for key, value in expected_layout.items():
+                if layout.get(key) != value:
+                    errors.append(f"s2c 0x01cf captured layout {key} drifted")
+
+    social_serverbound = {
+        0x01C9: ("FUN_004C9DA0", "decomp_routed", [], [], "application_size=32"),
+        0x01CA: ("FUN_004B7D70", "decomp_routed", [], [], "application_size=32"),
+        0x01CB: ("FUN_004CA100", "decomp_routed", ["login.pcapng"], [40], "application_size=8"),
+        0x01CC: ("FUN_004CA1B0", "decomp_routed", [], [], "application_size=32"),
+        0x01CD: ("FUN_004B7E30", "blocked", [], [], "evidence_conflict="),
+        0x01CE: ("FUN_004CA730", "decomp_routed", ["login.pcapng"], [40], "application_size=8"),
+        0x01CF: (
+            "FUN_004B7EF0",
+            "decomp_routed",
+            ["friendlist_search.pcapng", "invite_join_party.pcapng"],
+            [40],
+            "application_size=8",
+        ),
+    }
+    serverbound_rows = {
+        entry.get("opcode"): entry
+        for entry in catalog["lists"]["MapServerbound"]
+        if 0x01C9 <= entry.get("opcode", -1) <= 0x01CF
+    }
+    if set(serverbound_rows) != set(social_serverbound):
+        errors.append("c2s 0x01c9..0x01cf Map neighborhood is incomplete")
+    prior_serverbound_labels = {
+        0x01C9: "MapClientOpcode::AddBlacklist",
+        0x01CA: "MapClientOpcode::RemoveBlacklist",
+        0x01CB: "MapClientOpcode::BlacklistRequest",
+        0x01CC: "MapClientOpcode::AddFriendlist",
+        0x01CD: "MapClientOpcode::RemoveFriendlist",
+        0x01CE: "MapClientOpcode::FriendlistRequest",
+        0x01CF: "MapClientOpcode::FriendStatusRequest",
+    }
+    for opcode, expected in social_serverbound.items():
+        entry = serverbound_rows.get(opcode)
+        if entry is None:
+            continue
+        function, confidence, observed, lengths, route_fragment = expected
+        notes = entry.get("notes", "")
+        if entry.get("name") != f"_0x{opcode:04X}Handler":
+            errors.append(f"c2s 0x{opcode:04x} must retain a placeholder name")
+        if entry.get("implementationAnchor") is not None:
+            errors.append(f"c2s 0x{opcode:04x} retained an inherited implementation anchor")
+        if entry.get("decompAnchor") != function:
+            errors.append(f"c2s 0x{opcode:04x} decomp anchor is not {function}")
+        if entry.get("confidence") != confidence:
+            errors.append(f"c2s 0x{opcode:04x} confidence must be {confidence}")
+        if entry.get("observedIn") != observed:
+            errors.append(f"c2s 0x{opcode:04x} observedIn drifted")
+        if entry.get("payloadLengths") != lengths:
+            errors.append(f"c2s 0x{opcode:04x} payloadLengths drifted")
+        for fragment in (
+            route_fragment,
+            "naming=placeholder retained",
+            "client_only=",
+            "client_re_evidence=xivl-client-structs:manifests/",
+            f"prior_label={prior_serverbound_labels[opcode]}",
+            "conflict=inherited",
+        ):
+            if fragment not in notes:
+                errors.append(
+                    f"c2s 0x{opcode:04x} notes lost required fact {fragment!r}"
+                )
+        if opcode in (0x01CB, 0x01CE):
+            fragment = (
+                "login_payload_evidence=xivl-captures:derived/observations.json"
+                f"#inner_opcodes.c2s.0x{opcode:04x}"
+            )
+            if fragment not in notes:
+                errors.append(
+                    f"c2s 0x{opcode:04x} lost exact login payload evidence"
+                )
+        if opcode == 0x01CF:
+            layout = capture_layouts.get("layouts", {}).get("c2s", {}).get("0x01cf", {})
+            expected_layout = {
+                "common_sub_size": 40,
+                "sub_size_distribution": {"40": 2},
+                "sample_count": 2,
+                "body_length": 24,
+            }
+            for key, value in expected_layout.items():
+                if layout.get(key) != value:
+                    errors.append(f"c2s 0x01cf captured layout {key} drifted")
 
     if errors:
         for error in errors:

@@ -1250,30 +1250,30 @@
           "notes": "no_pcap_evidence; | decomp_source=tierd_outbound_scan; bcsy_ref=BCS-Y-0324; per-opcode binding in operation_opcode_map_outbound.json tierDSweep.bindings table; evidence=Tier-D emitter 0x004B7B60 sets stack record `local_8b0 = 0x01C8 (opcode); local_8ac = 0x18 (size); [body fields]` then calls FUN_004E0240(&local_8b0, 0x01C8, 0). Routed through Tier-C wrapper FUN_004E0240 (BCS-Y-0312) -> Tier-B Zone forwarder FUN_00DAE010 (BCS-Y-0304). Member of the 24-emitter 0x01C3..0x01DF action-system traffic cluster.; likely_role=Map action-system request (0x01C3-0x01DF cluster: combat/skill/action use; specific role TBD via pcap correlation)"
         },
         {
-          "name": "AddRemoveSocialPacket",
+          "name": "_0x01C9Handler",
           "opcode": 457,
           "opcodeHex": "0x01c9",
           "service": "map",
           "direction": "serverbound",
-          "implementationAnchor": "MapClientOpcode::AddBlacklist",
-          "decompAnchor": null,
+          "implementationAnchor": null,
+          "decompAnchor": "FUN_004C9DA0",
           "observedIn": [],
           "payloadLengths": [],
-          "confidence": "implemented",
-          "notes": "no_pcap_evidence; decomp_source=tierd_outbound_scan; bcsy_ref=BCS-Y-0324; per-opcode binding in operation_opcode_map_outbound.json tierDSweep.bindings table; evidence=Tier-D emitter 0x004C9DA0 sets stack record `local_8b0 = 0x01C9 (opcode); local_8ac = 0x30 (size); [body fields]` then calls FUN_004E0240(&local_8b0, 0x01C9, 0). Routed through Tier-C wrapper FUN_004E0240 (BCS-Y-0312) -> Tier-B Zone forwarder FUN_00DAE010 (BCS-Y-0304). Member of the 24-emitter 0x01C3..0x01DF action-system traffic cluster.; likely_role=Map action-system request (0x01C3-0x01DF cluster: combat/skill/action use; specific role TBD via pcap correlation)"
+          "confidence": "decomp_routed",
+          "notes": "no_pcap_evidence; retail_client_analysis=FUN_004C9DA0 builds a 0x30-byte inner record for opcode 0x01c9 and routes it through FUN_004E0240 to the Zone forwarder FUN_00DAE010; application_size=32; builder_fields=linked-list iteration with four qwords copied from param_2; semantic_boundary=Mail/Letter UI caller context supports the subsystem but not an add/remove-social noun or server policy; prior_packet_label=AddRemoveSocialPacket; prior_label=MapClientOpcode::AddBlacklist; conflict=inherited social noun and implementation anchor disagree with Mail/Letter client evidence; naming=placeholder retained; client_only=producer construction does not establish server behavior; client_re_evidence=xivl-client-structs:manifests/c2s_emit_sites.json#byOpcode.0x01C9; client_role_evidence=xivl-client-structs:manifests/cluster_refinements_unobserved.json#0x01c9"
         },
         {
-          "name": "AddRemoveSocialPacket",
+          "name": "_0x01CAHandler",
           "opcode": 458,
           "opcodeHex": "0x01ca",
           "service": "map",
           "direction": "serverbound",
-          "implementationAnchor": "MapClientOpcode::RemoveBlacklist",
-          "decompAnchor": null,
+          "implementationAnchor": null,
+          "decompAnchor": "FUN_004B7D70",
           "observedIn": [],
           "payloadLengths": [],
-          "confidence": "implemented",
-          "notes": "no_pcap_evidence; | decomp_source=tierd_outbound_scan; bcsy_ref=BCS-Y-0324; per-opcode binding in operation_opcode_map_outbound.json tierDSweep.bindings table; evidence=Tier-D emitter 0x004B7D70 sets stack record `local_8b0 = 0x01CA (opcode); local_8ac = 0x30 (size); [body fields]` then calls FUN_004E0240(&local_8b0, 0x01CA, 0). Routed through Tier-C wrapper FUN_004E0240 (BCS-Y-0312) -> Tier-B Zone forwarder FUN_00DAE010 (BCS-Y-0304). Member of the 24-emitter 0x01C3..0x01DF action-system traffic cluster.; likely_role=Map action-system request (0x01C3-0x01DF cluster: combat/skill/action use; specific role TBD via pcap correlation)"
+          "confidence": "decomp_routed",
+          "notes": "no_pcap_evidence; retail_client_analysis=FUN_004B7D70 builds a 0x30-byte inner record for opcode 0x01ca and routes it through FUN_004E0240 to the Zone forwarder FUN_00DAE010; application_size=32; builder_fields=four qwords copied from param_2; semantic_boundary=Mail/Letter UI caller context supports an attribute-update role but not remove-blacklist or server policy; prior_packet_label=AddRemoveSocialPacket; prior_label=MapClientOpcode::RemoveBlacklist; conflict=inherited social noun and implementation anchor disagree with Mail/Letter client evidence; naming=placeholder retained; client_only=producer construction does not establish server behavior; client_re_evidence=xivl-client-structs:manifests/c2s_emit_sites.json#byOpcode.0x01CA; client_role_evidence=xivl-client-structs:manifests/cluster_refinements_unobserved.json#0x01ca"
         },
         {
           "name": "_0x01CBHandler",
@@ -1281,40 +1281,42 @@
           "opcodeHex": "0x01cb",
           "service": "map",
           "direction": "serverbound",
-          "implementationAnchor": "MapClientOpcode::BlacklistRequest",
-          "decompAnchor": null,
-          "observedIn": [],
+          "implementationAnchor": null,
+          "decompAnchor": "FUN_004CA100",
+          "observedIn": [
+            "login.pcapng"
+          ],
           "payloadLengths": [
             40
           ],
-          "confidence": "implemented",
-          "notes": "no_pcap_evidence; | decomp_source=tierd_outbound_scan; bcsy_ref=BCS-Y-0324; per-opcode binding in operation_opcode_map_outbound.json tierDSweep.bindings table; evidence=Tier-D emitter 0x004CA100 sets stack record `local_8b0 = 0x01CB (opcode); local_8ac = 0x18 (size); [body fields]` then calls FUN_004E0240(&local_8b0, 0x01CB, 0). Routed through Tier-C wrapper FUN_004E0240 (BCS-Y-0312) -> Tier-B Zone forwarder FUN_00DAE010 (BCS-Y-0304). Member of the 24-emitter 0x01C3..0x01DF action-system traffic cluster.; likely_role=Map action-system request (0x01C3-0x01DF cluster: combat/skill/action use; specific role TBD via pcap correlation)"
+          "confidence": "decomp_routed",
+          "notes": "retail_client_analysis=FUN_004CA100 builds a 0x18-byte inner record for opcode 0x01cb and routes it through FUN_004E0240 to the Zone forwarder FUN_00DAE010; application_size=8; builder_fields=one state field copied from object offset 0xc40 with remaining application bytes unresolved; producer_behavior=state gates and self-actor/login callers establish a startup state-machine step; prior_label=MapClientOpcode::BlacklistRequest; conflict=inherited implementation anchor is not independent retail evidence; semantic_boundary=the specific blacklist noun depends on inherited catalog vocabulary, not an independently decoded payload; naming=placeholder retained; client_only=producer state transitions do not establish server policy; client_re_evidence=xivl-client-structs:manifests/symbols.json#BCS-Y-1071; login_service_attribution=map_main_lane; login_evidence=xivl-captures:derived/lane_observations.json#lanes/main/c2s/0x01cb; login_capture_sha256=28e06b54fe559870031f077f8549b9244caafa7e5177dbca08a7feae6c2b1b62; login_payload_evidence=xivl-captures:derived/observations.json#inner_opcodes.c2s.0x01cb"
         },
         {
-          "name": "AddRemoveSocialPacket",
+          "name": "_0x01CCHandler",
           "opcode": 460,
           "opcodeHex": "0x01cc",
           "service": "map",
           "direction": "serverbound",
-          "implementationAnchor": "MapClientOpcode::AddFriendlist",
-          "decompAnchor": null,
+          "implementationAnchor": null,
+          "decompAnchor": "FUN_004CA1B0",
           "observedIn": [],
           "payloadLengths": [],
-          "confidence": "implemented",
-          "notes": "no_pcap_evidence; | decomp_source=tierd_outbound_scan; bcsy_ref=BCS-Y-0324; per-opcode binding in operation_opcode_map_outbound.json tierDSweep.bindings table; evidence=Tier-D emitter 0x004CA1B0 sets stack record `local_8b0 = 0x01CC (opcode); local_8ac = 0x30 (size); [body fields]` then calls FUN_004E0240(&local_8b0, 0x01CC, 0). Routed through Tier-C wrapper FUN_004E0240 (BCS-Y-0312) -> Tier-B Zone forwarder FUN_00DAE010 (BCS-Y-0304). Member of the 24-emitter 0x01C3..0x01DF action-system traffic cluster.; likely_role=Map action-system request (0x01C3-0x01DF cluster: combat/skill/action use; specific role TBD via pcap correlation)"
+          "confidence": "decomp_routed",
+          "notes": "no_pcap_evidence; retail_client_analysis=FUN_004CA1B0 builds a 0x30-byte inner record for opcode 0x01cc and routes it through FUN_004E0240 to the Zone forwarder FUN_00DAE010; application_size=32; builder_fields=linked-list iteration with four qwords; prior_packet_label=AddRemoveSocialPacket; prior_label=MapClientOpcode::AddFriendlist; conflict=inherited social noun and implementation anchor disagree with Mail/Letter client evidence; semantic_boundary=Mail/Letter caller clustering is supported, but the caller has no distinguishing strings and does not establish add-friend or server policy; naming=placeholder retained; client_only=producer construction does not establish server behavior; client_re_evidence=xivl-client-structs:manifests/c2s_emit_sites.json#byOpcode.0x01CC; client_role_evidence=xivl-client-structs:manifests/cluster_refinements_unobserved.json#0x01cc"
         },
         {
-          "name": "AddRemoveSocialPacket",
+          "name": "_0x01CDHandler",
           "opcode": 461,
           "opcodeHex": "0x01cd",
           "service": "map",
           "direction": "serverbound",
-          "implementationAnchor": "MapClientOpcode::RemoveFriendlist",
-          "decompAnchor": null,
+          "implementationAnchor": null,
+          "decompAnchor": "FUN_004B7E30",
           "observedIn": [],
           "payloadLengths": [],
-          "confidence": "implemented",
-          "notes": "no_pcap_evidence; | decomp_source=tierd_outbound_scan; bcsy_ref=BCS-Y-0324; per-opcode binding in operation_opcode_map_outbound.json tierDSweep.bindings table; evidence=Tier-D emitter 0x004B7E30 sets stack record `local_8b0 = 0x01CD (opcode); local_8ac = 0x30 (size); [body fields]` then calls FUN_004E0240(&local_8b0, 0x01CD, 0). Routed through Tier-C wrapper FUN_004E0240 (BCS-Y-0312) -> Tier-B Zone forwarder FUN_00DAE010 (BCS-Y-0304). Member of the 24-emitter 0x01C3..0x01DF action-system traffic cluster.; likely_role=Map action-system request (0x01C3-0x01DF cluster: combat/skill/action use; specific role TBD via pcap correlation)"
+          "confidence": "blocked",
+          "notes": "no_pcap_evidence; retail_client_analysis=FUN_004B7E30 contains a 0x30-byte inner-record builder for opcode 0x01cd and a route through FUN_004E0240 to the Zone forwarder FUN_00DAE010; application_size=32; builder_fields=four qwords; evidence_conflict=c2s_emit_sites records a caller while the later exhaustive reference and byte-pattern pass reports no instruction or function-pointer references; prior_packet_label=AddRemoveSocialPacket; prior_label=MapClientOpcode::RemoveFriendlist; conflict=inherited social noun and implementation anchor are unsupported by the reachability evidence; semantic_boundary=compiled builder only, with runtime production and remove-friend semantics unresolved; naming=placeholder retained; client_only=dead-or-unreachable client code does not establish server behavior; client_re_evidence=xivl-client-structs:manifests/c2s_emit_sites.json#byOpcode.0x01CD; client_conflict_evidence=xivl-client-structs:manifests/cluster_refinements_unresolved.json#0x01cd"
         },
         {
           "name": "_0x01CEHandler",
@@ -1322,14 +1324,16 @@
           "opcodeHex": "0x01ce",
           "service": "map",
           "direction": "serverbound",
-          "implementationAnchor": "MapClientOpcode::FriendlistRequest",
-          "decompAnchor": null,
-          "observedIn": [],
+          "implementationAnchor": null,
+          "decompAnchor": "FUN_004CA730",
+          "observedIn": [
+            "login.pcapng"
+          ],
           "payloadLengths": [
             40
           ],
-          "confidence": "implemented",
-          "notes": "no_pcap_evidence; | decomp_source=tierd_outbound_scan; bcsy_ref=BCS-Y-0324; per-opcode binding in operation_opcode_map_outbound.json tierDSweep.bindings table; evidence=Tier-D emitter 0x004CA730 sets stack record `local_8b0 = 0x01CE (opcode); local_8ac = 0x18 (size); [body fields]` then calls FUN_004E0240(&local_8b0, 0x01CE, 0). Routed through Tier-C wrapper FUN_004E0240 (BCS-Y-0312) -> Tier-B Zone forwarder FUN_00DAE010 (BCS-Y-0304). Member of the 24-emitter 0x01C3..0x01DF action-system traffic cluster.; likely_role=Map action-system request (0x01C3-0x01DF cluster: combat/skill/action use; specific role TBD via pcap correlation)"
+          "confidence": "decomp_routed",
+          "notes": "retail_client_analysis=FUN_004CA730 builds a 0x18-byte inner record for opcode 0x01ce and routes it through FUN_004E0240 to the Zone forwarder FUN_00DAE010; application_size=8; builder_fields=one state field copied from object offset 0xcb0 with remaining application bytes unresolved; producer_behavior=state gate and login/UI callers establish a startup or social state-machine step; prior_label=MapClientOpcode::FriendlistRequest; conflict=inherited implementation anchor is not independent retail evidence; semantic_boundary=the specific friendlist noun is not independently decoded from the payload; naming=placeholder retained; client_only=producer state transitions do not establish server policy; client_re_evidence=xivl-client-structs:manifests/symbols.json#BCS-Y-1072; login_service_attribution=map_main_lane; login_evidence=xivl-captures:derived/lane_observations.json#lanes/main/c2s/0x01ce; login_capture_sha256=28e06b54fe559870031f077f8549b9244caafa7e5177dbca08a7feae6c2b1b62; login_payload_evidence=xivl-captures:derived/observations.json#inner_opcodes.c2s.0x01ce"
         },
         {
           "name": "_0x01CFHandler",
@@ -1337,8 +1341,8 @@
           "opcodeHex": "0x01cf",
           "service": "map",
           "direction": "serverbound",
-          "implementationAnchor": "MapClientOpcode::FriendStatusRequest",
-          "decompAnchor": null,
+          "implementationAnchor": null,
+          "decompAnchor": "FUN_004B7EF0",
           "observedIn": [
             "friendlist_search.pcapng",
             "invite_join_party.pcapng"
@@ -1346,8 +1350,8 @@
           "payloadLengths": [
             40
           ],
-          "confidence": "implemented",
-          "notes": "| decomp_source=tierd_outbound_scan; bcsy_ref=BCS-Y-0324; per-opcode binding in operation_opcode_map_outbound.json tierDSweep.bindings table; evidence=Tier-D emitter 0x004B7EF0 sets stack record `local_8b0 = 0x01CF (opcode); local_8ac = 0x18 (size); [body fields]` then calls FUN_004E0240(&local_8b0, 0x01CF, 0). Routed through Tier-C wrapper FUN_004E0240 (BCS-Y-0312) -> Tier-B Zone forwarder FUN_00DAE010 (BCS-Y-0304). Member of the 24-emitter 0x01C3..0x01DF action-system traffic cluster.; likely_role=Map action-system request (0x01C3-0x01DF cluster: combat/skill/action use; specific role TBD via pcap correlation)"
+          "confidence": "decomp_routed",
+          "notes": "retail_client_analysis=FUN_004B7EF0 builds a 0x18-byte inner record for opcode 0x01cf and routes it through FUN_004E0240 to the Zone forwarder FUN_00DAE010; application_size=8; builder_fields=one state field copied from object offset 0xcb0 with remaining application bytes unresolved; producer_behavior=state gate and two UI callers establish a social/party initiation boundary; prior_label=MapClientOpcode::FriendStatusRequest; conflict=inherited implementation anchor is not independent retail evidence; semantic_boundary=observations in friend-search and party-invite scenarios do not distinguish a friend-status noun, causality, or server policy; naming=placeholder retained; client_only=producer state transitions do not establish server behavior; client_re_evidence=xivl-client-structs:manifests/symbols.json#BCS-Y-1073; capture_layout_evidence=xivl-captures:derived/payload_layouts.json#layouts.c2s.0x01cf"
         },
         {
           "name": "FaqListRequestPacket",
@@ -5161,10 +5165,14 @@
           "direction": "clientbound",
           "implementationAnchor": null,
           "decompAnchor": "FUN_00DB8FA0",
-          "observedIn": [],
-          "payloadLengths": [],
+          "observedIn": [
+            "login.pcapng"
+          ],
+          "payloadLengths": [
+            680
+          ],
           "confidence": "decomp_routed",
-          "notes": "retail_client_analysis=ZoneProtoDown opcode 0x01cb case 171 routes callback slot 173 to FUN_00DB8FA0; callback_body=ret 0xc with no payload reads or state writes; semantic_status=decomp_routed; naming=placeholder retained because retail establishes no clientbound packet noun; prior_packet_label=SendBlacklistPacket; prior_label=MapServerOpcode::SendBlacklist; conflict=imported packet noun and implementation anchor are unsupported by the retail no-op callback; separate_direction=c2s FUN_004CA100 emits opcode 0x01cb through the zone send path, which does not supply clientbound semantics; client_only=no-op callback routing does not establish server behavior; client_re_evidence=xivl-client-structs:manifests/zone_dummy_callback_cluster.json#s2c-01cb; dependency_status=closed; client_semantics_evidence=data/client_opcode_semantics.json#s2c-01cb"
+          "notes": "retail_client_analysis=ZoneProtoDown opcode 0x01cb case 171 routes callback slot 173 to FUN_00DB8FA0; callback_body=ret 0xc with no payload reads or state writes; semantic_status=decomp_routed; naming=placeholder retained because retail establishes no clientbound packet noun; prior_packet_label=SendBlacklistPacket; prior_label=MapServerOpcode::SendBlacklist; conflict=imported packet noun and implementation anchor are unsupported by the retail no-op callback; separate_direction=c2s FUN_004CA100 emits opcode 0x01cb through the zone send path, which does not supply clientbound semantics; client_only=no-op callback routing does not establish server behavior; client_re_evidence=xivl-client-structs:manifests/zone_dummy_callback_cluster.json#s2c-01cb; dependency_status=closed; client_semantics_evidence=data/client_opcode_semantics.json#s2c-01cb; login_service_attribution=map_main_lane; login_evidence=xivl-captures:derived/lane_observations.json#lanes/main/s2c/0x01cb; login_capture_sha256=28e06b54fe559870031f077f8549b9244caafa7e5177dbca08a7feae6c2b1b62; login_payload_evidence=xivl-captures:derived/observations.json#inner_opcodes.s2c.0x01cb"
         },
         {
           "name": "_0x01CC",
@@ -5200,10 +5208,14 @@
           "direction": "clientbound",
           "implementationAnchor": null,
           "decompAnchor": "FUN_00DB8FD0",
-          "observedIn": [],
-          "payloadLengths": [],
+          "observedIn": [
+            "login.pcapng"
+          ],
+          "payloadLengths": [
+            840
+          ],
           "confidence": "decomp_routed",
-          "notes": "retail_client_analysis=ZoneProtoDown opcode 0x01ce case 174 routes callback slot 176 to FUN_00DB8FD0; callback_body=ret 0xc with no payload reads or state writes; semantic_status=decomp_routed; naming=placeholder retained because retail establishes no clientbound packet noun; prior_packet_label=SendFriendlistPacket; prior_label=MapServerOpcode::SendFriendlist; conflict=imported packet noun and implementation anchor are unsupported by the retail no-op callback; separate_direction=the same opcode integer has independent serverbound emitter semantics that do not transfer to this row; client_only=no-op callback routing does not establish server behavior; client_re_evidence=xivl-client-structs:manifests/zone_dummy_callback_cluster.json#s2c-01ce; dependency_status=closed"
+          "notes": "retail_client_analysis=ZoneProtoDown opcode 0x01ce case 174 routes callback slot 176 to FUN_00DB8FD0; callback_body=ret 0xc with no payload reads or state writes; semantic_status=decomp_routed; naming=placeholder retained because retail establishes no clientbound packet noun; prior_packet_label=SendFriendlistPacket; prior_label=MapServerOpcode::SendFriendlist; conflict=imported packet noun and implementation anchor are unsupported by the retail no-op callback; separate_direction=the same opcode integer has independent serverbound emitter semantics that do not transfer to this row; client_only=no-op callback routing does not establish server behavior; client_re_evidence=xivl-client-structs:manifests/zone_dummy_callback_cluster.json#s2c-01ce; dependency_status=closed; login_service_attribution=map_main_lane; login_evidence=xivl-captures:derived/lane_observations.json#lanes/main/s2c/0x01ce; login_capture_sha256=28e06b54fe559870031f077f8549b9244caafa7e5177dbca08a7feae6c2b1b62; login_payload_evidence=xivl-captures:derived/observations.json#inner_opcodes.s2c.0x01ce"
         },
         {
           "name": "_0x01CF",
@@ -5221,7 +5233,7 @@
             1640
           ],
           "confidence": "decomp_routed",
-          "notes": "retail_client_analysis=ZoneProtoDown opcode 0x01cf case 175 routes callback slot 177 to FUN_00DB8FE0; callback_body=ret 0xc with no payload reads or state writes; semantic_status=decomp_routed; naming=placeholder retained because retail establishes no clientbound packet noun; prior_packet_label=FriendStatusPacket; prior_label=MapServerOpcode::FriendStatus; conflict=imported packet noun and implementation anchor are unsupported by the retail no-op callback; separate_direction=the same opcode integer has independent serverbound emitter semantics that do not transfer to this row; client_only=no-op callback routing does not establish server behavior; client_re_evidence=xivl-client-structs:manifests/zone_dummy_callback_cluster.json#s2c-01cf; dependency_status=closed"
+          "notes": "retail_client_analysis=ZoneProtoDown opcode 0x01cf case 175 routes callback slot 177 to FUN_00DB8FE0; callback_body=ret 0xc with no payload reads or state writes; semantic_status=decomp_routed; naming=placeholder retained because retail establishes no clientbound packet noun; prior_packet_label=FriendStatusPacket; prior_label=MapServerOpcode::FriendStatus; conflict=imported packet noun and implementation anchor are unsupported by the retail no-op callback; separate_direction=the same opcode integer has independent serverbound emitter semantics that do not transfer to this row; client_only=no-op callback routing does not establish server behavior; client_re_evidence=xivl-client-structs:manifests/zone_dummy_callback_cluster.json#s2c-01cf; dependency_status=closed; capture_layout_evidence=xivl-captures:derived/payload_layouts.json#layouts.s2c.0x01cf"
         },
         {
           "name": "_0x01D0",

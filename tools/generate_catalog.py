@@ -12,6 +12,135 @@ CLIENT_SEMANTICS_PATH = Path(__file__).resolve().parent.parent / "data" / "clien
 BATTLE_RESULT_SEMANTICS_PATH = Path(__file__).resolve().parent.parent / "data" / "battle_result_semantics.json"
 ACHIEVEMENT_LIFECYCLE_PATH = Path(__file__).resolve().parent.parent / "data" / "achievement_lifecycle.json"
 ZONE_DUMMY_CLUSTER_EVIDENCE = "xivl-client-structs:manifests/zone_dummy_callback_cluster.json"
+MAP_SOCIAL_NEIGHBORHOOD = {
+    "0x01c9": {
+        "names": ("AddRemoveSocialPacket", "_0x01C9Handler"),
+        "name": "_0x01C9Handler",
+        "function": "FUN_004C9DA0",
+        "confidence": "decomp_routed",
+        "notes": (
+            "no_pcap_evidence; retail_client_analysis=FUN_004C9DA0 builds a 0x30-byte "
+            "inner record for opcode 0x01c9 and routes it through FUN_004E0240 to the Zone "
+            "forwarder FUN_00DAE010; application_size=32; builder_fields=linked-list iteration "
+            "with four qwords copied from param_2; semantic_boundary=Mail/Letter UI caller "
+            "context supports the subsystem but not an add/remove-social noun or server policy; "
+            "prior_packet_label=AddRemoveSocialPacket; prior_label=MapClientOpcode::AddBlacklist; "
+            "conflict=inherited social noun and implementation anchor disagree with Mail/Letter client evidence; "
+            "naming=placeholder retained; client_only=producer construction does not establish "
+            "server behavior; client_re_evidence=xivl-client-structs:manifests/c2s_emit_sites.json#byOpcode.0x01C9; "
+            "client_role_evidence=xivl-client-structs:manifests/cluster_refinements_unobserved.json#0x01c9"
+        ),
+    },
+    "0x01ca": {
+        "names": ("AddRemoveSocialPacket", "_0x01CAHandler"),
+        "name": "_0x01CAHandler",
+        "function": "FUN_004B7D70",
+        "confidence": "decomp_routed",
+        "notes": (
+            "no_pcap_evidence; retail_client_analysis=FUN_004B7D70 builds a 0x30-byte "
+            "inner record for opcode 0x01ca and routes it through FUN_004E0240 to the Zone "
+            "forwarder FUN_00DAE010; application_size=32; builder_fields=four qwords copied "
+            "from param_2; semantic_boundary=Mail/Letter UI caller context supports an "
+            "attribute-update role but not remove-blacklist or server policy; "
+            "prior_packet_label=AddRemoveSocialPacket; prior_label=MapClientOpcode::RemoveBlacklist; "
+            "conflict=inherited social noun and implementation anchor disagree with Mail/Letter client evidence; "
+            "naming=placeholder retained; client_only=producer construction does not establish "
+            "server behavior; client_re_evidence=xivl-client-structs:manifests/c2s_emit_sites.json#byOpcode.0x01CA; "
+            "client_role_evidence=xivl-client-structs:manifests/cluster_refinements_unobserved.json#0x01ca"
+        ),
+    },
+    "0x01cb": {
+        "names": ("_0x01CBHandler",),
+        "name": "_0x01CBHandler",
+        "function": "FUN_004CA100",
+        "confidence": "decomp_routed",
+        "notes": (
+            "no_pcap_evidence; retail_client_analysis=FUN_004CA100 builds a 0x18-byte inner "
+            "record for opcode 0x01cb and routes it through FUN_004E0240 to the Zone forwarder "
+            "FUN_00DAE010; application_size=8; builder_fields=one state field copied from "
+            "object offset 0xc40 with remaining application bytes unresolved; producer_behavior=state "
+            "gates and self-actor/login callers establish a startup state-machine step; "
+            "prior_label=MapClientOpcode::BlacklistRequest; conflict=inherited implementation anchor is not independent retail evidence; "
+            "semantic_boundary=the specific blacklist noun depends on inherited catalog vocabulary, "
+            "not an independently decoded payload; naming=placeholder retained; client_only=producer "
+            "state transitions do not establish server policy; client_re_evidence=xivl-client-structs:manifests/symbols.json#BCS-Y-1071"
+        ),
+    },
+    "0x01cc": {
+        "names": ("AddRemoveSocialPacket", "_0x01CCHandler"),
+        "name": "_0x01CCHandler",
+        "function": "FUN_004CA1B0",
+        "confidence": "decomp_routed",
+        "notes": (
+            "no_pcap_evidence; retail_client_analysis=FUN_004CA1B0 builds a 0x30-byte "
+            "inner record for opcode 0x01cc and routes it through FUN_004E0240 to the Zone "
+            "forwarder FUN_00DAE010; application_size=32; builder_fields=linked-list iteration "
+            "with four qwords; "
+            "prior_packet_label=AddRemoveSocialPacket; prior_label=MapClientOpcode::AddFriendlist; "
+            "conflict=inherited social noun and implementation anchor disagree with Mail/Letter client evidence; "
+            "semantic_boundary=Mail/Letter caller clustering is supported, but the caller has no "
+            "distinguishing strings and does not establish add-friend or "
+            "server policy; naming=placeholder retained; client_only=producer construction does "
+            "not establish server behavior; client_re_evidence=xivl-client-structs:manifests/c2s_emit_sites.json#byOpcode.0x01CC; "
+            "client_role_evidence=xivl-client-structs:manifests/cluster_refinements_unobserved.json#0x01cc"
+        ),
+    },
+    "0x01cd": {
+        "names": ("AddRemoveSocialPacket", "_0x01CDHandler"),
+        "name": "_0x01CDHandler",
+        "function": "FUN_004B7E30",
+        "confidence": "blocked",
+        "notes": (
+            "no_pcap_evidence; retail_client_analysis=FUN_004B7E30 contains a 0x30-byte "
+            "inner-record builder for opcode 0x01cd and a route through FUN_004E0240 to the Zone "
+            "forwarder FUN_00DAE010; application_size=32; builder_fields=four qwords; "
+            "evidence_conflict=c2s_emit_sites records a caller while the later exhaustive "
+            "reference and byte-pattern pass reports no instruction or function-pointer references; "
+            "prior_packet_label=AddRemoveSocialPacket; prior_label=MapClientOpcode::RemoveFriendlist; "
+            "conflict=inherited social noun and implementation anchor are unsupported by the reachability evidence; "
+            "semantic_boundary=compiled builder only, with runtime production and remove-friend "
+            "semantics unresolved; naming=placeholder retained; client_only=dead-or-unreachable "
+            "client code does not establish server behavior; client_re_evidence=xivl-client-structs:manifests/c2s_emit_sites.json#byOpcode.0x01CD; "
+            "client_conflict_evidence=xivl-client-structs:manifests/cluster_refinements_unresolved.json#0x01cd"
+        ),
+    },
+    "0x01ce": {
+        "names": ("_0x01CEHandler",),
+        "name": "_0x01CEHandler",
+        "function": "FUN_004CA730",
+        "confidence": "decomp_routed",
+        "notes": (
+            "no_pcap_evidence; retail_client_analysis=FUN_004CA730 builds a 0x18-byte inner "
+            "record for opcode 0x01ce and routes it through FUN_004E0240 to the Zone forwarder "
+            "FUN_00DAE010; application_size=8; builder_fields=one state field copied from object "
+            "offset 0xcb0 with remaining application bytes unresolved; producer_behavior=state gate "
+            "and login/UI callers establish a startup or social state-machine step; "
+            "prior_label=MapClientOpcode::FriendlistRequest; conflict=inherited implementation anchor is not independent retail evidence; "
+            "semantic_boundary=the specific friendlist noun is not independently decoded from the "
+            "payload; naming=placeholder retained; client_only=producer state transitions do not "
+            "establish server policy; client_re_evidence=xivl-client-structs:manifests/symbols.json#BCS-Y-1072"
+        ),
+    },
+    "0x01cf": {
+        "names": ("_0x01CFHandler",),
+        "name": "_0x01CFHandler",
+        "function": "FUN_004B7EF0",
+        "confidence": "decomp_routed",
+        "notes": (
+            "retail_client_analysis=FUN_004B7EF0 builds a 0x18-byte inner record for opcode "
+            "0x01cf and routes it through FUN_004E0240 to the Zone forwarder FUN_00DAE010; "
+            "application_size=8; builder_fields=one state field copied from object offset 0xcb0 "
+            "with remaining application bytes unresolved; producer_behavior=state gate and two UI "
+            "callers establish a social/party initiation boundary; "
+            "prior_label=MapClientOpcode::FriendStatusRequest; conflict=inherited implementation anchor is not independent retail evidence; "
+            "semantic_boundary=observations in friend-search and party-invite scenarios do not "
+            "distinguish a friend-status noun, "
+            "causality, or server policy; naming=placeholder retained; client_only=producer state "
+            "transitions do not establish server behavior; client_re_evidence=xivl-client-structs:manifests/symbols.json#BCS-Y-1073; "
+            "capture_layout_evidence=xivl-captures:derived/payload_layouts.json#layouts.c2s.0x01cf"
+        ),
+    },
+}
 LOCAL_DECOMP_ANCHOR_EVIDENCE = {
     "FUN_0075ECD0": "data/client_opcode_semantics.json#c2s-0135",
     "FUN_00576560": "data/vendor/client-structs/bcsy-opcode-bindings.json#BCS-Y-0545",
@@ -336,9 +465,12 @@ PCAP_AMBIGUOUS = [
 LOGIN_CAPTURE = "login.pcapng"
 LOGIN_CAPTURE_SHA256 = "28e06b54fe559870031f077f8549b9244caafa7e5177dbca08a7feae6c2b1b62"
 LOGIN_LANE_EVIDENCE = "xivl-captures:derived/lane_observations.json"
+LOGIN_OBSERVATION_EVIDENCE = "xivl-captures:derived/observations.json"
 LOGIN_PREZONE_ATTRIBUTIONS = [
     ("MapServerbound", "0x0133", "GroupWorkUpdatePacket", "c2s", 72),
     ("MapServerbound", "0x0006", "LangaugeCodePacket", "c2s", 40),
+    ("MapServerbound", "0x01cb", "_0x01CBHandler", "c2s", 40),
+    ("MapServerbound", "0x01ce", "_0x01CEHandler", "c2s", 40),
     ("MapClientbound", "0x0001", "PongPacket", "s2c", 64),
     ("MapClientbound", "0x017a", "SynchGroupWorkValuesPacket", "s2c", 176),
     ("MapClientbound", "0x000c", "SetMusicPacket", "s2c", 40),
@@ -354,6 +486,8 @@ LOGIN_PREZONE_ATTRIBUTIONS = [
     ("MapClientbound", "0x0189", "CreateNamedGroupMultiple", "s2c", 552),
     ("MapClientbound", "0x0134", "SetActorStatePacket", "s2c", 40),
     ("MapClientbound", "0x019d", "SetPlayerTitlePacket", "s2c", 40),
+    ("MapClientbound", "0x01cb", "_0x01CB", "s2c", 680),
+    ("MapClientbound", "0x01ce", "_0x01CE", "s2c", 840),
 ]
 LOBBY_CENSUS_COMMIT = "32a39d2a92f2268d64ab3586b8d791fa93ed19f1"
 LOBBY_CENSUS_EVIDENCE = (
@@ -1097,6 +1231,10 @@ def apply_zone_dummy_cluster(top: dict) -> tuple[int, int]:
         )
         if opcode == 0x01CB:
             parts.append("client_semantics_evidence=data/client_opcode_semantics.json#s2c-01cb")
+        if opcode == 0x01CF:
+            parts.append(
+                "capture_layout_evidence=xivl-captures:derived/payload_layouts.json#layouts.s2c.0x01cf"
+            )
         entry["name"] = f"_0x{opcode:04X}"
         entry["implementationAnchor"] = None
         entry["decompAnchor"] = function
@@ -1106,6 +1244,38 @@ def apply_zone_dummy_cluster(top: dict) -> tuple[int, int]:
 
     entries.sort(key=lambda entry: (entry["opcode"], entry["name"]))
     return applied, inserted
+
+
+def apply_map_social_neighborhood(top: dict) -> tuple[int, int]:
+    """Replace inherited 0x01c9..0x01cf c2s nouns with bounded client evidence."""
+    entries = top["lists"]["MapServerbound"]
+    applied = 0
+    errors = 0
+
+    for opcode_hex, ruling in MAP_SOCIAL_NEIGHBORHOOD.items():
+        matches = [entry for entry in entries if entry["opcodeHex"] == opcode_hex]
+        if len(matches) != 1:
+            print(f"  WARN: social neighborhood {opcode_hex} matched {len(matches)} rows")
+            errors += 1
+            continue
+
+        entry = matches[0]
+        if entry.get("name") not in ruling["names"]:
+            print(
+                f"  WARN: social neighborhood {opcode_hex} has unexpected name "
+                f"{entry.get('name')}"
+            )
+            errors += 1
+            continue
+
+        entry["name"] = ruling["name"]
+        entry["implementationAnchor"] = None
+        entry["decompAnchor"] = ruling["function"]
+        entry["confidence"] = ruling["confidence"]
+        entry["notes"] = ruling["notes"]
+        applied += 1
+
+    return applied, errors
 
 
 def remove_note_token(notes: str, token: str) -> tuple[str, bool]:
@@ -1153,8 +1323,12 @@ def apply_login_prezone_attributions(top: dict) -> tuple[int, int, int]:
             continue
 
         evidence = f"{LOGIN_LANE_EVIDENCE}#lanes/main/{wire_direction}/{opcode_hex}"
+        observation_evidence = (
+            f"{LOGIN_OBSERVATION_EVIDENCE}#inner_opcodes.{wire_direction}.{opcode_hex}"
+        )
         attribution = "login_service_attribution=map_main_lane"
         evidence_token = f"login_evidence={evidence}"
+        observation_token = f"login_payload_evidence={observation_evidence}"
         identity_token = f"login_capture_sha256={LOGIN_CAPTURE_SHA256}"
         before = (
             list(selected.get("observedIn", [])),
@@ -1168,7 +1342,10 @@ def apply_login_prezone_attributions(top: dict) -> tuple[int, int, int]:
             set(selected.get("payloadLengths", [])) | {payload_length}
         )
         notes = selected.get("notes", "")
-        for token in (attribution, evidence_token, identity_token):
+        tokens = [attribution, evidence_token, identity_token]
+        if opcode_hex in {"0x01cb", "0x01ce"}:
+            tokens.append(observation_token)
+        for token in tokens:
             notes = append_note_token(notes, token)
         selected["notes"] = notes
 
@@ -1523,6 +1700,10 @@ def main() -> int:
     achievement_applied, achievement_errors = apply_achievement_lifecycle(top)
     warned += achievement_errors
     print(f"Applied {achievement_applied} achievement lifecycle routes")
+
+    social_applied, social_errors = apply_map_social_neighborhood(top)
+    warned += social_errors
+    print(f"Applied {social_applied} Map social-neighborhood routes")
 
     cluster_applied, cluster_inserted = apply_zone_dummy_cluster(top)
     print(
