@@ -156,11 +156,11 @@ only writer and takes explicit `--repo NAME=PATH` mappings and an explicit
 
 ## Regenerating and validating
 
-Use the [verification guide](ai_agents/verification.md) for repository checks
-and the [tool reference](../tools/README.md) for generator behavior.
+Use the [tool reference](../tools/README.md) for generator and validation
+commands.
 
 ## AI-assisted contributions
 
-AI-assisted work follows the same catalog, evidence, and verification rules as
+AI-assisted work follows the same catalog and evidence rules as
 any other contribution. Start with the
 [AI-assisted contribution policy](ai_agents/README.md).

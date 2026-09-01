@@ -15,7 +15,7 @@ Preservation and research for Final Fantasy XIV 1.23b.
 
 This repository preserves network opcode mappings and supporting evidence for
 the 1.23b lobby, world, and map services. Facts promoted from independent
-research references are owned and verified here.
+research references are curated here.
 
 ## Documentation
 
@@ -24,7 +24,6 @@ research references are owned and verified here.
 - [Contribution policy](docs/ai_agents/README.md)
 - [Evidence and claims](docs/ai_agents/evidence-and-claims.md)
 - [Comments and prose](docs/ai_agents/comments-and-prose.md)
-- [Verification](docs/ai_agents/verification.md)
 - [Repository guide](docs/repository-guide.md)
 - [Generated payload headers](structs/README.md)
 - [Map payload header guide](structs/map/README.md)

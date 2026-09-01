@@ -79,10 +79,11 @@ writer. Abbreviated, uppercase, or omitted hashes are rejected.
   must also link each nested section index. Only tracked documentation is
   included in the check.
 - `audit_payload_framing.py` checks catalog wire lengths against the pinned
-  inner-payload-length fixture and its allow-list. The equation, exception,
-  and exit-code contract is in `docs/ai_agents/verification.md`;
-  `--manifests` is an explicit research override.
-- `verify_retail_zone_dispatch.py` validates the fixed retail-input grant,
+  inner-payload-length fixture and its allow-list. `--no-allowlist` exposes all
+  mismatches; `--manifests` is an explicit research override. Exit status 0
+  means the audit passed, 1 means it found mismatches, and 2 means input or
+  setup failed.
+- `verify_retail_zone_dispatch.py` validates the approved retail-input grant,
   expected `0x018d` dispatch route, private structured observation, tracked
   source rows, and sanitized attestation contract. It also owns dispatch-ref and
   retained-output validation for the manual workflow.
@@ -113,11 +114,6 @@ whose import key already exists. No `--check` mode exists for this artifact, so
 import drift detection remains a known tooling gap.
 
 ## Catalog generation
-
-The [checks workflow](../.github/workflows/checks.yml) is the authoritative
-list of CI-covered checks. The [verification guide](../docs/ai_agents/verification.md)
-provides the minimal bare-checkout entry point, payload-framing contract, and
-claim limits.
 
 `generate_catalog.py` reapplies the curated fields that extraction cannot derive
 while canonicalizing the existing root catalog files in place. It does not
