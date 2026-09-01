@@ -23,9 +23,8 @@ The approved input is only `ffxivgame-1.23b`: repository-relative private path
 `ffxivgame.exe` at immutable private commit
 `aeb52f6dbde95a793ee6d52be28de9f28a885b15`, size `15996808`, and SHA-256
 `9341f2b4567440b310a4d494f5cc5599ca334ba51c8042247317ff466492f2e9`.
-The workflow passes this local grant to the shared
-`fetch-retail-input` action pinned at
-`4920dece45e88fcb14424de1f5c4fdee94ae6d02`. That action requires the commit
+The workflow passes this local grant to the shared `fetch-retail-input` action
+at an immutable `XIVLegacy/xivl-tools` commit. That action requires the commit
 to remain an ancestor of private `main`, requires an untruncated tree response
 with the authorized executable entry at that path and its expected blob type,
 mode, size, and hash, and verifies size and SHA-256 before analysis. Sibling
@@ -69,8 +68,8 @@ zone-dispatch assertion.
 
 ## Toolchain and retained output
 
-The hosted job invokes the shared `setup-retail-toolchain` action at
-`4920dece45e88fcb14424de1f5c4fdee94ae6d02` with `include-ghidra: true`. That
+The hosted job invokes the shared `setup-retail-toolchain` action with
+`include-ghidra: true`. That
 action checksum-pins the Ghidra 12.1.3 archive
 `ghidra_12.1.3_PUBLIC_20260817.zip` at SHA-256
 `93a5d11a9ad510622acaaf908c556a7b9b764d338e78a7567f3689bf5081fd54`
@@ -81,9 +80,9 @@ The local analysis uses the action's `analyze-headless` output with a new empty
 PE32 project, standard analysis, and a read-only structured export. No cache or
 previously named project is allowed.
 
-On every outcome, the shared `finalize-retail-attestation` action at
-`4920dece45e88fcb14424de1f5c4fdee94ae6d02` deletes the entire private root and
-checks the one-file staging envelope before the local retained verifier runs.
+On every outcome, the shared `finalize-retail-attestation` action deletes the
+entire private root and checks the one-file staging envelope before the local
+retained verifier runs.
 The retained allowlist is exactly one regular non-link file named
 `retail-evidence-attestation.json`, no larger than 4096 bytes. Its strict
 schema contains only the public repository commit, approved input hash, pinned
