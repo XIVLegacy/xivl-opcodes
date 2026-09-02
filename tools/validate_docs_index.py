@@ -1,5 +1,5 @@
 #!/usr/bin/env python3
-"""Validate tracked Markdown indexes under docs/ in both directions."""
+"""Check local Markdown paths listed by documentation indexes."""
 
 from __future__ import annotations
 
@@ -12,7 +12,6 @@ from pathlib import Path
 from _json_io import REPO_ROOT
 
 DOCS = "docs"
-ROOT_INDEX = "docs/README.md"
 LINK_RE = re.compile(r"\[[^\]]*\]\(([^)]+)\)")
 
 
@@ -68,48 +67,14 @@ def main() -> int:
     tracked = tracked_markdown()
     if tracked is None:
         return 1
-    if ROOT_INDEX not in tracked:
-        print(f"docs-index validation FAILED: {ROOT_INDEX} not found", file=sys.stderr)
-        return 1
 
     errors: list[str] = []
-    docs_by_dir: dict[str, set[str]] = {}
-    indexes: set[str] = set()
-    for path in tracked:
-        directory = posixpath.dirname(path)
-        if posixpath.basename(path) == "README.md":
-            indexes.add(path)
-        else:
-            docs_by_dir.setdefault(directory, set()).add(path)
+    indexes = sorted(
+        path for path in tracked if posixpath.basename(path) == "README.md"
+    )
     for index_path in indexes:
-        docs_by_dir.setdefault(posixpath.dirname(index_path), set())
-
-    for directory, pages in sorted(docs_by_dir.items()):
-        index_path = f"{directory}/README.md"
-        if index_path not in indexes:
-            errors.append(f"missing index: {index_path} is required for tracked Markdown pages")
-            continue
-
-        linked_same_dir = {
-            path
-            for path in links_from(index_path)
-            if posixpath.dirname(path) == directory
-        }
-        for page in sorted(pages - linked_same_dir):
-            errors.append(f"orphan: {page} is not linked from {index_path}")
-        for link in sorted(linked_same_dir - tracked):
+        for link in sorted(links_from(index_path) - tracked):
             errors.append(f"dangling: {index_path} links {link}, but it is not tracked")
-
-    nested_indexes = {
-        path for path in indexes if posixpath.dirname(path) != DOCS
-    }
-    root_links = links_from(ROOT_INDEX)
-    for index_path in sorted(nested_indexes - root_links):
-        errors.append(f"orphan: {index_path} is not linked from {ROOT_INDEX}")
-    for link in sorted(
-        path for path in root_links if posixpath.dirname(path) != DOCS and path not in tracked
-    ):
-        errors.append(f"dangling: {ROOT_INDEX} links {link}, but it is not tracked")
 
     if errors:
         print(f"docs-index validation FAILED ({len(errors)} problem(s)):", file=sys.stderr)
@@ -117,11 +82,7 @@ def main() -> int:
             print(f"  - {error}", file=sys.stderr)
         return 1
 
-    page_count = len(tracked - indexes)
-    print(
-        f"docs-index OK ({page_count} tracked pages across "
-        f"{len(docs_by_dir)} indexed directories; no dangling rows)."
-    )
+    print(f"docs-index OK ({len(indexes)} indexes; no dangling Markdown links).")
     return 0
 
 

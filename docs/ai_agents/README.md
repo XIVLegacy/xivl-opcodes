@@ -22,8 +22,8 @@ evidence policy defines durable citations and external source dates.
 
 The root [README.md](../../README.md) is the repository overview. The
 [catalog reference](../catalog-reference.md) is the consumer contract, and the
-[docs index](../README.md) links every tracked page. This policy covers
-evidence and claims, comments, and prose.
+[docs index](../README.md) provides entry points into the public docs. This
+policy covers evidence and claims, comments, and prose.
 
 Use short paragraphs, ASCII punctuation, and concrete names. Use a list for a
 real sequence and a table for repeated mappings. Instead of copying a field

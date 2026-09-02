@@ -9,6 +9,5 @@ contribution policy.
 | Repository guide | [repository-guide.md](repository-guide.md) |
 | AI-assisted contributions and retail validation | [ai_agents/README.md](ai_agents/README.md) |
 
-`tools/validate_docs_index.py` checks this index against the tracked Markdown
-tree under `docs/` in both directions. Add a row for each tracked page; remove
-its row when the page is removed.
+`tools/validate_docs_index.py` checks that local Markdown paths listed by
+documentation indexes point to tracked files.

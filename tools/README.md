@@ -74,10 +74,8 @@ writer. Abbreviated, uppercase, or omitted hashes are rejected.
 - `refresh_vendor.py` restores or re-pins a declared mirror from an explicitly
   named source checkout. It supports copy and derived refresh modes declared
   in the manifest.
-- `validate_docs_index.py` checks every tracked Markdown directory under
-  `docs/` against its local README index in both directions. The root index
-  must also link each nested section index. Only tracked documentation is
-  included in the check.
+- `validate_docs_index.py` checks that local Markdown paths listed by tracked
+  README indexes point to tracked documentation.
 - `audit_payload_framing.py` checks catalog wire lengths against the pinned
   inner-payload-length fixture and its allow-list. `--no-allowlist` exposes all
   mismatches; `--manifests` is an explicit research override. Exit status 0

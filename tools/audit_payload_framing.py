@@ -1,8 +1,5 @@
 #!/usr/bin/env python3
-"""Audit catalog framing against promoted inner-body lengths.
-
-See docs/ai_agents/verification.md for framing, allow-list, and exit contracts.
-"""
+"""Audit catalog framing against promoted inner-body lengths."""
 
 from __future__ import annotations
 
