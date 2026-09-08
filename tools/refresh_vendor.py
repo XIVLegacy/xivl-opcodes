@@ -49,7 +49,9 @@ def dump(document: object) -> bytes:
 
 def derive_captures_index(checkout: Path, commit: str, source_path: str) -> bytes:
     """Build the complete capture-name fixture used to validate observedIn."""
-    listing = git(checkout, "ls-tree", "--name-only", commit, f"{source_path.rstrip('/')}/")
+    listing = git(
+        checkout, "ls-tree", "--name-only", commit, f"{source_path.rstrip('/')}/"
+    )
     names = sorted(
         Path(line).name
         for line in listing.decode("utf-8").splitlines()
@@ -71,7 +73,9 @@ def derive_bcsy_ids(checkout: Path, commit: str, source_path: str) -> bytes:
 
 def derive_bcsy_opcode_bindings(checkout: Path, commit: str, source_path: str) -> bytes:
     """Build sync candidates from structured BCS-Y-to-opcode IR relationships."""
-    document = json.loads(git(checkout, "show", f"{commit}:{source_path}").decode("utf-8"))
+    document = json.loads(
+        git(checkout, "show", f"{commit}:{source_path}").decode("utf-8")
+    )
     symbols = {
         entry["id"]: {"name": entry["name"], "kind": entry["kind"]}
         for entry in document.get("symbols", [])
@@ -83,7 +87,9 @@ def derive_bcsy_opcode_bindings(checkout: Path, commit: str, source_path: str) -
         direction = opcode.get("direction")
         opcode_hex = opcode.get("hex")
         if direction not in {"c2s", "s2c"} or not isinstance(opcode_hex, str):
-            raise RefreshError(f"{commit}:{source_path} has a malformed opcode relationship")
+            raise RefreshError(
+                f"{commit}:{source_path} has a malformed opcode relationship"
+            )
         for symbol_id in opcode.get("symbols", []):
             if symbol_id not in symbols:
                 raise RefreshError(
@@ -96,32 +102,45 @@ def derive_bcsy_opcode_bindings(checkout: Path, commit: str, source_path: str) -
     candidates = []
     for symbol_id in sorted(bindings):
         symbol = symbols[symbol_id]
-        candidates.append({
-            "bcsyId": symbol_id,
-            "name": NEUTRAL_BINDING_NAMES.get(symbol_id, symbol["name"]),
-            "kind": symbol["kind"],
-            "opcodeBindings": [
-                {"direction": direction, "opcodeHex": opcode_hex}
-                for direction, opcode_hex in sorted(bindings[symbol_id])
-            ],
-        })
+        candidates.append(
+            {
+                "bcsyId": symbol_id,
+                "name": NEUTRAL_BINDING_NAMES.get(symbol_id, symbol["name"]),
+                "kind": symbol["kind"],
+                "opcodeBindings": [
+                    {"direction": direction, "opcodeHex": opcode_hex}
+                    for direction, opcode_hex in sorted(bindings[symbol_id])
+                ],
+            }
+        )
     return dump({"syncCandidates": candidates})
 
 
-def derive_payload_inner_lengths(checkout: Path, commit: str, source_path: str) -> bytes:
+def derive_payload_inner_lengths(
+    checkout: Path, commit: str, source_path: str
+) -> bytes:
     """Build inner payload lengths through the framing audit's merge rule."""
     base = source_path.rstrip("/")
     with tempfile.TemporaryDirectory() as raw:
         staged = Path(raw)
         for filename, _collection_key, _direction in MANIFESTS:
-            (staged / filename).write_bytes(git(checkout, "show", f"{commit}:{base}/{filename}"))
+            (staged / filename).write_bytes(
+                git(checkout, "show", f"{commit}:{base}/{filename}")
+            )
         merged = load_schema_lengths_with_sources(staged)
-    return dump({
-        "innerLengths": [
-            {"direction": direction, "opcode": opcode, "innerLen": inner_len, "source": source}
-            for (direction, opcode), (inner_len, source) in sorted(merged.items())
-        ]
-    })
+    return dump(
+        {
+            "innerLengths": [
+                {
+                    "direction": direction,
+                    "opcode": opcode,
+                    "innerLen": inner_len,
+                    "source": source,
+                }
+                for (direction, opcode), (inner_len, source) in sorted(merged.items())
+            ]
+        }
+    )
 
 
 DERIVERS = {
@@ -134,7 +153,9 @@ DERIVERS = {
 
 def load_provenance(path: Path) -> dict:
     provenance = json.loads(path.read_text(encoding="utf-8"))
-    if not isinstance(provenance, dict) or not isinstance(provenance.get("files"), list):
+    if not isinstance(provenance, dict) or not isinstance(
+        provenance.get("files"), list
+    ):
         raise RefreshError(f"{path}: files must be an array")
     return provenance
 
@@ -142,11 +163,14 @@ def load_provenance(path: Path) -> dict:
 def write_provenance(path: Path, provenance: dict) -> None:
     path.write_text(
         json.dumps(provenance, indent=2, ensure_ascii=False) + "\n",
-        encoding="utf-8", newline="\n",
+        encoding="utf-8",
+        newline="\n",
     )
 
 
-def refresh_entry(entry: dict, directory: Path, checkouts: dict[str, Path], args) -> str:
+def refresh_entry(
+    entry: dict, directory: Path, checkouts: dict[str, Path], args
+) -> str:
     name = entry["file"]
     fixture = directory / name
     source_repo = entry["sourceRepo"]
@@ -159,7 +183,9 @@ def refresh_entry(entry: dict, directory: Path, checkouts: dict[str, Path], args
 
     commit = args.commit
     if not HEX40.fullmatch(commit):
-        raise RefreshError(f"--commit must be a full 40-hex lowercase hash naming the source revision to fetch, got {commit!r}")
+        raise RefreshError(
+            f"--commit must be a full 40-hex lowercase hash naming the source revision to fetch, got {commit!r}"
+        )
     source_path = args.source_path or entry["sourcePath"]
 
     mode = entry.get("refreshMode")
@@ -187,18 +213,38 @@ def refresh_entry(entry: dict, directory: Path, checkouts: dict[str, Path], args
 
 
 def main() -> int:
-    ap = argparse.ArgumentParser(description=__doc__, formatter_class=argparse.RawDescriptionHelpFormatter)
+    ap = argparse.ArgumentParser(
+        description=__doc__, formatter_class=argparse.RawDescriptionHelpFormatter
+    )
     ap.add_argument(
-        "--repo", action="append", default=[], metavar="NAME=PATH",
+        "--repo",
+        action="append",
+        default=[],
+        metavar="NAME=PATH",
         help="source checkout for a sourceRepo named in PROVENANCE; repeatable",
     )
-    ap.add_argument("--only", default=None, help="single fixture to re-pin, such as data/vendor/captures/payload_samples.json")
-    ap.add_argument("--commit", default=None, help="full 40-hex source commit to fetch from (required)")
-    ap.add_argument("--source-path", default=None, help="path inside the source repository, overriding the stored sourcePath")
+    ap.add_argument(
+        "--only",
+        default=None,
+        help="single fixture to re-pin, such as data/vendor/captures/payload_samples.json",
+    )
+    ap.add_argument(
+        "--commit",
+        default=None,
+        help="full 40-hex source commit to fetch from (required)",
+    )
+    ap.add_argument(
+        "--source-path",
+        default=None,
+        help="path inside the source repository, overriding the stored sourcePath",
+    )
     args = ap.parse_args()
 
     if not args.only or not args.commit:
-        print("error: refreshing a fixture requires both --only and --commit", file=sys.stderr)
+        print(
+            "error: refreshing a fixture requires both --only and --commit",
+            file=sys.stderr,
+        )
         return 2
 
     checkouts: dict[str, Path] = {}
@@ -206,7 +252,10 @@ def main() -> int:
         name, _, raw = spec.partition("=")
         path = Path(raw)
         if not name or not raw or not (path / ".git").exists():
-            print(f"error: --repo {spec} must be NAME=PATH pointing at a git checkout", file=sys.stderr)
+            print(
+                f"error: --repo {spec} must be NAME=PATH pointing at a git checkout",
+                file=sys.stderr,
+            )
             return 2
         checkouts[name] = path
 
@@ -230,7 +279,12 @@ def main() -> int:
                 continue
             try:
                 print(refresh_entry(entry, directory, checkouts, args))
-            except (RefreshError, OSError, UnicodeDecodeError, json.JSONDecodeError) as exc:
+            except (
+                RefreshError,
+                OSError,
+                UnicodeDecodeError,
+                json.JSONDecodeError,
+            ) as exc:
                 print(f"error: {entry.get('file')}: {exc}", file=sys.stderr)
                 exit_code = 1
                 continue

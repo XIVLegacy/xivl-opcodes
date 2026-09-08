@@ -55,14 +55,29 @@ ADDRESS_RE = re.compile(r"^0x[0-9a-f]{8}$")
 COMMIT_RE = re.compile(r"^[0-9a-f]{40}$")
 HASH_RE = re.compile(r"^[0-9a-f]{64}$")
 
-CHECK_KEYS = frozenset({
-    "schema_version", "check", "input_id", "locator", "expected",
-})
-OBSERVATION_KEYS = frozenset({
-    "schema_version", "check_id", "input_id", "dispatcher_va", "opcode",
-    "byte_table_va", "dword_table_va", "byte_table_entry_va", "case_index",
-    "vtable_slot",
-})
+CHECK_KEYS = frozenset(
+    {
+        "schema_version",
+        "check",
+        "input_id",
+        "locator",
+        "expected",
+    }
+)
+OBSERVATION_KEYS = frozenset(
+    {
+        "schema_version",
+        "check_id",
+        "input_id",
+        "dispatcher_va",
+        "opcode",
+        "byte_table_va",
+        "dword_table_va",
+        "byte_table_entry_va",
+        "case_index",
+        "vtable_slot",
+    }
+)
 
 
 class VerificationError(Exception):
@@ -71,7 +86,7 @@ class VerificationError(Exception):
 
 EXPORTER_REQUIRED_SNIPPETS = (
     "validateDispatcherPacketPath(dispatcher, opcodeLoad)",
-    "\"EAX\".equalsIgnoreCase(((Register) object).getName())",
+    '"EAX".equalsIgnoreCase(((Register) object).getName())',
     "validateNormalization(normalized)",
     "validateBound(bound, opcodeBase, opcode)",
     "validateByteTableLoad(byteLoad, byteTableVa)",
@@ -79,10 +94,10 @@ EXPORTER_REQUIRED_SNIPPETS = (
     "readUnsignedByte(byteTableEntryVa)",
     "long dwordEntryVa = dwordTableVa + ((long) caseIndex * 4L)",
     "readUnsignedDword(dwordEntryVa)",
-    "validateLoadRegister(body[0], \"ESI\", \"ECX\", 0L)",
-    "validateAdd(body[1], \"EAX\", PAYLOAD_OFFSET)",
+    'validateLoadRegister(body[0], "ESI", "ECX", 0L)',
+    'validateAdd(body[1], "EAX", PAYLOAD_OFFSET)',
     "validateCallbackLoad(body[3])",
-    "validateIndirectCall(body[7], \"EAX\")",
+    'validateIndirectCall(body[7], "EAX")',
     "return displacement / 4",
     "StandardCharsets.US_ASCII",
     "StandardCopyOption.ATOMIC_MOVE",
@@ -126,9 +141,10 @@ def _read_observation(path: Path) -> Any:
         text = path.read_bytes().decode("ascii")
     except (OSError, UnicodeError) as exc:
         raise VerificationError("observation is not ASCII") from exc
-    canonical = json.dumps(
-        document, ensure_ascii=True, sort_keys=True, separators=(",", ":")
-    ) + "\n"
+    canonical = (
+        json.dumps(document, ensure_ascii=True, sort_keys=True, separators=(",", ":"))
+        + "\n"
+    )
     if text != canonical:
         raise VerificationError("observation serialization is not canonical")
     return document
@@ -137,18 +153,20 @@ def _read_observation(path: Path) -> Any:
 def _retail_input_errors(document: Any) -> list[str]:
     expected = {
         "schema_version": 1,
-        "inputs": [{
-            "id": INPUT_ID,
-            "filename": INPUT_FILENAME,
-            "size": INPUT_SIZE,
-            "sha256": INPUT_SHA256,
-            "source": {
-                "repository": PRIVATE_REPOSITORY,
-                "commit": PRIVATE_COMMIT,
-                "path": PRIVATE_PATH,
-            },
-            "allowed_checks": [CHECK_ID],
-        }],
+        "inputs": [
+            {
+                "id": INPUT_ID,
+                "filename": INPUT_FILENAME,
+                "size": INPUT_SIZE,
+                "sha256": INPUT_SHA256,
+                "source": {
+                    "repository": PRIVATE_REPOSITORY,
+                    "commit": PRIVATE_COMMIT,
+                    "path": PRIVATE_PATH,
+                },
+                "allowed_checks": [CHECK_ID],
+            }
+        ],
     }
     if (
         document == expected
@@ -197,11 +215,16 @@ def _observation_errors(document: Any) -> list[str]:
         return ["observation document shape is invalid"]
     errors: list[str] = []
     addresses = (
-        "dispatcher_va", "byte_table_va", "dword_table_va",
+        "dispatcher_va",
+        "byte_table_va",
+        "dword_table_va",
         "byte_table_entry_va",
     )
-    if any(not isinstance(document.get(name), str)
-           or not ADDRESS_RE.fullmatch(document[name]) for name in addresses):
+    if any(
+        not isinstance(document.get(name), str)
+        or not ADDRESS_RE.fullmatch(document[name])
+        for name in addresses
+    ):
         errors.append("observation address is malformed")
     if (
         document.get("schema_version") != SCHEMA_VERSION
@@ -226,32 +249,41 @@ def _tracked_source_errors(zone_map: Any, semantics: Any, catalog: Any) -> list[
     errors: list[str] = []
     cases = zone_map.get("cases") if isinstance(zone_map, dict) else None
     matches = [
-        row for row in cases or []
+        row
+        for row in cases or []
         if isinstance(row, dict) and OPCODE in row.get("opcodes", [])
     ]
     if len(matches) != 1:
         errors.append("tracked dispatch row is not unique")
-    elif matches[0] != {
-        "case": EXPECTED_CASE_INDEX,
-        "vtable_slot": EXPECTED_VTABLE_SLOT,
-        "opcodes": [OPCODE],
-        "is_catchall": False,
-    } or matches[0].get("is_catchall") is not False:
+    elif (
+        matches[0]
+        != {
+            "case": EXPECTED_CASE_INDEX,
+            "vtable_slot": EXPECTED_VTABLE_SLOT,
+            "opcodes": [OPCODE],
+            "is_catchall": False,
+        }
+        or matches[0].get("is_catchall") is not False
+    ):
         errors.append("tracked dispatch row drifted")
 
     rows = semantics.get("rows") if isinstance(semantics, dict) else None
     semantic_matches = [
-        row for row in rows or []
+        row
+        for row in rows or []
         if isinstance(row, dict) and row.get("id") == "s2c-018d"
     ]
     if len(semantic_matches) != 1:
         errors.append("tracked semantic row is not unique")
-    elif any(semantic_matches[0].get(name) != value for name, value in {
-        "opcodeHex": OPCODE,
-        "direction": "clientbound",
-        "function": "FUN_00575550",
-        "status": "closed",
-    }.items()):
+    elif any(
+        semantic_matches[0].get(name) != value
+        for name, value in {
+            "opcodeHex": OPCODE,
+            "direction": "clientbound",
+            "function": "FUN_00575550",
+            "status": "closed",
+        }.items()
+    ):
         errors.append("tracked semantic row drifted")
 
     catalog_rows = []
@@ -259,10 +291,13 @@ def _tracked_source_errors(zone_map: Any, semantics: Any, catalog: Any) -> list[
         for document in catalog:
             if isinstance(document, dict):
                 lists = document.get("lists")
-                if isinstance(lists, dict) and isinstance(lists.get("MapClientbound"), list):
+                if isinstance(lists, dict) and isinstance(
+                    lists.get("MapClientbound"), list
+                ):
                     catalog_rows.extend(lists["MapClientbound"])
     catalog_matches = [
-        row for row in catalog_rows
+        row
+        for row in catalog_rows
         if isinstance(row, dict) and row.get("opcodeHex") == OPCODE
     ]
     if len(catalog_matches) != 1:
@@ -293,7 +328,9 @@ def _git_commit() -> str:
         )
         commit = result.stdout.strip()
     except (OSError, subprocess.SubprocessError) as exc:
-        raise VerificationError("public repository commit could not be resolved") from exc
+        raise VerificationError(
+            "public repository commit could not be resolved"
+        ) from exc
     if not COMMIT_RE.fullmatch(commit):
         raise VerificationError("public repository commit is not a full lowercase SHA")
     return commit
@@ -373,12 +410,19 @@ def retained_output_errors(directory: Path) -> list[str]:
         raw.decode("ascii")
         attestation = json.loads(raw.decode("ascii"))
         schema = _schema_check.load_schema(DEFAULT_SCHEMA)
-    except (OSError, UnicodeError, ValueError, json.JSONDecodeError,
-            _schema_check.SchemaError):
+    except (
+        OSError,
+        UnicodeError,
+        ValueError,
+        json.JSONDecodeError,
+        _schema_check.SchemaError,
+    ):
         return ["retained attestation could not be validated"]
-    return ["retained attestation schema rejected output"] if _schema_check.validate(
-        attestation, schema
-    ) else []
+    return (
+        ["retained attestation schema rejected output"]
+        if _schema_check.validate(attestation, schema)
+        else []
+    )
 
 
 def _parse_args(argv: list[str] | None) -> argparse.Namespace:
@@ -444,9 +488,12 @@ def main(argv: list[str] | None = None) -> int:
     if schema_errors:
         errors.append("attestation schema rejected output")
         attestation["result"] = {"status": "fail"}
-    payload = json.dumps(
-        attestation, ensure_ascii=True, sort_keys=True, separators=(",", ":")
-    ).encode("ascii") + b"\n"
+    payload = (
+        json.dumps(
+            attestation, ensure_ascii=True, sort_keys=True, separators=(",", ":")
+        ).encode("ascii")
+        + b"\n"
+    )
     sys.stdout.buffer.write(payload)
     for error in errors:
         print(f"ERROR: {error}", file=sys.stderr)

@@ -42,7 +42,8 @@ def run_validator(
     catalog: list | None = None,
 ) -> int:
     semantics_path = write(
-        directory / "semantics.json", load(SEMANTICS) if semantics is None else semantics
+        directory / "semantics.json",
+        load(SEMANTICS) if semantics is None else semantics,
     )
     layouts_path = write(directory / "layouts.json", load(LAYOUTS))
     samples_path = write(

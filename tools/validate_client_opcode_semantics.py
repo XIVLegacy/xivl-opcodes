@@ -10,8 +10,12 @@ from _json_io import OPCODES_PATH, REPO_ROOT
 
 
 EVIDENCE_PATH = REPO_ROOT / "data" / "client_opcode_semantics.json"
-CAPTURE_LAYOUTS_PATH = REPO_ROOT / "data" / "vendor" / "captures" / "payload_layouts.json"
-CAPTURE_SAMPLES_PATH = REPO_ROOT / "data" / "vendor" / "captures" / "payload_samples.json"
+CAPTURE_LAYOUTS_PATH = (
+    REPO_ROOT / "data" / "vendor" / "captures" / "payload_layouts.json"
+)
+CAPTURE_SAMPLES_PATH = (
+    REPO_ROOT / "data" / "vendor" / "captures" / "payload_samples.json"
+)
 EXPECTED_SCHEMA_VERSION = 1
 EXPECTED_BINARY = {
     "name": "ffxivgame.exe",
@@ -57,7 +61,10 @@ ZONE_DUMMY_CLUSTER_PRIOR = {
     0x01C3: ("StartRecruitingResponse", "MapServerOpcode::StartRecruitingResponse"),
     0x01C4: ("EndRecruitmentPacket", "MapServerOpcode::EndRecruitment"),
     0x01C5: ("RecruiterStatePacket", "MapServerOpcode::RecruiterState"),
-    0x01C8: ("CurrentRecruitmentDetailsPacket", "MapServerOpcode::CurrentRecruitmentDetails"),
+    0x01C8: (
+        "CurrentRecruitmentDetailsPacket",
+        "MapServerOpcode::CurrentRecruitmentDetails",
+    ),
     0x01C9: ("BlacklistAddedPacket", "MapServerOpcode::BlacklistAdded"),
     0x01CA: ("BlacklistRemovedPacket", "MapServerOpcode::BlacklistRemoved"),
     0x01CB: ("SendBlacklistPacket", "MapServerOpcode::SendBlacklist"),
@@ -94,7 +101,13 @@ OUTBOUND_OBSERVATION_FRAGMENTS = {
         "56-byte builder record",
         "40-byte application payload",
     ),
-    "c2s-00c8": ("opcode 0x00c8", "size 0x230", "four qwords", "0x80 dwords", "FUN_00DB3E30"),
+    "c2s-00c8": (
+        "opcode 0x00c8",
+        "size 0x230",
+        "four qwords",
+        "0x80 dwords",
+        "FUN_00DB3E30",
+    ),
     "c2s-00c9": (
         "opcode 0x00c9",
         "body size 0x218",
@@ -103,9 +116,34 @@ OUTBOUND_OBSERVATION_FRAGMENTS = {
         "chat message",
         "FUN_00DB3E30",
     ),
-    "c2s-012d": ("opcode 0x012d", "record size 0xc8", "four u32", "one u8", "FUN_00DAE010", "126 captured 216-byte subpackets", "command.canFire", "100 owner IDs", "88 also join to gameCommand"),
-    "c2s-012e": ("opcode 0x012e", "body size 0x68", "sixteen dwords", "FUN_004D6D30", "120-byte total subpacket"),
-    "c2s-012f": ("opcode 0x012f", "record size 0x38", "leading dword", "32-byte", "four-byte stack tail", "_updateWork", "FUN_004D6D30", "72-byte subpackets"),
+    "c2s-012d": (
+        "opcode 0x012d",
+        "record size 0xc8",
+        "four u32",
+        "one u8",
+        "FUN_00DAE010",
+        "126 captured 216-byte subpackets",
+        "command.canFire",
+        "100 owner IDs",
+        "88 also join to gameCommand",
+    ),
+    "c2s-012e": (
+        "opcode 0x012e",
+        "body size 0x68",
+        "sixteen dwords",
+        "FUN_004D6D30",
+        "120-byte total subpacket",
+    ),
+    "c2s-012f": (
+        "opcode 0x012f",
+        "record size 0x38",
+        "leading dword",
+        "32-byte",
+        "four-byte stack tail",
+        "_updateWork",
+        "FUN_004D6D30",
+        "72-byte subpackets",
+    ),
     "c2s-0131": ("opcode 0x0131", "size 0x18", "u32", "u8", "FUN_004D6D30"),
     "c2s-0132": ("opcode 0x0132", "size 0x18", "u32", "u16", "u8", "FUN_004D6D30"),
     "c2s-0134": (
@@ -135,7 +173,28 @@ BARE_FUNCTION = re.compile(r"^FUN_[0-9A-F]{8}$")
 SOURCE_REF = re.compile(
     r"^(xivl-client-structs|xivl-client-scripts|xivl-client-data|xivl-captures|xivl-decomp|retail):"
 )
-EXPECTED_CAPTURE_ROWS = {"c2s-00c9", "c2s-00ce", "c2s-012d", "c2s-012e", "c2s-012f", "s2c-00da", "s2c-00e1", "s2c-0144", "s2c-0179", "s2c-017c", "s2c-017f", "s2c-0183", "s2c-0187", "s2c-018b", "s2c-018d", "s2c-018f", "s2c-0190", "s2c-0191", "s2c-0193", "s2c-0196"}
+EXPECTED_CAPTURE_ROWS = {
+    "c2s-00c9",
+    "c2s-00ce",
+    "c2s-012d",
+    "c2s-012e",
+    "c2s-012f",
+    "s2c-00da",
+    "s2c-00e1",
+    "s2c-0144",
+    "s2c-0179",
+    "s2c-017c",
+    "s2c-017f",
+    "s2c-0183",
+    "s2c-0187",
+    "s2c-018b",
+    "s2c-018d",
+    "s2c-018f",
+    "s2c-0190",
+    "s2c-0191",
+    "s2c-0193",
+    "s2c-0196",
+}
 
 CLIENT_ONLY_EXPECTATIONS = {
     "s2c-00da": ("0x00da", "clientbound", "FUN_0058CAD0"),
@@ -157,18 +216,54 @@ CLIENT_ONLY_EXPECTATIONS = {
 }
 
 LAYOUT_SUMMARY_EXPECTATIONS = {
-    "s2c-0144": ("0x0144", {"sample_count": 60, "sub_size_distribution": {"40": 60}, "body_length": 24}),
-    "s2c-0179": ("0x0179", {"sample_count": 55, "sub_size_distribution": {"72": 55}, "body_length": 56}),
-    "s2c-00da": ("0x00da", {"sample_count": 16, "sub_size_distribution": {"40": 16}, "body_length": 24}),
-    "s2c-00e1": ("0x00e1", {"sample_count": 3, "sub_size_distribution": {"48": 3}, "body_length": 32}),
-    "s2c-0196": ("0x0196", {"sample_count": 11, "sub_size_distribution": {"56": 11}, "body_length": 40}),
-    "s2c-0193": ("0x0193", {"sample_count": 9, "sub_size_distribution": {"40": 9}, "body_length": 24}),
-    "s2c-018f": ("0x018f", {"sample_count": 15, "sub_size_distribution": {"40": 15}, "body_length": 24}),
-    "s2c-0191": ("0x0191", {"sample_count": 15, "sub_size_distribution": {"40": 15}, "body_length": 24}),
-    "s2c-0190": ("0x0190", {"sample_count": 32, "sub_size_distribution": {"136": 32}, "body_length": 120}),
-    "s2c-0187": ("0x0187", {"sample_count": 33, "sub_size_distribution": {"96": 33}, "body_length": 80}),
-    "s2c-018b": ("0x018b", {"sample_count": 31, "sub_size_distribution": {"88": 31}, "body_length": 72}),
-    "s2c-018d": ("0x018d", {"sample_count": 60, "sub_size_distribution": {"696": 60}, "body_length": 680}),
+    "s2c-0144": (
+        "0x0144",
+        {"sample_count": 60, "sub_size_distribution": {"40": 60}, "body_length": 24},
+    ),
+    "s2c-0179": (
+        "0x0179",
+        {"sample_count": 55, "sub_size_distribution": {"72": 55}, "body_length": 56},
+    ),
+    "s2c-00da": (
+        "0x00da",
+        {"sample_count": 16, "sub_size_distribution": {"40": 16}, "body_length": 24},
+    ),
+    "s2c-00e1": (
+        "0x00e1",
+        {"sample_count": 3, "sub_size_distribution": {"48": 3}, "body_length": 32},
+    ),
+    "s2c-0196": (
+        "0x0196",
+        {"sample_count": 11, "sub_size_distribution": {"56": 11}, "body_length": 40},
+    ),
+    "s2c-0193": (
+        "0x0193",
+        {"sample_count": 9, "sub_size_distribution": {"40": 9}, "body_length": 24},
+    ),
+    "s2c-018f": (
+        "0x018f",
+        {"sample_count": 15, "sub_size_distribution": {"40": 15}, "body_length": 24},
+    ),
+    "s2c-0191": (
+        "0x0191",
+        {"sample_count": 15, "sub_size_distribution": {"40": 15}, "body_length": 24},
+    ),
+    "s2c-0190": (
+        "0x0190",
+        {"sample_count": 32, "sub_size_distribution": {"136": 32}, "body_length": 120},
+    ),
+    "s2c-0187": (
+        "0x0187",
+        {"sample_count": 33, "sub_size_distribution": {"96": 33}, "body_length": 80},
+    ),
+    "s2c-018b": (
+        "0x018b",
+        {"sample_count": 31, "sub_size_distribution": {"88": 31}, "body_length": 72},
+    ),
+    "s2c-018d": (
+        "0x018d",
+        {"sample_count": 60, "sub_size_distribution": {"696": 60}, "body_length": 680},
+    ),
 }
 
 EXPECTED_0193_SAMPLES = (
@@ -207,8 +302,10 @@ def validate_mechanical_expectations(
     """Validate repeated client-only anchors and pinned layout summaries."""
     for label, (opcode_hex, direction, anchor) in CLIENT_ONLY_EXPECTATIONS.items():
         matches = [
-            entry for entry in entries
-            if entry.get("opcodeHex") == opcode_hex and entry.get("direction") == direction
+            entry
+            for entry in entries
+            if entry.get("opcodeHex") == opcode_hex
+            and entry.get("direction") == direction
             and entry.get("decompAnchor") == anchor
         ]
         if len(matches) != 1:
@@ -248,8 +345,12 @@ def main() -> int:
     if {row.get("dependencyOrdinal") for row in rows} != set(range(44)):
         errors.append("dependencyOrdinal values must be exactly 0 through 43")
 
-    inbound = {row.get("opcodeHex") for row in rows if row.get("direction") == "clientbound"}
-    outbound = {row.get("opcodeHex") for row in rows if row.get("direction") == "serverbound"}
+    inbound = {
+        row.get("opcodeHex") for row in rows if row.get("direction") == "clientbound"
+    }
+    outbound = {
+        row.get("opcodeHex") for row in rows if row.get("direction") == "serverbound"
+    }
     if inbound != EXPECTED_INBOUND:
         errors.append("clientbound opcode set does not match the 34-row ledger slice")
     if outbound != EXPECTED_OUTBOUND:
@@ -320,7 +421,9 @@ def main() -> int:
             errors.append(f"{label}: matched {len(matches)} catalog entries")
             continue
         notes = matches[0].get("notes", "")
-        evidence_token = f"client_semantics_evidence=data/client_opcode_semantics.json#{label}"
+        evidence_token = (
+            f"client_semantics_evidence=data/client_opcode_semantics.json#{label}"
+        )
         status_token = f"dependency_status={row.get('status')}"
         if evidence_token not in notes or status_token not in notes:
             errors.append(f"{label}: catalog notes lack evidence/status tokens")
@@ -338,11 +441,13 @@ def main() -> int:
         observation = rows_by_id.get(label, {}).get("observation", "")
         for fragment in fragments:
             if fragment not in observation:
-                errors.append(f"{label}: chant boundary lacks required fact {fragment!r}")
+                errors.append(
+                    f"{label}: chant boundary lacks required fact {fragment!r}"
+                )
 
     anchors = [entry["decompAnchor"] for entry in entries if entry.get("decompAnchor")]
-    if len(anchors) != 86:
-        errors.append(f"catalog has {len(anchors)} decompAnchor values, expected 86")
+    if len(anchors) != 93:
+        errors.append(f"catalog has {len(anchors)} decompAnchor values, expected 93")
     bad_anchors = [anchor for anchor in anchors if not BARE_FUNCTION.fullmatch(anchor)]
     if bad_anchors:
         errors.append(f"non-bare decompAnchor values: {bad_anchors}")
@@ -384,14 +489,22 @@ def main() -> int:
 
     battle_effect_samples = capture_samples["samples"]["s2c"]["0x00da"]
     retained_battle_effects = battle_effect_samples.get("samples", [])
-    if battle_effect_samples.get("sampleCount") != 16 or len(retained_battle_effects) != 16:
+    if (
+        battle_effect_samples.get("sampleCount") != 16
+        or len(retained_battle_effects) != 16
+    ):
         errors.append("s2c-00da retained sample count drifted from 16")
     if {sample.get("sub_size") for sample in retained_battle_effects} != {40}:
         errors.append("s2c-00da retained subpacket length drifted from 40")
     if len({sample.get("capture") for sample in retained_battle_effects}) != 7:
         errors.append("s2c-00da retained capture count drifted from 7")
-    if any(bytes.fromhex(sample["bytes"])[20:24] != b"\0\0\0\0" for sample in retained_battle_effects):
-        errors.append("s2c-00da retained second application u32 is no longer uniformly zero")
+    if any(
+        bytes.fromhex(sample["bytes"])[20:24] != b"\0\0\0\0"
+        for sample in retained_battle_effects
+    ):
+        errors.append(
+            "s2c-00da retained second application u32 is no longer uniformly zero"
+        )
 
     battle_effect_entry = next(
         entry
@@ -459,13 +572,18 @@ def main() -> int:
 
     action_family_samples = capture_samples["samples"]["s2c"]["0x00e1"]
     retained_action_family = action_family_samples.get("samples", [])
-    if action_family_samples.get("sampleCount") != 3 or len(retained_action_family) != 3:
+    if (
+        action_family_samples.get("sampleCount") != 3
+        or len(retained_action_family) != 3
+    ):
         errors.append("s2c-00e1 retained sample count drifted from 3")
     if {sample.get("sub_size") for sample in retained_action_family} != {48}:
         errors.append("s2c-00e1 retained subpacket length drifted from 48")
     if len({sample.get("capture") for sample in retained_action_family}) != 3:
         errors.append("s2c-00e1 retained capture count drifted from 3")
-    action_family_bytes = [bytes.fromhex(sample["bytes"]) for sample in retained_action_family]
+    action_family_bytes = [
+        bytes.fromhex(sample["bytes"]) for sample in retained_action_family
+    ]
     if {int.from_bytes(value[16:20], "little") for value in action_family_bytes} != {
         0x0500B000,
         0x05010000,
@@ -576,7 +694,8 @@ def main() -> int:
     for row_id, expected in group_expectations.items():
         row = next(row for row in rows if row.get("id") == row_id)
         entry = next(
-            entry for entry in entries
+            entry
+            for entry in entries
             if entry.get("opcodeHex") == row["opcodeHex"]
             and entry.get("direction") == "clientbound"
             and entry.get("decompAnchor") == row["function"]
@@ -589,9 +708,13 @@ def main() -> int:
         notes = entry.get("notes", "")
         for fragment in expected["catalog_fragments"]:
             if fragment not in notes:
-                errors.append(f"{row_id}: catalog notes lost required fact {fragment!r}")
+                errors.append(
+                    f"{row_id}: catalog notes lost required fact {fragment!r}"
+                )
 
-    group_header = (REPO_ROOT / "structs" / "map" / "clientbound.h").read_text(encoding="ascii")
+    group_header = (REPO_ROOT / "structs" / "map" / "clientbound.h").read_text(
+        encoding="ascii"
+    )
     for pattern in (
         r"uint32_t\s+groupTypeId;\s*// application\[\+0x30\]; positional observation",
         r"uint8_t\s+members\[384\];\s*// eight 0x30-byte records at application\[\+0x10\]",
@@ -653,19 +776,28 @@ def main() -> int:
         errors.append("c2s-012d canonical name must remain EventStartPacket")
     if event_start_entry.get("payloadLengths") != [216]:
         errors.append("c2s-012d must retain the observed 216-byte wire length")
-    event_start_layout = capture_layouts.get("layouts", {}).get("c2s", {}).get("0x012d", {})
-    event_start_samples = capture_samples.get("samples", {}).get("c2s", {}).get("0x012d", {})
+    event_start_layout = (
+        capture_layouts.get("layouts", {}).get("c2s", {}).get("0x012d", {})
+    )
+    event_start_samples = (
+        capture_samples.get("samples", {}).get("c2s", {}).get("0x012d", {})
+    )
     if (
         event_start_layout.get("common_sub_size") != 216
         or event_start_layout.get("sub_size_distribution") != {"216": 60}
         or event_start_layout.get("sample_count") != 60
         or event_start_layout.get("body_length") != 200
     ):
-        errors.append("c2s-012d capture layout must remain 60 retained 216-byte samples with a 200-byte body")
+        errors.append(
+            "c2s-012d capture layout must remain 60 retained 216-byte samples with a 200-byte body"
+        )
     if event_start_samples.get("sampleCount") != 60 or any(
-        sample.get("sub_size") != 216 for sample in event_start_samples.get("samples", [])
+        sample.get("sub_size") != 216
+        for sample in event_start_samples.get("samples", [])
     ):
-        errors.append("c2s-012d retained samples must remain exactly 60 216-byte subpackets")
+        errors.append(
+            "c2s-012d retained samples must remain exactly 60 216-byte subpackets"
+        )
     for fragment in (
         "client_prechecks=50-byte combined script-string limit",
         "command_id_mapping=resolved for owner ids in the 0xa0f00000 static-actor block",
@@ -737,8 +869,12 @@ def main() -> int:
 
     special_samples = capture_samples["samples"]["s2c"]["0x0196"]
     retained_special = special_samples.get("samples", [])
-    special_apps = [bytes.fromhex(sample["bytes"])[16:40] for sample in retained_special]
-    expected_special_app = bytes.fromhex("000000000000000000000000000001000000000000000000")
+    special_apps = [
+        bytes.fromhex(sample["bytes"])[16:40] for sample in retained_special
+    ]
+    expected_special_app = bytes.fromhex(
+        "000000000000000000000000000001000000000000000000"
+    )
     if special_samples.get("sampleCount") != 11 or len(retained_special) != 11:
         errors.append("s2c-0196 retained sample count drifted from 11")
     if {sample.get("sub_size") for sample in retained_special} != {56}:
@@ -834,7 +970,9 @@ def main() -> int:
     if manager_entry.get("observedIn") != ["login.pcapng"]:
         errors.append("s2c-018a must retain only the verified login.pcapng observation")
     if manager_entry.get("payloadLengths") != [136]:
-        errors.append("s2c-018a must retain only the verified 136-byte subpacket length")
+        errors.append(
+            "s2c-018a must retain only the verified 136-byte subpacket length"
+        )
     for fragment in (
         "FUN_00576380",
         "FUN_006C82A0",
@@ -1066,7 +1204,9 @@ def main() -> int:
         errors.append("s2c-018f retained subpacket length drifted from 40")
     if len({sample.get("capture") for sample in retained_setup}) != 8:
         errors.append("s2c-018f retained capture count drifted from 8")
-    if any(bytes.fromhex(sample["bytes"])[16:24] != bytes(8) for sample in retained_setup):
+    if any(
+        bytes.fromhex(sample["bytes"])[16:24] != bytes(8) for sample in retained_setup
+    ):
         errors.append("s2c-018f retained application payload is no longer all zero")
     setup_entry = next(
         entry
@@ -1120,13 +1260,19 @@ def main() -> int:
 
     finalization_samples = capture_samples["samples"]["s2c"]["0x0191"]
     retained_finalization = finalization_samples.get("samples", [])
-    if finalization_samples.get("sampleCount") != 15 or len(retained_finalization) != 15:
+    if (
+        finalization_samples.get("sampleCount") != 15
+        or len(retained_finalization) != 15
+    ):
         errors.append("s2c-0191 retained sample count drifted from 15")
     if {sample.get("sub_size") for sample in retained_finalization} != {40}:
         errors.append("s2c-0191 retained subpacket length drifted from 40")
     if len({sample.get("capture") for sample in retained_finalization}) != 8:
         errors.append("s2c-0191 retained capture count drifted from 8")
-    if any(bytes.fromhex(sample["bytes"])[16:24] != bytes(8) for sample in retained_finalization):
+    if any(
+        bytes.fromhex(sample["bytes"])[16:24] != bytes(8)
+        for sample in retained_finalization
+    ):
         errors.append("s2c-0191 retained application payload is no longer all zero")
     finalization_entry = next(
         entry
@@ -1286,7 +1432,10 @@ def main() -> int:
 
     group_layout_samples = capture_samples["samples"]["s2c"]["0x018b"]
     retained_group_layout = group_layout_samples.get("samples", [])
-    if group_layout_samples.get("sampleCount") != 31 or len(retained_group_layout) != 31:
+    if (
+        group_layout_samples.get("sampleCount") != 31
+        or len(retained_group_layout) != 31
+    ):
         errors.append("s2c-018b retained sample count drifted from 31")
     if {sample.get("sub_size") for sample in retained_group_layout} != {88}:
         errors.append("s2c-018b retained subpacket length drifted from 88")
@@ -1301,7 +1450,9 @@ def main() -> int:
     )
     group_layout_notes = group_layout_entry.get("notes", "")
     if group_layout_entry.get("name") != "SetGroupLayoutIDPacket":
-        errors.append("s2c-018b canonical name must reflect the client group-layout path")
+        errors.append(
+            "s2c-018b canonical name must reflect the client group-layout path"
+        )
     for fragment in (
         "FUN_005763A0",
         "FUN_006C5DF0",
@@ -1420,7 +1571,9 @@ def main() -> int:
     )
     work_state_notes = work_state_entry.get("notes", "")
     if work_state_entry.get("name") != "WorkStateUpdatePacket":
-        errors.append("c2s-012f canonical name must remain client-derived and tentative")
+        errors.append(
+            "c2s-012f canonical name must remain client-derived and tentative"
+        )
     for fragment in (
         "_updateWork",
         "record+0x3c",
@@ -1440,7 +1593,9 @@ def main() -> int:
     )
     achievement_notes = achievement_entry.get("notes", "")
     if achievement_entry.get("name") != "AchievementRateRequestPacket":
-        errors.append("c2s-0135 canonical name must reflect the registered client operation")
+        errors.append(
+            "c2s-0135 canonical name must reflect the registered client operation"
+        )
     if "EXE decomp is the authority" in achievement_notes:
         errors.append("c2s-0135 retained the retired authority claim")
     if "_getAchievementRate" not in achievement_notes:
@@ -1449,7 +1604,10 @@ def main() -> int:
         errors.append("c2s-0135 notes lost the valid-path payload semantic")
     if "naming=tentative" not in achievement_notes:
         errors.append("c2s-0135 notes must keep the client-derived name tentative")
-    if "conflict=prior implementation label unsupported by retail" not in achievement_notes:
+    if (
+        "conflict=prior implementation label unsupported by retail"
+        not in achievement_notes
+    ):
         errors.append("c2s-0135 notes lost the prior-label conflict")
 
     validate_mechanical_expectations(errors, entries, capture_layouts)
@@ -1488,7 +1646,9 @@ def main() -> int:
         if entry.get("name") != f"_0x{opcode:04X}":
             errors.append(f"s2c 0x{opcode:04x} must retain a placeholder name")
         if entry.get("implementationAnchor") is not None:
-            errors.append(f"s2c 0x{opcode:04x} retained an imported implementation anchor")
+            errors.append(
+                f"s2c 0x{opcode:04x} retained an imported implementation anchor"
+            )
         if entry.get("decompAnchor") != expected_function:
             errors.append(
                 f"s2c 0x{opcode:04x} decomp anchor is not {expected_function}"
@@ -1518,6 +1678,8 @@ def main() -> int:
                         f"s2c 0x{opcode:04x} lost prior-lineage fact {fragment!r}"
                     )
         expected_observed = {
+            0x01CB: (["login.pcapng"], [680]),
+            0x01CE: (["login.pcapng"], [840]),
             0x01CF: (["friendlist_search.pcapng", "invite_join_party.pcapng"], [1640]),
             0x01DF: (["friendlist_search.pcapng"], [968]),
         }.get(opcode, ([], []))
@@ -1525,6 +1687,124 @@ def main() -> int:
             errors.append(f"s2c 0x{opcode:04x} observedIn drifted")
         if entry.get("payloadLengths") != expected_observed[1]:
             errors.append(f"s2c 0x{opcode:04x} payloadLengths drifted")
+        if opcode in (0x01CB, 0x01CE):
+            fragment = (
+                "login_payload_evidence=xivl-captures:derived/observations.json"
+                f"#inner_opcodes.s2c.0x{opcode:04x}"
+            )
+            if fragment not in notes:
+                errors.append(f"s2c 0x{opcode:04x} lost exact login payload evidence")
+        if opcode == 0x01CF:
+            fragment = (
+                "capture_layout_evidence=xivl-captures:derived/payload_layouts.json"
+                "#layouts.s2c.0x01cf"
+            )
+            if fragment not in notes:
+                errors.append("s2c 0x01cf lost captured payload-layout evidence")
+            layout = capture_layouts.get("layouts", {}).get("s2c", {}).get("0x01cf", {})
+            expected_layout = {
+                "common_sub_size": 1640,
+                "sub_size_distribution": {"1640": 2},
+                "sample_count": 2,
+                "body_length": 1624,
+            }
+            for key, value in expected_layout.items():
+                if layout.get(key) != value:
+                    errors.append(f"s2c 0x01cf captured layout {key} drifted")
+
+    social_serverbound = {
+        0x01C9: ("FUN_004C9DA0", "decomp_routed", [], [], "application_size=32"),
+        0x01CA: ("FUN_004B7D70", "decomp_routed", [], [], "application_size=32"),
+        0x01CB: (
+            "FUN_004CA100",
+            "decomp_routed",
+            ["login.pcapng"],
+            [40],
+            "application_size=8",
+        ),
+        0x01CC: ("FUN_004CA1B0", "decomp_routed", [], [], "application_size=32"),
+        0x01CD: ("FUN_004B7E30", "blocked", [], [], "evidence_conflict="),
+        0x01CE: (
+            "FUN_004CA730",
+            "decomp_routed",
+            ["login.pcapng"],
+            [40],
+            "application_size=8",
+        ),
+        0x01CF: (
+            "FUN_004B7EF0",
+            "decomp_routed",
+            ["friendlist_search.pcapng", "invite_join_party.pcapng"],
+            [40],
+            "application_size=8",
+        ),
+    }
+    serverbound_rows = {
+        entry.get("opcode"): entry
+        for entry in catalog["lists"]["MapServerbound"]
+        if 0x01C9 <= entry.get("opcode", -1) <= 0x01CF
+    }
+    if set(serverbound_rows) != set(social_serverbound):
+        errors.append("c2s 0x01c9..0x01cf Map neighborhood is incomplete")
+    prior_serverbound_labels = {
+        0x01C9: "MapClientOpcode::AddBlacklist",
+        0x01CA: "MapClientOpcode::RemoveBlacklist",
+        0x01CB: "MapClientOpcode::BlacklistRequest",
+        0x01CC: "MapClientOpcode::AddFriendlist",
+        0x01CD: "MapClientOpcode::RemoveFriendlist",
+        0x01CE: "MapClientOpcode::FriendlistRequest",
+        0x01CF: "MapClientOpcode::FriendStatusRequest",
+    }
+    for opcode, expected in social_serverbound.items():
+        entry = serverbound_rows.get(opcode)
+        if entry is None:
+            continue
+        function, confidence, observed, lengths, route_fragment = expected
+        notes = entry.get("notes", "")
+        if entry.get("name") != f"_0x{opcode:04X}Handler":
+            errors.append(f"c2s 0x{opcode:04x} must retain a placeholder name")
+        if entry.get("implementationAnchor") is not None:
+            errors.append(
+                f"c2s 0x{opcode:04x} retained an inherited implementation anchor"
+            )
+        if entry.get("decompAnchor") != function:
+            errors.append(f"c2s 0x{opcode:04x} decomp anchor is not {function}")
+        if entry.get("confidence") != confidence:
+            errors.append(f"c2s 0x{opcode:04x} confidence must be {confidence}")
+        if entry.get("observedIn") != observed:
+            errors.append(f"c2s 0x{opcode:04x} observedIn drifted")
+        if entry.get("payloadLengths") != lengths:
+            errors.append(f"c2s 0x{opcode:04x} payloadLengths drifted")
+        for fragment in (
+            route_fragment,
+            "naming=placeholder retained",
+            "client_only=",
+            "client_re_evidence=xivl-client-structs:manifests/",
+            f"prior_label={prior_serverbound_labels[opcode]}",
+            "conflict=inherited",
+        ):
+            if fragment not in notes:
+                errors.append(
+                    f"c2s 0x{opcode:04x} notes lost required fact {fragment!r}"
+                )
+        if opcode in (0x01CB, 0x01CE):
+            fragment = (
+                "login_payload_evidence=xivl-captures:derived/observations.json"
+                f"#inner_opcodes.c2s.0x{opcode:04x}"
+            )
+            if fragment not in notes:
+                errors.append(f"c2s 0x{opcode:04x} lost exact login payload evidence")
+        if opcode == 0x01CF:
+            layout = capture_layouts.get("layouts", {}).get("c2s", {}).get("0x01cf", {})
+            expected_layout = {
+                "common_sub_size": 40,
+                "sub_size_distribution": {"40": 2},
+                "sample_count": 2,
+                "body_length": 24,
+            }
+            for key, value in expected_layout.items():
+                if layout.get(key) != value:
+                    errors.append(f"c2s 0x01cf captured layout {key} drifted")
 
     if errors:
         for error in errors:

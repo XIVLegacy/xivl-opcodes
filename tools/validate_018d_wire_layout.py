@@ -94,44 +94,79 @@ def main() -> int:
     if evidence.get("schemaVersion") != 1 or evidence.get("binary") != EXPECTED_BINARY:
         fail("schema or retail binary identity drifted")
     if (evidence.get("opcodeHex"), evidence.get("direction"), evidence.get("name")) != (
-        "0x018d", "clientbound", "_0x018D"
+        "0x018d",
+        "clientbound",
+        "_0x018D",
     ):
         fail("opcode identity or neutral name drifted")
 
     route = evidence["route"]
     if (
-        route["dispatcher"], route["caseInstruction"], route["prepareCall"],
-        route["apply"], route["applyCall"]
+        route["dispatcher"],
+        route["caseInstruction"],
+        route["prepareCall"],
+        route["apply"],
+        route["applyCall"],
     ) != ("FUN_004DC690", "0x004DD167", "0x004DD195", "FUN_0055CF70", "0x004DD1A9"):
         fail("instruction-level route drifted")
     if route.get("pointerAdjustments") != EXPECTED_POINTER_ADJUSTMENTS:
         fail("game-message, application, or storage pointer adjustment drifted")
 
     framing = evidence["framing"]
-    if tuple(framing[key] for key in (
-        "subpacketSize", "subpacketHeaderSize", "gameMessageHeaderSize",
-        "applicationOffsetFromSubpacket", "applicationSize"
-    )) != (696, 16, 16, 32, 664):
+    if tuple(
+        framing[key]
+        for key in (
+            "subpacketSize",
+            "subpacketHeaderSize",
+            "gameMessageHeaderSize",
+            "applicationOffsetFromSubpacket",
+            "applicationSize",
+        )
+    ) != (696, 16, 16, 32, 664):
         fail("subpacket or game-message framing drifted")
 
     application = evidence["application"]
-    if tuple(application[key] for key in (
-        "headerSize", "unreadHeaderOffset", "unreadHeaderSize", "recordOffset",
-        "recordStride", "recordCapacity", "recordExtent", "countOffset",
-        "countWidth", "tailOffset", "tailSize"
-    )) != (16, 12, 4, 16, 40, 16, 640, 656, 1, 657, 7):
+    if tuple(
+        application[key]
+        for key in (
+            "headerSize",
+            "unreadHeaderOffset",
+            "unreadHeaderSize",
+            "recordOffset",
+            "recordStride",
+            "recordCapacity",
+            "recordExtent",
+            "countOffset",
+            "countWidth",
+            "tailOffset",
+            "tailSize",
+        )
+    ) != (16, 12, 4, 16, 40, 16, 640, 656, 1, 657, 7):
         fail("application dimensions drifted")
     if application.get("consumedHeaderDwordOffsets") != [0, 4, 8]:
         fail("consumed application header fields drifted")
-    if application["recordOffset"] + application["recordExtent"] != application["countOffset"]:
+    if (
+        application["recordOffset"] + application["recordExtent"]
+        != application["countOffset"]
+    ):
         fail("record extent no longer ends at the count byte")
-    if application["tailOffset"] + application["tailSize"] != framing["applicationSize"]:
+    if (
+        application["tailOffset"] + application["tailSize"]
+        != framing["applicationSize"]
+    ):
         fail("application tail no longer closes the fixed extent")
 
     storage = evidence["storage"]
-    if tuple(storage[key] for key in (
-        "countOffset", "recordOffset", "recordStride", "recordCapacity", "tailFlagOffset"
-    )) != (20, 24, 120, 16, 1944):
+    if tuple(
+        storage[key]
+        for key in (
+            "countOffset",
+            "recordOffset",
+            "recordStride",
+            "recordCapacity",
+            "tailFlagOffset",
+        )
+    ) != (20, 24, 120, 16, 1944):
         fail("ClientWorkStorage dimensions drifted")
     if storage.get("tailFlagBehavior") != EXPECTED_TAIL_FLAG:
         fail("storage tail flag behavior drifted")
@@ -144,7 +179,9 @@ def main() -> int:
     if projection != EXPECTED_PROJECTION:
         fail(f"wire-to-storage projection is {projection!r}")
     if storage.get("unprojectedWireSpans") != [
-        "+0x04..+0x07", "+0x10..+0x13", "+0x20..+0x27"
+        "+0x04..+0x07",
+        "+0x10..+0x13",
+        "+0x20..+0x27",
     ]:
         fail("unprojected wire spans drifted")
 
@@ -158,18 +195,24 @@ def main() -> int:
     eligibility = lookup.get("eligibilityOnly", {})
     helper_outputs = lookup.get("helperOutputs", {})
     if tuple(primary.get(key) for key in ("wireOffset", "storageOffset", "role")) != (
-        0, 0, "primary tagged-referent lookup selector"
+        0,
+        0,
+        "primary tagged-referent lookup selector",
     ) or not all(
         token in primary.get("zeroBehavior", "") + primary.get("selectedComparison", "")
         for token in ("Zero is still looked up", "+0x88 registry key")
     ):
         fail("primary tagged-referent selector behavior drifted")
     if tuple(fallback.get(key) for key in ("wireOffset", "storageOffset", "role")) != (
-        8, 8, "fallback tagged-referent lookup selector"
+        8,
+        8,
+        "fallback tagged-referent lookup selector",
     ) or "signed -1" not in fallback.get("condition", ""):
         fail("fallback tagged-referent selector behavior drifted")
-    if tuple(eligibility.get(key) for key in ("wireOffset", "storageOffset")) != (12, 12) \
-            or "not used as a helper lookup key" not in eligibility.get("role", ""):
+    if tuple(eligibility.get(key) for key in ("wireOffset", "storageOffset")) != (
+        12,
+        12,
+    ) or "not used as a helper lookup key" not in eligibility.get("role", ""):
         fail("eligibility-only dword behavior drifted")
     if not all(
         token in helper_outputs.get("text", "")
@@ -194,13 +237,20 @@ def main() -> int:
         fail("first-outward-consumer scope drifted")
     if not all(
         token in consumer.get("networkBoundary", "")
-        for token in ("client-owned projected storage", "not a packet builder", "server")
+        for token in (
+            "client-owned projected storage",
+            "not a packet builder",
+            "server",
+        )
     ):
         fail("presentation network boundary drifted")
     presentation = tuple(
         (
-            row["wireOffset"], row["storageOffset"], row["conversion"],
-            row["uiProperty"], row["uiType"],
+            row["wireOffset"],
+            row["storageOffset"],
+            row["conversion"],
+            row["uiProperty"],
+            row["uiType"],
         )
         for row in consumer.get("presentationProjection", [])
     )
@@ -208,13 +258,23 @@ def main() -> int:
         fail(f"presentation projection is {presentation!r}")
     unread = consumer.get("unreadProjectedFloat", {})
     if (
-        unread.get("wireOffset"), unread.get("storageOffset"), unread.get("boundary")
-    ) != (0x18, 0x14, "The middle projected binary32 value is not read by FUN_00671400."):
+        unread.get("wireOffset"),
+        unread.get("storageOffset"),
+        unread.get("boundary"),
+    ) != (
+        0x18,
+        0x14,
+        "The middle projected binary32 value is not read by FUN_00671400.",
+    ):
         fail("middle projected float boundary drifted")
     template = consumer.get("template", {})
     if tuple(template.get(key) for key in ("property", "type", "value")) != (
-        "Template", "String", "MapMarkerParty"
-    ) or "not a native class or canonical packet name" not in template.get("boundary", ""):
+        "Template",
+        "String",
+        "MapMarkerParty",
+    ) or "not a native class or canonical packet name" not in template.get(
+        "boundary", ""
+    ):
         fail("MapMarkerParty presentation-value boundary drifted")
     if "do not assign coordinate-system" not in consumer.get("fieldBoundary", ""):
         fail("presentation-to-wire field boundary drifted")
@@ -237,10 +297,12 @@ def main() -> int:
 
     reconciliation = evidence["offsetReconciliation"]
     if (
-        "application+0x0C..+0x0F unread" not in reconciliation.get("applicationPlus0C", "")
+        "application+0x0C..+0x0F unread"
+        not in reconciliation.get("applicationPlus0C", "")
         or "not the record base" not in reconciliation.get("applicationPlus0C", "")
         or "application+0x10" not in reconciliation.get("gameMessagePlus20", "")
-        or reconciliation.get("resolved") != (
+        or reconciliation.get("resolved")
+        != (
             "The first record starts at application+0x10, game-message+0x20, "
             "and subpacket+0x30."
         )
@@ -248,11 +310,20 @@ def main() -> int:
         fail("prior offset bases are no longer reconciled")
 
     captures = evidence["captureReconciliation"]
-    if tuple(captures[key] for key in (
-        "captures", "events", "subpacketSize", "recordStride", "records",
-        "shapeExclusions", "capacityExclusions", "tailExclusions",
-        "nonfiniteFloatExclusions"
-    )) != (54, 592, 696, 40, 769, 0, 0, 0, 0):
+    if tuple(
+        captures[key]
+        for key in (
+            "captures",
+            "events",
+            "subpacketSize",
+            "recordStride",
+            "records",
+            "shapeExclusions",
+            "capacityExclusions",
+            "tailExclusions",
+            "nonfiniteFloatExclusions",
+        )
+    ) != (54, 592, 696, 40, 769, 0, 0, 0, 0):
         fail("complete capture reconciliation drifted")
     if captures.get("subpacketSizeDistribution") != {"696": 592}:
         fail("fixed subpacket-size distribution drifted")
@@ -260,7 +331,8 @@ def main() -> int:
         fail("one/two-record distribution drifted")
 
     rows = [
-        row for row in catalog[0]["lists"]["MapClientbound"]
+        row
+        for row in catalog[0]["lists"]["MapClientbound"]
         if row.get("opcodeHex") == "0x018d"
     ]
     if len(rows) != 1:
@@ -298,7 +370,12 @@ def main() -> int:
     ):
         if token not in notes:
             fail(f"catalog notes lost {token!r}")
-    for forbidden in ("PartyMapMarker", "permission", "coordinate", "selector creation"):
+    for forbidden in (
+        "PartyMapMarker",
+        "permission",
+        "coordinate",
+        "selector creation",
+    ):
         if forbidden in row.get("name", "") or forbidden in notes:
             fail(f"catalog row contains unsupported interpretation {forbidden!r}")
 

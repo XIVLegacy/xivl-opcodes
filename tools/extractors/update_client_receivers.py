@@ -150,7 +150,9 @@ def update_indirect(catalog_path: Path) -> int:
         for entry in readers:
             class_name = entry.get("luaApiClass") or "?"
             field = entry["sharedField"]
-            field_text = f"{field.get('actorClass')}+{','.join(field.get('offsets', []))}"
+            field_text = (
+                f"{field.get('actorClass')}+{','.join(field.get('offsets', []))}"
+            )
             print(
                 f"    {recv_name:35s} <- {class_name}::"
                 f"{entry['luaName']:30s} via {field_text}"

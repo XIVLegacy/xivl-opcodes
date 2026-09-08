@@ -41,9 +41,14 @@ def run_validator(
     bindings: dict | None = None,
 ) -> int:
     evidence_path = write(directory / "evidence.json", evidence)
-    catalog_path = write(directory / "catalog.json", load(CATALOG) if catalog is None else catalog)
+    catalog_path = write(
+        directory / "catalog.json", load(CATALOG) if catalog is None else catalog
+    )
     header_path = directory / "clientbound.h"
-    header_path.write_text(HEADER.read_text(encoding="utf-8") if header is None else header, encoding="utf-8")
+    header_path.write_text(
+        HEADER.read_text(encoding="utf-8") if header is None else header,
+        encoding="utf-8",
+    )
     bindings_path = write(
         directory / "bindings.json", load(BINDINGS) if bindings is None else bindings
     )
@@ -63,7 +68,8 @@ def run_validator(
 
 def catalog_row(document: list) -> dict:
     return next(
-        row for row in document[0]["lists"]["MapClientbound"]
+        row
+        for row in document[0]["lists"]["MapClientbound"]
         if row.get("opcodeHex") == "0x018d"
     )
 
@@ -77,36 +83,171 @@ def main() -> int:
             failures.append("baseline must pass")
 
         mutations = (
-            ("record start", lambda row: row["application"].__setitem__("recordOffset", 12)),
-            ("record stride", lambda row: row["application"].__setitem__("recordStride", 44)),
-            ("count offset", lambda row: row["application"].__setitem__("countOffset", 655)),
-            ("count clamp", lambda row: row["countBehavior"].__setitem__("capacityCheck", True)),
-            ("count load", lambda row: row["countBehavior"].__setitem__("load", "MOVZX")),
-            ("high-bit behavior", lambda row: row["countBehavior"].__setitem__("highBitRange", "stops")),
-            ("high-bit inversion", lambda row: row["countBehavior"].__setitem__("highBitRange", "Raw values 128..255 stop safely instead of forming an unsigned loop bound.")),
-            ("tail latch", lambda row: row["storage"].__setitem__("tailFlagBehavior", "unknown")),
-            ("tail-latch inversion", lambda row: row["storage"].__setitem__("tailFlagBehavior", "If the count is greater than one, storage+0x798 remains zero.")),
-            ("capture count", lambda row: row["captureReconciliation"].__setitem__("events", 591)),
-            ("capture distribution", lambda row: row["captureReconciliation"].__setitem__("countDistribution", {"1": 416, "2": 176})),
-            ("projection", lambda row: row["storage"]["projection"][3].__setitem__("wireOffset", 32)),
-            ("offset basis", lambda row: row["offsetReconciliation"].__setitem__("resolved", "application+0x0C")),
-            ("pointer adjustment", lambda row: row["route"]["pointerAdjustments"].__setitem__(0, "subpacket+0x10 is application")),
-            ("unprojected spans", lambda row: row["storage"].__setitem__("unprojectedWireSpans", [])),
-            ("consumer class", lambda row: row["consumerClassification"].__setitem__("class", "MapMarkerParty")),
-            ("consumer kind", lambda row: row["consumerClassification"].__setitem__("kind", "packet handler")),
-            ("consumer scope", lambda row: row["consumerClassification"].__setitem__("scope", "all consumers")),
-            ("X projection", lambda row: row["consumerClassification"]["presentationProjection"][0].__setitem__("wireOffset", 24)),
-            ("float conversion", lambda row: row["consumerClassification"]["presentationProjection"][0].__setitem__("conversion", "round")),
-            ("middle float", lambda row: row["consumerClassification"]["unreadProjectedFloat"].__setitem__("wireOffset", 20)),
-            ("template identity", lambda row: row["consumerClassification"]["template"].__setitem__("boundary", "canonical packet name")),
-            ("consumer citation", lambda row: row.__setitem__("sourceRefs", [ref for ref in row["sourceRefs"] if "s2c_018d_map_marker_presentation" not in ref])),
-            ("rejected boundary", lambda row: row.__setitem__("rejectedInterpretations", [])),
-            ("remaining boundary", lambda row: row.__setitem__("remainingBoundary", "resolved")),
-            ("primary selector", lambda row: row["recordLookupSemantics"]["primary"].__setitem__("role", "actor ID")),
-            ("fallback sentinel", lambda row: row["recordLookupSemantics"]["fallback"].__setitem__("condition", "zero")),
-            ("eligibility selector", lambda row: row["recordLookupSemantics"]["eligibilityOnly"].__setitem__("role", "lookup key")),
-            ("helper text", lambda row: row["recordLookupSemantics"]["helperOutputs"].__setitem__("text", "label")),
-            ("helper layout", lambda row: row["recordLookupSemantics"]["helperOutputs"].__setitem__("layout", "layout ID")),
+            (
+                "record start",
+                lambda row: row["application"].__setitem__("recordOffset", 12),
+            ),
+            (
+                "record stride",
+                lambda row: row["application"].__setitem__("recordStride", 44),
+            ),
+            (
+                "count offset",
+                lambda row: row["application"].__setitem__("countOffset", 655),
+            ),
+            (
+                "count clamp",
+                lambda row: row["countBehavior"].__setitem__("capacityCheck", True),
+            ),
+            (
+                "count load",
+                lambda row: row["countBehavior"].__setitem__("load", "MOVZX"),
+            ),
+            (
+                "high-bit behavior",
+                lambda row: row["countBehavior"].__setitem__("highBitRange", "stops"),
+            ),
+            (
+                "high-bit inversion",
+                lambda row: row["countBehavior"].__setitem__(
+                    "highBitRange",
+                    "Raw values 128..255 stop safely instead of forming an unsigned loop bound.",
+                ),
+            ),
+            (
+                "tail latch",
+                lambda row: row["storage"].__setitem__("tailFlagBehavior", "unknown"),
+            ),
+            (
+                "tail-latch inversion",
+                lambda row: row["storage"].__setitem__(
+                    "tailFlagBehavior",
+                    "If the count is greater than one, storage+0x798 remains zero.",
+                ),
+            ),
+            (
+                "capture count",
+                lambda row: row["captureReconciliation"].__setitem__("events", 591),
+            ),
+            (
+                "capture distribution",
+                lambda row: row["captureReconciliation"].__setitem__(
+                    "countDistribution", {"1": 416, "2": 176}
+                ),
+            ),
+            (
+                "projection",
+                lambda row: row["storage"]["projection"][3].__setitem__(
+                    "wireOffset", 32
+                ),
+            ),
+            (
+                "offset basis",
+                lambda row: row["offsetReconciliation"].__setitem__(
+                    "resolved", "application+0x0C"
+                ),
+            ),
+            (
+                "pointer adjustment",
+                lambda row: row["route"]["pointerAdjustments"].__setitem__(
+                    0, "subpacket+0x10 is application"
+                ),
+            ),
+            (
+                "unprojected spans",
+                lambda row: row["storage"].__setitem__("unprojectedWireSpans", []),
+            ),
+            (
+                "consumer class",
+                lambda row: row["consumerClassification"].__setitem__(
+                    "class", "MapMarkerParty"
+                ),
+            ),
+            (
+                "consumer kind",
+                lambda row: row["consumerClassification"].__setitem__(
+                    "kind", "packet handler"
+                ),
+            ),
+            (
+                "consumer scope",
+                lambda row: row["consumerClassification"].__setitem__(
+                    "scope", "all consumers"
+                ),
+            ),
+            (
+                "X projection",
+                lambda row: row["consumerClassification"]["presentationProjection"][
+                    0
+                ].__setitem__("wireOffset", 24),
+            ),
+            (
+                "float conversion",
+                lambda row: row["consumerClassification"]["presentationProjection"][
+                    0
+                ].__setitem__("conversion", "round"),
+            ),
+            (
+                "middle float",
+                lambda row: row["consumerClassification"][
+                    "unreadProjectedFloat"
+                ].__setitem__("wireOffset", 20),
+            ),
+            (
+                "template identity",
+                lambda row: row["consumerClassification"]["template"].__setitem__(
+                    "boundary", "canonical packet name"
+                ),
+            ),
+            (
+                "consumer citation",
+                lambda row: row.__setitem__(
+                    "sourceRefs",
+                    [
+                        ref
+                        for ref in row["sourceRefs"]
+                        if "s2c_018d_map_marker_presentation" not in ref
+                    ],
+                ),
+            ),
+            (
+                "rejected boundary",
+                lambda row: row.__setitem__("rejectedInterpretations", []),
+            ),
+            (
+                "remaining boundary",
+                lambda row: row.__setitem__("remainingBoundary", "resolved"),
+            ),
+            (
+                "primary selector",
+                lambda row: row["recordLookupSemantics"]["primary"].__setitem__(
+                    "role", "actor ID"
+                ),
+            ),
+            (
+                "fallback sentinel",
+                lambda row: row["recordLookupSemantics"]["fallback"].__setitem__(
+                    "condition", "zero"
+                ),
+            ),
+            (
+                "eligibility selector",
+                lambda row: row["recordLookupSemantics"]["eligibilityOnly"].__setitem__(
+                    "role", "lookup key"
+                ),
+            ),
+            (
+                "helper text",
+                lambda row: row["recordLookupSemantics"]["helperOutputs"].__setitem__(
+                    "text", "label"
+                ),
+            ),
+            (
+                "helper layout",
+                lambda row: row["recordLookupSemantics"]["helperOutputs"].__setitem__(
+                    "layout", "layout ID"
+                ),
+            ),
         )
         for label, mutate in mutations:
             document = copy.deepcopy(baseline)
@@ -127,7 +268,8 @@ def main() -> int:
 
         bindings = copy.deepcopy(load(BINDINGS))
         next(
-            row for row in bindings["syncCandidates"]
+            row
+            for row in bindings["syncCandidates"]
             if row.get("bcsyId") == "BCS-Y-1032"
         )["name"] = "PartySubsystem_CrossOpcodeUpdateGateway_FUN_006C1570"
         if run_validator(directory, baseline, bindings=bindings) == 0:

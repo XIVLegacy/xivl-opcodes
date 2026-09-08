@@ -185,8 +185,8 @@
     "name": "_0x01C9",
     "service": "map",
     "direction": "serverbound",
-    "evidence": "Tier-D emitter 0x004C9DA0 sets stack record `local_8b0 = 0x01C9 (opcode); local_8ac = 0x30 (size); [body fields]` then calls FUN_004E0240(&local_8b0, 0x01C9, 0). Routed through Tier-C wrapper FUN_004E0240 (BCS-Y-0312) -> Tier-B Zone forwarder FUN_00DAE010 (BCS-Y-0304). Member of the 24-emitter 0x01C3..0x01DF action-system traffic cluster. | Refined likely_role via pcap correlation against xivl-captures/captures/*.pcapng (54 scenarios). evidenceKind=pcap_unobserved, pcapTotalCount=0, sourceEvidence=pcap_correlation. | Cluster role refined via Ghidra static caller decomposition. Source: ghidra-projects/caller_decomp.txt; caller(s)=0x004CB0D0 + 0x004CDB60; subsystem=Mail/Letter; sourceEvidence=static_caller_dig.",
-    "likely_role": "Mail/Letter - C2S - Mail/Letter compose request. Caller FUN_004CB0D0 uses Address_Maker + TextBlock_Total + Button_Add UI - the letter address-list assembly UI. Sister of 0x01CA.",
+    "evidence": "Tier-D emitter 0x004C9DA0 builds a 0x30-byte inner record for opcode 0x01C9 and routes through FUN_004E0240 (BCS-Y-0312) to Zone forwarder FUN_00DAE010 (BCS-Y-0304). Caller context clusters it with the Mail/Letter UI; no retained packet observation establishes a wire length or packet noun. Evidence: xivl-client-structs:manifests/c2s_emit_sites.json#byOpcode.0x01C9 and xivl-client-structs:manifests/cluster_refinements_unobserved.json#0x01c9.",
+    "likely_role": "Mail/Letter UI producer boundary; exact request identity and server policy unresolved.",
     "source": "tierd_outbound_scan | pcap_correlation | static_caller_dig"
   },
   {
@@ -195,8 +195,8 @@
     "name": "_0x01CA",
     "service": "map",
     "direction": "serverbound",
-    "evidence": "Tier-D emitter 0x004B7D70 sets stack record `local_8b0 = 0x01CA (opcode); local_8ac = 0x30 (size); [body fields]` then calls FUN_004E0240(&local_8b0, 0x01CA, 0). Routed through Tier-C wrapper FUN_004E0240 (BCS-Y-0312) -> Tier-B Zone forwarder FUN_00DAE010 (BCS-Y-0304). Member of the 24-emitter 0x01C3..0x01DF action-system traffic cluster. | Refined likely_role via pcap correlation against xivl-captures/captures/*.pcapng (54 scenarios). evidenceKind=pcap_unobserved, pcapTotalCount=0, sourceEvidence=pcap_correlation. | Cluster role refined via Ghidra static caller decomposition. Source: ghidra-projects/caller_decomp.txt; caller(s)=0x004CB0D0; subsystem=Mail/Letter; sourceEvidence=static_caller_dig.",
-    "likely_role": "Mail/Letter - C2S - Mail/Letter attribute set (recipient / subject field update). Caller FUN_004CB0D0 same letter-address handler as 0x01C9; uses Action/AttributeName/SetAttr/Update pattern.",
+    "evidence": "Tier-D emitter 0x004B7D70 builds a 0x30-byte inner record for opcode 0x01CA and routes through FUN_004E0240 (BCS-Y-0312) to Zone forwarder FUN_00DAE010 (BCS-Y-0304). Caller context clusters it with a Mail/Letter attribute update; no retained packet observation establishes a wire length or packet noun. Evidence: xivl-client-structs:manifests/c2s_emit_sites.json#byOpcode.0x01CA and xivl-client-structs:manifests/cluster_refinements_unobserved.json#0x01ca.",
+    "likely_role": "Mail/Letter UI attribute-update boundary; exact field meaning and server policy unresolved.",
     "source": "tierd_outbound_scan | pcap_correlation | static_caller_dig"
   },
   {
@@ -205,8 +205,8 @@
     "name": "_0x01CB",
     "service": "map",
     "direction": "serverbound",
-    "evidence": "Tier-D emitter 0x004CA100 sets stack record `local_8b0 = 0x01CB (opcode); local_8ac = 0x18 (size); [body fields]` then calls FUN_004E0240(&local_8b0, 0x01CB, 0). Routed through Tier-C wrapper FUN_004E0240 (BCS-Y-0312) -> Tier-B Zone forwarder FUN_00DAE010 (BCS-Y-0304). Member of the 24-emitter 0x01C3..0x01DF action-system traffic cluster. | Refined likely_role via pcap correlation against xivl-captures/captures/*.pcapng (54 scenarios). evidenceKind=pcap_observed, pcapTotalCount=1, sourceEvidence=pcap_correlation.",
-    "likely_role": "Login-time map/zone handshake step (c2s, 40-byte subpacket). Observed ONLY in login.pcapng (1 emission during initial zone-in); never fires in steady-state gameplay or combat. Pairs with 0x01CE + 0x01D3 as the three-step zone-attach handshake.",
+    "evidence": "Tier-D emitter 0x004CA100 builds a 0x18-byte inner record for opcode 0x01CB and routes through FUN_004E0240 (BCS-Y-0312) to Zone forwarder FUN_00DAE010 (BCS-Y-0304). One 40-byte c2s subpacket is retained on the main Map lane in login.pcapng; chronology does not prove a handshake cause or packet noun. Evidence: xivl-client-structs:manifests/symbols.json#BCS-Y-1071, xivl-captures:derived/lane_observations.json#lanes/main/c2s/0x01cb, and xivl-captures:derived/observations.json#inner_opcodes.c2s.0x01cb.",
+    "likely_role": "Login-observed startup state-machine step; exact request identity and server policy unresolved.",
     "source": "tierd_outbound_scan | pcap_correlation"
   },
   {
@@ -215,8 +215,8 @@
     "name": "_0x01CC",
     "service": "map",
     "direction": "serverbound",
-    "evidence": "Tier-D emitter 0x004CA1B0 sets stack record `local_8b0 = 0x01CC (opcode); local_8ac = 0x30 (size); [body fields]` then calls FUN_004E0240(&local_8b0, 0x01CC, 0). Routed through Tier-C wrapper FUN_004E0240 (BCS-Y-0312) -> Tier-B Zone forwarder FUN_00DAE010 (BCS-Y-0304). Member of the 24-emitter 0x01C3..0x01DF action-system traffic cluster. | Refined likely_role via pcap correlation against xivl-captures/captures/*.pcapng (54 scenarios). evidenceKind=pcap_unobserved, pcapTotalCount=0, sourceEvidence=pcap_correlation. | Cluster role refined via Ghidra static caller decomposition. Source: ghidra-projects/caller_decomp.txt; caller(s)=0x004CA410; subsystem=Mail/Letter; sourceEvidence=static_caller_dig.",
-    "likely_role": "Mail/Letter - C2S - Letter system small wrapper opcode. Caller FUN_004CA410 is a 2400-char decomp with no distinguishing strings - likely a passthrough or ack within the mail flow.",
+    "evidence": "Tier-D emitter 0x004CA1B0 builds a 0x30-byte inner record for opcode 0x01CC and routes through FUN_004E0240 (BCS-Y-0312) to Zone forwarder FUN_00DAE010 (BCS-Y-0304). Caller clustering places it in the Mail/Letter UI, but the caller has no distinguishing strings and no retained packet observation establishes a packet noun. Evidence: xivl-client-structs:manifests/c2s_emit_sites.json#byOpcode.0x01CC and xivl-client-structs:manifests/cluster_refinements_unobserved.json#0x01cc.",
+    "likely_role": "Mail/Letter UI wrapper boundary; exact operation and server policy unresolved.",
     "source": "tierd_outbound_scan | pcap_correlation | static_caller_dig"
   },
   {
@@ -225,8 +225,8 @@
     "name": "_0x01CD",
     "service": "map",
     "direction": "serverbound",
-    "evidence": "Tier-D emitter 0x004B7E30 sets stack record `local_8b0 = 0x01CD (opcode); local_8ac = 0x30 (size); [body fields]` then calls FUN_004E0240(&local_8b0, 0x01CD, 0). Routed through Tier-C wrapper FUN_004E0240 (BCS-Y-0312) -> Tier-B Zone forwarder FUN_00DAE010 (BCS-Y-0304). Member of the 24-emitter 0x01C3..0x01DF action-system traffic cluster. | Refined likely_role via pcap correlation against xivl-captures/captures/*.pcapng (54 scenarios). evidenceKind=pcap_unobserved, pcapTotalCount=0, sourceEvidence=pcap_correlation. | Cluster role refined via Ghidra static caller decomposition. Source: ghidra-projects/caller_decomp.txt; caller(s)=(no static references; possibly vtable-dispatched or dead code); subsystem=Mail/Letter (cluster-adjacent); sourceEvidence=static_caller_dig. | Vtable-slot resolution via FindSymbolByName ::vftable dump + DumpMemRange + DumpFunctionDecomp + FindBytePattern. Source: ghidra-projects/caller_decomp.txt + ghidra-projects/find_004b7e30.txt (0 byte-pattern hits); sourceEvidence=vtable_resolution.",
-    "likely_role": "Cluster-Adjacent (dead code) - C2S - emitter FUN_004B7E30 is dead code in 1.23b. A FindXRefs pass found no instruction references; a FindBytePattern scan for the 4-byte little-endian VA 0x004B7E30 across ALL program memory found ZERO hits, ruling out vtable slot / function-pointer-table indirection. Adjacent in .text address space to the Mail cluster emitters (0x004B7AD0..0x004B8370 range), so likely a leftover from an earlier dev iteration of the Mail subsystem that was compiled in but never wired up.",
+    "evidence": "FUN_004B7E30 contains a 0x30-byte inner-record builder for opcode 0x01CD and a route through FUN_004E0240 (BCS-Y-0312) to Zone forwarder FUN_00DAE010 (BCS-Y-0304). Tracked evidence conflicts: c2s_emit_sites records a caller, while the later exhaustive instruction-reference and byte-pattern pass reports none. Evidence: xivl-client-structs:manifests/c2s_emit_sites.json#byOpcode.0x01CD and xivl-client-structs:manifests/cluster_refinements_unresolved.json#0x01cd.",
+    "likely_role": "Compiled Map builder with blocked runtime reachability; packet identity and server policy unresolved.",
     "source": "tierd_outbound_scan | pcap_correlation | static_caller_dig | vtable_resolution"
   },
   {
@@ -235,8 +235,8 @@
     "name": "_0x01CE",
     "service": "map",
     "direction": "serverbound",
-    "evidence": "Tier-D emitter 0x004CA730 sets stack record `local_8b0 = 0x01CE (opcode); local_8ac = 0x18 (size); [body fields]` then calls FUN_004E0240(&local_8b0, 0x01CE, 0). Routed through Tier-C wrapper FUN_004E0240 (BCS-Y-0312) -> Tier-B Zone forwarder FUN_00DAE010 (BCS-Y-0304). Member of the 24-emitter 0x01C3..0x01DF action-system traffic cluster. | Refined likely_role via pcap correlation against xivl-captures/captures/*.pcapng (54 scenarios). evidenceKind=pcap_observed, pcapTotalCount=1, sourceEvidence=pcap_correlation.",
-    "likely_role": "Login-time map/zone handshake step (c2s, 40-byte subpacket). Observed ONLY in login.pcapng (1 emission during initial zone-in); never fires in steady-state gameplay or combat. Pairs with 0x01CB + 0x01D3.",
+    "evidence": "Tier-D emitter 0x004CA730 builds a 0x18-byte inner record for opcode 0x01CE and routes through FUN_004E0240 (BCS-Y-0312) to Zone forwarder FUN_00DAE010 (BCS-Y-0304). One 40-byte c2s subpacket is retained on the main Map lane in login.pcapng; chronology does not prove a handshake cause or packet noun. Evidence: xivl-client-structs:manifests/symbols.json#BCS-Y-1072, xivl-captures:derived/lane_observations.json#lanes/main/c2s/0x01ce, and xivl-captures:derived/observations.json#inner_opcodes.c2s.0x01ce.",
+    "likely_role": "Login-observed startup or social state-machine step; exact request identity and server policy unresolved.",
     "source": "tierd_outbound_scan | pcap_correlation"
   },
   {
@@ -245,8 +245,8 @@
     "name": "_0x01CF",
     "service": "map",
     "direction": "serverbound",
-    "evidence": "Tier-D emitter 0x004B7EF0 sets stack record `local_8b0 = 0x01CF (opcode); local_8ac = 0x18 (size); [body fields]` then calls FUN_004E0240(&local_8b0, 0x01CF, 0). Routed through Tier-C wrapper FUN_004E0240 (BCS-Y-0312) -> Tier-B Zone forwarder FUN_00DAE010 (BCS-Y-0304). Member of the 24-emitter 0x01C3..0x01DF action-system traffic cluster. | Refined likely_role via pcap correlation against xivl-captures/captures/*.pcapng (54 scenarios). evidenceKind=pcap_observed, pcapTotalCount=2, sourceEvidence=pcap_correlation.",
-    "likely_role": "Social/party request (c2s, 40-byte subpacket). Observed in friendlist_search and invite_join_party pcaps (1 emission each); fires when the player initiates a friend search or party invite from the social menu.",
+    "evidence": "Tier-D emitter 0x004B7EF0 builds a 0x18-byte inner record for opcode 0x01CF and routes through FUN_004E0240 (BCS-Y-0312) to Zone forwarder FUN_00DAE010 (BCS-Y-0304). Two 40-byte c2s subpackets are retained in friendlist_search.pcapng and invite_join_party.pcapng; capture names and chronology establish a social/party scenario boundary, not a specific trigger or packet noun. Evidence: xivl-client-structs:manifests/symbols.json#BCS-Y-1073 and xivl-captures:derived/payload_layouts.json#layouts.c2s.0x01cf.",
+    "likely_role": "Social/party scenario request boundary; exact operation, causality, and server policy unresolved.",
     "source": "tierd_outbound_scan | pcap_correlation"
   },
   {

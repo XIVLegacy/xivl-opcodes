@@ -41,7 +41,9 @@ def check_entry(directory: Path, entry: object, errors: list[str]) -> str | None
 
     mode = entry.get("refreshMode")
     if mode not in REFRESH_MODES:
-        errors.append(f"{label}: {name} refreshMode must be one of {sorted(REFRESH_MODES)}")
+        errors.append(
+            f"{label}: {name} refreshMode must be one of {sorted(REFRESH_MODES)}"
+        )
     elif mode == "derive" and not entry.get("deriver"):
         errors.append(f"{label}: {name} refreshMode derive needs a deriver name")
 
@@ -76,7 +78,9 @@ def main() -> int:
         rel = directory.relative_to(REPO)
         provenance_path = directory / "PROVENANCE.json"
         if not provenance_path.is_file():
-            errors.append(f"{rel}: no PROVENANCE.json; every vendor directory must declare its files")
+            errors.append(
+                f"{rel}: no PROVENANCE.json; every vendor directory must declare its files"
+            )
             continue
 
         try:
@@ -84,7 +88,9 @@ def main() -> int:
         except (OSError, json.JSONDecodeError) as exc:
             errors.append(f"{rel}/PROVENANCE.json: cannot read: {exc}")
             continue
-        if not isinstance(provenance, dict) or not isinstance(provenance.get("files"), list):
+        if not isinstance(provenance, dict) or not isinstance(
+            provenance.get("files"), list
+        ):
             errors.append(f"{rel}/PROVENANCE.json: files must be an array")
             continue
 

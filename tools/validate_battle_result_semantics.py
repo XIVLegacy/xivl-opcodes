@@ -44,7 +44,9 @@ def main() -> int:
     if evidence.get("binary") != EXPECTED_BINARY:
         fail("retail binary identity drifted")
     if set(evidence.get("sourceRefs", [])) != EXPECTED_SOURCE_REFS:
-        fail("sourceRefs must retain the client route, text map, and capture evidence locators")
+        fail(
+            "sourceRefs must retain the client route, text map, and capture evidence locators"
+        )
     evidence_rows = evidence["rows"]
     rows = {row["opcodeHex"]: row for row in evidence_rows}
     if len(evidence_rows) != len(EXPECTED) or len(rows) != len(EXPECTED):
@@ -58,11 +60,10 @@ def main() -> int:
         if row["opcodeHex"] in EXPECTED
     ]
     if len(matched_catalog_rows) != len(EXPECTED):
-        fail(f"MapClientbound has {len(matched_catalog_rows)} matching rows, expected {len(EXPECTED)}")
-    catalog_rows = {
-        row["opcodeHex"]: row
-        for row in matched_catalog_rows
-    }
+        fail(
+            f"MapClientbound has {len(matched_catalog_rows)} matching rows, expected {len(EXPECTED)}"
+        )
+    catalog_rows = {row["opcodeHex"]: row for row in matched_catalog_rows}
     if set(catalog_rows) != set(EXPECTED):
         fail("all four rows must exist exactly once in MapClientbound")
 
@@ -94,7 +95,9 @@ def main() -> int:
         if row.get("payloadLengths") != expected_lengths:
             fail(f"{opcode_hex} payloadLengths is {row.get('payloadLengths')!r}")
         if len(row.get("observedIn", [])) != captures:
-            fail(f"{opcode_hex} observedIn count is {len(row.get('observedIn', []))}, expected {captures}")
+            fail(
+                f"{opcode_hex} observedIn count is {len(row.get('observedIn', []))}, expected {captures}"
+            )
         notes = row.get("notes", "")
         for token in (
             "battle_result_semantics=data/battle_result_semantics.json",
@@ -110,7 +113,13 @@ def main() -> int:
         if opcode_hex == "0x013b" and row.get("observedIn"):
             fail("0x013b must remain capture-empty")
     queue = evidence["normalizedQueue"]
-    if (queue["recordSize"], queue["headerSize"], queue["rowOffset"], queue["rowStride"], queue["rowCapacity"]) != (416, 56, 56, 20, 18):
+    if (
+        queue["recordSize"],
+        queue["headerSize"],
+        queue["rowOffset"],
+        queue["rowStride"],
+        queue["rowCapacity"],
+    ) != (416, 56, 56, 20, 18):
         fail("normalized queue dimensions drifted")
     if "runtime naming" not in evidence["unresolvedBoundaries"][0]:
         fail("0x013b runtime-name boundary is missing")

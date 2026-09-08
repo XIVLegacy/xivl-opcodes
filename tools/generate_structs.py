@@ -38,8 +38,18 @@ BUCKET_LAYOUT = {
 
 # WorldMapBackend is checked first; ambiguous client directions prefer Map buckets.
 DIRECTION_TO_PREFERRED_BUCKETS = {
-    "c2s": ["WorldMapBackend", "MapServerbound", "WorldServerbound", "LobbyServerbound"],
-    "s2c": ["WorldMapBackend", "MapClientbound", "WorldClientbound", "LobbyClientbound"],
+    "c2s": [
+        "WorldMapBackend",
+        "MapServerbound",
+        "WorldServerbound",
+        "LobbyServerbound",
+    ],
+    "s2c": [
+        "WorldMapBackend",
+        "MapClientbound",
+        "WorldClientbound",
+        "LobbyClientbound",
+    ],
 }
 
 # Reviewed client+capture layouts that replace byte-diff field grouping. Offsets
@@ -55,25 +65,65 @@ STRUCT_LAYOUT_OVERRIDES = {
     ("MapClientbound", "0x017f"): [
         ("uint8_t", "gameMessagePreamble", 8, "body[+0..+7]; not application payload"),
         ("uint8_t", "applicationPrefix", 0x10, "application[+0x00..+0x0f]"),
-        ("uint8_t", "members", 8 * 0x30, "eight 0x30-byte records at application[+0x10]"),
+        (
+            "uint8_t",
+            "members",
+            8 * 0x30,
+            "eight 0x30-byte records at application[+0x10]",
+        ),
         ("uint32_t", "memberCount", 1, "application[+0x190]"),
         ("uint8_t", "reserved0", 4, "application[+0x194..+0x197]"),
     ],
     ("MapClientbound", "0x0183"): [
         ("uint8_t", "gameMessagePreamble", 8, "body[+0..+7]; not application payload"),
         ("uint8_t", "applicationPrefix", 0x10, "application[+0x00..+0x0f]"),
-        ("uint8_t", "members", 8 * 0x0C, "eight 0x0c-byte records at application[+0x10]"),
+        (
+            "uint8_t",
+            "members",
+            8 * 0x0C,
+            "eight 0x0c-byte records at application[+0x10]",
+        ),
         ("uint8_t", "memberCount", 1, "application[+0x70]"),
         ("uint8_t", "reserved0", 7, "application[+0x71..+0x77]"),
     ],
     ("MapClientbound", "0x018d"): [
         ("uint8_t", "gameMessagePreamble", 8, "body[+0..+7]; not application payload"),
-        ("uint32_t", "applicationField00", 1, "application[+0x00]; copied to storage+0x08"),
-        ("uint32_t", "applicationField04", 1, "application[+0x04]; copied to storage+0x0c"),
-        ("uint32_t", "applicationField08", 1, "application[+0x08]; copied to storage+0x10"),
-        ("uint8_t", "unreadApplication0C", 4, "application[+0x0c..+0x0f]; not read by FUN_0055CF70"),
-        ("_0x018DRecord", "records", 16, "sixteen 0x28-byte records at application[+0x10]"),
-        ("int8_t", "recordCount", 1, "application[+0x290]; loaded with MOVSX, no capacity check"),
+        (
+            "uint32_t",
+            "applicationField00",
+            1,
+            "application[+0x00]; copied to storage+0x08",
+        ),
+        (
+            "uint32_t",
+            "applicationField04",
+            1,
+            "application[+0x04]; copied to storage+0x0c",
+        ),
+        (
+            "uint32_t",
+            "applicationField08",
+            1,
+            "application[+0x08]; copied to storage+0x10",
+        ),
+        (
+            "uint8_t",
+            "unreadApplication0C",
+            4,
+            "application[+0x0c..+0x0f]; not read by FUN_0055CF70",
+        ),
+        (
+            "_0x018DRecord",
+            "records",
+            16,
+            "sixteen 0x28-byte records at application[+0x10]",
+        ),
+        (
+            "int8_t",
+            "recordCount",
+            1,
+            "application[+0x290]; loaded with MOVSX, no capacity check",
+        ),
         ("uint8_t", "reservedTail", 7, "application[+0x291..+0x297]"),
     ],
 }
@@ -92,7 +142,7 @@ STRUCT_PREAMBLES = {
         "    float    field1C;      // record[+0x1c]; storage record +0x18",
         "    uint8_t  unread20[8];  // record[+0x20..+0x27]",
         "};",
-        "static_assert(sizeof(_0x018DRecord) == 40, \"_0x018DRecord size mismatch\");",
+        'static_assert(sizeof(_0x018DRecord) == 40, "_0x018DRecord size mismatch");',
         "",
     ],
 }
@@ -112,7 +162,9 @@ def sanitize_struct_name(catalog_name: str) -> str:
     return f"{base}Body"
 
 
-def resolve_bucket(catalog: dict, direction: str, opcode_hex: str) -> tuple[str, str] | None:
+def resolve_bucket(
+    catalog: dict, direction: str, opcode_hex: str
+) -> tuple[str, str] | None:
     """Return the preferred bucket/name for a direction and opcode, or None."""
     for bucket in DIRECTION_TO_PREFERRED_BUCKETS[direction]:
         for entry in catalog["lists"].get(bucket, []):
@@ -294,7 +346,7 @@ def emit_struct(
         lines.append("};")
         lines.append(
             f"static_assert(sizeof({struct_name}) == {body_size},"
-            f" \"{struct_name} size mismatch\");"
+            f' "{struct_name} size mismatch");'
         )
         return "\n".join(lines), bytes_emitted, body_size
 
@@ -307,13 +359,13 @@ def emit_struct(
     # Assert the observed body size, not the field sum, so underfilled layouts fail validation.
     lines.append(
         f"static_assert(sizeof({struct_name}) == {body_size},"
-        f" \"{struct_name} size mismatch\");"
+        f' "{struct_name} size mismatch");'
     )
     return "\n".join(lines), bytes_emitted, body_size
 
 
 def validate_struct_layout_overrides(
-    by_bucket: dict[str, list[tuple[str, str, dict, list[dict]]]]
+    by_bucket: dict[str, list[tuple[str, str, dict, list[dict]]]],
 ) -> None:
     """Reject reviewed struct layouts whose catalog row is no longer emitted."""
     available_structs = {
@@ -321,9 +373,13 @@ def validate_struct_layout_overrides(
         for bucket, entries in by_bucket.items()
         for opcode_hex, _struct_name, _layout, _samples in entries
     }
-    missing_structs = [key for key in STRUCT_LAYOUT_OVERRIDES if key not in available_structs]
+    missing_structs = [
+        key for key in STRUCT_LAYOUT_OVERRIDES if key not in available_structs
+    ]
     if missing_structs:
-        raise ValueError(f"struct layout override has no generated row: {missing_structs}")
+        raise ValueError(
+            f"struct layout override has no generated row: {missing_structs}"
+        )
 
 
 def build_header(bucket: str, entries: list[tuple[str, str, dict, list[dict]]]) -> str:
@@ -457,7 +513,9 @@ def validate_header(path: Path) -> tuple[int, int]:
             sname, expected = m.group(1), int(m.group(2))
             actual = sizes.get(sname)
             if actual is None:
-                print(f"{path}:{lineno}: static_assert references unknown struct {sname}")
+                print(
+                    f"{path}:{lineno}: static_assert references unknown struct {sname}"
+                )
                 errors += 1
             elif actual != expected:
                 print(
@@ -485,8 +543,12 @@ def main() -> int:
         " packet-observation source checkout for a research rerun with fresher"
         " digestion.",
     )
-    ap.add_argument("--layouts", default=None, help="Overrides --digest for payload_layouts.json")
-    ap.add_argument("--samples", default=None, help="Overrides --digest for payload_samples.json")
+    ap.add_argument(
+        "--layouts", default=None, help="Overrides --digest for payload_layouts.json"
+    )
+    ap.add_argument(
+        "--samples", default=None, help="Overrides --digest for payload_samples.json"
+    )
     ap.add_argument("--catalog", default=str(OPCODES_IN))
     ap.add_argument(
         "--validate",
@@ -496,8 +558,12 @@ def main() -> int:
     args = ap.parse_args()
 
     digest_dir = Path(args.digest) if args.digest else _DIGEST
-    layouts_path = Path(args.layouts) if args.layouts else digest_dir / "payload_layouts.json"
-    samples_path = Path(args.samples) if args.samples else digest_dir / "payload_samples.json"
+    layouts_path = (
+        Path(args.layouts) if args.layouts else digest_dir / "payload_layouts.json"
+    )
+    samples_path = (
+        Path(args.samples) if args.samples else digest_dir / "payload_samples.json"
+    )
 
     layouts_doc = json.loads(layouts_path.read_text(encoding="utf-8"))
     samples_doc = json.loads(samples_path.read_text(encoding="utf-8"))
@@ -544,7 +610,9 @@ def main() -> int:
         header_path = bucket_dir / f"{leaf}.h"
         header_path.write_text(build_header(bucket, entries), encoding="ascii")
         files_written.append(header_path)
-        print(f"wrote {header_path.relative_to(Path(args.out_dir).parent)}  ({len(entries)} structs)")
+        print(
+            f"wrote {header_path.relative_to(Path(args.out_dir).parent)}  ({len(entries)} structs)"
+        )
 
     print()
     print(f"summary: {len(files_written)} headers across {len(by_bucket)} buckets")
@@ -562,7 +630,9 @@ def main() -> int:
             total_structs += structs
         print()
         if total_errors:
-            print(f"validation: {total_errors} errors across {len(files_written)} headers")
+            print(
+                f"validation: {total_errors} errors across {len(files_written)} headers"
+            )
             return 1
         print(
             f"validation: OK ({total_structs} structs across {len(files_written)} headers)"

@@ -16,10 +16,21 @@ from pathlib import Path
 from typing import Any, Iterator
 
 
-SUPPORTED = frozenset({
-    "$schema", "$id", "title", "description", "type", "properties",
-    "required", "additionalProperties", "enum", "const", "pattern",
-})
+SUPPORTED = frozenset(
+    {
+        "$schema",
+        "$id",
+        "title",
+        "description",
+        "type",
+        "properties",
+        "required",
+        "additionalProperties",
+        "enum",
+        "const",
+        "pattern",
+    }
+)
 
 _TYPES: dict[str, type | tuple[type, ...]] = {
     "object": dict,
