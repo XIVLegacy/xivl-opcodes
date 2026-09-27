@@ -15,13 +15,14 @@
       "direction": "serverbound",
       "function": "FUN_004DF6D0",
       "status": "closed",
-      "supportedLabel": "0x00c9 chat-message sender with a u32 selector and a 0x200-byte text field",
+      "supportedLabel": "0x00c9 selected-group chat sender with selector 10, a selected Group entry token, and a 512-byte text field",
       "tool": "XIVLegacy Ghidra DecompileToText.java and analyze_payload_layouts.py",
-      "observation": "The sender writes opcode 0x00c9 and body size 0x218, writes its u32 selector argument at application offset 0, zero-fills the 0x200-byte field at application offset 4 before copying the source text into it, and enqueues through FUN_00DB3E30; these field writes independently establish a selector-tagged chat message, while captures confirm a 552-byte subpacket and 536-byte application body.",
+      "observation": "FUN_006E91F0's literal group branch selects a full u32 through FUN_006C0590 from a Group-owned entry table and passes it to FUN_004DF6D0. FUN_006CBDD0 copy-constructs that +0x70 u32 vector for both the ordinary EntryBuilder path and the linkshell-specific EntryLinkShellBuilder path reached through FUN_006CBFB0 and FUN_006CC390. This proves that linkshell-backed Group entries use the same token-table mechanism, but no recovered edge shows the chat ExecuteParameters selecting one. The emitter writes opcode 0x00c9 and builder-record size 0x218, copies the selected Group entry token into record +0x18, copies a bounded 0x200-byte text field into record +0x1c, and enqueues through FUN_00DB3E30. FUN_00C99B80 treats an initial NUL as success and no later nonempty check precedes emission. The retained corpus confirms an exact 552-byte subpacket with a 528-byte application body: selector u32 10 at +0x00, zero u32 at +0x04, selected Group entry token at +0x08, NUL-terminated UTF-8 message[512] at +0x0c, and an opaque four-byte tail at +0x20c. FUN_006C13D0 matches the token in a Group-record u32 vector at +0x74; the token is not proven to be an actor, party, linkshell, or sender identifier.",
       "sourceRefs": [
         "xivl-client-structs:manifests/symbols.json#BCS-Y-0309",
         "xivl-captures:derived/payload_layouts.json#c2s.0x00c9",
-        "retail:ffxivgame.exe#sha256=9341f2b4567440b310a4d494f5cc5599ca334ba51c8042247317ff466492f2e9;va=0x004DF6D0;run=opcode-semantics-c2s-open-senders-body"
+        "retail:ffxivgame.exe#sha256=9341f2b4567440b310a4d494f5cc5599ca334ba51c8042247317ff466492f2e9;va=0x004DF6D0;run=opcode-semantics-c2s-open-senders-body",
+        "retail:ffxivgame.exe#sha256=9341f2b4567440b310a4d494f5cc5599ca334ba51c8042247317ff466492f2e9;vas=0x004D8D10,0x004DF6D0,0x005754E0,0x006C0590,0x006C13D0,0x006C7B80,0x006C9690,0x006CBDD0,0x006CBFB0,0x006CC390,0x006E91F0,0x00C99B80;run=world-chat-selected-group-static"
       ]
     },
     {
@@ -31,9 +32,9 @@
       "direction": "serverbound",
       "function": "FUN_004E3750",
       "status": "closed",
-      "supportedLabel": "0x00c8 builder for a 0x230-byte record with 32-byte header data and a 512-byte body block",
+      "supportedLabel": "0x00c8 tell-chat builder with a 32-byte target and a 512-byte message",
       "tool": "XIVLegacy Ghidra DumpFunctionDecomp.java",
-      "observation": "The builder writes opcode 0x00c8 and size 0x230, copies four qwords and 0x80 dwords, and its sole caller forwards the record through FUN_00DB3E30.",
+      "observation": "FUN_004DF810 rejects an empty target through FUN_00445E50, uses FUN_00447BC0 to bound the target to 32 bytes and the message to 512 bytes without splitting a UTF-8 continuation sequence, and passes those buffers to FUN_004E3750. The builder writes opcode 0x00c8 and size 0x230, copies the four qwords that comprise target[32] to record +0x18 and the 0x80 dwords that comprise message[512] to record +0x38, and its sole caller forwards the record through FUN_00DB3E30. In the actor-wrapped subpacket these fields are application +0x08 and +0x28 after eight opaque application bytes; the derived application size is 0x228 and no retail tell capture is retained.",
       "sourceRefs": [
         "xivl-client-structs:manifests/symbols.json#BCS-Y-0331",
         "xivl-client-structs:manifests/c2s_coverage_synthesis.json#0x00c8"
@@ -544,7 +545,7 @@
         "xivl-captures:studies/map-0193-clock-contract/derived/verdicts.md#clock-and-arithmetic-verdict",
         "xivl-captures:derived/payload_layouts.json#s2c.0x0193",
         "xivl-captures:derived/payload_samples.json#s2c.0x0193",
-        "retail:ffxivgame.exe#sha256=9341f2b4567440b310a4d494f5cc5599ca334ba51c8042247317ff466492f2e9;vas=0x004DC690,0x004D7580,0x004D7A60,0x004DBAF0,0x004DBF40,0x0054B440,0x0054B600,0x0054B610,0x0054B620,0x0054B630,0x0054B640,0x0054B650,0x0054B660,0x0054B670,0x0054B680,0x0054B8C0,0x0054B8D0,0x0054E440,0x00576020,0x00577FD0,0x00578C90,0x00589030,0x00705450,0x007054D0,0x00705510,0x00705550,0x00706A00,0x0075B300,0x0075B360,0x0075BC90,0x0075D210,0x0075D230,0x0075D250,0x0075D270,0x0075F3E0,0x0075F420;run=opcode-semantics-s2c-0193-close-20260827"
+        "retail:ffxivgame.exe#sha256=9341f2b4567440b310a4d494f5cc5599ca334ba51c8042247317ff466492f2e9;vas=0x004DC690,0x004D7580,0x004D7A60,0x004DBAF0,0x004DBF40,0x0054B440,0x0054B600,0x0054B610,0x0054B620,0x0054B630,0x0054B640,0x0054B650,0x0054B660,0x0054B670,0x0054B680,0x0054B8C0,0x0054B8D0,0x0054E440,0x00576020,0x00577FD0,0x00578C90,0x00589030,0x00705450,0x007054D0,0x00705510,0x00705550,0x00706A00,0x0075B300,0x0075B360,0x0075BC90,0x0075D210,0x0075D230,0x0075D250,0x0075D270,0x0075F3E0,0x0075F420;run=opcode-semantics-s2c-0193-close"
       ]
     },
     {

@@ -12,7 +12,7 @@ namespace clientbound
 {
 
 // 0x00c9 (opcode 201) - sub_size=584B body=560B samples=5
-struct PartyChatMessageBody
+struct SelectedGroupChatMessageBody
 {
     uint8_t  _const0;     // body[+0] = 0x0a
     uint8_t  _pad1[7];    // body[+1..+7] zero
@@ -27,7 +27,7 @@ struct PartyChatMessageBody
     uint8_t  _pad10[489]; // body[+71..+559] zero
 };
 
-static_assert(sizeof(PartyChatMessageBody) == 560, "PartyChatMessageBody size mismatch");
+static_assert(sizeof(SelectedGroupChatMessageBody) == 560, "SelectedGroupChatMessageBody size mismatch");
 
 } // namespace clientbound
 } // namespace bahamut::opcodes::world

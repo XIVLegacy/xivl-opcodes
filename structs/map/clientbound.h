@@ -979,14 +979,14 @@ struct InventorySetBeginBody
 static_assert(sizeof(InventorySetBeginBody) == 16, "InventorySetBeginBody size mismatch");
 
 // 0x0147 (opcode 327) - sub_size=40B body=16B samples=60
-struct InventorySetEndBody
+struct _0x0147Body
 {
     uint8_t field0[3]; // body[+0..+2] 3B (27 distinct)
     uint8_t _const1;   // body[+3] = 0x50
     uint8_t _pad2[12]; // body[+4..+15] zero
 };
 
-static_assert(sizeof(InventorySetEndBody) == 16, "InventorySetEndBody size mismatch");
+static_assert(sizeof(_0x0147Body) == 16, "_0x0147Body size mismatch");
 
 // 0x0148 (opcode 328) - sub_size=144B body=120B samples=40
 struct InventoryListX01Body

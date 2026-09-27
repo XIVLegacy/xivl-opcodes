@@ -110,10 +110,10 @@ OUTBOUND_OBSERVATION_FRAGMENTS = {
     ),
     "c2s-00c9": (
         "opcode 0x00c9",
-        "body size 0x218",
-        "u32 selector argument at application offset 0",
-        "0x200-byte field at application offset 4",
-        "chat message",
+        "builder-record size 0x218",
+        "selector u32 10 at +0x00",
+        "selected Group entry token at +0x08",
+        "message[512] at +0x0c",
         "FUN_00DB3E30",
     ),
     "c2s-012d": (
@@ -446,8 +446,8 @@ def main() -> int:
                 )
 
     anchors = [entry["decompAnchor"] for entry in entries if entry.get("decompAnchor")]
-    if len(anchors) != 93:
-        errors.append(f"catalog has {len(anchors)} decompAnchor values, expected 93")
+    if len(anchors) != 95:
+        errors.append(f"catalog has {len(anchors)} decompAnchor values, expected 95")
     bad_anchors = [anchor for anchor in anchors if not BARE_FUNCTION.fullmatch(anchor)]
     if bad_anchors:
         errors.append(f"non-bare decompAnchor values: {bad_anchors}")
