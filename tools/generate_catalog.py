@@ -536,7 +536,7 @@ LOGIN_PREZONE_ATTRIBUTIONS = [
     ("MapClientbound", "0x01cb", "_0x01CB", "s2c", 680),
     ("MapClientbound", "0x01ce", "_0x01CE", "s2c", 840),
 ]
-LOBBY_CENSUS_COMMIT = "17f5b2a51657356e0fd0c83c3ea3b0c6e3831dc2"
+LOBBY_CENSUS_COMMIT = "458115d9682a76d4540392ba224d30ba17722b1f"
 LOBBY_CENSUS_EVIDENCE = (
     f"xivl-captures@{LOBBY_CENSUS_COMMIT}:"
     "studies/lobby-handshake-triage/derived/record-census.md"

@@ -59,7 +59,7 @@ jobs:
       - name: Fetch the immutable private blob
         id: fetch
         continue-on-error: true
-        uses: XIVLegacy/xivl-tools/.github/actions/fetch-retail-input@145a6a56a310c0613e7f2ca7c1d93feee1146df8
+        uses: XIVLegacy/xivl-tools/.github/actions/fetch-retail-input@c5f4d439593df062302dbbd69424724f8fb7d6b6
         with:
           token: ${{ secrets.RETAIL_INPUTS_TOKEN }}
           commit: aeb52f6dbde95a793ee6d52be28de9f28a885b15
@@ -72,7 +72,7 @@ jobs:
         id: toolchain
         if: steps.fetch.outcome == 'success'
         continue-on-error: true
-        uses: XIVLegacy/xivl-tools/.github/actions/setup-retail-toolchain@145a6a56a310c0613e7f2ca7c1d93feee1146df8
+        uses: XIVLegacy/xivl-tools/.github/actions/setup-retail-toolchain@c5f4d439593df062302dbbd69424724f8fb7d6b6
         with:
           scratch-root: ${{ runner.temp }}/retail-evidence-private
           include-ghidra: "true"
@@ -176,7 +176,7 @@ jobs:
         id: finalize
         if: always()
         continue-on-error: true
-        uses: XIVLegacy/xivl-tools/.github/actions/finalize-retail-attestation@145a6a56a310c0613e7f2ca7c1d93feee1146df8
+        uses: XIVLegacy/xivl-tools/.github/actions/finalize-retail-attestation@c5f4d439593df062302dbbd69424724f8fb7d6b6
         with:
           scratch-root: ${{ runner.temp }}/retail-evidence-private
           staging-root: ${{ github.workspace }}/_retail-staging

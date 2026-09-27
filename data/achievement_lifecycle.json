@@ -8,7 +8,7 @@
   "scope": "Bounded retail-client and retained-corpus evidence for the achievement-title and achievement-rate request/update routes.",
   "corpusSnapshots": {
     "current": {
-      "sourceRef": "xivl-captures@17f5b2a51657356e0fd0c83c3ea3b0c6e3831dc2",
+      "sourceRef": "xivl-captures@458115d9682a76d4540392ba224d30ba17722b1f",
       "captureCount": 54,
       "role": "Point-in-time current-corpus occurrence, capture, and chronology counts recorded by this evidence ledger."
     },

@@ -24,7 +24,7 @@ LOGIN_CAPTURE = "login.pcapng"
 LOGIN_CAPTURE_SHA256 = (
     "28e06b54fe559870031f077f8549b9244caafa7e5177dbca08a7feae6c2b1b62"
 )
-LOBBY_CENSUS_COMMIT = "17f5b2a51657356e0fd0c83c3ea3b0c6e3831dc2"
+LOBBY_CENSUS_COMMIT = "458115d9682a76d4540392ba224d30ba17722b1f"
 LOBBY_CENSUS_EVIDENCE = (
     f"xivl-captures@{LOBBY_CENSUS_COMMIT}:"
     "studies/lobby-handshake-triage/derived/record-census.md"

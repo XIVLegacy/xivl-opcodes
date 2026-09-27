@@ -20,7 +20,7 @@
             48
           ],
           "confidence": "implemented",
-          "notes": "lobby_census_evidence=xivl-captures@17f5b2a51657356e0fd0c83c3ea3b0c6e3831dc2:studies/lobby-handshake-triage/derived/record-census.md#client-dispatch-correspondence; login_capture_sha256=28e06b54fe559870031f077f8549b9244caafa7e5177dbca08a7feae6c2b1b62",
+          "notes": "lobby_census_evidence=xivl-captures@458115d9682a76d4540392ba224d30ba17722b1f:studies/lobby-handshake-triage/derived/record-census.md#client-dispatch-correspondence; login_capture_sha256=28e06b54fe559870031f077f8549b9244caafa7e5177dbca08a7feae6c2b1b62",
           "retail_class_name": "Application::Network::LobbyClient::ServiceLoginOperation"
         },
         {
@@ -38,7 +38,7 @@
             56
           ],
           "confidence": "implemented",
-          "notes": "lobby_census_evidence=xivl-captures@17f5b2a51657356e0fd0c83c3ea3b0c6e3831dc2:studies/lobby-handshake-triage/derived/record-census.md#client-dispatch-correspondence; login_capture_sha256=28e06b54fe559870031f077f8549b9244caafa7e5177dbca08a7feae6c2b1b62",
+          "notes": "lobby_census_evidence=xivl-captures@458115d9682a76d4540392ba224d30ba17722b1f:studies/lobby-handshake-triage/derived/record-census.md#client-dispatch-correspondence; login_capture_sha256=28e06b54fe559870031f077f8549b9244caafa7e5177dbca08a7feae6c2b1b62",
           "retail_class_name": "Application::Network::LobbyClient::GameLoginOperation"
         },
         {
@@ -56,7 +56,7 @@
             176
           ],
           "confidence": "implemented",
-          "notes": "lobby_census_evidence=xivl-captures@17f5b2a51657356e0fd0c83c3ea3b0c6e3831dc2:studies/lobby-handshake-triage/derived/record-census.md#client-dispatch-correspondence; login_capture_sha256=28e06b54fe559870031f077f8549b9244caafa7e5177dbca08a7feae6c2b1b62",
+          "notes": "lobby_census_evidence=xivl-captures@458115d9682a76d4540392ba224d30ba17722b1f:studies/lobby-handshake-triage/derived/record-census.md#client-dispatch-correspondence; login_capture_sha256=28e06b54fe559870031f077f8549b9244caafa7e5177dbca08a7feae6c2b1b62",
           "retail_class_name": "Application::Network::LobbyClient::LobbyLoginOperation"
         },
         {
@@ -176,7 +176,7 @@
             624
           ],
           "confidence": "implemented",
-          "notes": "lobby_census_evidence=xivl-captures@17f5b2a51657356e0fd0c83c3ea3b0c6e3831dc2:studies/lobby-handshake-triage/derived/record-census.md#client-dispatch-correspondence; login_capture_sha256=28e06b54fe559870031f077f8549b9244caafa7e5177dbca08a7feae6c2b1b62",
+          "notes": "lobby_census_evidence=xivl-captures@458115d9682a76d4540392ba224d30ba17722b1f:studies/lobby-handshake-triage/derived/record-census.md#client-dispatch-correspondence; login_capture_sha256=28e06b54fe559870031f077f8549b9244caafa7e5177dbca08a7feae6c2b1b62",
           "retail_class_name": "Application::Network::LobbyClient::LobbyLoginOperation"
         },
         {
@@ -194,7 +194,7 @@
             976
           ],
           "confidence": "implemented",
-          "notes": "lobby_census_evidence=xivl-captures@17f5b2a51657356e0fd0c83c3ea3b0c6e3831dc2:studies/lobby-handshake-triage/derived/record-census.md#client-dispatch-correspondence; login_capture_sha256=28e06b54fe559870031f077f8549b9244caafa7e5177dbca08a7feae6c2b1b62",
+          "notes": "lobby_census_evidence=xivl-captures@458115d9682a76d4540392ba224d30ba17722b1f:studies/lobby-handshake-triage/derived/record-census.md#client-dispatch-correspondence; login_capture_sha256=28e06b54fe559870031f077f8549b9244caafa7e5177dbca08a7feae6c2b1b62",
           "retail_class_name": "Application::Network::LobbyClient::ServiceLoginOperation"
         },
         {
@@ -226,7 +226,7 @@
             184
           ],
           "confidence": "implemented",
-          "notes": "lobby_census_evidence=xivl-captures@17f5b2a51657356e0fd0c83c3ea3b0c6e3831dc2:studies/lobby-handshake-triage/derived/record-census.md#client-dispatch-correspondence; login_capture_sha256=28e06b54fe559870031f077f8549b9244caafa7e5177dbca08a7feae6c2b1b62",
+          "notes": "lobby_census_evidence=xivl-captures@458115d9682a76d4540392ba224d30ba17722b1f:studies/lobby-handshake-triage/derived/record-census.md#client-dispatch-correspondence; login_capture_sha256=28e06b54fe559870031f077f8549b9244caafa7e5177dbca08a7feae6c2b1b62",
           "retail_class_name": "Application::Network::LobbyClient::GameLoginOperation"
         },
         {
@@ -258,7 +258,7 @@
             528
           ],
           "confidence": "implemented",
-          "notes": "lobby_census_evidence=xivl-captures@17f5b2a51657356e0fd0c83c3ea3b0c6e3831dc2:studies/lobby-handshake-triage/derived/record-census.md#client-dispatch-correspondence; login_capture_sha256=28e06b54fe559870031f077f8549b9244caafa7e5177dbca08a7feae6c2b1b62",
+          "notes": "lobby_census_evidence=xivl-captures@458115d9682a76d4540392ba224d30ba17722b1f:studies/lobby-handshake-triage/derived/record-census.md#client-dispatch-correspondence; login_capture_sha256=28e06b54fe559870031f077f8549b9244caafa7e5177dbca08a7feae6c2b1b62",
           "retail_class_name": "Application::Network::LobbyClient::ServiceLoginOperation"
         },
         {
@@ -276,7 +276,7 @@
             528
           ],
           "confidence": "implemented",
-          "notes": "lobby_census_evidence=xivl-captures@17f5b2a51657356e0fd0c83c3ea3b0c6e3831dc2:studies/lobby-handshake-triage/derived/record-census.md#client-dispatch-correspondence; login_capture_sha256=28e06b54fe559870031f077f8549b9244caafa7e5177dbca08a7feae6c2b1b62",
+          "notes": "lobby_census_evidence=xivl-captures@458115d9682a76d4540392ba224d30ba17722b1f:studies/lobby-handshake-triage/derived/record-census.md#client-dispatch-correspondence; login_capture_sha256=28e06b54fe559870031f077f8549b9244caafa7e5177dbca08a7feae6c2b1b62",
           "retail_class_name": "Application::Network::LobbyClient::ServiceLoginOperation"
         },
         {
@@ -294,7 +294,7 @@
             496
           ],
           "confidence": "implemented",
-          "notes": "lobby_census_evidence=xivl-captures@17f5b2a51657356e0fd0c83c3ea3b0c6e3831dc2:studies/lobby-handshake-triage/derived/record-census.md#client-dispatch-correspondence; login_capture_sha256=28e06b54fe559870031f077f8549b9244caafa7e5177dbca08a7feae6c2b1b62",
+          "notes": "lobby_census_evidence=xivl-captures@458115d9682a76d4540392ba224d30ba17722b1f:studies/lobby-handshake-triage/derived/record-census.md#client-dispatch-correspondence; login_capture_sha256=28e06b54fe559870031f077f8549b9244caafa7e5177dbca08a7feae6c2b1b62",
           "retail_class_name": "Application::Network::LobbyClient::ServiceLoginOperation"
         },
         {

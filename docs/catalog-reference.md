@@ -109,7 +109,7 @@ for only nine selected lobby inner routes: serverbound `0x0003`/48,
 `0x0017`/496 bytes. It covers 20 complete subrecords across two connections
 and does not establish observations for other lobby rows or payload field
 names. The evidence is
-`xivl-captures@17f5b2a51657356e0fd0c83c3ea3b0c6e3831dc2:studies/lobby-handshake-triage/derived/record-census.md#client-dispatch-correspondence`;
+`xivl-captures@458115d9682a76d4540392ba224d30ba17722b1f:studies/lobby-handshake-triage/derived/record-census.md#client-dispatch-correspondence`;
 the `login.pcapng` capture SHA-256 is
 `28e06b54fe559870031f077f8549b9244caafa7e5177dbca08a7feae6c2b1b62`.
 World-to-map backend rows are server-to-server and do not cross the client

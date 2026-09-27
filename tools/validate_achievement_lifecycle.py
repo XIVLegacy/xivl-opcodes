@@ -24,7 +24,7 @@ EXPECTED_BINARY = {
 }
 EXPECTED_CORPUS_SNAPSHOTS = {
     "current": {
-        "sourceRef": "xivl-captures@17f5b2a51657356e0fd0c83c3ea3b0c6e3831dc2",
+        "sourceRef": "xivl-captures@458115d9682a76d4540392ba224d30ba17722b1f",
         "captureCount": 54,
     },
     "pinned": {
