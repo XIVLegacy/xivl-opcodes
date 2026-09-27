@@ -58,8 +58,11 @@ jobs:
             push)
               if test "${BEFORE_SHA}" = "0000000000000000000000000000000000000000"; then
                 git diff-tree --check --root -m -r "${CURRENT_SHA}"
-              else
+              elif git cat-file -e "${BEFORE_SHA}^{commit}" 2>/dev/null; then
                 git diff --check "${BEFORE_SHA}" "${CURRENT_SHA}"
+              else
+                echo "previous revision is unavailable; checking the pushed revision"
+                git diff-tree --check --root -m -r "${CURRENT_SHA}"
               fi
               ;;
             workflow_dispatch)
