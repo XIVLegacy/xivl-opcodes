@@ -153,8 +153,8 @@ indexes. They are not live sources and do not promise freshness.
 
 Each mirror's `PROVENANCE.json` is authoritative for its `sourceRepo`,
 `sourcePath`, `sha256`, `evidenceTier`, `refreshMode`, and `transformation`.
-The `sha256` anchors byte identity. Source commit hashes are excluded because
-source histories are rewritten for publication. The manifest identifiers are
+The `sha256` anchors byte identity. Source commit hashes are excluded.
+The manifest identifiers are
 the provenance record. Prose does not repeat repository names, machine paths,
 or live checkout locations.
 

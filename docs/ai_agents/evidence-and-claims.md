@@ -10,11 +10,8 @@ An identified artifact counts as evidence only when it fits one of the
 approved classes and directly supports the claim. The class does not by itself
 prove a packet identity.
 
-| Evidence class | What it can establish |
-|---|---|
-| Retail packet observation | Wire opcode, direction, observed length, or stream phase. |
-| Retail client-file analysis | Client routing, receiver identity, ABI relationship, or expected payload shape. |
-| Live validation | Verification against the retail 1.23b client in a live session. The client's acceptance of the behavior is the evidence. The implementation that drives the session is only the instrument. |
+The [catalog evidence classes](../catalog-reference.md#evidence-classes) define
+what each approved class can establish.
 
 Repository code, tests, and generated headers establish implementation or
 layout contracts. They do not prove retail behavior by themselves. Agent
@@ -43,15 +40,9 @@ Make the narrowest claim the evidence supports. State uncertainty when a name,
 service, direction, version, region, or layout interpretation is unresolved.
 Do not merge conflicting candidates into one assertion.
 
-Use the confidence label that the evidence supports. `pcap_observed` does not
-name a packet. `live_validated` records verification against the retail 1.23b
-client in a live session: the client's acceptance of the behavior is the
-evidence, and the implementation that drives the session is only the instrument.
-`decomp_routed` describes client routing or structure evidence.
-`implemented` describes an implementation anchor. `confirmed` requires
-the record to agree across the relevant evidence. `blocked` records a conflict
-or undecodable boundary. See the catalog reference for the complete field
-contract.
+Use the narrowest [confidence label](../catalog-reference.md#confidence-labels)
+supported by the evidence. Those definitions are the consumer contract; a
+label must not turn an observation into a stronger identity or behavior claim.
 
 Keep a placeholder packet name when later evidence adds an anchor. Do not
 rename an entry merely to make a later source look primary. Preserve the
@@ -96,9 +87,8 @@ repository-name:path/to/file
 ```
 
 Keep the repository identity, source path, and row or symbol locator
-verbatim. Commit hashes and date pins do not replace source locators:
-repository histories are rewritten before publication, and dated "as of"
-claims rot. Vendor mirrors record byte identity in
+verbatim. Commit hashes and date pins do not replace source locators. Vendor
+mirrors record byte identity in
 `data/vendor/*/PROVENANCE.json` via the sha256, together with the evidence
 tier, refresh mode, and transformation.
 

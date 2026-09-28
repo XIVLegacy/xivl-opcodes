@@ -1,7 +1,7 @@
 """Minimal JSON Schema validator for the asset-free attestation boundary.
 
-The repository gate runs from a bare standard-library Python installation. This
-module implements and checks exactly this draft 2020-12 subset:
+The attestation boundary uses only the Python standard library. This module
+implements and checks exactly this draft 2020-12 subset:
 ``$schema``, ``$id``, ``title``, ``description``, ``type``, ``properties``,
 ``required``, ``additionalProperties``, ``enum``, ``const``, and ``pattern``.
 Boolean schemas are supported only as ``additionalProperties`` values. Every
@@ -116,10 +116,22 @@ def _is_type(value: Any, name: str) -> bool:
 
 
 def _json_equal(left: Any, right: Any) -> bool:
-    """Compare values with JSON type semantics rather than Python bool/int equality."""
-    return json.dumps(left, sort_keys=True, separators=(",", ":")) == json.dumps(
-        right, sort_keys=True, separators=(",", ":")
-    )
+    """Compare JSON values, keeping booleans distinct from equal-valued numbers."""
+    if isinstance(left, bool) or isinstance(right, bool):
+        return type(left) is type(right) and left == right
+    if isinstance(left, (int, float)) and isinstance(right, (int, float)):
+        return left == right
+    if type(left) is not type(right):
+        return False
+    if isinstance(left, list):
+        return len(left) == len(right) and all(
+            _json_equal(a, b) for a, b in zip(left, right)
+        )
+    if isinstance(left, dict):
+        return left.keys() == right.keys() and all(
+            _json_equal(value, right[key]) for key, value in left.items()
+        )
+    return left == right
 
 
 def validate(document: Any, schema: dict) -> list[str]:
