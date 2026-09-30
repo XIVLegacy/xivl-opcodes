@@ -3,6 +3,7 @@
 
 from __future__ import annotations
 
+import argparse
 import json
 import os
 import subprocess
@@ -111,7 +112,14 @@ def validate_retail_contract() -> int:
     return 0
 
 
-def main() -> int:
+def main(argv: list[str] | None = None) -> int:
+    parser = argparse.ArgumentParser(description=__doc__)
+    parser.add_argument(
+        "--compiler",
+        default="clang++",
+        help="Clang/GCC C++ driver name or executable path",
+    )
+    args = parser.parse_args(argv)
     print("== JSON syntax ==", flush=True)
     if validate_json_syntax() != 0:
         return 1
@@ -130,6 +138,19 @@ def main() -> int:
         )
         if result.returncode != 0:
             return result.returncode
+    print("\n== Generated C++ headers ==", flush=True)
+    result = subprocess.run(
+        [
+            sys.executable,
+            str(tools_dir / "validate_generated_headers.py"),
+            "--compiler",
+            args.compiler,
+        ],
+        cwd=REPO_ROOT,
+        check=False,
+    )
+    if result.returncode != 0:
+        return result.returncode
     return 0
 
 

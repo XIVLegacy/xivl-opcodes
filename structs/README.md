@@ -37,9 +37,8 @@ are considered first. For `c2s`, the remaining order is map, world, then lobby;
 for `s2c`, it is map, world, then lobby. `WorldMapBackend` accepts either wire
 direction because observations do not identify its backend service. This
 resolves an evidence limitation: packet observations provide wire direction;
-they do not always identify the service. The Python-side validator checks
-balanced structs, recognized declarations, and size assertions. It does not
-compile C++ or validate field semantics.
+they do not always identify the service. Validation checks the emitted layout;
+it does not establish field semantics.
 
 ## Bucket paths
 
@@ -75,6 +74,31 @@ validation. The `--validate` option recognizes declarations, verifies balanced
 struct blocks, and checks matching size assertions.
 The generator runs the pinned Clang Format 22 release before writing each
 header, using the repository's `.clang-format` configuration.
+
+## C++ validation
+
+The repository gate compiles every generated header individually and all
+headers together as C++17, exercising their payload-size assertions. The
+individual checks provide no preceding includes, so each header must supply
+its own dependencies. Probes check size, alignment, and field offsets
+under default packing and `#pragma pack(push, 2)`, then verifies packing after
+the caller's pop. Compilation uses syntax-only translation units and creates
+no object files or executables.
+
+Run the complete gate or just the compilation check with a Clang/GCC C++ driver:
+
+```powershell
+python tools\validate_repository.py --compiler clang++
+python tools\validate_generated_headers.py --compiler clang++
+python tools\test_generated_headers.py --compiler clang++
+```
+
+`--compiler` accepts an executable name or path and defaults to `clang++`.
+The compiler and its C++ standard-library headers must be installed separately.
+Compiler flags use the Clang/GCC driver interface; `cl` and `clang-cl` are not
+supported. A missing compiler or header set is a setup failure (exit 2), never
+a successful check. Compilation errors exit 1; successful compilation exits 0.
+The Catalog Checks CI job requires this check and its negative controls.
 
 The payload digest is owned by packet-observation research and the catalog is
 owned by this repository. The generated headers are this repository's output;

@@ -57,7 +57,8 @@ writer. Abbreviated, uppercase, or omitted hashes are rejected.
   writer. `OPCODES_PATH` and `CONSTANTS_PATH` are the single catalog paths.
 - `validate_repository.py` is the complete human and CI check. It parses every
   repository JSON file, then runs the vendor, corpus, client-opcode-semantic,
-  docs-index, and payload-framing validators in order.
+  docs-index, and payload-framing validators, followed by generated-header
+  compilation. `--compiler` selects the Clang/GCC C++ driver (default `clang++`).
 - `validate_client_opcode_semantics.py` checks the 44-row retail-client body
   evidence ledger, catalog evidence links, open/closed dispositions, and the
   bare `decompAnchor` contract.
@@ -70,6 +71,13 @@ writer. Abbreviated, uppercase, or omitted hashes are rejected.
 - `generate_structs.py` emits packed C++ payload headers under `structs/` from
   the pinned packet-observation layouts and samples plus the root catalog.
   `--digest`, `--layouts`, and `--samples` are explicit research overrides.
+- `validate_generated_headers.py` compiles existing headers individually and
+  together, checks payload-size assertions and caller packing, and fails when
+  compilation cannot run. See the [C++ validation contract](../structs/README.md#c-validation)
+  for compiler selection and setup.
+- `test_generated_headers.py` runs compiler-backed self-containment, syntax,
+  size, packing, and combined-include negative controls without modifying
+  generated headers.
 - `validate_corpus.py` validates schemas, catalog enums, opcode relationships,
   capture references, and BCS-Y references against the pinned local indexes.
   It also reports opcode-bound sibling BCS-Y candidates absent from the root

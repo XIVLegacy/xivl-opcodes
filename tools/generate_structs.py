@@ -636,7 +636,7 @@ def main() -> int:
             return 1
         print(
             f"validation: OK ({total_structs} structs across {len(files_written)} headers)"
-            f"  [python-side; no C++ compiler on PATH]"
+            "  [Python layout checks only; C++ compilation is a separate repository check]"
         )
     return 0
 

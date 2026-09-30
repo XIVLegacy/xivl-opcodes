@@ -91,7 +91,10 @@ jobs:
         run: python tools/generate_structs.py --validate
 
       - name: Run repository gate
-        run: python tools/validate_repository.py
+        run: python tools/validate_repository.py --compiler clang++
+
+      - name: Test generated header compilation
+        run: python tools/test_generated_headers.py --compiler clang++
 
       - name: Test retail dispatch contract
         run: python tools/test_retail_zone_dispatch.py
