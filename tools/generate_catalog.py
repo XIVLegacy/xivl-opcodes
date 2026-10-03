@@ -1008,7 +1008,7 @@ def swap_managed_prefix(current: str, expected_old: str, new_notes: str):
 
 
 def apply_client_semantics(top: dict) -> tuple[int, int]:
-    """Attach the independently reviewed client-body evidence to catalog rows."""
+    """Attach the client-body evidence to catalog rows."""
     evidence = json.loads(CLIENT_SEMANTICS_PATH.read_text(encoding="utf-8"))
     applied = 0
     errors = 0
@@ -1119,7 +1119,7 @@ def apply_client_semantics(top: dict) -> tuple[int, int]:
 
 
 def apply_battle_result_semantics(top: dict) -> tuple[int, int]:
-    """Apply the reviewed battle-result route and field contract."""
+    """Apply the battle-result route and field contract."""
     evidence = json.loads(BATTLE_RESULT_SEMANTICS_PATH.read_text(encoding="utf-8"))
     applied = 0
     errors = 0

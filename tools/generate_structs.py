@@ -1,4 +1,4 @@
-"""Generate packed per-opcode C++ payload headers from layout digestion.
+"""Generate packed C++ payload headers for each opcode from the decoded layouts.
 
 Each struct omits the 8-byte inner header and locks the observed body size.
 """
