@@ -15,7 +15,7 @@ Keep a comment only when it records one of these:
 Keep source and evidence identifiers verbatim. Preserve a date when it belongs
 to an identifier or external source metadata.
 
-Compress other survivors to about one line at the use site. Move a longer
+Shorten the remaining comments to about one line at the use site. Move a longer
 contract to a public policy or tool page and leave a short pointer. Remove
 explanations tied to temporary branch state before merge.
 
@@ -78,8 +78,9 @@ batch-processing history. Retain dates that belong to external source or
 provenance metadata, actual evidence observations or captures, retail build or
 source identity, legal metadata, or required vendor artifact names.
 
-- Avoid over-hyphenation and invented compound modifiers. Established
-  technical terms keep their hyphens.
+- Avoid awkward compounds and strings of modifiers. Rewrite the sentence
+  rather than joining more words with hyphens. Preserve established technical
+  terms, identifiers, and quoted source text.
 - Use semicolons sparingly, preferring periods, commas, or short lists.
 - Cut parenthetical asides. If the aside matters, make it a short sentence
   of its own. If it does not, delete it.

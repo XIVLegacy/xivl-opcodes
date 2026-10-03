@@ -11,21 +11,14 @@ lobby, world, and map services.
 <a href="https://github.com/XIVLegacy/xivl-opcodes/actions/workflows/checks.yml"><img src="https://github.com/XIVLegacy/xivl-opcodes/actions/workflows/checks.yml/badge.svg" alt="Checks"></a>
 </p>
 
-## About
+Use `opcodes.json` and `constants.json` for the catalog. The
+[catalog reference](docs/catalog-reference.md) explains the fields, confidence
+labels, and evidence limits.
 
-This repository contains curated opcode mappings, source references, and
-generated payload headers for the 1.23b lobby, world, and map services.
-
-## Documentation
-
-- [Documentation home](docs/README.md)
-- [Catalog reference](docs/catalog-reference.md)
-- [Evidence and claims](docs/ai_agents/evidence-and-claims.md)
-- [Comments and prose](docs/ai_agents/comments-and-prose.md)
+- [Documentation](docs/README.md)
 - [Repository guide](docs/repository-guide.md)
 - [Generated payload headers](structs/README.md)
-- [Map payload header guide](structs/map/README.md)
-- [Tooling and regeneration](tools/README.md)
+- [Tools and regeneration](tools/README.md)
 
 ## License
 

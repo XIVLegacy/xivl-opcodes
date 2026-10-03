@@ -1,13 +1,12 @@
 # Catalog reference
 
-This consumer contract defines the 1.23b catalog scope, fields, evidence
+This guide defines the 1.23b catalog scope, fields, evidence
 classes, confidence labels, and generated products.
 
 ## Product and covered scope
 
-The catalog product has one canonical generated home at the repository root:
-`opcodes.json` and `constants.json`. There is no catalog mirror under
-`data/`.
+The generated catalog files are `opcodes.json` and `constants.json` at the
+repository root. `data/` holds their inputs, not another copy of the catalog.
 
 `opcodes.json` is an array containing one catalog object. The object has a
 `version`, a `region`, and a `lists` object. The `lists` object declares these
@@ -57,7 +56,7 @@ its citations and identifiers when carrying an entry into another product.
 ## Evidence classes
 
 The catalog accepts these evidence classes. A claim may use more than one.
-The class does not by itself prove a packet identity.
+The class alone does not prove a packet identity.
 
 | Evidence class | What it can establish | Usual catalog fields |
 |---|---|---|
@@ -141,9 +140,9 @@ generator boundary.
 
 ## Pinned evidence mirrors
 
-`data/vendor/` is the boundary between local validation and evidence owned by
-another research role. The mirrors are pinned consumer copies or derived
-indexes. They are not live sources and do not promise freshness.
+`data/vendor/` contains fixed copies and derived indexes of evidence from
+other repositories. Local validation uses these recorded versions; it does
+not fetch current upstream files.
 
 | Mirror | What the local file provides | Original owner |
 |---|---|---|

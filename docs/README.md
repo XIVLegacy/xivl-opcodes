@@ -1,4 +1,4 @@
-# Docs index
+# Documentation
 
 The public documentation covers the opcode catalog, repository guide, and
 contribution policy.

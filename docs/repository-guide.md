@@ -1,14 +1,14 @@
 # Repository guide
 
-This page maps the curator-only data files and the top-level repository tree.
+This guide explains the curator data files and repository layout.
 See the [catalog reference](catalog-reference.md) for the consumer contract,
 evidence and confidence rules, pinned mirrors, and validation commands.
 
 ## Curator data inventory
 
-`data/` contains research inputs, promoted evidence, extractor products, and
-maintainer reports. These files support catalog curation. They are not
-additional consumer catalog outputs.
+`data/` contains the research inputs, evidence, extractor output, and reports
+used to maintain the catalog. Applications should read the generated files
+at the repository root.
 
 | File | Contents |
 |---|---|
