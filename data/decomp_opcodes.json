@@ -115,7 +115,7 @@
     "name": "_0x00CA",
     "service": "map",
     "direction": "serverbound",
-    "evidence": "Tier-D emitter FUN_004DC690 (3364-byte massive host function, sole caller FUN_004E20A0 = BCS-Y-0314) emits opcode 0x00CA via record-builder FUN_004dd620: `uVar6 = FUN_004dd620((int)_Var13, &local_9f4); FUN_004E0240(uVar6, 0xCA, 0)`. Size determined by FUN_004dd620 (not hardcoded at caller). NOTE this is OUTSIDE the 0x01C3..0x01DF cluster - separate lower-range opcode. | Refined likely_role via pcap correlation against xivl-captures/captures/*.pcapng (54 scenarios). evidenceKind=pcap_observed, pcapTotalCount=16867, sourceEvidence=pcap_correlation.",
+    "evidence": "Tier-D emitter FUN_004DC690 (3364-byte host function, sole caller FUN_004E20A0 = BCS-Y-0314) emits opcode 0x00CA via record-builder FUN_004dd620: `uVar6 = FUN_004dd620((int)_Var13, &local_9f4); FUN_004E0240(uVar6, 0xCA, 0)`. Size determined by FUN_004dd620 (not hardcoded at caller). NOTE this is OUTSIDE the 0x01C3..0x01DF cluster - separate lower-range opcode. | Refined likely_role via pcap correlation against xivl-captures/captures/*.pcapng (54 scenarios). evidenceKind=pcap_observed, pcapTotalCount=16867, sourceEvidence=pcap_correlation.",
     "likely_role": "Map position-broadcast tick (c2s); 64-byte subpacket (0x30 game-message body); appears in 54/54 pcap scenarios with frequency proportional to movement (2402x in moving_around_gridania, 3388x in party_battle_leve, 62x in mount_unmount_chocobo). Periodic player-state heartbeat - not an action-system opcode despite the outbound-scan cluster grouping. Same opcode as BCS-Y-0328 dual-production-paths entry.",
     "source": "tierd_outbound_scan | pcap_correlation"
   },
@@ -146,7 +146,7 @@
     "service": "map",
     "direction": "serverbound",
     "evidence": "Tier-D emitter 0x004B7990 sets stack record `local_8b0 = 0x01C5 (opcode); local_8ac = 0x18 (size); [body fields]` then calls FUN_004E0240(&local_8b0, 0x01C5, 0). Routed through Tier-C wrapper FUN_004E0240 (BCS-Y-0312) -> Tier-B Zone forwarder FUN_00DAE010 (BCS-Y-0304). Member of the 24-emitter 0x01C3..0x01DF action-system traffic cluster. | Refined likely_role via pcap correlation against xivl-captures/captures/*.pcapng (54 scenarios). evidenceKind=pcap_unobserved, pcapTotalCount=0, sourceEvidence=pcap_correlation. | Cluster role refined via Ghidra static caller decomposition. Source: ghidra-projects/caller_decomp.txt; caller(s)=0x004C8390 + 0x004C80C0; subsystem=PcMatching/Recruitment; sourceEvidence=static_caller_dig.",
-    "likely_role": "PcMatching/Recruitment - C2S - PC-Matching edit-mode toggle. Caller FUN_004C80C0 reads Button_PcMatching_Edit (smoking-gun control name); also invoked from FUN_004C8390 listing-view handler. Transitions between view and edit modes.",
+    "likely_role": "PcMatching/Recruitment - C2S - PC-Matching edit-mode toggle. Caller FUN_004C80C0 reads Button_PcMatching_Edit; also invoked from FUN_004C8390 listing-view handler. Transitions between view and edit modes.",
     "source": "tierd_outbound_scan | pcap_correlation | static_caller_dig"
   },
   {
@@ -356,7 +356,7 @@
     "service": "map",
     "direction": "serverbound",
     "evidence": "Tier-D emitter 0x00532A40 sets stack record `local_8b0 = 0x01DA (opcode); local_8ac = 0x20 (size); [body fields]` then calls FUN_004E0240(&local_8b0, 0x01DA, 0). Routed through Tier-C wrapper FUN_004E0240 (BCS-Y-0312) -> Tier-B Zone forwarder FUN_00DAE010 (BCS-Y-0304). Member of the 24-emitter 0x01C3..0x01DF action-system traffic cluster. | Refined likely_role via pcap correlation against xivl-captures/captures/*.pcapng (54 scenarios). evidenceKind=pcap_unobserved, pcapTotalCount=0, sourceEvidence=pcap_correlation. | Cluster role refined via Ghidra static caller decomposition. Source: ghidra-projects/caller_decomp.txt; caller(s)=(DATA xref only at 0x00FA0320 - vtable slot); subsystem=(vtable-dispatched; subsystem unidentified); sourceEvidence=static_caller_dig. | Vtable-slot resolution via FindSymbolByName ::vftable dump + DumpMemRange + DumpFunctionDecomp + FindBytePattern. Source: ghidra-projects/itemsearch_emitter_decomp.txt (VA 0x00532A40 decomp shows local_8b0=0x1da; local_8ac=0x20; FUN_004E0240(&local_8b0,0x1da,0)); sourceEvidence=vtable_resolution.",
-    "likely_role": "Retainer/ItemSearch (1.x marketplace) - C2S - ItemSearchHistoryViewWidget slot-5 virtual emit. Emitter FUN_00532A40 packs a 0x20-byte payload including widget field +0x240 (an itemId/historyKey set in slot-4 Init FUN_00532BF0), then calls FUN_004E0240(buf, 0x1da, 0). Slot-4 init UI controls are DataMaker_ListBox_Key, TextBlock_Title, Button_Close, TextBlock_NoContents - the purchase-history view pane. Title format-string ID 0x297F is one greater than PriceView's 0x297A, confirming sequential resource-string allocation for the matched widgets. Role: request server-side retainer purchase / sale history for an item or for the player.",
+    "likely_role": "Retainer/ItemSearch (1.x marketplace) - C2S - ItemSearchHistoryViewWidget slot-5 virtual emit. Emitter FUN_00532A40 packs a 0x20-byte payload including widget field +0x240 (an itemId/historyKey set in slot-4 Init FUN_00532BF0), then calls FUN_004E0240(buf, 0x1da, 0). Slot-4 init UI controls are DataMaker_ListBox_Key, TextBlock_Title, Button_Close, TextBlock_NoContents - the purchase-history view pane. Title format-string IDs are 0x297A for PriceView and 0x297F for HistoryView, five apart. Role: request server-side retainer purchase / sale history for an item or for the player.",
     "source": "tierd_outbound_scan | pcap_correlation | static_caller_dig | vtable_resolution"
   },
   {
@@ -405,7 +405,7 @@
     "name": "_0x00CA",
     "service": "map",
     "direction": "serverbound",
-    "evidence": "**Cross-confirmation (second emission site)**: BCS-Y-0321 documented FUN_004DC690 (3364B helper-built path via FUN_004dd620); BCS-Y-0328 confirms FUN_00589030 (stack-record path via FUN_004D6D10 thunk) emits the same opcode 0x00CA size 0x30. The same opcode has TWO distinct production paths in the binary - normal stack-record (FUN_00589030) and large-context helper-built (FUN_004DC690 from tick handler FUN_004E20A0 / BCS-Y-0314).",
+    "evidence": "Cross-confirmation (second emission site): BCS-Y-0321 documented FUN_004DC690 (3364B helper-built path via FUN_004dd620); BCS-Y-0328 confirms FUN_00589030 (stack-record path via FUN_004D6D10 thunk) emits the same opcode 0x00CA size 0x30. The same opcode has two distinct production paths in the binary - normal stack-record (FUN_00589030) and large-context helper-built (FUN_004DC690 from tick handler FUN_004E20A0 / BCS-Y-0314).",
     "likely_role": "Map channel state push (size 0x30 = 48 bytes, dual production paths)",
     "source": "final_gap_outbound_scan"
   },

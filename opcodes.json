@@ -2,7 +2,7 @@
   {
     "version": "1.23b",
     "region": "Global",
-    "description": "FFXIV 1.23b opcode catalog joined with pcap observations and retail-client analysis. WorldMapBackend holds world<->map backbone packets; both backend directions share opcode integers. WorldMapBackend entries are server-to-server and never cross the client TCP socket, so client-capture pcap evidence is structurally impossible for those wire values. A catalog extension added 4 client-side receiver opcodes (0x018E SetRetainerStar, 0x01A2 JobQuestCompleteTriple, 0x01A6 HamletSupplyRanking, 0x01A8 HamletDefenseScore); evidence is xivl-client-structs client receiver decomp.",
+    "description": "FFXIV 1.23b opcode catalog joined with pcap observations and retail-client analysis. WorldMapBackend holds world<->map backbone packets; both backend directions share opcode integers. WorldMapBackend entries are server-to-server and never cross the client TCP socket, so client-capture pcap evidence is structurally impossible for those wire values. The catalog includes 4 client-side receiver opcodes (0x018E SetRetainerStar, 0x01A2 JobQuestCompleteTriple, 0x01A6 HamletSupplyRanking, 0x01A8 HamletDefenseScore); evidence is xivl-client-structs client receiver decomp.",
     "lists": {
       "LobbyServerbound": [
         {
@@ -906,7 +906,7 @@
             64
           ],
           "confidence": "implemented",
-          "notes": "decomp_source=tierd_outbound_scan; bcsy_ref=BCS-Y-0321 + BCS-Y-0324 summary; evidence=Tier-D emitter FUN_004DC690 (3364-byte massive host function, sole caller FUN_004E20A0 = BCS-Y-0314) emits opcode 0x00CA via record-builder FUN_004dd620: `uVar6 = FUN_004dd620((int)_Var13, &local_9f4); FUN_004E0240(uVar6, 0xCA, 0)`. Size determined by FUN_004dd620 (not hardcoded at caller). NOTE this is OUTSIDE the 0x01C3..0x01DF cluster - separate lower-range opcode.; likely_role=Map action-system request (0x01C3-0x01DF cluster: combat/skill/action use; specific role TBD via pcap correlation) | decomp_source=final_gap_outbound_scan; bcsy_ref=BCS-Y-0328 + BCS-Y-0321; evidence=**Cross-confirmation (second emission site)**: BCS-Y-0321 documented FUN_004DC690 (3364B helper-built path via FUN_004dd620); BCS-Y-0328 confirms FUN_00589030 (stack-record path via FUN_004D6D10 thunk) emits the same opcode 0x00CA size 0x30. The same opcode has TWO distinct production paths in the binary - normal stack-record (FUN_00589030) and large-context helper-built (FUN_004DC690 from tick handler FUN_004E20A0 / BCS-Y-0314).; likely_role=Map channel state push (size 0x30 = 48 bytes, dual production paths) | pcap_observations merged from xivl-client-structs pcap_opcode_evidence.json."
+          "notes": "decomp_source=tierd_outbound_scan; bcsy_ref=BCS-Y-0321 + BCS-Y-0324 summary; evidence=Tier-D emitter FUN_004DC690 (3364-byte host function, sole caller FUN_004E20A0 = BCS-Y-0314) emits opcode 0x00CA via record-builder FUN_004dd620: `uVar6 = FUN_004dd620((int)_Var13, &local_9f4); FUN_004E0240(uVar6, 0xCA, 0)`. Size determined by FUN_004dd620 (not hardcoded at caller). NOTE this is OUTSIDE the 0x01C3..0x01DF cluster - separate lower-range opcode.; likely_role=Map action-system request (0x01C3-0x01DF cluster: combat/skill/action use; specific role TBD via pcap correlation) | decomp_source=final_gap_outbound_scan; bcsy_ref=BCS-Y-0328 + BCS-Y-0321; evidence=Cross-confirmation (second emission site): BCS-Y-0321 documented FUN_004DC690 (3364B helper-built path via FUN_004dd620); BCS-Y-0328 confirms FUN_00589030 (stack-record path via FUN_004D6D10 thunk) emits the same opcode 0x00CA size 0x30. The same opcode has two distinct production paths in the binary - normal stack-record (FUN_00589030) and large-context helper-built (FUN_004DC690 from tick handler FUN_004E20A0 / BCS-Y-0314).; likely_role=Map channel state push (size 0x30 = 48 bytes, dual production paths) | pcap_observations merged from xivl-client-structs pcap_opcode_evidence.json."
         },
         {
           "name": "LockTargetPacket",
@@ -1592,7 +1592,7 @@
             32
           ],
           "confidence": "decomp_routed",
-          "notes": "decomp_source=final_gap_outbound_scan; bcsy_ref=BCS-Y-0329; evidence=FUN_0075E8D0 builds stack record `local_8b0=0x130, local_8ac=0x20` then calls FUN_004D6D30 (BCS-Y-0323 gating thunk, sole caller of that thunk) with `(&local_8b0, 0, 0)`. Routes thunk -> FUN_004E0240 -> FUN_00DAE010. Opcode 0x0130 = decimal 304, sits OUTSIDE the 0x01C3-0x01DF action cluster.; likely_role=Map channel mid-range opcode (separate from action cluster); lua_binding=CharaBase._updateGroup -> 0x0130 via FUN_0075E860 (confirmed_direct_emit, BCS-Y-0380); lua_binding=GroupBase._updateMemberAndInformation -> 0x0130 via 0x0075E8D0 (confirmed_direct_emit, BCS-Y-0382, recovered via reverse-BFS from send-helper caller lists - a reverse-BFS methodological breakthrough); naming_upgrade=_0x0130 -> UpdateGroupPacket based on the two confirmed Lua triggers _updateGroup and _updateMemberAndInformation both emitting this opcode with size 0x20, matching the convention of neighbor 0x0131 UpdateItemPackagePacket (Lua trigger _updateItemPackage)"
+          "notes": "decomp_source=final_gap_outbound_scan; bcsy_ref=BCS-Y-0329; evidence=FUN_0075E8D0 builds stack record `local_8b0=0x130, local_8ac=0x20` then calls FUN_004D6D30 (BCS-Y-0323 gating thunk, sole caller of that thunk) with `(&local_8b0, 0, 0)`. Routes thunk -> FUN_004E0240 -> FUN_00DAE010. Opcode 0x0130 = decimal 304, sits OUTSIDE the 0x01C3-0x01DF action cluster.; likely_role=Map channel mid-range opcode (separate from action cluster); lua_binding=CharaBase._updateGroup -> 0x0130 via FUN_0075E860 (confirmed_direct_emit, BCS-Y-0380); lua_binding=GroupBase._updateMemberAndInformation -> 0x0130 via 0x0075E8D0 (confirmed_direct_emit, BCS-Y-0382, recovered via reverse-BFS from send-helper caller lists); naming_upgrade=_0x0130 -> UpdateGroupPacket based on the two confirmed Lua triggers _updateGroup and _updateMemberAndInformation both emitting this opcode with size 0x20, matching the convention of neighbor 0x0131 UpdateItemPackagePacket (Lua trigger _updateItemPackage)"
         },
         {
           "name": "_0x01DB",
@@ -5826,13 +5826,13 @@
       ]
     },
     "corpus_evidence_files": {
-      "description": "Four corpus-mining outputs from the cross-reference extractors. Each surfaces a different angle on the existing pcap corpus without requiring new captures. Per-opcode notes reference these files; this index documents the files at the catalog root.",
+      "description": "Four outputs from the cross-reference extractors summarize different aspects of the existing pcap corpus without requiring new captures. Per-opcode notes reference these files, which are indexed at the catalog root.",
       "files": [
         {
           "path": "data/zone_handoff_evidence.json",
           "extractor": "tools/extractors/extract_zone_handoff_evidence.py",
           "scope": "5 zone-transition pcaps; 55 cross-capture rare s2c opcodes",
-          "key_finding": "No opcode matches the '1-2 fires per capture spread non-periodically' signature of a true trigger-box. Inventory snapshot opcodes (0x016D/0x016E) and GroupMembersX08 (0x017F) hit all 5 captures but as zone-load bundle members, not trigger-box markers. Live capture remains the only path for resolving trigger-box slots 19-22 (now reclassified client_internal via the vftable-write immediate scan, so this finding is closure rather than blocker).",
+          "key_finding": "No opcode matches the '1-2 fires per capture spread non-periodically' signature of a true trigger-box. Inventory snapshot opcodes (0x016D/0x016E) and GroupMembersX08 (0x017F) hit all 5 captures but as zone-load bundle members, not trigger-box markers. The vftable-write immediate scan classifies trigger-box slots 19-22 as client_internal.",
           "annotated_opcodes": [
             "0x016D",
             "0x016E",
@@ -5843,7 +5843,7 @@
           "path": "data/property_targets.json",
           "extractor": "tools/extractors/extract_property_targets.py",
           "scope": "8918 SetActorProperty (0x0137) records across 15 target families",
-          "key_finding": "339 distinct (target, id) pairs across 15 targets. 263 distinct property IDs, 100% already resolved via gam_hash_names.json. Top targets: charaWork/potencial (50 records, 8 ids), charaWork/battleParameter (36/14), charaWork/battleStateForSelf (35/17). Structural enrichment for understanding what SyncMemory carries; future captures with unresolved hashes can use target prefix narrowing.",
+          "key_finding": "339 distinct (target, id) pairs across 15 targets. 263 distinct property IDs, 100% already resolved via gam_hash_names.json. Top targets: charaWork/potencial (50 records, 8 ids), charaWork/battleParameter (36/14), charaWork/battleStateForSelf (35/17). These observations describe what SyncMemory carries; target prefixes can help narrow unresolved hashes.",
           "annotated_opcodes": [
             "0x0137"
           ]
@@ -5864,7 +5864,7 @@
           "path": "data/npc_log_evidence.json",
           "extractor": "tools/extractors/extract_npc_log_evidence.py",
           "scope": "10 NPC-interaction captures vs 8 non-NPC baselines",
-          "key_finding": "All four Text Sheet Message family opcodes (0x0166-0x0169) are zero-baseline NPC-only with high enrichment; 0x0167 has 63 fires in 4/10 NPC captures (enrichment 0.998). Used to confirm SendLogReceiver (slot 63) opcode binding for the 0x0157-0x016A range. This file is the only one of the four extractor outputs integrated into the catalog; the 20 SendLog opcode entries in MapClientbound already reference it.",
+          "key_finding": "All four Text Sheet Message family opcodes (0x0166-0x0169) are zero-baseline NPC-only with high enrichment; 0x0167 has 63 fires in 4/10 NPC captures (enrichment 0.998). Used to confirm SendLogReceiver (slot 63) opcode binding for the 0x0157-0x016A range. This file is the only one of the four extractor outputs integrated into the catalog; the 20 SendLog opcode entries in MapClientbound reference it.",
           "annotated_opcodes": [
             "0x0157",
             "0x0158",
@@ -5890,7 +5890,7 @@
         }
       ]
     },
-    "pcap_c2s_evidence_note": "Added pcap-grounded observedIn / payloadLengths to c2s entries (xivl-client-structs BCS-Y series). Source: 54 pcapng scenarios in xivl-captures/captures, parsed via 1.x BasePacket / SubPacket / GameMessage framing (unencrypted in this corpus, zlib decompression for s2c-side). Also refined the 0x01C3..0x01DF + 0x00CA generic placeholder likely_role labels on decomp_opcodes.json entries from pcap correlation - the cluster was a static-scan grouping, not a runtime grouping (combat c2s is 0x012D, not the cluster).",
-    "pcap_s2c_evidence_note": "Mirrored the earlier c2s pcap-evidence merge on clientbound entries (xivl-client-structs BCS-Y): 48 unique s2c opcodes in the corpus get observedIn / payloadLengths from pcap_opcode_evidence.json. Heavy s2c traffic concentrated in party_battle_leve (45 unique), moving_around_gridania (22), gridania_to_coerthas (18)."
+    "pcap_c2s_evidence_note": "The c2s entries retain pcap-grounded observedIn / payloadLengths (xivl-client-structs BCS-Y series). Source: 54 pcapng scenarios in xivl-captures/captures, parsed via 1.x BasePacket / SubPacket / GameMessage framing (unencrypted in this corpus, zlib decompression for s2c-side). The 0x01C3..0x01DF + 0x00CA generic placeholder likely_role labels on decomp_opcodes.json entries reflect pcap correlation - the cluster was a static-scan grouping, not a runtime grouping (combat c2s is 0x012D, not the cluster).",
+    "pcap_s2c_evidence_note": "Like the c2s entries, clientbound entries retain pcap evidence from xivl-client-structs BCS-Y: 48 unique s2c opcodes in the corpus get observedIn / payloadLengths from pcap_opcode_evidence.json. Heavy s2c traffic concentrated in party_battle_leve (45 unique), moving_around_gridania (22), gridania_to_coerthas (18)."
   }
 ]

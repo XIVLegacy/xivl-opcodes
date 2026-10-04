@@ -22,7 +22,7 @@
     "skip_slots_note": "Slot 0 is the LuaActorImpl base destructor; slot 88 is the std::bad_alloc allocation-failure path. Both are bookkeeping slots, not real receivers. They count toward the 33 receiver-pattern count via the vftable-write sweep, but neither fires Lua nor packet-binds. Real receiver-pattern Lua-bound = 15; real receiver-pattern pure-native = 16; skip = 2.",
     "category_totals_sanity": "15 (receiver+lua) + 16 (receiver no-lua real) + 2 (skip) + 18 (direct+lua) + 39 (direct no-lua) = 90"
   },
-  "lua_bound_slot_count_cross_check": "An earlier cross-check reported '34/90 slots fire Lua via apply chain'. This walker's output: 33/90. The 1-slot delta is likely methodology variation (different BFS depth or filtering); both figures are in good agreement.",
+  "lua_bound_slot_count_cross_check": "An earlier cross-check reported '34/90 slots fire Lua via apply chain'. This walker reports 33/90. The 1-slot delta is likely methodology variation (different BFS depth or filtering).",
   "receiver_pattern_lua_bound": {
     "description": "15 slots that have Receiver-class scaffolding AND fire Lua callbacks. These are the canonical full-stack receivers: opcode-bound, construct-apply-destruct with Lua callback fire in apply.",
     "slots": [
@@ -150,7 +150,7 @@
     ]
   },
   "receiver_pattern_pure_native": {
-    "description": "16 real slots that have Receiver-class scaffolding but do NOT fire Lua callbacks. Likely pure-server-state writers (e.g., copy packet bytes to client state, no UI/script surface). Excludes slot 0 (LuaActorImpl base destructor) and slot 88 (std::bad_alloc), which the vftable-write sweep also reported but are not real receivers.",
+    "description": "16 real slots that have Receiver-class scaffolding but do not fire Lua callbacks. Likely pure-server-state writers (e.g., copy packet bytes to client state, no UI/script surface). Excludes slot 0 (LuaActorImpl base destructor) and slot 88 (std::bad_alloc), which the vftable-write sweep also reported but are not real receivers.",
     "slots": [
       48,
       57,
@@ -171,7 +171,7 @@
     ]
   },
   "direct_dispatch_lua_bound": {
-    "description": "18 slots without Receiver-class scaffolding that DO fire Lua callbacks. These are 'Lua event dispatchers' - simpler than Command-pattern receivers, but still firing named Lua callbacks. Useful for UI, cutscene, targeting, and other client-driven event flows.",
+    "description": "18 slots without Receiver-class scaffolding that fire Lua callbacks. These are 'Lua event dispatchers' - simpler than Command-pattern receivers, but still firing named Lua callbacks. Useful for UI, cutscene, targeting, and other client-driven event flows.",
     "slots": [
       {
         "slot": 16,
@@ -326,7 +326,7 @@
     ]
   },
   "direct_dispatch_pure_native": {
-    "description": "39 slots without Receiver-class scaffolding that do NOT fire Lua callbacks. Each named after option-3 batch decomp. These are pure-native accessor/setter/utility methods on LuaActorImpl - the closest thing to plain getter/setter slots in the vftable. Categories below.",
+    "description": "39 slots without Receiver-class scaffolding that do not fire Lua callbacks. Names reflect decompiled body shapes from the option-3 analysis. These are pure-native accessor/setter/utility methods on LuaActorImpl - the closest thing to plain getter/setter slots in the vftable. Categories below.",
     "categories": {
       "stub_void": "Empty body, returns void. Likely no-op virtual that derived classes (MyPlayer, NpcBase) override.",
       "return_true": "Returns 1 (true predicate). Used as 'isLuaActorImpl_y' or similar type queries.",

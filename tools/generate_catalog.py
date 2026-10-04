@@ -6,7 +6,7 @@ from pathlib import Path
 
 from _json_io import CONSTANTS_PATH, OPCODES_PATH, write_json
 
-EXPECTED_TOP_DESC = "FFXIV 1.23b opcode catalog joined with pcap observations and retail-client analysis. WorldMapBackend holds world<->map backbone packets; both backend directions share opcode integers. WorldMapBackend entries are server-to-server and never cross the client TCP socket, so client-capture pcap evidence is structurally impossible for those wire values. A catalog extension added 4 client-side receiver opcodes (0x018E SetRetainerStar, 0x01A2 JobQuestCompleteTriple, 0x01A6 HamletSupplyRanking, 0x01A8 HamletDefenseScore); evidence is xivl-client-structs client receiver decomp."
+EXPECTED_TOP_DESC = "FFXIV 1.23b opcode catalog joined with pcap observations and retail-client analysis. WorldMapBackend holds world<->map backbone packets; both backend directions share opcode integers. WorldMapBackend entries are server-to-server and never cross the client TCP socket, so client-capture pcap evidence is structurally impossible for those wire values. The catalog includes 4 client-side receiver opcodes (0x018E SetRetainerStar, 0x01A2 JobQuestCompleteTriple, 0x01A6 HamletSupplyRanking, 0x01A8 HamletDefenseScore); evidence is xivl-client-structs client receiver decomp."
 REVERIFY_METHOD = "live-validation: verify that the retail 1.23b client accepts the behavior in a live session"
 CLIENT_SEMANTICS_PATH = (
     Path(__file__).resolve().parent.parent / "data" / "client_opcode_semantics.json"
