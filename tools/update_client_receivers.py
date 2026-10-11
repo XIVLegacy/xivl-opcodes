@@ -8,8 +8,7 @@ import json
 import sys
 from pathlib import Path
 
-sys.path.insert(0, str(Path(__file__).resolve().parent.parent))
-from _json_io import DATA_DIR, write_json  # noqa: E402
+from _json_io import DATA_DIR, write_json
 
 sys.stdout.reconfigure(encoding="utf-8")
 

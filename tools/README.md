@@ -116,7 +116,7 @@ writer. Abbreviated, uppercase, or omitted hashes are rejected.
   data flow in a fresh analyzed program and emits one private structured
   observation. It emits no disassembly, bytes, paths, names, or expected
   case/slot values.
-- `extractors/update_client_receivers.py` updates `data/client_receivers.json`
+- `update_client_receivers.py` updates `data/client_receivers.json`
   in either `apply-chain` or `indirect` mode from an explicit evidence input.
   Re-run a mode only when its named evidence input changes.
 

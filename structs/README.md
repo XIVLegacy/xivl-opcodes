@@ -15,7 +15,7 @@ Each emitted struct:
 - includes only the standard integer types it needs;
 - uses `#pragma pack(push, 1)` and `#pragma pack(pop)`;
 - represents the payload after the 8-byte inner packet header, not the whole
-  wire frame;
+  wire frame or a general client object model;
 - ends with a `static_assert` that locks the emitted struct size.
 
 Field names and types describe the evidence-shaped bytes emitted by the
@@ -54,6 +54,10 @@ The generator maps catalog buckets to these output paths:
 | `WorldClientbound` | `world/clientbound.h` |
 | `WorldMapBackend` | `worldmap/backend.h` |
 
+The map headers define `MapClientbound` and `MapServerbound` payloads in
+`bahamut::opcodes::map::{clientbound,serverbound}`. Consumers use the root
+catalog for opcode identity and the generated size assertions for byte layout.
+
 A header is emitted when the pinned layout digest contains a matching layout
 for a catalog bucket. Do not create a hand-maintained substitute for a bucket
 without generated evidence.
@@ -67,8 +71,11 @@ python -m pip install -r tools\requirements.txt
 python tools\generate_structs.py --validate
 ```
 
-The default inputs are the pinned payload-layout and payload-sample files in
-`data/vendor/captures/` plus the root `opcodes.json`. Explicit digest or catalog
+The default inputs are `data/vendor/captures/payload_layouts.json` for field
+offsets, widths, and evidence roles, `data/vendor/captures/payload_samples.json`
+for observed payload bytes, and root `opcodes.json` for bucket and opcode
+assignment. The first two are local packet-observation mirrors pinned by
+`data/vendor/captures/PROVENANCE.json`. Explicit digest or catalog
 paths are available only to research runs and are excluded from repository
 validation. The `--validate` option recognizes declarations, verifies balanced
 struct blocks, and checks matching size assertions.
