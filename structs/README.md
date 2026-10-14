@@ -2,7 +2,7 @@
 
 `structs/` contains generated C++ packet-payload headers organized by service
 bucket. Each header declares packed payload structs in the namespace
-`bahamut::opcodes::<bucket>::<direction>`.
+`xivl::opcodes::<bucket>::<direction>`.
 
 ## Consumer contract
 
@@ -55,7 +55,7 @@ The generator maps catalog buckets to these output paths:
 | `WorldMapBackend` | `worldmap/backend.h` |
 
 The map headers define `MapClientbound` and `MapServerbound` payloads in
-`bahamut::opcodes::map::{clientbound,serverbound}`. Consumers use the root
+`xivl::opcodes::map::{clientbound,serverbound}`. Consumers use the root
 catalog for opcode identity and the generated size assertions for byte layout.
 
 A header is emitted when the pinned layout digest contains a matching layout

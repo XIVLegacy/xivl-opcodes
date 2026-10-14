@@ -2398,7 +2398,7 @@
           "observedIn": [],
           "payloadLengths": [],
           "confidence": "decomp_routed",
-          "notes": "client-consumable but never retail-observed: CharaElement vftable[9] FUN_0058CCA0 handles cases 0xD6/0xD7 as a shared fallthrough -> FUN_00586870 record loop (BCS-Y-0622) populating the actor+0xaac dword table; 0x00D7 reads its record count at packet+0x90 while 0x00D6 reads at +0x110 (see 0x00D6_state_flag_pipeline.json in the sibling structs repo); 0 pcap hits across the 54-capture corpus; no parity-baseline emitter; bahamut keeps MapServerOpcode::Opaque0xD7 as a reserved enum marker with no builder; no_pcap_evidence"
+          "notes": "client-consumable but never retail-observed: CharaElement vftable[9] FUN_0058CCA0 handles cases 0xD6/0xD7 as a shared fallthrough -> FUN_00586870 record loop (BCS-Y-0622) populating the actor+0xaac dword table; 0x00D7 reads its record count at packet+0x90 while 0x00D6 reads at +0x110 (see 0x00D6_state_flag_pipeline.json in the sibling structs repo); 0 pcap hits across the 54-capture corpus; no parity-baseline emitter; no_pcap_evidence"
         },
         {
           "name": "SetActorBGPropertiesPacket",
@@ -4699,7 +4699,7 @@
             40
           ],
           "confidence": "implemented",
-          "notes": "pcap_and_client_decomp; service_inferred=map_default_guess; role=server-to-client per-mob enmity/hate UI indicator. Observed across 4 captures. Client decomp bound this opcode to HateStatusReceiver (RTTI 0xc5733c, slot1 FUN_0089d030, LuaActorImpl::vftable[66]). The handler reads u32 from body+0x0 (handler-local +0x4) and u16 from body+0x4 (handler-local +0x8), writing them inline to NpcBase+0x154 (u32 hate_value, see BCS-S-0010) and NpcBase+0x158 (u16 hate_aux). The 4-byte handler-local offset difference is the subpacket descriptor prefix bahamut surfaces to slot1 input pointers.",
+          "notes": "pcap_and_client_decomp; service_inferred=map_default_guess; role=server-to-client per-mob enmity/hate UI indicator. Observed across 4 captures. Client decomp bound this opcode to HateStatusReceiver (RTTI 0xc5733c, slot1 FUN_0089d030, LuaActorImpl::vftable[66]). The handler reads u32 from body+0x0 (handler-local +0x4) and u16 from body+0x4 (handler-local +0x8), writing them inline to NpcBase+0x154 (u32 hate_value, see BCS-S-0010) and NpcBase+0x158 (u16 hate_aux). The 4-byte handler-local offset difference is the subpacket descriptor prefix surfaced to slot1 input pointers.",
           "retail_class_name": "Application::Lua::Script::Client::Command::Network::HateStatusReceiver"
         },
         {

@@ -6,7 +6,7 @@
 
 #pragma pack(push, 1)
 
-namespace bahamut::opcodes::world
+namespace xivl::opcodes::world
 {
 namespace serverbound
 {
@@ -29,6 +29,6 @@ struct SelectedGroupChatMessageBody
 static_assert(sizeof(SelectedGroupChatMessageBody) == 528, "SelectedGroupChatMessageBody size mismatch");
 
 } // namespace serverbound
-} // namespace bahamut::opcodes::world
+} // namespace xivl::opcodes::world
 
 #pragma pack(pop)

@@ -6,7 +6,7 @@
 
 #pragma pack(push, 1)
 
-namespace bahamut::opcodes::map
+namespace xivl::opcodes::map
 {
 namespace clientbound
 {
@@ -3482,6 +3482,6 @@ struct PlayerSearchCommentResultBody
 static_assert(sizeof(PlayerSearchCommentResultBody) == 624, "PlayerSearchCommentResultBody size mismatch");
 
 } // namespace clientbound
-} // namespace bahamut::opcodes::map
+} // namespace xivl::opcodes::map
 
 #pragma pack(pop)

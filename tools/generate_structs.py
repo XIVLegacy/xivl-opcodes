@@ -395,7 +395,7 @@ def build_header(bucket: str, entries: list[tuple[str, str, dict, list[dict]]]) 
         "",
         "#pragma pack(push, 1)",
         "",
-        f"namespace bahamut::opcodes::{subdir} {{",
+        f"namespace xivl::opcodes::{subdir} {{",
         f"namespace {leaf} {{",
         "",
     ]
@@ -411,7 +411,7 @@ def build_header(bucket: str, entries: list[tuple[str, str, dict, list[dict]]]) 
         out.append(text)
         out.append("")
     out.append(f"}}  // namespace {leaf}")
-    out.append(f"}}  // namespace bahamut::opcodes::{subdir}")
+    out.append(f"}}  // namespace xivl::opcodes::{subdir}")
     out.append("")
     out.append("#pragma pack(pop)")
     out.append("")

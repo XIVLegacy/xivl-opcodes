@@ -6,7 +6,7 @@
 
 #pragma pack(push, 1)
 
-namespace bahamut::opcodes::map
+namespace xivl::opcodes::map
 {
 namespace serverbound
 {
@@ -257,6 +257,6 @@ struct _0x01DDBody
 static_assert(sizeof(_0x01DDBody) == 272, "_0x01DDBody size mismatch");
 
 } // namespace serverbound
-} // namespace bahamut::opcodes::map
+} // namespace xivl::opcodes::map
 
 #pragma pack(pop)
