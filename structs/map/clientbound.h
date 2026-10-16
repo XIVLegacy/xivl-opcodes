@@ -3259,7 +3259,7 @@ struct _0x01DFBody
 static_assert(sizeof(_0x01DFBody) == 944, "_0x01DFBody size mismatch");
 
 // 0x01e0 (opcode 480) - sub_size=648B body=624B samples=1
-struct PlayerSearchCommentResultBody
+struct _0x01E0Body
 {
     uint8_t _const0;      // body[+0] = 0xeb
     uint8_t _const1;      // body[+1] = 0xe8
@@ -3479,7 +3479,7 @@ struct PlayerSearchCommentResultBody
     uint8_t _pad215[195]; // body[+429..+623] zero
 };
 
-static_assert(sizeof(PlayerSearchCommentResultBody) == 624, "PlayerSearchCommentResultBody size mismatch");
+static_assert(sizeof(_0x01E0Body) == 624, "_0x01E0Body size mismatch");
 
 } // namespace clientbound
 } // namespace xivl::opcodes::map

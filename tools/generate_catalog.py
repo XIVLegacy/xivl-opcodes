@@ -1278,7 +1278,7 @@ def apply_zone_dummy_cluster(top: dict) -> tuple[int, int]:
             f"retail_client_analysis=ZoneProtoDown opcode {opcode_hex} case {slot - 2} routes callback slot {slot} to {function}",
             "callback_body=ret 0xc with no payload reads or state writes",
             "semantic_status=decomp_routed",
-            "naming=placeholder retained because retail establishes no clientbound packet noun",
+            "naming=placeholder retained because no retail packet class name is established",
         ]
         if prior_name:
             parts.append(f"prior_packet_label={prior_name}")
@@ -1317,6 +1317,174 @@ def apply_zone_dummy_cluster(top: dict) -> tuple[int, int]:
 
     entries.sort(key=lambda entry: (entry["opcode"], entry["name"]))
     return applied, inserted
+
+
+def apply_retained_contracts(top: dict) -> int:
+    """Attach bounded retail contracts without treating native sizes as captures."""
+    structures = "xivl-client-structs:manifests/"
+    search = structures + "search_recruitment_wire_contract.json"
+    study = "xivl-captures:studies/group-combat-wire-contracts/README.md"
+    outbound = {
+        0x01C6: (
+            "FUN_004B7CC0",
+            40,
+            24,
+            "recruitment acceptance key; application+0x0c has no established write",
+        ),
+        0x01C7: (
+            "FUN_004B7C10",
+            72,
+            56,
+            "recruitment search controls through FUN_004CFDA0",
+        ),
+        0x01DC: (
+            "FUN_004C7490",
+            568,
+            552,
+            "PcSearch profile update through FUN_00693290 and FUN_00874570",
+        ),
+        0x01DD: (
+            "FUN_004C7300",
+            280,
+            264,
+            "PcSearch tagged filters through FUN_00693650 and FUN_008746E0; name-prefix and paging fields unproved",
+        ),
+        0x01DE: ("FUN_0085E1B0", 80, 64, "ItemSearchDirectPurchaseWidget request"),
+        0x01DF: (
+            "FUN_0051A970",
+            296,
+            280,
+            "ItemSearchListWidget request; distinct from clientbound player-search results",
+        ),
+    }
+    outbound_refs = {
+        0x01C6: "BCS-Y-0324",
+        0x01C7: "BCS-Y-0319",
+        0x01DC: "BCS-Y-0326",
+        0x01DD: "BCS-Y-0325",
+        0x01DE: "BCS-Y-0320",
+        0x01DF: "BCS-Y-0693",
+    }
+    inbound = {
+        0x01C6: (
+            "FUN_004C9D60",
+            "first application byte is acceptance answer; zero emits text 0x0b8d; operation state becomes 12; full extent unknown",
+        ),
+        0x01C7: (
+            "FUN_004B5F50",
+            "30 rows of stride 80; count at application+0x960; total at +0x964; minimum read extent 2408, not an observed size",
+        ),
+        0x01C8: ("FUN_004C9BB0", "dispatch binding only; field layout unresolved"),
+        0x01DA: (
+            "FUN_004B6250",
+            "dispatch binding only; commerce field semantics unresolved",
+        ),
+        0x01DB: (
+            "FUN_004B6270",
+            "dispatch binding only; commerce field semantics unresolved",
+        ),
+        0x01DC: (
+            "FUN_004B6290",
+            "dispatch binding only; commerce field semantics unresolved",
+        ),
+        0x01DD: (
+            "FUN_004B62C0",
+            "dispatch binding only; commerce field semantics unresolved",
+        ),
+        0x01DF: (
+            "FUN_004C77B0",
+            "12-byte header and 92-byte player rows; captured application extent 936; no native capacity clamp",
+        ),
+        0x01E0: (
+            "FUN_004C78A0",
+            "indexed comments with big-endian u16 lengths; flag 2 completes request; partial-record continuation unproved",
+        ),
+    }
+    additions = {
+        ("MapServerbound", 0x012D): (
+            "direct_fallback=both _callServerOnCommand and _doServerOnCommand construct this opcode; "
+            "direct_fields=+04 command binding reference,+08 self actor+14; event wrappers have a different +08 source; "
+            "typed_tail=scalar 00, nil 05, control 06, item 07, adjacent-item group 08, item metadata 09, terminator 0f; "
+            "native_boundary=runtime command descriptor registration; server_boundary=consumption of queued record; "
+            "wire_contract=" + structures + "player_command_wire_contract.json"
+        ),
+        ("MapClientbound", 0x00D7): (
+            "record_layout=application+0, stride 8, u32 value+0 and u8 index+4; count u8 at application+0x80; "
+            "setter=FUN_00586870 accepts index below 28; full packet extent and server semantics unresolved; "
+            "wire_contract=" + structures + "appearance_record_wire_contract.json"
+        ),
+        ("MapClientbound", 0x01A6): (
+            "native_copy_extent=1520 application bytes; 20 rows of stride 76; first dword zero skips row; "
+            "consumer=AreaBase ranking cache; no captured packet length; wire_contract="
+            + structures
+            + "hamlet_wire_contract.json"
+        ),
+        ("MapClientbound", 0x01A8): (
+            "native_copy_extent=264 application bytes; selectors and factors drive client score lookup; "
+            "totals_getter=consumes and frees player score cache; no captured packet length or server scoring policy; "
+            "wire_contract=" + structures + "hamlet_wire_contract.json"
+        ),
+        ("MapClientbound", 0x017A): (
+            "retained_corpus=275 packets,338 typed properties; application size 144, stream capacity 135; "
+            "max_observed_stream=47 bytes and 6 properties; no type-20002 player-linkshell header or capacity split witnessed; "
+            "capture_study=" + study
+        ),
+        ("MapClientbound", 0x0187): (
+            "full_corpus=44 packets across 14 captures; prior 33-packet count describes the retained sample subset; "
+            "sequence=occupancy precedes first damage result in selected combat examples; five same-group deletions in party example; "
+            "boundary=no disengagement trigger or server ownership policy proved; capture_study="
+            + study
+        ),
+        ("MapClientbound", 0x0195): (
+            "retained_corpus=149 packets; application fields are u32 target and u16 indicator with zero u16 tail; "
+            "combat_examples=100,100,65535,65535; intermediate damage results lack indicator packets; "
+            "boundary=no percentage,rank,formula,per-hit cadence or sentinel meaning proved; capture_study="
+            + study
+        ),
+    }
+
+    def select(bucket: str, opcode: int) -> dict:
+        rows = [row for row in top["lists"][bucket] if row["opcode"] == opcode]
+        if len(rows) != 1:
+            raise ValueError(
+                f"retained contract requires one {bucket} 0x{opcode:04x} row"
+            )
+        return rows[0]
+
+    for opcode, (function, ipc, application, role) in outbound.items():
+        row = select("MapServerbound", opcode)
+        row["implementationAnchor"] = None
+        row["decompAnchor"] = function
+        row["confidence"] = "decomp_routed"
+        if not row["observedIn"]:
+            row["payloadLengths"] = []
+        row["notes"] = (
+            f"retail_client_analysis={role}; native_ipc_size={ipc}; native_application_size={application}; "
+            f"framing=observed subevent adds 16 bytes to IPC size; wire_contract={search}; "
+            f"bcsy_ref={outbound_refs[opcode]}; "
+            "client_only=construction does not establish server acceptance or policy"
+        )
+        if not row["observedIn"]:
+            row["notes"] += "; no_pcap_evidence"
+    for opcode, (function, role) in inbound.items():
+        row = select("MapClientbound", opcode)
+        if opcode == 0x01E0:
+            row["name"] = "_0x01E0"
+            row["implementationAnchor"] = None
+            row["decompAnchor"] = function
+            row["confidence"] = "decomp_routed"
+            row["notes"] = "ZoneProtoDown_callback=FUN_00DB90F0 ret 0xc"
+        additions[("MapClientbound", opcode)] = (
+            f"application_consumer={function} through FUN_004CE190; {role}; "
+            "dispatch_order=relative to ZoneProtoDown unestablished; "
+            f"wire_contract={search}; server_behavior=unproved"
+        )
+    for (bucket, opcode), note in additions.items():
+        row = select(bucket, opcode)
+        # Replace the owned suffix so repeated generation is byte-stable.
+        prefix = row.get("notes", "").split("; retained_contract=", 1)[0]
+        row["notes"] = prefix + "; retained_contract=" + note
+    return len(outbound) + len(additions)
 
 
 def apply_map_social_neighborhood(top: dict) -> tuple[int, int]:
@@ -1597,6 +1765,9 @@ def main() -> int:
     removed_external = 0
     for entries in top["lists"].values():
         for entry in entries:
+            # Remove the generated contract suffix before other producers append
+            # their evidence tokens; otherwise the next pass would discard them.
+            entry["notes"] = entry.get("notes", "").split("; retained_contract=", 1)[0]
             notes, removed = scrub_emulator_notes(entry.get("notes", ""))
             if removed:
                 entry["notes"] = notes
@@ -1862,6 +2033,9 @@ def main() -> int:
     print(
         f"Applied {lobby_applied} lobby census attributions ({lobby_skipped} skipped)"
     )
+
+    retained_applied = apply_retained_contracts(top)
+    print(f"Applied {retained_applied} retained retail contracts")
 
     stale_removed, ambiguity_added, ambiguity_removed = reconcile_pcap_notes(top)
     print(f"Removed {stale_removed} stale no-pcap note tokens")

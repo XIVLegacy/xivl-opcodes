@@ -253,8 +253,8 @@ def validate() -> list[str]:
     for token in (
         "achievement_id:u32@+0x00",
         "progress_count:u32@+0x04",
-        "progress_flags:u32@+0x08",
-        "unknown:u32@+0x0C",
+        "cached_unknown_value:u32@+0x08",
+        "unconsumed:u32@+0x0C",
     ):
         if token not in rate_update["fields"]:
             errors.append(f"s2c 0x019F fields lost {token!r}")
@@ -262,7 +262,9 @@ def validate() -> list[str]:
         "LuaActorImpl slot 77",
         "_onReceiveAchievementRate",
         "closing dword is not copied",
-        "No persistent client-state write",
+        "caches progress_count and the third dword",
+        "min_by_signed_comparison(progress_count,M),M",
+        "The third Lua argument is not the third wire dword",
     ):
         if token not in rate_update["flow"]:
             errors.append(f"s2c 0x019F route lost {token!r}")
@@ -295,7 +297,7 @@ def validate() -> list[str]:
     unresolved = " ".join(evidence.get("unresolvedBoundaries", []))
     for token in (
         "nonce, challenge, or authorization token",
-        "progress_flags bits",
+        "cached third dword",
         "+0xE9..+0xEB",
     ):
         if token not in unresolved:

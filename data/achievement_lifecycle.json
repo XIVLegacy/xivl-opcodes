@@ -130,28 +130,29 @@
       "observedOccurrences": 0,
       "captureCount": 0,
       "retainedSamples": 0,
-      "fields": "achievement_id:u32@+0x00,progress_count:u32@+0x04,progress_flags:u32@+0x08,unknown:u32@+0x0C",
-      "flow": "CharaElement slot 9 routes opcode 0x019F through FUN_00575200 to LuaActorImpl slot 77 and AchievementAchievedCountReceiver. The receiver copies the first three dwords into its temporary object and forwards them to _onReceiveAchievementRate; the closing dword is not copied by this route. No persistent client-state write is established before the Lua callback.",
+      "fields": "achievement_id:u32@+0x00,progress_count:u32@+0x04,cached_unknown_value:u32@+0x08,unconsumed:u32@+0x0C",
+      "flow": "CharaElement slot 9 routes 0x019F through FUN_00575200 to LuaActorImpl slot 77 and AchievementAchievedCountReceiver. FUN_0075A630 copies application+0/+4/+8 only. FUN_00704690 caches progress_count and the third dword in the player achievement map before notification, then sends _onReceiveAchievementRate(achievement_id,min_by_signed_comparison(progress_count,M),M), where M is a client lookup maximum. The third Lua argument is not the third wire dword. The closing dword is not copied. Lua formats numerator/denominator progress, without decoding application+8 as completed/new/in-progress flags.",
       "sourceRefs": [
         "xivl-client-structs:manifests/symbols.json#BCS-Y-0040",
         "xivl-client-structs:manifests/symbols.json#BCS-Y-1641",
         "xivl-client-structs:manifests/symbols.json#BCS-Y-0652",
         "xivl-client-structs:manifests/structs.json#BCS-S-0278",
         "xivl-client-structs:manifests/structs.json#BCS-S-0453",
-        "xivl-captures:derived/observations.json#inner_opcodes.s2c.0x019f"
+        "xivl-captures:derived/observations.json#inner_opcodes.s2c.0x019f",
+        "xivl-client-structs:manifests/achievement_rate_consumer.json"
       ]
     }
   ],
   "relationships": {
     "sameNumberBoundary": "Wire integer 0x0134 is direction-scoped: c2s is the _setAchievementTitle builder, while s2c is SetActorState. Same-number reuse is not an acknowledgement relationship.",
     "titleLifecycle": "The actual inbound AchievementTitleReceiver route is s2c 0x019D, not s2c 0x0134. The shared title value and PlayerBase+0xE8 state slot support a bounded request/update correlation, but the retained corpus contains no c2s 0x0134 event and therefore cannot establish acknowledgement, response timing, acceptance, rejection, or server policy.",
-    "rateLifecycle": "c2s 0x0135 carries one achievement id and s2c 0x019F carries achievement id plus progress count and flags. The retained corpus contains neither opcode, so client structure supports a subsystem correlation only; it does not establish that 0x019F acknowledges or responds to 0x0135.",
+    "rateLifecycle": "c2s 0x0135 carries one achievement id and s2c 0x019F carries achievement id, progress count and a cached third dword of unknown meaning. The retained corpus contains neither opcode, so client structure supports a subsystem correlation only; it does not establish that 0x019F acknowledges or responds to 0x0135.",
     "chronology": "The retained corpus has zero c2s 0x0134, zero c2s 0x0135, and zero s2c 0x019F observations. It has 912 s2c 0x0134 actor-state observations and 14 s2c 0x019D title updates. Chronology alone supplies no causal edge among these operations."
   },
   "unresolvedBoundaries": [
     "The exact server method and acknowledgement policy for both client requests are not embedded in the retail client.",
     "The semantic noun for the generated 16-byte ASCII buffer is unresolved; calling it a nonce, challenge, or authorization token would exceed the direct evidence.",
-    "The individual meanings of progress_flags bits and the closing s2c 0x019F dword are unresolved.",
+    "The server meaning of the cached third dword at application+0x08 and unconsumed closing dword at +0x0c in s2c 0x019F remains unresolved; no bit-field meaning is established.",
     "The three bytes adjacent to PlayerBase achievement_title at +0xE9..+0xEB remain unknown even though both title paths overwrite the containing dword."
   ]
 }

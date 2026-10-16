@@ -139,14 +139,14 @@ def main() -> int:
         evidence = copy.deepcopy(load(EVIDENCE))
         item = row(evidence, "s2c-019f-achievement-rate-update")
         item["fields"] = item["fields"].replace(
-            "progress_flags:u32@+0x08", "progress_flags:u16@+0x08"
+            "cached_unknown_value:u32@+0x08", "cached_unknown_value:u16@+0x08"
         )
-        reject("progress-flags width mutation must fail", evidence=evidence)
+        reject("cached-word width mutation must fail", evidence=evidence)
 
         evidence = copy.deepcopy(load(EVIDENCE))
         item = row(evidence, "s2c-019f-achievement-rate-update")
         item["flow"] = item["flow"].replace(
-            "No persistent client-state write", "A persistent client-state write"
+            "caches progress_count and the third dword", "does not cache the values"
         )
         reject("rate persistent-state mutation must fail", evidence=evidence)
 
