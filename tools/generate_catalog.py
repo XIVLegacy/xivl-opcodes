@@ -1405,8 +1405,16 @@ def apply_retained_contracts(top: dict) -> int:
             "direct_fallback=both _callServerOnCommand and _doServerOnCommand construct this opcode; "
             "direct_fields=+04 command binding reference,+08 self actor+14; event wrappers have a different +08 source; "
             "typed_tail=scalar 00, nil 05, control 06, item 07, adjacent-item group 08, item metadata 09, terminator 0f; "
-            "native_boundary=runtime command descriptor registration; server_boundary=consumption of queued record; "
+            "native_boundary=selected runtime descriptor; named_definitions=s2c 0x0132; server_boundary=consumption of queued record; "
             "wire_contract=" + structures + "player_command_wire_contract.json"
+        ),
+        ("MapClientbound", 0x0132): (
+            "application_layout=priority input u8 at +00,selector u8 at +01,name[32] at +02,unresolved tail[6] at +22; "
+            "record_producer=NullActorImpl slot49 FUN_0076CA90; "
+            "constructor=selector equals runtime byte[0134c3fe] chooses CommandBlock,otherwise CommandNonBlock; "
+            "boundary=receipt does not prove the later selected descriptor; "
+            "wire_contract=" + structures + "command_descriptor_registration.json; "
+            "capture_study=xivl-captures:studies/command-registration/README.md"
         ),
         ("MapClientbound", 0x00D7): (
             "record_layout=application+0, stride 8, u32 value+0 and u8 index+4; count u8 at application+0x80; "
@@ -1479,6 +1487,14 @@ def apply_retained_contracts(top: dict) -> int:
             "dispatch_order=relative to ZoneProtoDown unestablished; "
             f"wire_contract={search}; server_behavior=unproved"
         )
+    registration = select("MapClientbound", 0x0132)
+    registration["notes"] = (
+        "bcsy_ref=BCS-Y-0594,BCS-Y-0162,BCS-Y-1118,BCS-Y-0280,BCS-Y-0540; "
+        "dispatch=FUN_004DC690 -> CharaElement slot9 FUN_0058CCA0 -> FUN_004D8860 case0132 -> "
+        "FUN_00574FC0 -> NullActorImpl slot49 FUN_0076CA90; "
+        "framing=72-byte subevent,56-byte game message,40-byte application; "
+        "direction_asymmetry=c2s 0132 is distinct ItemWorkUpdatePacket via FUN_0075EAC0"
+    )
     for (bucket, opcode), note in additions.items():
         row = select(bucket, opcode)
         # Replace the owned suffix so repeated generation is byte-stable.
