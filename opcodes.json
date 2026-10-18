@@ -1767,7 +1767,7 @@
             584
           ],
           "confidence": "implemented",
-          "notes": "login_service_attribution=map_main_lane; login_evidence=xivl-captures:derived/lane_observations.json#lanes/main/s2c/0x0003; login_capture_sha256=28e06b54fe559870031f077f8549b9244caafa7e5177dbca08a7feae6c2b1b62"
+          "notes": "login_service_attribution=map_main_lane; login_evidence=xivl-captures:derived/lane_observations.json#lanes/main/s2c/0x0003; login_capture_sha256=28e06b54fe559870031f077f8549b9244caafa7e5177dbca08a7feae6c2b1b62; wire_layout=data/s2c_0003_wire_layout.json"
         },
         {
           "name": "SetMapPacket",

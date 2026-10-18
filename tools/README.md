@@ -104,6 +104,10 @@ writer. Abbreviated, uppercase, or omitted hashes are rejected.
 - `test_retail_zone_dispatch.py` runs the credential-free mutation suite for
   the retail dispatch contract. It needs no executable, private repository,
   token, Ghidra installation, or sibling checkout.
+- `validate_0003_wire_layout.py` checks the reviewed Map `0x0003` layout against
+  the catalog note and the generated `SendMessageBody`. The generator reads that
+  data file for the framing numbers because the pinned capture digest holds no
+  layout for the opcode.
 - `test_018d_wire_layout.py` rejects mutations to the neutral identity,
   application framing, wire-to-storage projection, native presentation
   classification, and unsafe client count boundary.

@@ -126,6 +126,29 @@ STRUCT_LAYOUT_OVERRIDES = {
         ),
         ("uint8_t", "reservedTail", 7, "application[+0x291..+0x297]"),
     ],
+    ("MapClientbound", "0x0003"): [
+        ("uint8_t", "gameMessagePreamble", 8, "body[+0..+7]; not application payload"),
+        (
+            "uint8_t",
+            "senderName",
+            0x20,
+            "application[+0x00..+0x1f]; copied for 0x20 bytes",
+        ),
+        ("uint16_t", "displayType", 1, "application[+0x20]; chat category index"),
+        ("uint8_t", "unread22", 2, "application[+0x22..+0x23]; not read by the client"),
+        (
+            "uint8_t",
+            "text",
+            0x200,
+            "application[+0x24..+0x223]; copied for 0x200 bytes",
+        ),
+        (
+            "uint8_t",
+            "unreadTail",
+            4,
+            "application[+0x224..+0x227]; not read by the client",
+        ),
+    ],
 }
 
 STRUCT_PREAMBLES = {
@@ -145,6 +168,12 @@ STRUCT_PREAMBLES = {
         'static_assert(sizeof(_0x018DRecord) == 40, "_0x018DRecord size mismatch");',
         "",
     ],
+}
+
+# Reviewed wire layouts that supply the framing numbers when the pinned capture
+# digest has no layout for the opcode.
+REVIEWED_LAYOUT_FILES = {
+    ("s2c", "0x0003"): DATA_DIR / "s2c_0003_wire_layout.json",
 }
 
 NAME_SUFFIX_STRIP = re.compile(r"(Packet|Handler)$")
@@ -362,6 +391,19 @@ def emit_struct(
         f' "{struct_name} size mismatch");'
     )
     return "\n".join(lines), bytes_emitted, body_size
+
+
+def load_reviewed_layout(path: Path) -> dict:
+    """Return a payload-layout record built from a reviewed wire-layout file."""
+    doc = json.loads(path.read_text(encoding="utf-8"))
+    framing = doc["framing"]
+    return {
+        "opcode": int(doc["opcodeHex"], 16),
+        "common_sub_size": framing["subpacketSize"],
+        "body_length": framing["gameMessageHeaderSize"] + framing["applicationSize"],
+        "sample_count": doc["capture"]["retainedSamples"],
+        "fields": [],
+    }
 
 
 def validate_struct_layout_overrides(
@@ -586,7 +628,11 @@ def main() -> int:
     skipped: list[str] = []
 
     for direction in ("c2s", "s2c"):
-        for hex_key, layout in layouts_doc["layouts"][direction].items():
+        direction_layouts = dict(layouts_doc["layouts"][direction])
+        for (reviewed_direction, hex_key), path in REVIEWED_LAYOUT_FILES.items():
+            if reviewed_direction == direction and hex_key not in direction_layouts:
+                direction_layouts[hex_key] = load_reviewed_layout(path)
+        for hex_key, layout in direction_layouts.items():
             resolved = resolve_bucket(catalog, direction, hex_key)
             if resolved is None:
                 skipped.append(f"{direction} {hex_key}: no matching catalog entry")

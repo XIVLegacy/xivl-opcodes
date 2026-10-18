@@ -19,6 +19,7 @@ at the repository root.
 | `data/zone_handoff_evidence.json` | World-to-map handoff timing evidence derived from capture edge windows. |
 | `data/client_opcode_semantics.json` | Retail-client body and consumer evidence for direction-qualified opcode rows. |
 | `data/achievement_lifecycle.json` | Direction-scoped achievement title and rate request/update routes, capture chronology, and causality boundaries. |
+| `data/s2c_0003_wire_layout.json` | Map `0x0003` chat line application layout, client string handling, display-type routing, and the login capture boundary. |
 | `data/s2c_018d_wire_layout.json` | Neutral `0x018D` application layout, storage projection, unsafe client count behavior, and native presentation classification. |
 | `data/lua_actor_impl_slot_lua_bindings.json` | LuaActorImpl vftable slot-to-Lua-callback binding map. |
 | `data/sibling_sync_expected_gaps.json` | Expected xivl-client-structs BCS-Y opcode-binding candidates not yet cited by either root catalog. |

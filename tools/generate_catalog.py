@@ -1612,6 +1612,8 @@ def apply_login_prezone_attributions(top: dict) -> tuple[int, int, int]:
         tokens = [attribution, evidence_token, identity_token]
         if opcode_hex in {"0x01cb", "0x01ce"}:
             tokens.append(observation_token)
+        if bucket == "MapClientbound" and opcode_hex == "0x0003":
+            tokens.append("wire_layout=data/s2c_0003_wire_layout.json")
         for token in tokens:
             notes = append_note_token(notes, token)
         selected["notes"] = notes

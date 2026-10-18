@@ -1,0 +1,150 @@
+{
+  "schemaVersion": 1,
+  "binary": {
+    "name": "ffxivgame.exe",
+    "version": "1.23b",
+    "sha256": "9341f2b4567440b310a4d494f5cc5599ca334ba51c8042247317ff466492f2e9"
+  },
+  "opcodeHex": "0x0003",
+  "direction": "clientbound",
+  "service": "map",
+  "name": "SendMessagePacket",
+  "nameBoundary": "The client handles this opcode inline in the central dispatcher and carries no RTTI class or source name for it. The catalog name is the established row name and not a client symbol.",
+  "route": {
+    "dispatcher": "FUN_004DC690",
+    "rangeCheck": "The dispatcher skips the jump table when the opcode minus 2 exceeds 0xE3.",
+    "byteTableVa": "0x004DD414",
+    "byteTableIndex": 1,
+    "dwordTableVa": "0x004DD3D0",
+    "dwordTableIndex": 1,
+    "jumpInstruction": "0x004DC749",
+    "caseEntry": "0x004DC750",
+    "stringCopy": "FUN_00447260",
+    "senderCopyCall": "0x004DC75D",
+    "textCopyCall": "0x004DC77D",
+    "displayTypeLoad": "0x004DC78A",
+    "sink": "FUN_004D8560",
+    "sinkCall": "0x004DC7A1",
+    "dispatchGates": [
+      "The dispatcher returns without dispatching when the byte at dispatcher+0x54B is nonzero and the opcode is not 0x0004.",
+      "The dispatcher returns without dispatching when FUN_00575740 on dispatcher+0x510 returns nonzero and the opcode is not 0x0004."
+    ],
+    "pointerAdjustments": [
+      "The dispatcher receives the 16-byte game-message header at offset +0x10 from the start of the subpacket.",
+      "The case adds +0x10 to that pointer before the string copies, so every field offset below is relative to the application start."
+    ]
+  },
+  "framing": {
+    "subpacketSize": 584,
+    "subpacketHeaderSize": 16,
+    "gameMessageHeaderSize": 16,
+    "applicationOffsetFromSubpacket": 32,
+    "applicationSize": 552,
+    "consumedExtent": 548,
+    "extentCheck": "The case carries no packet-extent argument and performs no length check before reading through application offset 0x223."
+  },
+  "application": {
+    "fields": [
+      {
+        "offset": 0,
+        "width": 32,
+        "name": "senderName",
+        "kind": "bytes",
+        "read": "Copied for exactly 0x20 bytes into a client string by FUN_00447260. The string gains a NUL after the copied bytes, so a full field is bounded without an in-field NUL."
+      },
+      {
+        "offset": 32,
+        "width": 2,
+        "name": "displayType",
+        "kind": "u16",
+        "read": "Zero-extended word load that becomes the first argument of FUN_004D8560. The two bytes at application+0x22 are not read."
+      },
+      {
+        "offset": 34,
+        "width": 2,
+        "name": "unread22",
+        "kind": "bytes",
+        "read": "Not read by the case or by FUN_004D8560."
+      },
+      {
+        "offset": 36,
+        "width": 512,
+        "name": "text",
+        "kind": "bytes",
+        "read": "Copied for exactly 0x200 bytes into a client string by FUN_00447260. The string gains a NUL after the copied bytes, so a full field is bounded without an in-field NUL."
+      },
+      {
+        "offset": 548,
+        "width": 4,
+        "name": "unreadTail",
+        "kind": "bytes",
+        "read": "Beyond the last byte the case reads."
+      }
+    ]
+  },
+  "stringHandling": {
+    "copy": "FUN_00447260 with an explicit length copies that many bytes without scanning for a NUL and sets the string size to length plus one. Passing -1 would scan for a NUL instead, and this case does not.",
+    "senderUtf8": "FUN_00445C70 validates the sender as UTF-8 up to its first NUL and rejects the line on malformed sequences.",
+    "textControlPass": "FUN_00C99E80 runs FUN_00C99B80 over the text as a NUL-terminated string, so the first NUL ends the processed text. A failed pass rejects the line. A successful pass replaces the text string with the processed copy. The control-sequence rules are those recorded for World chat in xivl-client-structs:manifests/chat_wire_contract.json#validation.controlEncoding.",
+    "paddingIntoLine": "FUN_004CE760 joins the sender and text with the size fields of their strings. The sender keeps all 0x20 copied bytes, so padding after a short name is carried into the stored line. How the stored-line reader treats those bytes is not established."
+  },
+  "sink": {
+    "function": "FUN_004D8560",
+    "argumentOrder": "displayType, sender string, text string",
+    "steps": [
+      "FUN_00C99E80 on the text with the dispatcher+0x7F8 object. A zero result rejects the line.",
+      "FUN_00445C70 on the sender. A zero result rejects the line.",
+      "FUN_004C3DD0 with the dispatcher+0x950 object. A nonzero result rejects the line.",
+      "FUN_004CE760 on the log module at dispatcher+0x660 when that pointer is nonzero. The function returns 1 whether or not the module exists."
+    ],
+    "nameList": {
+      "function": "FUN_004C3B30",
+      "listOffset": "0xC4C",
+      "match": "A nonempty sender equal to any list entry, compared bytewise up to the NUL, rejects the line.",
+      "producer": "FUN_004CDCF0 fills the list from the 0x01CB payload."
+    },
+    "logModule": {
+      "rttiClass": "Application::Misc::RaptureLogModule",
+      "vftable": "0x00F91434",
+      "createdBy": "FUN_004DC5D0, reached from the 0x0002 case of the same dispatcher",
+      "objectSize": "0x74",
+      "constructor": "FUN_004DEE90",
+      "storedLine": "Uppercase four-digit hex of displayType, a colon, the sender, a colon, then the text. The format string is at 0x00F8D638 and the colon string is copied into 0x0132F330 by the initializer at 0x00F076E0.",
+      "append": "FUN_00C9A8E0 calls vtable slot 7 (FUN_00C9AD40), which appends the line and returns its running index. The log keeps 0x4B0 lines.",
+      "categoryRings": "The vector at module+0x4C (begin +0x50, end +0x54) holds one 0x14-byte queue per displayType. FUN_004CE760 grows it to displayType+1 entries through FUN_004D56F0, appends the line index to the queue for displayType, then drops queued indexes older than the oldest retained line.",
+      "typeBounds": "No whitelist, clamp, or zero substitution applies to displayType on this route. World 0x00CB substitutes 3 for zero and this opcode does not."
+    }
+  },
+  "knownDisplayTypes": [
+    {
+      "value": 1,
+      "source": "FUN_004D6E50 logs a client-generated line with the literal sender system.",
+      "scope": "client-local call, not this opcode"
+    },
+    {
+      "value": 3,
+      "source": "FUN_004D8D10 passes 3 for received World tell 0x00C8.",
+      "scope": "World lane, not this opcode"
+    }
+  ],
+  "capture": {
+    "file": "login.pcapng",
+    "sha256": "28e06b54fe559870031f077f8549b9244caafa7e5177dbca08a7feae6c2b1b62",
+    "evidence": "xivl-captures:derived/payload_samples.json#samples.s2c.0x0003",
+    "retainedSamples": 4,
+    "identicalSamples": true,
+    "subpacketSize": 584,
+    "nonzeroApplicationBytes": [
+      {
+        "offset": 32,
+        "value": 29
+      }
+    ],
+    "boundary": "Sender and text are empty in every retained sample and bytes 0x22 through 0x227 are zero. The capture fixes the size and the displayType value 0x1D at application+0x20 only. The sender and text offsets rest on the receiver."
+  },
+  "open": [
+    "The category named by displayType 0x1D and the readers of the per-category queues are not traced.",
+    "How the stored-line reader treats NUL padding after a short sender is not traced.",
+    "Whether an upstream framing guard rejects a subpacket shorter than 0x224 application bytes is not traced."
+  ]
+}

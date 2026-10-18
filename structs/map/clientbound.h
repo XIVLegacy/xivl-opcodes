@@ -27,6 +27,19 @@ struct PongBody
 
 static_assert(sizeof(PongBody) == 40, "PongBody size mismatch");
 
+// 0x0003 (opcode 3) - sub_size=584B body=560B samples=4
+struct SendMessageBody
+{
+    uint8_t  gameMessagePreamble[8]; // body[+0..+7]; not application payload
+    uint8_t  senderName[32];         // application[+0x00..+0x1f]; copied for 0x20 bytes
+    uint16_t displayType;            // application[+0x20]; chat category index
+    uint8_t  unread22[2];            // application[+0x22..+0x23]; not read by the client
+    uint8_t  text[512];              // application[+0x24..+0x223]; copied for 0x200 bytes
+    uint8_t  unreadTail[4];          // application[+0x224..+0x227]; not read by the client
+};
+
+static_assert(sizeof(SendMessageBody) == 560, "SendMessageBody size mismatch");
+
 // 0x0005 (opcode 5) - sub_size=48B body=24B samples=11
 struct SetMapBody
 {

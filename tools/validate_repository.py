@@ -20,6 +20,7 @@ VALIDATORS = (
     ("Corpus", "validate_corpus.py"),
     ("Client opcode semantics", "validate_client_opcode_semantics.py"),
     ("Achievement lifecycle", "validate_achievement_lifecycle.py"),
+    ("0x0003 wire layout", "validate_0003_wire_layout.py"),
     ("0x018D wire layout", "validate_018d_wire_layout.py"),
     ("Battle result semantics", "validate_battle_result_semantics.py"),
     ("Docs index", "validate_docs_index.py"),
