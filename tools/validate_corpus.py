@@ -257,6 +257,58 @@ def validate_low_pair_staging(top: dict) -> None:
         )
 
 
+def validate_e2_selector(top: dict) -> None:
+    """Keep the full-width selector, branch exits and retained framing distinct."""
+    rows = [r for r in top["lists"]["MapClientbound"] if r.get("opcode") == 0xE2]
+    if len(rows) != 1:
+        errors.append("E2 selector: expected one Map clientbound row")
+        return
+    row = rows[0]
+    if (
+        row.get("name") != "_0xE2Packet"
+        or row.get("decompAnchor") != "FUN_0058CCA0"
+        or row.get("confidence") != "decomp_routed"
+    ):
+        errors.append("E2 selector: neutral identity/native route changed")
+    required = (
+        "application_selector=u32le at +0, read only for the local actor",
+        "local_0x15=FUN_00574ED0(receiver=[Chara+0x80],arg=0x15), then exit before state writes",
+        "local_0x16=FUN_00574EE0(receiver=[Chara+0x80],arg=0x16), then exit before state writes",
+        "local_other=OR bit0 at Chara+0x26D, call FUN_00586F40(parent,0x4FE)",
+        "nonlocal=skip selector and local writes",
+        "final_state=byte1 at [parent+0x4E0]+0xBC only for local_other or nonlocal after normal returns",
+        "retained_samples=8 with selectors 0x02 x6 and 0x0F x2",
+        "framing=40-byte subevent,24-byte game message,8-byte application",
+        "dynamic_bridge_effects_state_meanings_and_complete_warp=unproved",
+        "client_contract=xivl-decomp:docs/net/e2-selector-state.md",
+    )
+    if any(token not in row.get("notes", "") for token in required):
+        errors.append("E2 selector: field/branch/state contract missing or changed")
+    product = _load(DATA_DIR / "vendor/captures/payload_samples.json")["samples"][
+        "s2c"
+    ]["0x00e2"]
+    samples = product["samples"]
+    selectors = []
+    for sample in samples:
+        message = bytes.fromhex(sample["bytes"])
+        if sample["sub_size"] != 40 or len(message) != 24:
+            errors.append("E2 selector: pinned record framing changed")
+            continue
+        selectors.append(int.from_bytes(message[16:20], "little"))
+        if message[20:24] != bytes(4):
+            errors.append("E2 selector: pinned application tail changed")
+    if (
+        product["sampleCount"] != 8
+        or len(samples) != 8
+        or sorted(selectors) != [2] * 6 + [15] * 2
+    ):
+        errors.append("E2 selector: pinned eight-record selector evidence changed")
+    if row.get("observedIn") != sorted({s["capture"] for s in samples}) or row.get(
+        "payloadLengths"
+    ) != [40]:
+        errors.append("E2 selector: capture witnesses/length mismatched")
+
+
 def validate_catalog(cap_names: set[str]) -> None:
     cat_path = OPCODES_PATH
     const_path = CONSTANTS_PATH
@@ -274,6 +326,7 @@ def validate_catalog(cap_names: set[str]) -> None:
     top = catalog[0]
     validate_dispatch_inventory(top)
     validate_low_pair_staging(top)
+    validate_e2_selector(top)
     constants = _load(const_path) if const_path.is_file() else {}
     region = top.get("region")
     declared = constants.get(region) if isinstance(constants, dict) else None

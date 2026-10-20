@@ -2642,7 +2642,7 @@
           "service": "map",
           "direction": "clientbound",
           "implementationAnchor": "MapServerOpcode::Opaque0xE2",
-          "decompAnchor": null,
+          "decompAnchor": "FUN_0058CCA0",
           "observedIn": [
             "gridania_to_coerthas.pcapng",
             "move_out_of_room.pcapng",
@@ -2656,8 +2656,8 @@
           "payloadLengths": [
             40
           ],
-          "confidence": "implemented",
-          "notes": ""
+          "confidence": "decomp_routed",
+          "notes": "retail_client_analysis=CharaElement slot 9 FUN_0058CCA0 case 0x0058CD81; application_selector=u32le at +0, read only for the local actor; local_0x15=FUN_00574ED0(receiver=[Chara+0x80],arg=0x15), then exit before state writes; local_0x16=FUN_00574EE0(receiver=[Chara+0x80],arg=0x16), then exit before state writes; local_other=OR bit0 at Chara+0x26D, call FUN_00586F40(parent,0x4FE); nonlocal=skip selector and local writes; final_state=byte1 at [parent+0x4E0]+0xBC only for local_other or nonlocal after normal returns; retained_samples=8 with selectors 0x02 x6 and 0x0F x2; framing=40-byte subevent,24-byte game message,8-byte application; dynamic_bridge_effects_state_meanings_and_complete_warp=unproved; client_contract=xivl-decomp:docs/net/e2-selector-state.md"
         },
         {
           "name": "SetActorQuestGraphicPacket",

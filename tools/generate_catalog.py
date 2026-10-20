@@ -1512,6 +1512,33 @@ def apply_low_pair_staging_contract(top: dict) -> int:
     return len(contracts)
 
 
+def apply_e2_selector_contract(top: dict) -> int:
+    """Attach the selected E2 branch contract while preserving later evidence."""
+    rows = [r for r in top["lists"]["MapClientbound"] if r["opcode"] == 0xE2]
+    if len(rows) != 1:
+        raise ValueError("E2 selector contract requires one Map clientbound row")
+    row = rows[0]
+    managed_notes = (
+        "retail_client_analysis=CharaElement slot 9 FUN_0058CCA0 case 0x0058CD81; "
+        "application_selector=u32le at +0, read only for the local actor; "
+        "local_0x15=FUN_00574ED0(receiver=[Chara+0x80],arg=0x15), then exit before state writes; "
+        "local_0x16=FUN_00574EE0(receiver=[Chara+0x80],arg=0x16), then exit before state writes; "
+        "local_other=OR bit0 at Chara+0x26D, call FUN_00586F40(parent,0x4FE); "
+        "nonlocal=skip selector and local writes; "
+        "final_state=byte1 at [parent+0x4E0]+0xBC only for local_other or nonlocal after normal returns; "
+        "retained_samples=8 with selectors 0x02 x6 and 0x0F x2; "
+        "framing=40-byte subevent,24-byte game message,8-byte application; "
+        "dynamic_bridge_effects_state_meanings_and_complete_warp=unproved; "
+        "client_contract=xivl-decomp:docs/net/e2-selector-state.md"
+    )
+    row["notes"], status = swap_managed_prefix(row.get("notes", ""), "", managed_notes)
+    if status == "mismatch":
+        raise ValueError("E2 selector notes do not match the managed prefix")
+    row["decompAnchor"] = "FUN_0058CCA0"
+    row["confidence"] = "decomp_routed"
+    return 1
+
+
 def apply_retained_contracts(top: dict) -> int:
     """Attach bounded retail contracts without treating native sizes as captures."""
     structures = "xivl-client-structs:manifests/"
@@ -2253,6 +2280,9 @@ def main() -> int:
 
     low_pairs_applied = apply_low_pair_staging_contract(top)
     print(f"Applied {low_pairs_applied} low-opcode pair staging contracts")
+
+    e2_applied = apply_e2_selector_contract(top)
+    print(f"Applied {e2_applied} E2 selector contract")
 
     stale_removed, ambiguity_added, ambiguity_removed = reconcile_pcap_notes(top)
     print(f"Removed {stale_removed} stale no-pcap note tokens")
