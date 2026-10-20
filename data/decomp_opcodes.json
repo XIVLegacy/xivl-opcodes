@@ -458,5 +458,15 @@
     "evidence": "FUN_004C7300 sets stack record `local_8b0=0x1DD (opcode), local_8ac=0x118 (size=280 bytes)` then calls FUN_004C7150 passthrough. Routing identical to BCS-Y-0327/0326. Fills third and final cluster gap in 0x01C3..0x01DF.",
     "likely_role": "Map action-system medium request (cluster member, size 0x118 = 280 bytes)",
     "source": "final_gap_outbound_scan"
+  },
+  {
+    "opcode": 2,
+    "opcodeHex": "0x0002",
+    "name": "_0x0002Handler",
+    "service": "map",
+    "direction": "serverbound",
+    "evidence": "FUN_004E3910 writes native record value 2 and size 0x28, one caller u32 and 16 supplied bytes, with the final application u32 outside its write set. The published Zone forwarding/constructor contracts store the record value at ClientPacketBuilder+0x1C. Its final vtable 0x01129AE8 slot 2 (cell 0x01129AF0) points to FUN_00DC1BE0, which writes tag 0x0014 and copies the low 16 bits to game-header+2 at 0x00DC1BF1/0x00DC1BF7. The published slot 1 target FUN_00DC1BD0 returns builder+0x10 without stores or calls. Slot 3 (cell 0x01129AF4) points to FUN_00DC1C10; its complete callees FUN_00DBFC60 and FUN_00DBFCE0 have no stores or calls, preserving the opcode through FUN_00DB06A0 submission at 0x00DB06EA to FUN_00DAF920 on the published zero-adjustment forwarding path. This binds the Map serverbound numeric route and statically implies 24 application, 40 game-message and 56 subpacket bytes. It supplies no capture witness, login name, selected caller values, final-u32 initialization, server response or delivery proof. Source: xivl-decomp:docs/net/zone-outbound-header.md and xivl-decomp:docs/net/zone-value-two-record.md; retail ffxivgame.exe SHA-256 9341f2b4567440b310a4d494f5cc5599ca334ba51c8042247317ff466492f2e9; REA/Ghidra 12.1.3 exact reads checked against the original PE with pefile 2024.8.26/Capstone 5.0.7.",
+    "likely_role": "Neutral Zone outbound value-2 route; caller semantics unresolved",
+    "source": "zone_outbound_header_binding"
   }
 ]

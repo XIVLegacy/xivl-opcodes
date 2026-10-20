@@ -446,11 +446,38 @@ def main() -> int:
                 )
 
     anchors = [entry["decompAnchor"] for entry in entries if entry.get("decompAnchor")]
-    if len(anchors) != 129:
-        errors.append(f"catalog has {len(anchors)} decompAnchor values, expected 129")
+    if len(anchors) != 130:
+        errors.append(f"catalog has {len(anchors)} decompAnchor values, expected 130")
     bad_anchors = [anchor for anchor in anchors if not BARE_FUNCTION.fullmatch(anchor)]
     if bad_anchors:
         errors.append(f"non-bare decompAnchor values: {bad_anchors}")
+
+    value_two = [
+        entry
+        for entry in catalog["lists"]["MapServerbound"]
+        if entry.get("opcode") == 2
+    ]
+    if len(value_two) != 1:
+        errors.append("c2s Map 0x0002 must have exactly one catalog row")
+    else:
+        entry = value_two[0]
+        if (
+            entry.get("decompAnchor") != "FUN_004E3910"
+            or entry.get("confidence") != "decomp_routed"
+        ):
+            errors.append("c2s Map 0x0002 lost its native producer binding")
+        for fragment in (
+            "slot2 FUN_00DC1BE0 writes its low16 to game-header+2",
+            "slot3 FUN_00DC1C10 and its two no-store helpers",
+            "application_extent=24 bytes within a statically implied 56-byte subpacket",
+            "the final application u32 is not written by this builder",
+            "its caller initialization and selected value remain unknown",
+            "login/handshake name, final-u32 selector meaning, response policy, delivery",
+            "and client acceptance remain unproved",
+            "header_binding_evidence=xivl-decomp:docs/net/zone-outbound-header.md",
+        ):
+            if fragment not in entry.get("notes", ""):
+                errors.append(f"c2s Map 0x0002 lost required fact {fragment!r}")
 
     periodic = [
         entry

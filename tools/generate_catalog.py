@@ -223,9 +223,6 @@ OVERRIDES = [
         "_0x0002Handler",
         "no_pcap_evidence; "
         "implementationServiceRelabel=LobbyOpcode::Error_at_lobby_clientbound_same_wire_integer;"
-        " not_a_parity_discrepancy",
-        "no_pcap_evidence; "
-        "implementationServiceRelabel=LobbyOpcode::Error_at_lobby_clientbound_same_wire_integer;"
         " not_a_parity_discrepancy; native_record_candidate=FUN_004E3910 writes record "
         "value 2 and size 0x28, one caller u32 and two qwords totaling 16 supplied bytes; "
         "copy_boundary=the published forwarder implies a 24-byte region whose final four "
@@ -235,6 +232,23 @@ OVERRIDES = [
         "opcode 0x0002 or a login/handshake identity; "
         "native_record_evidence=xivl-decomp:docs/net/zone-value-two-record.md; "
         "next_static_edge=the builder value through finalization to the serialized header",
+        "no_pcap_evidence; "
+        "implementationServiceRelabel=LobbyOpcode::Error_at_lobby_clientbound_same_wire_integer;"
+        " not_a_parity_discrepancy; native_record_producer=FUN_004E3910 writes record "
+        "value 2 and size 0x28; header_binding=Zone constructors store that value at "
+        "builder+0x1c and vtable slot2 FUN_00DC1BE0 writes its low16 to game-header+2 "
+        "with tag 0x0014; finalization=slot3 FUN_00DC1C10 and its two no-store helpers "
+        "preserve the opcode through FUN_00DB06A0 submission to FUN_00DAF920; "
+        "application_extent=24 bytes within a statically implied 56-byte subpacket; "
+        "builder_fields=one caller u32 and two qwords totaling 16 supplied bytes; "
+        "tail_boundary=the final application u32 is not written by this builder and "
+        "its caller initialization and selected value remain unknown; "
+        "semantic_boundary=the native Map serverbound 0x0002 route is bound, while a "
+        "login/handshake name, final-u32 selector meaning, response policy, delivery "
+        "and client acceptance remain unproved; naming=placeholder retained; "
+        "native_record_evidence=xivl-decomp:docs/net/zone-value-two-record.md; "
+        "header_binding_evidence=xivl-decomp:docs/net/zone-outbound-header.md; "
+        "next_static_edge=the specific caller input values and final-u32 initialization",
     ),
     (
         "MapClientbound",
@@ -1066,9 +1080,11 @@ NAME_OVERRIDE_PRIOR_ALIASES = {
 
 CONFIDENCE_OVERRIDES = [
     ("MapClientbound", "0x0147", "_0x0147", "implemented", "pcap_observed"),
+    ("MapServerbound", "0x0002", "_0x0002Handler", "implemented", "decomp_routed"),
 ]
 
 DECOMP_ANCHOR_OVERRIDES = [
+    ("MapServerbound", "0x0002", "_0x0002Handler", "FUN_004E3910"),
     ("MapServerbound", "0x0007", "ZoneInCompletePacket", "FUN_00586F40"),
     ("MapServerbound", "0x00ca", "UpdatePlayerPositionPacket", "FUN_00589030"),
     ("MapServerbound", "0x00cc", "LockTargetPacket", "FUN_00561BB0"),
