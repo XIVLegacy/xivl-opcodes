@@ -1539,6 +1539,34 @@ def apply_e2_selector_contract(top: dict) -> int:
     return 1
 
 
+def apply_e3_state_index_contract(top: dict) -> int:
+    """Retain the E3 input, changed-state and separate table-field contracts."""
+    rows = [r for r in top["lists"]["MapClientbound"] if r["opcode"] == 0xE3]
+    if len(rows) != 1:
+        raise ValueError("E3 state contract requires one Map clientbound row")
+    row = rows[0]
+    managed_notes = (
+        "retail_client_analysis=CharaElement case 0xE3 calls FUN_00588A20; "
+        "application_index=u32le at +0; admitted_index=unsigned 0..5; "
+        "unchanged_index=no writes or helper calls; packed_state=Chara+0x270,mask0x7C0,shift6; "
+        "scene_record=0x14 with two bytes {1,table_flag}, not the incoming index; "
+        "table_flags=1,0,1,0,1,1; "
+        "table_values=FFFFFFFF,FFFFFFFF,00000204,FFFFFFFF,00000215,FFFFFFFF; "
+        "zero_flag_path=FUN_004D7310(parent), then nonnull receiver FUN_00563920(arg=Chara); "
+        "tail_dispatch=slot7 with receiver Chara+0xBA0 and table_value as the stack argument; "
+        "retained_samples=12 with index0 x3 and index2 x9 across seven captures; "
+        "framing=40-byte subevent,24-byte game message,8-byte application; "
+        "name_boundary=retained label, index status and forwarded resource meanings unproved; "
+        "client_contract=xivl-decomp:docs/net/e3-state-index.md"
+    )
+    row["notes"], status = swap_managed_prefix(row.get("notes", ""), "", managed_notes)
+    if status == "mismatch":
+        raise ValueError("E3 state notes do not match the managed prefix")
+    row["decompAnchor"] = "FUN_00588A20"
+    row["confidence"] = "decomp_routed"
+    return 1
+
+
 def apply_retained_contracts(top: dict) -> int:
     """Attach bounded retail contracts without treating native sizes as captures."""
     structures = "xivl-client-structs:manifests/"
@@ -2283,6 +2311,9 @@ def main() -> int:
 
     e2_applied = apply_e2_selector_contract(top)
     print(f"Applied {e2_applied} E2 selector contract")
+
+    e3_applied = apply_e3_state_index_contract(top)
+    print(f"Applied {e3_applied} E3 state index contract")
 
     stale_removed, ambiguity_added, ambiguity_removed = reconcile_pcap_notes(top)
     print(f"Removed {stale_removed} stale no-pcap note tokens")

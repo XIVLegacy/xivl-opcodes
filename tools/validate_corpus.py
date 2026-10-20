@@ -309,6 +309,61 @@ def validate_e2_selector(top: dict) -> None:
         errors.append("E2 selector: capture witnesses/length mismatched")
 
 
+def validate_e3_state_index(top: dict) -> None:
+    """Reject conflation of the wire index, scene flag and forwarded value."""
+    rows = [r for r in top["lists"]["MapClientbound"] if r.get("opcode") == 0xE3]
+    if len(rows) != 1:
+        errors.append("E3 state index: expected one Map clientbound row")
+        return
+    row = rows[0]
+    if (
+        row.get("name") != "SetActorQuestGraphicPacket"
+        or row.get("decompAnchor") != "FUN_00588A20"
+        or row.get("confidence") != "decomp_routed"
+    ):
+        errors.append("E3 state index: retained identity/native route changed")
+    required = (
+        "application_index=u32le at +0",
+        "admitted_index=unsigned 0..5",
+        "unchanged_index=no writes or helper calls",
+        "packed_state=Chara+0x270,mask0x7C0,shift6",
+        "scene_record=0x14 with two bytes {1,table_flag}, not the incoming index",
+        "table_flags=1,0,1,0,1,1",
+        "table_values=FFFFFFFF,FFFFFFFF,00000204,FFFFFFFF,00000215,FFFFFFFF",
+        "zero_flag_path=FUN_004D7310(parent), then nonnull receiver FUN_00563920(arg=Chara)",
+        "tail_dispatch=slot7 with receiver Chara+0xBA0 and table_value as the stack argument",
+        "retained_samples=12 with index0 x3 and index2 x9 across seven captures",
+        "framing=40-byte subevent,24-byte game message,8-byte application",
+        "name_boundary=retained label, index status and forwarded resource meanings unproved",
+        "client_contract=xivl-decomp:docs/net/e3-state-index.md",
+    )
+    if any(token not in row.get("notes", "") for token in required):
+        errors.append("E3 state index: input/field/conditional effect contract changed")
+    product = _load(DATA_DIR / "vendor/captures/payload_samples.json")["samples"][
+        "s2c"
+    ]["0x00e3"]
+    samples = product["samples"]
+    indices = []
+    for sample in samples:
+        message = bytes.fromhex(sample["bytes"])
+        if sample["sub_size"] != 40 or len(message) != 24:
+            errors.append("E3 state index: pinned record framing changed")
+            continue
+        indices.append(int.from_bytes(message[16:20], "little"))
+        if message[20:24] != bytes(4):
+            errors.append("E3 state index: pinned application tail changed")
+    if (
+        product["sampleCount"] != 12
+        or len(samples) != 12
+        or sorted(indices) != [0] * 3 + [2] * 9
+    ):
+        errors.append("E3 state index: pinned retained index evidence changed")
+    if row.get("observedIn") != sorted({s["capture"] for s in samples}) or row.get(
+        "payloadLengths"
+    ) != [40]:
+        errors.append("E3 state index: capture witnesses/length mismatched")
+
+
 def validate_catalog(cap_names: set[str]) -> None:
     cat_path = OPCODES_PATH
     const_path = CONSTANTS_PATH
@@ -327,6 +382,7 @@ def validate_catalog(cap_names: set[str]) -> None:
     validate_dispatch_inventory(top)
     validate_low_pair_staging(top)
     validate_e2_selector(top)
+    validate_e3_state_index(top)
     constants = _load(const_path) if const_path.is_file() else {}
     region = top.get("region")
     declared = constants.get(region) if isinstance(constants, dict) else None
