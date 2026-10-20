@@ -909,6 +909,190 @@ OVERRIDES = [
         "decomp_source=final_gap_outbound_scan; bcsy_ref=BCS-Y-0327; "
         "related_catalog_refs=BCS-Y-0322",
     ),
+    (
+        "LobbyServerbound",
+        "0x0003",
+        "_0x0003Handler",
+        "lobby_census_evidence=xivl-captures@458115d9682a76d4540392ba224d30ba17722b1f:studies/lobby-handshake-triage/derived/record-census.md#client-dispatch-correspondence; "
+        "login_capture_sha256=28e06b54fe559870031f077f8549b9244caafa7e5177dbca08a7feae6c2b1b62",
+        "lobby_census_evidence=xivl-captures@458115d9682a76d4540392ba224d30ba17722b1f:studies/lobby-handshake-triage/derived/record-census.md#client-dispatch-correspondence; "
+        "login_capture_sha256=28e06b54fe559870031f077f8549b9244caafa7e5177dbca08a7feae6c2b1b62; "
+        "emitter_evidence=xivl-client-structs:manifests/symbols.json#BCS-Y-0290; "
+        "shared_builder=FUN_00DA2BE0; "
+        "builder_evidence=xivl-client-structs:manifests/symbols.json#BCS-Y-0296; "
+        "application_contract=xivl-client-structs:manifests/structs.json#BCS-S-0379; "
+        "application_extent=16 bytes excluding the 16-byte game-message prefix; "
+        "expected_response=0x000d is written only on the successful send path; "
+        "field_boundary=sequence u32, two state-supplied values and constant byte 0x11; "
+        "zero-only spans retain unknown types; semantic_boundary=request-value meanings "
+        "and ordinary roster readiness remain unresolved; "
+        "operation_boundary=xivl-client-structs:docs/login-state-boundaries.md#native-owners-and-readers; "
+        "client_only=static construction and expected-response fields do not establish "
+        "server behavior, delivery or client acceptance",
+    ),
+    (
+        "LobbyServerbound",
+        "0x0004",
+        "SelectCharacterPacket",
+        "lobby_census_evidence=xivl-captures@458115d9682a76d4540392ba224d30ba17722b1f:studies/lobby-handshake-triage/derived/record-census.md#client-dispatch-correspondence; "
+        "login_capture_sha256=28e06b54fe559870031f077f8549b9244caafa7e5177dbca08a7feae6c2b1b62",
+        "lobby_census_evidence=xivl-captures@458115d9682a76d4540392ba224d30ba17722b1f:studies/lobby-handshake-triage/derived/record-census.md#client-dispatch-correspondence; "
+        "login_capture_sha256=28e06b54fe559870031f077f8549b9244caafa7e5177dbca08a7feae6c2b1b62; "
+        "emitter_evidence=xivl-client-structs:manifests/symbols.json#BCS-Y-0293; "
+        "shared_builder=FUN_00DA2BE0; "
+        "builder_evidence=xivl-client-structs:manifests/symbols.json#BCS-Y-0296; "
+        "application_contract=xivl-client-structs:manifests/structs.json#BCS-S-0380; "
+        "application_extent=24 bytes excluding the 16-byte game-message prefix; "
+        "expected_response=0x000f is written only on the successful send path; "
+        "field_boundary=sequence u32, selected-character value u32 and selection byte; "
+        "zero-only spans retain unknown types; semantic_boundary=selected ID versus "
+        "index, selection-byte meaning and normal UI admission remain unresolved; "
+        "operation_boundary=xivl-client-structs:docs/login-state-boundaries.md#native-owners-and-readers; "
+        "client_only=static construction and expected-response fields do not establish "
+        "server behavior, delivery or client acceptance",
+    ),
+    (
+        "LobbyServerbound",
+        "0x0005",
+        "SessionPacket",
+        "lobby_census_evidence=xivl-captures@458115d9682a76d4540392ba224d30ba17722b1f:studies/lobby-handshake-triage/derived/record-census.md#client-dispatch-correspondence; "
+        "login_capture_sha256=28e06b54fe559870031f077f8549b9244caafa7e5177dbca08a7feae6c2b1b62",
+        "lobby_census_evidence=xivl-captures@458115d9682a76d4540392ba224d30ba17722b1f:studies/lobby-handshake-triage/derived/record-census.md#client-dispatch-correspondence; "
+        "login_capture_sha256=28e06b54fe559870031f077f8549b9244caafa7e5177dbca08a7feae6c2b1b62; "
+        "emitter_evidence=xivl-client-structs:manifests/symbols.json#BCS-Y-0286; "
+        "shared_builder=FUN_00DA2BE0; "
+        "builder_evidence=xivl-client-structs:manifests/symbols.json#BCS-Y-0296; "
+        "application_contract=xivl-client-structs:manifests/structs.json#BCS-S-0377; "
+        "application_extent=144 bytes excluding the 16-byte game-message prefix; "
+        "operation_state=2; expected_response=0x000c; field_boundary=sequence u32, "
+        "halfwords 0/0x006e/0x1347 and bounded text capacities 64/32/32; zero-only "
+        "spans retain unknown types; semantic_boundary=text roles, halfword meanings "
+        "and complete server admission policy remain unresolved; "
+        "operation_boundary=xivl-client-structs:docs/login-state-boundaries.md#native-owners-and-readers; "
+        "client_only=static construction and expected-response fields do not establish "
+        "server behavior, delivery or client acceptance",
+    ),
+    (
+        "LobbyServerbound",
+        "0x0006",
+        "_0x0006",
+        "decomp_source=lobby_dispatcher_decomp; evidence=LobbyLoginOperation slot 0 "
+        "(send state machine) state 3 at VA 0x00da9a84 pushes opcode 6 and payload size "
+        "0x1e0. No matching s2c slot1 case in the same Operation, so c2s-only.; "
+        "likely_role=Login follow-up / post-auth request",
+        "no_pcap_evidence; "
+        "emitter_evidence=xivl-client-structs:manifests/symbols.json#BCS-Y-0286; "
+        "shared_builder=FUN_00DA2BE0; "
+        "builder_evidence=xivl-client-structs:manifests/symbols.json#BCS-Y-0296; "
+        "application_contract=xivl-client-structs:manifests/structs.json#BCS-S-0378; "
+        "application_extent=464 bytes excluding the 16-byte game-message prefix; "
+        "operation_state=3; expected_response=0x000c; field_boundary=sequence u32, "
+        "halfwords 0/0x006e/0x1347 and bounded text capacities 384/32/32; zero-only "
+        "spans retain unknown types; semantic_boundary=the narrower operation and "
+        "text/halfword meanings remain unresolved; capture_boundary=no captured Lobby "
+        "0x0006 length is established; "
+        "operation_boundary=xivl-client-structs:docs/login-state-boundaries.md#native-owners-and-readers; "
+        "client_only=static construction and expected-response fields do not establish "
+        "server behavior, delivery or client acceptance",
+    ),
+    (
+        "LobbyServerbound",
+        "0x000b",
+        "CharacterModifyPacket",
+        "no_pcap_evidence",
+        "no_pcap_evidence; "
+        "emitter_evidence=xivl-client-structs:manifests/symbols.json#BCS-Y-0112; "
+        "shared_builder=FUN_00DA2BE0; "
+        "builder_evidence=xivl-client-structs:manifests/symbols.json#BCS-Y-0296; "
+        "application_contract=xivl-client-structs:manifests/structs.json#BCS-S-0007; "
+        "application_extent=464 bytes excluding the 16-byte game-message prefix; "
+        "operation_state=2; expected_response=0x000e; field_boundary=sequence u32, "
+        "character fields, name[32], encoded region[400], command-6 byte and "
+        "unknown-typed zero spans; semantic_boundary=the client command contract does "
+        "not establish server policy or acceptance; "
+        "operation_boundary=xivl-client-structs:docs/login-state-boundaries.md#native-owners-and-readers; "
+        "client_only=static construction and expected-response fields do not establish "
+        "server behavior, delivery or client acceptance",
+    ),
+    (
+        "LobbyServerbound",
+        "0x000f",
+        "_0x000FHandler",
+        "no_pcap_evidence",
+        "no_pcap_evidence; "
+        "emitter_evidence=xivl-client-structs:manifests/symbols.json#BCS-Y-0112; "
+        "shared_builder=FUN_00DA2BE0; "
+        "builder_evidence=xivl-client-structs:manifests/symbols.json#BCS-Y-0296; "
+        "application_contract=xivl-client-structs:manifests/structs.json#BCS-S-0381; "
+        "application_extent=144 bytes excluding the 16-byte game-message prefix; "
+        "operation_state=1; expected_response=0x0010; field_boundary=sequence u32, "
+        "unknown-typed zero span and exact eight-dword plus 24-dword state blocks; "
+        "semantic_boundary=copied state blocks do not establish ordinary roster "
+        "confirmation or a server-side rename/reserve policy; "
+        "operation_boundary=xivl-client-structs:docs/login-state-boundaries.md#native-owners-and-readers; "
+        "client_only=static construction and expected-response fields do not establish "
+        "server behavior, delivery or client acceptance",
+    ),
+    (
+        "LobbyServerbound",
+        "0x01f5",
+        "_0x01F5",
+        "decomp_source=lobby_dispatcher_decomp; evidence=LobbyLoginOperation slot 0 "
+        "(send state machine) state 4 pushes opcode 0x1f5 and payload size 0x38. Paired "
+        "with a matching s2c receiver: LobbyLoginOperation slot 1 has cmp eax, 0x1f5 "
+        "against the inbound opcode. Bidirectional handshake-completion exchange owned "
+        "by the same Operation.; likely_role=Handshake completion / acknowledgment "
+        "(c2s)",
+        "no_pcap_evidence; "
+        "emitter_evidence=xivl-client-structs:manifests/symbols.json#BCS-Y-0286; "
+        "shared_builder=FUN_00DA2BE0; "
+        "builder_evidence=xivl-client-structs:manifests/symbols.json#BCS-Y-0296; "
+        "application_contract=xivl-client-structs:manifests/structs.json#BCS-S-0375; "
+        "application_extent=40 bytes excluding the 16-byte game-message prefix; "
+        "operation_state=0; expected_response=0x01f5; field_boundary=sequence u32, "
+        "login-number i32 and broad identity text[32]; semantic_boundary=the local "
+        "request/expected-response relationship does not prove handshake completion or "
+        "remote lifecycle policy; "
+        "operation_boundary=xivl-client-structs:docs/login-state-boundaries.md#native-owners-and-readers; "
+        "client_only=static construction and expected-response fields do not establish "
+        "server behavior, delivery or client acceptance; "
+        "auxiliary_emitter=FUN_004E2850; "
+        "auxiliary_evidence=xivl-client-structs:manifests/symbols.json#BCS-Y-0297; "
+        "auxiliary_boundary=FUN_00447260 is a byte-span string constructor, not a Lua "
+        "dispatcher; "
+        "constructor_evidence=xivl-client-structs:manifests/symbols.json#BCS-Y-0311",
+    ),
+    (
+        "LobbyServerbound",
+        "0x01f6",
+        "_0x01F6",
+        "decomp_source=class_driven_outbound_scan; bcsy_ref=BCS-Y-0286; "
+        "evidence=LobbyLoginOperation::vftable[0] (FUN_00DA9880) step state 4 calls "
+        "FUN_00DA2BE0(0x1f6, 0x78, 0) at VA 0x00DA9CE4; expects s2c 0x01F5 response "
+        "(`*uStack_b4 = 0x1f5` writeback). Also emitted from auxiliary FrontendAuth "
+        "path FUN_004E2850 (BCS-Y-0297) at VA 0x004E29ED. No matching s2c 0x01F6 in "
+        "LobbyLoginOperation::vftable[1] (BCS-Y-0287), so c2s-only; response reuses "
+        "opcode 0x01F5.; likely_role=Frontend auth NewSession request (c2s)",
+        "no_pcap_evidence; "
+        "emitter_evidence=xivl-client-structs:manifests/symbols.json#BCS-Y-0286; "
+        "shared_builder=FUN_00DA2BE0; "
+        "builder_evidence=xivl-client-structs:manifests/symbols.json#BCS-Y-0296; "
+        "application_contract=xivl-client-structs:manifests/structs.json#BCS-S-0376; "
+        "application_extent=104 bytes excluding the 16-byte game-message prefix; "
+        "operation_state=4; expected_response=0x01f5; field_boundary=sequence u32, "
+        "login-number i32, broad identity text[32] and zone-login text[64]; "
+        "semantic_boundary=the client-derived new-session route does not establish "
+        "remote lifecycle policy or successful delivery; "
+        "operation_boundary=xivl-client-structs:docs/login-state-boundaries.md#native-owners-and-readers; "
+        "client_only=static construction and expected-response fields do not establish "
+        "server behavior, delivery or client acceptance; "
+        "auxiliary_emitter=FUN_004E2850; "
+        "auxiliary_evidence=xivl-client-structs:manifests/symbols.json#BCS-Y-0297; "
+        "auxiliary_boundary=FUN_00447260 is a byte-span string constructor, not a Lua "
+        "dispatcher; "
+        "constructor_evidence=xivl-client-structs:manifests/symbols.json#BCS-Y-0311; "
+        "receive_dispatch_evidence=xivl-client-structs:manifests/symbols.json#BCS-Y-0287",
+    ),
 ]
 
 UNSUPPORTED_IMPLEMENTATION_OVERRIDES = [
@@ -1081,6 +1265,41 @@ NAME_OVERRIDE_PRIOR_ALIASES = {
 CONFIDENCE_OVERRIDES = [
     ("MapClientbound", "0x0147", "_0x0147", "implemented", "pcap_observed"),
     ("MapServerbound", "0x0002", "_0x0002Handler", "implemented", "decomp_routed"),
+    (
+        "LobbyServerbound",
+        "0x0003",
+        "_0x0003Handler",
+        "implemented",
+        "decomp_routed",
+    ),
+    (
+        "LobbyServerbound",
+        "0x0004",
+        "SelectCharacterPacket",
+        "implemented",
+        "decomp_routed",
+    ),
+    (
+        "LobbyServerbound",
+        "0x0005",
+        "SessionPacket",
+        "implemented",
+        "decomp_routed",
+    ),
+    (
+        "LobbyServerbound",
+        "0x000b",
+        "CharacterModifyPacket",
+        "implemented",
+        "decomp_routed",
+    ),
+    (
+        "LobbyServerbound",
+        "0x000f",
+        "_0x000FHandler",
+        "implemented",
+        "decomp_routed",
+    ),
 ]
 
 DECOMP_ANCHOR_OVERRIDES = [
@@ -1108,6 +1327,54 @@ DECOMP_ANCHOR_OVERRIDES = [
     ("MapClientbound", "0x0179", "SetActorStatusAllPacket", "FUN_008A3630"),
     ("MapServerbound", "0x00ce", "_0x00CEHandler", "FUN_00763DC0"),
     ("MapClientbound", "0x01cb", "_0x01CB", "FUN_00DB8FA0"),
+    (
+        "LobbyServerbound",
+        "0x0003",
+        "_0x0003Handler",
+        "FUN_00DAA070",
+    ),
+    (
+        "LobbyServerbound",
+        "0x0004",
+        "SelectCharacterPacket",
+        "FUN_00DAA740",
+    ),
+    (
+        "LobbyServerbound",
+        "0x0005",
+        "SessionPacket",
+        "FUN_00DA9880",
+    ),
+    (
+        "LobbyServerbound",
+        "0x0006",
+        "_0x0006",
+        "FUN_00DA9880",
+    ),
+    (
+        "LobbyServerbound",
+        "0x000b",
+        "CharacterModifyPacket",
+        "FUN_00DAA190",
+    ),
+    (
+        "LobbyServerbound",
+        "0x000f",
+        "_0x000FHandler",
+        "FUN_00DAA190",
+    ),
+    (
+        "LobbyServerbound",
+        "0x01f5",
+        "_0x01F5",
+        "FUN_00DA9880",
+    ),
+    (
+        "LobbyServerbound",
+        "0x01f6",
+        "_0x01F6",
+        "FUN_00DA9880",
+    ),
 ]
 
 
@@ -2625,7 +2892,7 @@ def apply_login_prezone_attributions(top: dict) -> tuple[int, int, int]:
 
 
 def apply_lobby_census_attributions(top: dict) -> tuple[int, int, int]:
-    """Apply the sanitized port-54994 inner-route census."""
+    """Apply Lobby witnesses and retire the unsupported cross-service length."""
     applied = 0
     skipped = 0
     errors = 0
@@ -2635,6 +2902,24 @@ def apply_lobby_census_attributions(top: dict) -> tuple[int, int, int]:
         "no_pcap_evidence",
         "pcap_evidence_dropped=lobby_not_in_capture_corpus",
     )
+
+    unobserved = next(
+        (
+            entry
+            for entry in top["lists"].get("LobbyServerbound", [])
+            if entry["opcodeHex"] == "0x0006" and entry["name"] == "_0x0006"
+        ),
+        None,
+    )
+    if unobserved is None or unobserved.get("observedIn"):
+        print("  WARN: Lobby serverbound 0x0006 has unexpected census attribution")
+        errors += 1
+    elif unobserved.get("payloadLengths") == [40]:
+        unobserved["payloadLengths"] = []
+        applied += 1
+    elif unobserved.get("payloadLengths") != []:
+        print("  WARN: Lobby serverbound 0x0006 has an unexpected length list")
+        errors += 1
 
     for bucket, opcode_hex, name, payload_length in LOBBY_CENSUS_ATTRIBUTIONS:
         selected = next(

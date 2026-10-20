@@ -446,11 +446,51 @@ def main() -> int:
                 )
 
     anchors = [entry["decompAnchor"] for entry in entries if entry.get("decompAnchor")]
-    if len(anchors) != 130:
-        errors.append(f"catalog has {len(anchors)} decompAnchor values, expected 130")
+    if len(anchors) != 138:
+        errors.append(f"catalog has {len(anchors)} decompAnchor values, expected 138")
     bad_anchors = [anchor for anchor in anchors if not BARE_FUNCTION.fullmatch(anchor)]
     if bad_anchors:
         errors.append(f"non-bare decompAnchor values: {bad_anchors}")
+
+    lobby_contracts = {
+        3: ("FUN_00DAA070", "BCS-S-0379", 16),
+        4: ("FUN_00DAA740", "BCS-S-0380", 24),
+        5: ("FUN_00DA9880", "BCS-S-0377", 144),
+        6: ("FUN_00DA9880", "BCS-S-0378", 464),
+        11: ("FUN_00DAA190", "BCS-S-0007", 464),
+        15: ("FUN_00DAA190", "BCS-S-0381", 144),
+        501: ("FUN_00DA9880", "BCS-S-0375", 40),
+        502: ("FUN_00DA9880", "BCS-S-0376", 104),
+    }
+    for opcode, (function, layout, size) in lobby_contracts.items():
+        matches = [
+            entry
+            for entry in catalog["lists"]["LobbyServerbound"]
+            if entry.get("opcode") == opcode
+        ]
+        label = f"c2s Lobby 0x{opcode:04x}"
+        if len(matches) != 1:
+            errors.append(f"{label} must have exactly one catalog row")
+            continue
+        entry = matches[0]
+        if (
+            entry.get("decompAnchor") != function
+            or entry.get("confidence") != "decomp_routed"
+        ):
+            errors.append(f"{label} lost its promoted native sender")
+        for fragment in (
+            f"application_contract=xivl-client-structs:manifests/structs.json#{layout}",
+            f"application_extent={size} bytes excluding the 16-byte game-message prefix",
+            "static construction and expected-response fields do not establish server behavior, delivery or client acceptance",
+        ):
+            if fragment not in entry.get("notes", ""):
+                errors.append(f"{label} lost required fact {fragment!r}")
+        if opcode not in {3, 4, 5} and (
+            entry.get("observedIn") != [] or entry.get("payloadLengths") != []
+        ):
+            errors.append(f"{label} has no supported Lobby capture or length")
+        if opcode == 501 and "operation_state=0" not in entry.get("notes", ""):
+            errors.append(f"{label} must retain operation state 0")
 
     value_two = [
         entry
