@@ -791,7 +791,7 @@
             56
           ],
           "confidence": "implemented",
-          "notes": "no_pcap_evidence; implementationServiceRelabel=LobbyOpcode::Error_at_lobby_clientbound_same_wire_integer; not_a_parity_discrepancy"
+          "notes": "no_pcap_evidence; implementationServiceRelabel=LobbyOpcode::Error_at_lobby_clientbound_same_wire_integer; not_a_parity_discrepancy; native_record_candidate=FUN_004E3910 writes record value 2 and size 0x28, one caller u32 and two qwords totaling 16 supplied bytes; copy_boundary=the published forwarder implies a 24-byte region whose final four bytes are not written by this builder; initialization_boundary=caller initialization and the selected input values remain unknown; wire_binding_boundary=record value 2 is not independent proof of serialized Map opcode 0x0002 or a login/handshake identity; native_record_evidence=xivl-decomp:docs/net/zone-value-two-record.md; next_static_edge=the builder value through finalization to the serialized header"
         },
         {
           "name": "ChatMessagePacket",
