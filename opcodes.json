@@ -1826,7 +1826,7 @@
           "service": "map",
           "direction": "clientbound",
           "implementationAnchor": "MapServerOpcode::MassDeleteActorStart",
-          "decompAnchor": null,
+          "decompAnchor": "FUN_0081EB90",
           "observedIn": [
             "from_gridania_to_blackshroud.pcapng",
             "gridania_to_coerthas.pcapng",
@@ -1841,8 +1841,8 @@
           "payloadLengths": [
             40
           ],
-          "confidence": "implemented",
-          "notes": "pcap_only_no_reference_match; service_inferred=map_default_guess; role=server-to-client mass actor-deletion start marker; opens a delete sequence whose body packets list actors to exempt and whose end marker (0x0007) commits it. 8-byte body. Same wire integer as the serverbound language-code opcode, disambiguated by direction. Observed across 9 captures."
+          "confidence": "decomp_routed",
+          "notes": "retail_client_analysis=case_0006=FUN_004DC690 at 0x004DC7D6 passes case-entry EDI+0x17810 to FUN_0081EB90; range_effect=FUN_00440940 erases the valid full staged range by setting end to begin; no_per_entry_visitor; application_reads=none in the checked case and erase path; staging=local u32/u8 pair supplied to FUN_0081F090; queue_owner=case-entry EDI+0x17810, absolute owner binding unproved; construction_and_growth_helpers=uninspected; pair_meanings_and_actor_effects=unproved; sequence_0007=outside this proof; client_contract=xivl-decomp:docs/net/low-opcode-pair-staging.md"
         },
         {
           "name": "DeleteAllActorsPacket",
@@ -1876,11 +1876,23 @@
           "service": "map",
           "direction": "clientbound",
           "implementationAnchor": "MapServerOpcode::MassDeleteActorX11",
-          "decompAnchor": null,
-          "observedIn": [],
-          "payloadLengths": [],
-          "confidence": "implemented",
-          "notes": "role=server-to-client mass actor-deletion body (variable-count), game-message opcode 0x0008. Same numeric value as the transport pong subpacket, but at a different layer: the transport pong subpacket is the **subpacket type** (raw transport ping, used in `SubPacket::new_with_flag(false, ...)`), whereas this mass-delete game message is the **game-message opcode** field inside a type-3 (game-message) subpacket. The dispatcher routes subpacket-type=8 to `handle_ping` and subpacket-type=3 + game-message-opcode=0x0008 to the Mass Delete Actor body path. Despite an x1 (8-byte, single u32 actor) label, retail captures (`ffxiv_traces/*.pcapng` 0x0008 OUT records) confirm the actual on-the-wire shape is a **variable-count** list with capacity 11: `u32 count + u32[count] actor_ids + zero pad to 48-byte body` Body is always 48 bytes (SubPacket size 0x50). `count` is 1..=11 across the surveyed captures. Retail uses this 19x - far more than 0x0009/0x000A/0x000B combined - making it the de-facto \"standard\" Mass Delete Body opcode for typical zone-transition exempt lists. The fixed-slot _X16/_X32/_X64 variants are reserved for batches that exceed 11 actors.; lane_ruling=moved_from_WorldClientbound; main_lane_count=19; chat_lane_count=0"
+          "decompAnchor": "FUN_004DC690",
+          "observedIn": [
+            "from_gridania_to_blackshroud.pcapng",
+            "gridania_to_coerthas.pcapng",
+            "move_out_of_room.pcapng",
+            "moving_around_gridania.pcapng",
+            "return_to_inn.pcapng",
+            "teleport_to_camp_nine_ivies.pcapng",
+            "teleport_to_camp_tranquil.pcapng",
+            "teleport_to_gridania.pcapng",
+            "war_quest_update2.pcapng"
+          ],
+          "payloadLengths": [
+            80
+          ],
+          "confidence": "decomp_routed",
+          "notes": "retail_client_analysis=case_0008=0x004DC7E6; application_count=u8 at +0; application_values=u32 at +4+4*i; application_flags=u8 at +0x24+i; count_reloaded_after_each_call; no_local_packet_length_or_8_or_11_entry_clamp; retained_samples=19 with count 1..8, eight zero flag bytes and 48 application bytes; framing=80-byte subevent,64-byte game message,48-byte application; lane_ruling=moved_from_WorldClientbound; main_lane_count=19; chat_lane_count=0; staging=local u32/u8 pair supplied to FUN_0081F090; queue_owner=case-entry EDI+0x17810, absolute owner binding unproved; construction_and_growth_helpers=uninspected; pair_meanings_and_actor_effects=unproved; sequence_0007=outside this proof; client_contract=xivl-decomp:docs/net/low-opcode-pair-staging.md"
         },
         {
           "name": "_0x0009",
@@ -1889,7 +1901,7 @@
           "service": "map",
           "direction": "clientbound",
           "implementationAnchor": "MapServerOpcode::MassDeleteActorX16",
-          "decompAnchor": null,
+          "decompAnchor": "FUN_004DC690",
           "observedIn": [
             "moving_around_gridania.pcapng",
             "teleport_to_camp_tranquil.pcapng"
@@ -1897,8 +1909,8 @@
           "payloadLengths": [
             112
           ],
-          "confidence": "implemented",
-          "notes": "pcap_only_no_reference_match; service_inferred=map_default_guess; role=server-to-client mass actor-deletion body carrying up to 16 actor ids (0x10 hex); 80-byte body (16 x u32 id + 16 pad). Observed 2x during large zone transitions."
+          "confidence": "decomp_routed",
+          "notes": "retail_client_analysis=case_0009=0x004DC82D; fixed_count=16; application_values=u32 at +4*i; application_flags=u8 at +0x40+i; minimum_application_read=80; no_local_packet_length_check; staging=local u32/u8 pair supplied to FUN_0081F090; queue_owner=case-entry EDI+0x17810, absolute owner binding unproved; construction_and_growth_helpers=uninspected; pair_meanings_and_actor_effects=unproved; sequence_0007=outside this proof; client_contract=xivl-decomp:docs/net/low-opcode-pair-staging.md"
         },
         {
           "name": "_0x000A",
@@ -1907,7 +1919,7 @@
           "service": "map",
           "direction": "clientbound",
           "implementationAnchor": "MapServerOpcode::MassDeleteActorX32",
-          "decompAnchor": null,
+          "decompAnchor": "FUN_004DC690",
           "observedIn": [
             "move_out_of_room.pcapng",
             "moving_around_gridania.pcapng"
@@ -1915,8 +1927,8 @@
           "payloadLengths": [
             192
           ],
-          "confidence": "implemented",
-          "notes": "pcap_only_no_reference_match; service_inferred=map_default_guess; role=server-to-client mass actor-deletion body carrying up to 32 actor ids (0x20 hex); 160-byte body (32 x u32 id + 32 pad). Observed 2x."
+          "confidence": "decomp_routed",
+          "notes": "retail_client_analysis=case_000a=0x004DC869; fixed_count=32; application_values=u32 at +4*i; application_flags=u8 at +0x80+i; minimum_application_read=160; body_contract=reused from xivl-client-structs:manifests/low_switch_remaining_cases.json#case_table; staging=local u32/u8 pair supplied to FUN_0081F090; queue_owner=case-entry EDI+0x17810, absolute owner binding unproved; construction_and_growth_helpers=uninspected; pair_meanings_and_actor_effects=unproved; sequence_0007=outside this proof; client_contract=xivl-decomp:docs/net/low-opcode-pair-staging.md"
         },
         {
           "name": "_0x000B",
@@ -1925,11 +1937,11 @@
           "service": "map",
           "direction": "clientbound",
           "implementationAnchor": "MapServerOpcode::MassDeleteActorX64",
-          "decompAnchor": null,
+          "decompAnchor": "FUN_004DC690",
           "observedIn": [],
           "payloadLengths": [],
-          "confidence": "implemented",
-          "notes": "role=server-to-client mass actor-deletion body carrying up to 64 actor ids (0x40 hex); 320-byte body (64 x u32 id + 64 pad) by symmetry with the x16 and x32 variants. inferred_not_observed_in_corpus."
+          "confidence": "decomp_routed",
+          "notes": "retail_client_analysis=case_000b=0x004DC89D; fixed_count=64; application_values=u32 at +4*i; application_flags=u8 at +0x100+i; minimum_application_read=320; no_local_packet_length_check; native_read_extent_is_not_an_observed_packet_size; staging=local u32/u8 pair supplied to FUN_0081F090; queue_owner=case-entry EDI+0x17810, absolute owner binding unproved; construction_and_growth_helpers=uninspected; pair_meanings_and_actor_effects=unproved; sequence_0007=outside this proof; client_contract=xivl-decomp:docs/net/low-opcode-pair-staging.md"
         },
         {
           "name": "SetMusicPacket",

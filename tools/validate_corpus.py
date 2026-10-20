@@ -171,6 +171,92 @@ def validate_dispatch_inventory(top: dict) -> None:
                     errors.append(f"{tag}: dispatch-only {key} must be {value!r}")
 
 
+def validate_low_pair_staging(top: dict) -> None:
+    """Reject the demonstrated count/flag, erase and framing misreadings."""
+    required = {
+        6: ("range_effect=", "no_per_entry_visitor"),
+        8: ("application_count=u8 at +0", "application_flags=u8 at +0x24+i"),
+        9: (
+            "fixed_count=16",
+            "application_flags=u8 at +0x40+i",
+            "minimum_application_read=80",
+        ),
+        10: (
+            "fixed_count=32",
+            "application_flags=u8 at +0x80+i",
+            "minimum_application_read=160",
+        ),
+        11: (
+            "fixed_count=64",
+            "application_flags=u8 at +0x100+i",
+            "minimum_application_read=320",
+        ),
+    }
+    rows = top.get("lists", {}).get("MapClientbound", [])
+    for opcode, tokens in required.items():
+        matches = [r for r in rows if r.get("opcode") == opcode]
+        if len(matches) != 1:
+            errors.append(
+                f"low pair staging: expected one Map clientbound 0x{opcode:04x}"
+            )
+            continue
+        notes = matches[0].get("notes", "")
+        function = "FUN_0081EB90" if opcode == 6 else "FUN_004DC690"
+        if (
+            matches[0].get("decompAnchor") != function
+            or matches[0].get("confidence") != "decomp_routed"
+        ):
+            errors.append(
+                f"low pair staging 0x{opcode:04x}: native route anchor missing"
+            )
+        if any(token not in notes for token in tokens):
+            errors.append(
+                f"low pair staging 0x{opcode:04x}: consumed field/erase contract missing"
+            )
+        if (
+            "capacity 11" in notes
+            or "count` is 1..=11" in notes
+            or "by symmetry" in notes
+        ):
+            errors.append(
+                f"low pair staging 0x{opcode:04x}: unsupported count/extent claim"
+            )
+    product = _load(DATA_DIR / "vendor/captures/payload_samples.json")["samples"][
+        "s2c"
+    ]["0x0008"]
+    samples = product["samples"]
+    counts = set()
+    for sample in samples:
+        message = bytes.fromhex(sample["bytes"])
+        if sample["sub_size"] != 80 or len(message) != 64:
+            errors.append("low pair staging 0x0008: pinned record framing changed")
+            continue
+        counts.add(message[0x10])
+        if message[0x11:0x14] != bytes(3) or message[0x34:0x40] != bytes(12):
+            errors.append(
+                "low pair staging 0x0008: count padding/flag/tail evidence changed"
+            )
+    if product["sampleCount"] != 19 or len(samples) != 19 or counts != set(range(1, 9)):
+        errors.append(
+            "low pair staging 0x0008: pinned 19-record count evidence changed"
+        )
+    variable = next((r for r in rows if r.get("opcode") == 8), None)
+    if variable is not None and (
+        variable.get("observedIn") != sorted({s["capture"] for s in samples})
+        or variable.get("payloadLengths") != [80]
+    ):
+        errors.append(
+            "low pair staging 0x0008: capture witnesses/length missing or mismatched"
+        )
+    fixed64 = next((r for r in rows if r.get("opcode") == 11), None)
+    if fixed64 is not None and (
+        fixed64.get("observedIn") or fixed64.get("payloadLengths")
+    ):
+        errors.append(
+            "low pair staging 0x000b: native read extent is not a captured size"
+        )
+
+
 def validate_catalog(cap_names: set[str]) -> None:
     cat_path = OPCODES_PATH
     const_path = CONSTANTS_PATH
@@ -187,6 +273,7 @@ def validate_catalog(cap_names: set[str]) -> None:
         return
     top = catalog[0]
     validate_dispatch_inventory(top)
+    validate_low_pair_staging(top)
     constants = _load(const_path) if const_path.is_file() else {}
     region = top.get("region")
     declared = constants.get(region) if isinstance(constants, dict) else None

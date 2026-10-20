@@ -1394,6 +1394,124 @@ def apply_zone_dummy_cluster(top: dict) -> tuple[int, int]:
     return applied, inserted
 
 
+def apply_low_pair_staging_contract(top: dict) -> int:
+    """Apply the bounded low-opcode array and range-erase findings."""
+    evidence = "xivl-decomp:docs/net/low-opcode-pair-staging.md"
+    contracts = {
+        0x0006: (
+            "FUN_0081EB90",
+            "case_0006=FUN_004DC690 at 0x004DC7D6 passes case-entry EDI+0x17810 to FUN_0081EB90; "
+            "range_effect=FUN_00440940 erases the valid full staged range by setting end to begin; "
+            "no_per_entry_visitor; application_reads=none in the checked case and erase path",
+        ),
+        0x0008: (
+            "FUN_004DC690",
+            "case_0008=0x004DC7E6; application_count=u8 at +0; "
+            "application_values=u32 at +4+4*i; application_flags=u8 at +0x24+i; "
+            "count_reloaded_after_each_call; no_local_packet_length_or_8_or_11_entry_clamp; "
+            "retained_samples=19 with count 1..8, eight zero flag bytes and 48 application bytes; "
+            "framing=80-byte subevent,64-byte game message,48-byte application; "
+            "lane_ruling=moved_from_WorldClientbound; main_lane_count=19; chat_lane_count=0",
+        ),
+        0x0009: (
+            "FUN_004DC690",
+            "case_0009=0x004DC82D; fixed_count=16; application_values=u32 at +4*i; "
+            "application_flags=u8 at +0x40+i; minimum_application_read=80; no_local_packet_length_check",
+        ),
+        0x000A: (
+            "FUN_004DC690",
+            "case_000a=0x004DC869; fixed_count=32; application_values=u32 at +4*i; "
+            "application_flags=u8 at +0x80+i; minimum_application_read=160; "
+            "body_contract=reused from xivl-client-structs:manifests/low_switch_remaining_cases.json#case_table",
+        ),
+        0x000B: (
+            "FUN_004DC690",
+            "case_000b=0x004DC89D; fixed_count=64; application_values=u32 at +4*i; "
+            "application_flags=u8 at +0x100+i; minimum_application_read=320; "
+            "no_local_packet_length_check; native_read_extent_is_not_an_observed_packet_size",
+        ),
+    }
+    prior_notes = {
+        0x0006: (
+            "pcap_only_no_reference_match; service_inferred=map_default_guess; "
+            "role=server-to-client mass actor-deletion start marker; opens a delete sequence "
+            "whose body packets list actors to exempt and whose end marker (0x0007) commits it. "
+            "8-byte body. Same wire integer as the serverbound language-code opcode, "
+            "disambiguated by direction. Observed across 9 captures."
+        ),
+        0x0008: (
+            "role=server-to-client mass actor-deletion body (variable-count), game-message opcode"
+            " 0x0008. Same numeric value as the transport pong subpacket, but at a different "
+            "layer: the transport pong subpacket is the **subpacket type** (raw transport ping, "
+            "used in `SubPacket::new_with_flag(false, ...)`), whereas this mass-delete game "
+            "message is the **game-message opcode** field inside a type-3 (game-message) "
+            "subpacket. The dispatcher routes subpacket-type=8 to `handle_ping` and "
+            "subpacket-type=3 + game-message-opcode=0x0008 to the Mass Delete Actor body path. "
+            "Despite an x1 (8-byte, single u32 actor) label, retail captures "
+            "(`ffxiv_traces/*.pcapng` 0x0008 OUT records) confirm the actual on-the-wire shape is"
+            " a **variable-count** list with capacity 11: `u32 count + u32[count] actor_ids + "
+            "zero pad to 48-byte body` Body is always 48 bytes (SubPacket size 0x50). `count` is "
+            "1..=11 across the surveyed captures. Retail uses this 19x - far more than "
+            '0x0009/0x000A/0x000B combined - making it the de-facto "standard" Mass Delete Body '
+            "opcode for typical zone-transition exempt lists. The fixed-slot _X16/_X32/_X64 "
+            "variants are reserved for batches that exceed 11 actors.; "
+            "lane_ruling=moved_from_WorldClientbound; main_lane_count=19; chat_lane_count=0"
+        ),
+        0x0009: (
+            "pcap_only_no_reference_match; service_inferred=map_default_guess; "
+            "role=server-to-client mass actor-deletion body carrying up to 16 actor ids (0x10 "
+            "hex); 80-byte body (16 x u32 id + 16 pad). Observed 2x during large zone "
+            "transitions."
+        ),
+        0x000A: (
+            "pcap_only_no_reference_match; service_inferred=map_default_guess; "
+            "role=server-to-client mass actor-deletion body carrying up to 32 actor ids (0x20 "
+            "hex); 160-byte body (32 x u32 id + 32 pad). Observed 2x."
+        ),
+        0x000B: (
+            "role=server-to-client mass actor-deletion body carrying up to 64 actor ids (0x40 "
+            "hex); 320-byte body (64 x u32 id + 64 pad) by symmetry with the x16 and x32 "
+            "variants. inferred_not_observed_in_corpus."
+        ),
+    }
+    for opcode, (function, contract) in contracts.items():
+        rows = [r for r in top["lists"]["MapClientbound"] if r["opcode"] == opcode]
+        if len(rows) != 1:
+            raise ValueError(
+                f"low pair staging requires one Map clientbound 0x{opcode:04x}"
+            )
+        row = rows[0]
+        row["decompAnchor"] = function
+        row["confidence"] = "decomp_routed"
+        managed_notes = (
+            "retail_client_analysis="
+            + contract
+            + "; staging=local u32/u8 pair supplied to FUN_0081F090; "
+            "queue_owner=case-entry EDI+0x17810, absolute owner binding unproved; "
+            "construction_and_growth_helpers=uninspected; pair_meanings_and_actor_effects=unproved; "
+            "sequence_0007=outside this proof; client_contract=" + evidence
+        )
+        row["notes"], status = swap_managed_prefix(
+            row.get("notes", ""), prior_notes[opcode], managed_notes
+        )
+        if status == "mismatch":
+            raise ValueError(
+                f"low pair staging notes do not match the managed prefix for 0x{opcode:04x}"
+            )
+    samples_path = OPCODES_PATH.parent / "data/vendor/captures/payload_samples.json"
+    samples = json.loads(samples_path.read_text(encoding="utf-8"))["samples"]["s2c"][
+        "0x0008"
+    ]
+    if samples["sampleCount"] != 19 or len(samples["samples"]) != 19:
+        raise ValueError(
+            "low pair staging requires the pinned 19-record 0x0008 product"
+        )
+    row = next(r for r in top["lists"]["MapClientbound"] if r["opcode"] == 8)
+    row["observedIn"] = sorted({s["capture"] for s in samples["samples"]})
+    row["payloadLengths"] = sorted({s["sub_size"] for s in samples["samples"]})
+    return len(contracts)
+
+
 def apply_retained_contracts(top: dict) -> int:
     """Attach bounded retail contracts without treating native sizes as captures."""
     structures = "xivl-client-structs:manifests/"
@@ -2132,6 +2250,9 @@ def main() -> int:
 
     retained_applied = apply_retained_contracts(top)
     print(f"Applied {retained_applied} retained retail contracts")
+
+    low_pairs_applied = apply_low_pair_staging_contract(top)
+    print(f"Applied {low_pairs_applied} low-opcode pair staging contracts")
 
     stale_removed, ambiguity_added, ambiguity_removed = reconcile_pcap_notes(top)
     print(f"Removed {stale_removed} stale no-pcap note tokens")
