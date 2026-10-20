@@ -1093,6 +1093,36 @@ OVERRIDES = [
         "constructor_evidence=xivl-client-structs:manifests/symbols.json#BCS-Y-0311; "
         "receive_dispatch_evidence=xivl-client-structs:manifests/symbols.json#BCS-Y-0287",
     ),
+    (
+        "WorldServerbound",
+        "0x012c",
+        "_0x012C",
+        "decomp_source=tierc_outbound_scan; bcsy_ref=BCS-Y-0315; evidence=FUN_004DF9A0 "
+        "(Chat login-callback emitter) DAT_0132FB98==1 branch emits opcode 0x012C size "
+        "0x18 via FUN_00DB3E30 (BCS-Y-0306, Chat generic forwarder). Two-state retry "
+        "pattern: first call emits 0x0002 (state=0), second emits 0x012C (state=1), "
+        "incrementing the global on successful send.; likely_role=Chat channel login "
+        "step 2 (post-handshake auth follow-up, c2s)",
+        "no_pcap_evidence; bcsy_ref=BCS-Y-0315; producer=FUN_004DF9A0 global "
+        "DAT_0132FB98==1 branch supplies record value 0x012c and size 0x18 through Chat "
+        "forwarder FUN_00DB3E30; header_binding=Chat constructor FUN_00E40A60 stores "
+        "the value at builder+0x1c and slot2 FUN_00E409E0 writes its low16 to "
+        "game-header+2 with tag 0x0014; header_value_8=literal u32 10; "
+        "hook_boundary=the inspected accessor and finalization hooks preserve the "
+        "constructed header, while buffer replacement and transmission were not "
+        "reproduced; "
+        "application_contract=xivl-client-structs:manifests/structs.json#BCS-S-0374; "
+        "application_extent=8 bytes; fields=leading u32 1 and closing four bytes with "
+        "no documented writer; framing=24-byte game message and statically implied "
+        "40-byte subpacket; capture_boundary=no Chat-lane specimen or observed "
+        "subpacket length is established; sequence_boundary=the global increments only "
+        "when the forwarder returns success, not proof of an accepted server response; "
+        "semantic_boundary=the narrower operation, closing-word initialization, remote "
+        "lifecycle and client acceptance remain unresolved; naming=placeholder "
+        "retained; "
+        "header_binding_evidence=xivl-decomp:docs/net/chat-outbound-header.md; "
+        "forwarder_evidence=xivl-client-structs:manifests/symbols.json#BCS-Y-0306",
+    ),
 ]
 
 UNSUPPORTED_IMPLEMENTATION_OVERRIDES = [
@@ -1374,6 +1404,12 @@ DECOMP_ANCHOR_OVERRIDES = [
         "0x01f6",
         "_0x01F6",
         "FUN_00DA9880",
+    ),
+    (
+        "WorldServerbound",
+        "0x012c",
+        "_0x012C",
+        "FUN_004DF9A0",
     ),
 ]
 
@@ -2966,6 +3002,63 @@ def apply_lobby_census_attributions(top: dict) -> tuple[int, int, int]:
     return applied, skipped, errors
 
 
+def apply_chat_header_routes(top: dict) -> tuple[int, int]:
+    """Insert the bound Chat value-2 route and retire a record-layer length."""
+    entries = top["lists"]["WorldServerbound"]
+    followup = next((entry for entry in entries if entry["opcode"] == 0x012C), None)
+    if (
+        followup is None
+        or followup.get("name") != "_0x012C"
+        or followup.get("observedIn") != []
+        or followup.get("payloadLengths") not in ([24], [])
+    ):
+        print("  WARN: World serverbound 0x012c has unexpected retained evidence")
+        return 0, 1
+    followup["payloadLengths"] = []
+    matches = [entry for entry in entries if entry["opcode"] == 2]
+    if matches:
+        if len(matches) != 1 or any(
+            matches[0].get(key) != value
+            for key, value in {
+                "name": "_0x0002",
+                "service": "world",
+                "direction": "serverbound",
+                "decompAnchor": "FUN_00DB4020",
+            }.items()
+        ):
+            print("  WARN: World serverbound 0x0002 has an unexpected route identity")
+            return 0, 1
+        return 0, 0
+    sources = [
+        row
+        for row in json.loads(DECOMP_OPCODES_PATH.read_text(encoding="utf-8"))
+        if row.get("service") == "world"
+        and row.get("direction") == "serverbound"
+        and row.get("opcode") == 2
+        and row.get("source") == "chat_outbound_header_binding"
+    ]
+    if len(sources) != 1:
+        print("  WARN: Chat value-2 route requires one exact curator record")
+        return 0, 1
+    source = sources[0]
+    entries.append(
+        {
+            "name": source["name"],
+            "opcode": 2,
+            "opcodeHex": "0x0002",
+            "service": "world",
+            "direction": "serverbound",
+            "implementationAnchor": None,
+            "decompAnchor": "FUN_00DB4020",
+            "observedIn": [],
+            "payloadLengths": [],
+            "confidence": "decomp_routed",
+            "notes": f"no_pcap_evidence; decomp_source={source['source']}; evidence={source['evidence']}",
+        }
+    )
+    return 1, 0
+
+
 def reconcile_pcap_notes(top: dict) -> tuple[int, int, int]:
     """Keep pcap notes aligned with the observedIn evidence they describe."""
     stale_removed = 0
@@ -3300,6 +3393,10 @@ def main() -> int:
     print(
         f"Applied {lobby_applied} lobby census attributions ({lobby_skipped} skipped)"
     )
+
+    chat_inserted, chat_errors = apply_chat_header_routes(top)
+    warned += chat_errors
+    print(f"Inserted {chat_inserted} Chat value-2 route")
 
     retained_applied = apply_retained_contracts(top)
     print(f"Applied {retained_applied} retained retail contracts")

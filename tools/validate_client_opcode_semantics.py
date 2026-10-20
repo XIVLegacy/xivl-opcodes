@@ -446,8 +446,8 @@ def main() -> int:
                 )
 
     anchors = [entry["decompAnchor"] for entry in entries if entry.get("decompAnchor")]
-    if len(anchors) != 138:
-        errors.append(f"catalog has {len(anchors)} decompAnchor values, expected 138")
+    if len(anchors) != 140:
+        errors.append(f"catalog has {len(anchors)} decompAnchor values, expected 140")
     bad_anchors = [anchor for anchor in anchors if not BARE_FUNCTION.fullmatch(anchor)]
     if bad_anchors:
         errors.append(f"non-bare decompAnchor values: {bad_anchors}")
@@ -491,6 +491,31 @@ def main() -> int:
             errors.append(f"{label} has no supported Lobby capture or length")
         if opcode == 501 and "operation_state=0" not in entry.get("notes", ""):
             errors.append(f"{label} must retain operation state 0")
+
+    for opcode, function, fragment in (
+        (2, "FUN_00DB4020", "complete 40-byte application"),
+        (300, "FUN_004DF9A0", "application_extent=8 bytes"),
+    ):
+        matches = [
+            entry
+            for entry in catalog["lists"]["WorldServerbound"]
+            if entry.get("opcode") == opcode
+        ]
+        label = f"c2s World 0x{opcode:04x}"
+        if len(matches) != 1:
+            errors.append(f"{label} must have exactly one catalog row")
+            continue
+        entry = matches[0]
+        if (
+            entry.get("decompAnchor") != function
+            or entry.get("confidence") != "decomp_routed"
+            or entry.get("observedIn") != []
+            or entry.get("payloadLengths") != []
+        ):
+            errors.append(f"{label} lost its native-only route boundary")
+        for fact in (fragment, "literal u32 10", "docs/net/chat-outbound-header.md"):
+            if fact not in entry.get("notes", ""):
+                errors.append(f"{label} lost required fact {fact!r}")
 
     value_two = [
         entry

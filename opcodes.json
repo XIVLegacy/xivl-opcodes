@@ -394,13 +394,11 @@
           "service": "world",
           "direction": "serverbound",
           "implementationAnchor": null,
-          "decompAnchor": null,
+          "decompAnchor": "FUN_004DF9A0",
           "observedIn": [],
-          "payloadLengths": [
-            24
-          ],
+          "payloadLengths": [],
           "confidence": "decomp_routed",
-          "notes": "decomp_source=tierc_outbound_scan; bcsy_ref=BCS-Y-0315; evidence=FUN_004DF9A0 (Chat login-callback emitter) DAT_0132FB98==1 branch emits opcode 0x012C size 0x18 via FUN_00DB3E30 (BCS-Y-0306, Chat generic forwarder). Two-state retry pattern: first call emits 0x0002 (state=0), second emits 0x012C (state=1), incrementing the global on successful send.; likely_role=Chat channel login step 2 (post-handshake auth follow-up, c2s)"
+          "notes": "no_pcap_evidence; bcsy_ref=BCS-Y-0315; producer=FUN_004DF9A0 global DAT_0132FB98==1 branch supplies record value 0x012c and size 0x18 through Chat forwarder FUN_00DB3E30; header_binding=Chat constructor FUN_00E40A60 stores the value at builder+0x1c and slot2 FUN_00E409E0 writes its low16 to game-header+2 with tag 0x0014; header_value_8=literal u32 10; hook_boundary=the inspected accessor and finalization hooks preserve the constructed header, while buffer replacement and transmission were not reproduced; application_contract=xivl-client-structs:manifests/structs.json#BCS-S-0374; application_extent=8 bytes; fields=leading u32 1 and closing four bytes with no documented writer; framing=24-byte game message and statically implied 40-byte subpacket; capture_boundary=no Chat-lane specimen or observed subpacket length is established; sequence_boundary=the global increments only when the forwarder returns success, not proof of an accepted server response; semantic_boundary=the narrower operation, closing-word initialization, remote lifecycle and client acceptance remain unresolved; naming=placeholder retained; header_binding_evidence=xivl-decomp:docs/net/chat-outbound-header.md; forwarder_evidence=xivl-client-structs:manifests/symbols.json#BCS-Y-0306"
         },
         {
           "name": "TellChatMessagePacket",
@@ -416,6 +414,19 @@
           ],
           "confidence": "decomp_routed",
           "notes": "decomp_source=retail_chat_wire_trace; bcsy_ref=BCS-Y-0331 + BCS-Y-0316; FUN_004DF810 rejects an empty target but does not reject an empty message, and bounds target/message through FUN_00447BC0 before FUN_004E3750 writes opcode 0x00c8, builder-record size 0x230, target[32] at record +0x18, and message[512] at record +0x38; FUN_00DB3E30 forwards it on the World Chat lane; derived subpacket size 0x240 and application size 0x228 with opaque[8] at +0x00, target[32] at +0x08, and message[512] at +0x28; no retail tell capture; server recipient selection, presence, echo, offline behavior, and cross-zone behavior remain unknown; client_semantics_evidence=data/client_opcode_semantics.json#c2s-00c8; dependency_status=closed"
+        },
+        {
+          "name": "_0x0002",
+          "opcode": 2,
+          "opcodeHex": "0x0002",
+          "service": "world",
+          "direction": "serverbound",
+          "implementationAnchor": null,
+          "decompAnchor": "FUN_00DB4020",
+          "observedIn": [],
+          "payloadLengths": [],
+          "confidence": "decomp_routed",
+          "notes": "no_pcap_evidence; decomp_source=chat_outbound_header_binding; evidence=Chat constructor FUN_00E40A60 stores record value 2 at builder+0x1C. Class-specific header function FUN_00E409E0 copies its low16 to game-header+2 with tag 0x0014 and writes literal u32 10 at header+8. The inspected accessor and finalization hooks do not mutate the header; buffer replacement and transmission were not reproduced. Published dedicated producer FUN_00DB4020 supplies value 2 and size 0x38, with leading application u32 0x00003C6B. Callback FUN_004DF9A0 supplies the same record value/size with leading zero and 36 supplied bytes. BCS-S-0373 owns the complete 40-byte application, distinct from the 56-byte game message and statically implied 72-byte subpacket. No capture witness, universal leading value, individual identity-field meaning, narrower login policy, server response, delivery or client acceptance follows. Sources: xivl-decomp:docs/net/chat-outbound-header.md; xivl-client-structs:manifests/structs.json#BCS-S-0373; BCS-Y-0303,BCS-Y-0307,BCS-Y-0315. Header original is retail ffxivgame.exe SHA-256 9341f2b4567440b310a4d494f5cc5599ca334ba51c8042247317ff466492f2e9; REA/Ghidra 12.1.3 exact reads checked against original PE with pefile 2024.8.26/Capstone 5.0.7."
         }
       ],
       "WorldClientbound": [
