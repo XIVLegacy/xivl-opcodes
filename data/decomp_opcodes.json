@@ -95,8 +95,8 @@
     "name": "_0x0003",
     "service": "map",
     "direction": "serverbound",
-    "evidence": "FUN_004E0320 emits opcode 0x0003 size 0x230 (560 bytes, the largest single-opcode emitter on the direct FUN_00DAE010 path). 438-byte function at VA 0x004E0320 with sole caller FUN_004D8160. Stack record: local_ac0=3 (opcode), local_abc=0x230 (size). Body block of 0x200 bytes loaded from FUN_00445210/FUN_004451F0 (string-pool source) via _memset + _memcpy.",
-    "likely_role": "Map state push (large 512-byte body block)",
+    "evidence": "FUN_004E0320 emits opcode 0x0003 internal builder-record size 0x230 (560 bytes, the largest single-opcode emitter on the direct FUN_00DAE010 path). 438-byte function at VA 0x004E0320 with sole caller FUN_004D8160. Stack record: local_ac0=3 (opcode), local_abc=0x230 (size). Body block of 0x200 bytes loaded from FUN_00445210/FUN_004451F0 (string-pool source) via _memset + _memcpy. Retail Map-main c2s specimens in xivl-captures:studies/m9-corpus-research/derived/verdicts.md#map-main-client-to-server-0x0003 retain selector u32 1 (Say) or 2 (Shout), text[512], and an opaque prefix/tail in 576-byte subevents. Their 552-byte normalized body retains the final eight bytes of the 16-byte game header; the internal builder-record size is a different extent.",
+    "likely_role": "Map Say/Shout chat request (retained selectors 1 and 2)",
     "source": "tierc_outbound_scan"
   },
   {
