@@ -107,6 +107,70 @@ def load_capture_names(captures_dir) -> set[str]:
     return set(_load(CAPTURES_INDEX).get("captureNames", []))
 
 
+def validate_dispatch_inventory(top: dict) -> None:
+    """Keep callback-table coverage distinct from payload or semantic evidence."""
+    evidence = _load(DATA_DIR / "zone_dispatch_map.json")
+    if set(evidence.get("catalog_exclusions", {})) != {"0x00e0"}:
+        errors.append("Zone dispatch catalog exclusions must retain only 0x00e0")
+    dedicated = [case for case in evidence["cases"] if not case["is_catchall"]]
+    opcodes = [opcode for case in evidence["cases"] for opcode in case["opcodes"]]
+    if len(dedicated) != 197 or len(opcodes) != 502 or len(set(opcodes)) != 502:
+        errors.append(
+            "Zone dispatch must retain 197 dedicated cases and 502 unique opcodes"
+        )
+    entries = top["lists"]["MapClientbound"]
+    for case in evidence["cases"]:
+        if case["is_catchall"]:
+            continue
+        if case["vtable_slot"] != case["case"] + 2:
+            errors.append(
+                f"Zone dispatch case {case['case']}: callback slot != case + 2"
+            )
+        for opcode_hex in case["opcodes"]:
+            if opcode_hex in evidence.get("catalog_exclusions", {}):
+                continue
+            matches = [
+                entry for entry in entries if entry["opcode"] == int(opcode_hex, 16)
+            ]
+            if len(matches) != 1:
+                errors.append(
+                    f"Zone dispatch {opcode_hex}: expected one MapClientbound row"
+                )
+
+    curated = _load(DATA_DIR / "decomp_opcodes.json")
+    for row in curated:
+        if row.get("source") != "clientbound_dispatch_completion":
+            continue
+        matches = [
+            entry
+            for bucket in top["lists"].values()
+            for entry in bucket
+            if (entry["service"], entry["direction"], entry["opcode"])
+            == (row["service"], row["direction"], row["opcode"])
+        ]
+        if len(matches) != 1:
+            errors.append(
+                f"Chat dispatch {row['opcodeHex']}: expected one scoped catalog row"
+            )
+
+    for bucket in top["lists"].values():
+        for entry in bucket:
+            if not entry.get("notes", "").startswith("dispatch_slot_evidence="):
+                continue
+            tag = f"{entry['service']}/{entry['direction']}/{entry['opcodeHex']}"
+            expected = {
+                "name": f"_0x{entry['opcode']:04X}",
+                "confidence": "decomp_routed",
+                "implementationAnchor": None,
+                "decompAnchor": None,
+                "observedIn": [],
+                "payloadLengths": [],
+            }
+            for key, value in expected.items():
+                if entry.get(key) != value:
+                    errors.append(f"{tag}: dispatch-only {key} must be {value!r}")
+
+
 def validate_catalog(cap_names: set[str]) -> None:
     cat_path = OPCODES_PATH
     const_path = CONSTANTS_PATH
@@ -122,6 +186,7 @@ def validate_catalog(cap_names: set[str]) -> None:
         errors.append("opcodes.json: root must contain exactly one catalog object")
         return
     top = catalog[0]
+    validate_dispatch_inventory(top)
     constants = _load(const_path) if const_path.is_file() else {}
     region = top.get("region")
     declared = constants.get(region) if isinstance(constants, dict) else None

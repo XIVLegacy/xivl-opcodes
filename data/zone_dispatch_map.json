@@ -1,6 +1,24 @@
 {
   "version": "1.23b",
-  "description": "Universal s2c (clientbound) inner-packet dispatcher in ffxivgame.exe. Decoded from ZoneProtoDownCallbackInterface vtable slot 1 at VA 0x00dbfd10. Routes inner opcodes (u16 at packet+2) in range 0x0001..0x01F6 via a byte indirection table (0xdc1274, 502 entries) + dword jump table (0xdc0f5c, 198 entries) to per-opcode handler slots on the active callback object. Opcodes outside the dense range hit a special-case path at 0xdc0f56. The active callback's vtable is not in RTTI (likely runtime-constructed or multi-inheritance secondary view); the published ZoneProtoDownDummyCallback at vtable 0x01128b4c has 197 no-op stubs (ret 0xc) for the per-opcode slots. Catchall case 197 covers 305 opcodes that have no dedicated client handler.",
+  "description": "ZoneProtoDown clientbound callback dispatcher in retail 1.23b ffxivgame.exe at VA 0x00dbfd10. Reads the u16 opcode at inner packet descriptor +2, maps opcode-1 through the 502-byte table at 0x00dc1274 and selects a target through the 198-entry dword table at 0x00dc0f5c. Cases 0..196 call callback slots 2..198; case 197 is the catchall, and out-of-range values branch to 0x00dc0f56. The known caller installs ZoneProtoDownDummyCallback vtable 0x01128b4c. Its no-op callbacks do not identify application handlers, payload meanings or behavior on every possible runtime path. The 305 catchall values have no dedicated slot in this dispatcher; this is not proof that no other client consumer exists.",
+  "binary": {
+    "name": "ffxivgame.exe",
+    "size": 15996808,
+    "sha256": "9341f2b4567440b310a4d494f5cc5599ca334ba51c8042247317ff466492f2e9",
+    "image_base": "0x00400000"
+  },
+  "evidence": {
+    "sourceRefs": [
+      "xivl-decomp:config/ffxivgame.symbol_evidence.json#ZoneProtoDown_opcode_dispatcher",
+      "xivl-client-structs:manifests/symbols.json#BCS-Y-0104",
+      "xivl-client-structs:manifests/symbols.json#BCS-Y-0107"
+    ],
+    "table_check": "Original PE table bytes reproduced all 502 opcode-to-case values; pefile 2024.8.26 and Capstone 5.0.7 in x86-32 mode checked the dispatcher prefix and case-zero instructions.",
+    "byte_table_sha256": "2b05165ed8762543089e035de0e4333248a7dac6471fb2083dbb6056852aab2a",
+    "dword_table_sha256": "e301be06f8778dbdf85c7b8941ff6b8ff683c17148f9fc94f0d68c341f310504",
+    "case_zero": "Opcode 0x0001 selects case 0 at VA 0x00dbfd3c; MOV at 0x00dbfd42 loads vtable +0x08, proving callback slot 2. The 21-byte case ends at 0x00dbfd50 inclusive.",
+    "boundary": "Structural callback routing only; no new payload layout, packet name, application effect or server policy is established."
+  },
   "dispatcher": {
     "va": "0xdbfd10",
     "byte_table_va": "0xdc1274",
@@ -12,10 +30,13 @@
   "total_opcodes_in_range": 502,
   "opcodes_with_dedicated_slot": 197,
   "opcodes_in_catchall": 305,
+  "catalog_exclusions": {
+    "0x00e0": "Comparison-only action-family route under data/client_opcode_semantics.json#s2c-00e1; tools/validate_client_opcode_semantics.py retains its absence from the consumer catalog. The structural dispatch entry remains in this inventory."
+  },
   "cases": [
     {
       "case": 0,
-      "vtable_slot": 3,
+      "vtable_slot": 2,
       "opcodes": [
         "0x0001"
       ],

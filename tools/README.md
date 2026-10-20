@@ -52,7 +52,12 @@ writer. Abbreviated, uppercase, or omitted hashes are rejected.
 - `generate_catalog.py` reapplies curated catalog notes, ambiguity tags,
   capture-specific lane attributions, and other fields no extractor can derive.
   It then rewrites root `opcodes.json` and `constants.json` with the house JSON
-  writer.
+  writer. It inserts missing dedicated Zone clientbound routes from
+  `data/zone_dispatch_map.json`, retaining its explicit catalog exclusion,
+  and the selected Chat route from
+  `data/decomp_opcodes.json`, preserving existing entries and appended evidence.
+  These neutral rows establish callback routing only, with no inferred payload
+  or packet meaning.
 - `_json_io.py` owns the repo paths and the shared UTF-8, LF, two-space JSON
   writer. `OPCODES_PATH` and `CONSTANTS_PATH` are the single catalog paths.
 - `validate_repository.py` is the complete human and CI check. It parses every
@@ -80,6 +85,8 @@ writer. Abbreviated, uppercase, or omitted hashes are rejected.
   generated headers.
 - `validate_corpus.py` validates schemas, catalog enums, opcode relationships,
   capture references, and BCS-Y references against the pinned local indexes.
+  It also checks dedicated callback-slot membership, the Zone case-to-slot
+  relationship and the evidence boundary of dispatch-only rows.
   It also reports opcode-bound sibling BCS-Y candidates absent from the root
   catalogs and gates changes against the explicit expected-gap baseline. Its
   `--captures-dir`, `--symbols`, and `--expected-sibling-gaps` options are

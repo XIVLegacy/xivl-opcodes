@@ -422,6 +422,19 @@
       ],
       "WorldClientbound": [
         {
+          "name": "_0x0001",
+          "opcode": 1,
+          "opcodeHex": "0x0001",
+          "service": "world",
+          "direction": "clientbound",
+          "implementationAnchor": null,
+          "decompAnchor": null,
+          "observedIn": [],
+          "payloadLengths": [],
+          "confidence": "decomp_routed",
+          "notes": "dispatch_slot_evidence=data/decomp_opcodes.json#world.clientbound.0x0001; ChatProtoDown dispatcher FUN_00E40630 maps clientbound opcode 0x0001 to callback-interface slot 6. The tracked retail dispatcher enumeration covers four low-range values, 0x0001, 0x0002, 0x0003 and 0x00c8, at slots 6 through 9. Source: xivl-decomp:config/ffxivgame.symbol_evidence.json#ChatProtoDown_opcode_dispatcher; binary SHA-256 9341f2b4567440b310a4d494f5cc5599ca334ba51c8042247317ff466492f2e9; producing tool tools/extract_opcode_dispatch.py. The known caller installs ChatProtoDownDummyCallback, whose callback stubs are documented in xivl-decomp:docs/net/stream-pump-and-state.md#va-0x004e2670. This identifies a structural clientbound Chat route, not a packet name, payload layout, application effect or server policy.; no_pcap_evidence; login_service_exclusion=map_main_lane; login_evidence=xivl-captures:derived/lane_observations.json#lanes/main/s2c/0x0001; login_capture_sha256=28e06b54fe559870031f077f8549b9244caafa7e5177dbca08a7feae6c2b1b62"
+        },
+        {
           "name": "_0x2Packet",
           "opcode": 2,
           "opcodeHex": "0x0002",
@@ -1770,6 +1783,19 @@
           "notes": "login_service_attribution=map_main_lane; login_evidence=xivl-captures:derived/lane_observations.json#lanes/main/s2c/0x0003; login_capture_sha256=28e06b54fe559870031f077f8549b9244caafa7e5177dbca08a7feae6c2b1b62; wire_layout=data/s2c_0003_wire_layout.json"
         },
         {
+          "name": "_0x0004",
+          "opcode": 4,
+          "opcodeHex": "0x0004",
+          "service": "map",
+          "direction": "clientbound",
+          "implementationAnchor": null,
+          "decompAnchor": null,
+          "observedIn": [],
+          "payloadLengths": [],
+          "confidence": "decomp_routed",
+          "notes": "dispatch_slot_evidence=data/zone_dispatch_map.json#cases.3; retail_client_analysis=ZoneProtoDown FUN_00DBFD10 opcode 0x0004 selects case 3 and callback slot 5; naming=placeholder retained; dispatch_boundary=structural callback slot does not identify an application handler, payload layout, packet meaning or server behavior; no_pcap_evidence"
+        },
+        {
           "name": "SetMapPacket",
           "opcode": 5,
           "opcodeHex": "0x0005",
@@ -2131,6 +2157,19 @@
           "notes": ""
         },
         {
+          "name": "_0x00CD",
+          "opcode": 205,
+          "opcodeHex": "0x00cd",
+          "service": "map",
+          "direction": "clientbound",
+          "implementationAnchor": null,
+          "decompAnchor": null,
+          "observedIn": [],
+          "payloadLengths": [],
+          "confidence": "decomp_routed",
+          "notes": "dispatch_slot_evidence=data/zone_dispatch_map.json#cases.20; retail_client_analysis=ZoneProtoDown FUN_00DBFD10 opcode 0x00cd selects case 20 and callback slot 22; naming=placeholder retained; dispatch_boundary=structural callback slot does not identify an application handler, payload layout, packet meaning or server behavior; no_pcap_evidence"
+        },
+        {
           "name": "SetActorPositionPacket",
           "opcode": 206,
           "opcodeHex": "0x00ce",
@@ -2347,6 +2386,32 @@
           "retail_class_name": "Application::Lua::Script::Client::Command::Network::SetTargetTimeReceiver"
         },
         {
+          "name": "_0x00D4",
+          "opcode": 212,
+          "opcodeHex": "0x00d4",
+          "service": "map",
+          "direction": "clientbound",
+          "implementationAnchor": null,
+          "decompAnchor": null,
+          "observedIn": [],
+          "payloadLengths": [],
+          "confidence": "decomp_routed",
+          "notes": "dispatch_slot_evidence=data/zone_dispatch_map.json#cases.26; retail_client_analysis=ZoneProtoDown FUN_00DBFD10 opcode 0x00d4 selects case 26 and callback slot 28; naming=placeholder retained; dispatch_boundary=structural callback slot does not identify an application handler, payload layout, packet meaning or server behavior; no_pcap_evidence"
+        },
+        {
+          "name": "_0x00D5",
+          "opcode": 213,
+          "opcodeHex": "0x00d5",
+          "service": "map",
+          "direction": "clientbound",
+          "implementationAnchor": null,
+          "decompAnchor": null,
+          "observedIn": [],
+          "payloadLengths": [],
+          "confidence": "decomp_routed",
+          "notes": "dispatch_slot_evidence=data/zone_dispatch_map.json#cases.27; retail_client_analysis=ZoneProtoDown FUN_00DBFD10 opcode 0x00d5 selects case 27 and callback slot 29; naming=placeholder retained; dispatch_boundary=structural callback slot does not identify an application handler, payload layout, packet meaning or server behavior; no_pcap_evidence"
+        },
+        {
           "name": "SetActorAppearancePacket",
           "opcode": 214,
           "opcodeHex": "0x00d6",
@@ -2481,6 +2546,32 @@
           "notes": ""
         },
         {
+          "name": "_0x00DC",
+          "opcode": 220,
+          "opcodeHex": "0x00dc",
+          "service": "map",
+          "direction": "clientbound",
+          "implementationAnchor": null,
+          "decompAnchor": null,
+          "observedIn": [],
+          "payloadLengths": [],
+          "confidence": "decomp_routed",
+          "notes": "dispatch_slot_evidence=data/zone_dispatch_map.json#cases.34; retail_client_analysis=ZoneProtoDown FUN_00DBFD10 opcode 0x00dc selects case 34 and callback slot 36; naming=placeholder retained; dispatch_boundary=structural callback slot does not identify an application handler, payload layout, packet meaning or server behavior; no_pcap_evidence"
+        },
+        {
+          "name": "_0x00DD",
+          "opcode": 221,
+          "opcodeHex": "0x00dd",
+          "service": "map",
+          "direction": "clientbound",
+          "implementationAnchor": null,
+          "decompAnchor": null,
+          "observedIn": [],
+          "payloadLengths": [],
+          "confidence": "decomp_routed",
+          "notes": "dispatch_slot_evidence=data/zone_dispatch_map.json#cases.35; retail_client_analysis=ZoneProtoDown FUN_00DBFD10 opcode 0x00dd selects case 35 and callback slot 37; naming=placeholder retained; dispatch_boundary=structural callback slot does not identify an application handler, payload layout, packet meaning or server behavior; no_pcap_evidence"
+        },
+        {
           "name": "_0x00DE",
           "opcode": 222,
           "opcodeHex": "0x00de",
@@ -2499,6 +2590,19 @@
           ],
           "confidence": "implemented",
           "notes": "pcap_only_no_reference_match; service_inferred=map_default_guess; role=server-to-client reset of a previously-set head/eye-tracking orientation (set via 0x00DB actor-target or 0x00DC position-target). 8-byte body. Observed across 4 captures."
+        },
+        {
+          "name": "_0x00DF",
+          "opcode": 223,
+          "opcodeHex": "0x00df",
+          "service": "map",
+          "direction": "clientbound",
+          "implementationAnchor": null,
+          "decompAnchor": null,
+          "observedIn": [],
+          "payloadLengths": [],
+          "confidence": "decomp_routed",
+          "notes": "dispatch_slot_evidence=data/zone_dispatch_map.json#cases.37; retail_client_analysis=ZoneProtoDown FUN_00DBFD10 opcode 0x00df selects case 37 and callback slot 39; naming=placeholder retained; dispatch_boundary=structural callback slot does not identify an application handler, payload layout, packet meaning or server behavior; no_pcap_evidence"
         },
         {
           "name": "_0x00E1",
@@ -2567,6 +2671,19 @@
           "notes": ""
         },
         {
+          "name": "_0x00E4",
+          "opcode": 228,
+          "opcodeHex": "0x00e4",
+          "service": "map",
+          "direction": "clientbound",
+          "implementationAnchor": null,
+          "decompAnchor": null,
+          "observedIn": [],
+          "payloadLengths": [],
+          "confidence": "decomp_routed",
+          "notes": "dispatch_slot_evidence=data/zone_dispatch_map.json#cases.42; retail_client_analysis=ZoneProtoDown FUN_00DBFD10 opcode 0x00e4 selects case 42 and callback slot 44; naming=placeholder retained; dispatch_boundary=structural callback slot does not identify an application handler, payload layout, packet meaning or server behavior; no_pcap_evidence"
+        },
+        {
           "name": "StartCountdownPacket",
           "opcode": 229,
           "opcodeHex": "0x00e5",
@@ -2578,6 +2695,19 @@
           "payloadLengths": [],
           "confidence": "implemented",
           "notes": "no_pcap_evidence"
+        },
+        {
+          "name": "_0x012C",
+          "opcode": 300,
+          "opcodeHex": "0x012c",
+          "service": "map",
+          "direction": "clientbound",
+          "implementationAnchor": null,
+          "decompAnchor": null,
+          "observedIn": [],
+          "payloadLengths": [],
+          "confidence": "decomp_routed",
+          "notes": "dispatch_slot_evidence=data/zone_dispatch_map.json#cases.44; retail_client_analysis=ZoneProtoDown FUN_00DBFD10 opcode 0x012c selects case 44 and callback slot 46; naming=placeholder retained; dispatch_boundary=structural callback slot does not identify an application handler, payload layout, packet meaning or server behavior; no_pcap_evidence"
         },
         {
           "name": "SetTalkEventCondition",
@@ -2793,6 +2923,19 @@
           "notes": "achievement_lifecycle=data/achievement_lifecycle.json#s2c-0134-actor-state; retail_client_analysis=CharaElement slot 9 routes opcode 0x0134 to FUN_00588BA0. The route isolates the low main-state byte, replaces the adjacent wire byte with zero in its temporary record, writes state to CharaElement+0xF4 and conditionally +0xF0, calls the state-transition helpers, and broadcasts scene records 0x39 and 0x3A. It does not construct or invoke AchievementTitleReceiver.; wire_application=main_state:u8@+0x00,discarded_byte:u8@+0x01,unknown[6]@+0x02; application_size=8; observed_occurrences=912; capture_count=20; retained_samples=60; observed_subpacket_size=40; login_service_attribution=map_main_lane; login_evidence=xivl-captures:derived/lane_observations.json#lanes/main/s2c/0x0134; login_capture_sha256=28e06b54fe559870031f077f8549b9244caafa7e5177dbca08a7feae6c2b1b62"
         },
         {
+          "name": "_0x0135",
+          "opcode": 309,
+          "opcodeHex": "0x0135",
+          "service": "map",
+          "direction": "clientbound",
+          "implementationAnchor": null,
+          "decompAnchor": null,
+          "observedIn": [],
+          "payloadLengths": [],
+          "confidence": "decomp_routed",
+          "notes": "dispatch_slot_evidence=data/zone_dispatch_map.json#cases.52; retail_client_analysis=ZoneProtoDown FUN_00DBFD10 opcode 0x0135 selects case 52 and callback slot 54; naming=placeholder retained; dispatch_boundary=structural callback slot does not identify an application handler, payload layout, packet meaning or server behavior; no_pcap_evidence"
+        },
+        {
           "name": "SetEventStatusPacket",
           "opcode": 310,
           "opcodeHex": "0x0136",
@@ -2873,6 +3016,19 @@
           "confidence": "implemented",
           "notes": "client_side_receiver=SyncMemoryReceiver (lua_actor_impl_slot=60) CONFIRMED constructor_verification via FUN_0089f4c0 explicit vtable write 'SyncMemoryReceiver::vftable'; alt_name=Set Actor Work Values (SyncMemory); body_shape=property-stream (per-record 1-byte type-tag dispatch against thresholds DAT_00fe059b/05a0/05a1); pcap_corr=BCS-Y-0075 MurmurHash2Backward resolves the body+0x12 4-byte wire-id to '/'-path property names; corpus property_targets.json: 8918 SetActorProperty records decomposed across 15 target families (top: charaWork/potencial=50 recs/8 ids, charaWork/battleParameter=36/14, charaWork/battleStateForSelf=35/17). 263 distinct property IDs, 100% resolved via gam_hash_names.json. Structural enrichment for the property stream this opcode carries.",
           "retail_class_name": "Application::Lua::Script::Client::Command::Network::SyncMemoryReceiver"
+        },
+        {
+          "name": "_0x0138",
+          "opcode": 312,
+          "opcodeHex": "0x0138",
+          "service": "map",
+          "direction": "clientbound",
+          "implementationAnchor": null,
+          "decompAnchor": null,
+          "observedIn": [],
+          "payloadLengths": [],
+          "confidence": "decomp_routed",
+          "notes": "dispatch_slot_evidence=data/zone_dispatch_map.json#cases.55; retail_client_analysis=ZoneProtoDown FUN_00DBFD10 opcode 0x0138 selects case 55 and callback slot 57; naming=placeholder retained; dispatch_boundary=structural callback slot does not identify an application handler, payload layout, packet meaning or server behavior; no_pcap_evidence"
         },
         {
           "name": "CommandResultX01Packet",
@@ -4003,6 +4159,58 @@
           "retail_class_name": "Application::Lua::Script::Client::Command::Network::SetPushEventConditionWithFanReceiver"
         },
         {
+          "name": "_0x0171",
+          "opcode": 369,
+          "opcodeHex": "0x0171",
+          "service": "map",
+          "direction": "clientbound",
+          "implementationAnchor": null,
+          "decompAnchor": null,
+          "observedIn": [],
+          "payloadLengths": [],
+          "confidence": "decomp_routed",
+          "notes": "dispatch_slot_evidence=data/zone_dispatch_map.json#cases.107; retail_client_analysis=ZoneProtoDown FUN_00DBFD10 opcode 0x0171 selects case 107 and callback slot 109; naming=placeholder retained; dispatch_boundary=structural callback slot does not identify an application handler, payload layout, packet meaning or server behavior; no_pcap_evidence"
+        },
+        {
+          "name": "_0x0172",
+          "opcode": 370,
+          "opcodeHex": "0x0172",
+          "service": "map",
+          "direction": "clientbound",
+          "implementationAnchor": null,
+          "decompAnchor": null,
+          "observedIn": [],
+          "payloadLengths": [],
+          "confidence": "decomp_routed",
+          "notes": "dispatch_slot_evidence=data/zone_dispatch_map.json#cases.108; retail_client_analysis=ZoneProtoDown FUN_00DBFD10 opcode 0x0172 selects case 108 and callback slot 110; naming=placeholder retained; dispatch_boundary=structural callback slot does not identify an application handler, payload layout, packet meaning or server behavior; no_pcap_evidence"
+        },
+        {
+          "name": "_0x0173",
+          "opcode": 371,
+          "opcodeHex": "0x0173",
+          "service": "map",
+          "direction": "clientbound",
+          "implementationAnchor": null,
+          "decompAnchor": null,
+          "observedIn": [],
+          "payloadLengths": [],
+          "confidence": "decomp_routed",
+          "notes": "dispatch_slot_evidence=data/zone_dispatch_map.json#cases.109; retail_client_analysis=ZoneProtoDown FUN_00DBFD10 opcode 0x0173 selects case 109 and callback slot 111; naming=placeholder retained; dispatch_boundary=structural callback slot does not identify an application handler, payload layout, packet meaning or server behavior; no_pcap_evidence"
+        },
+        {
+          "name": "_0x0174",
+          "opcode": 372,
+          "opcodeHex": "0x0174",
+          "service": "map",
+          "direction": "clientbound",
+          "implementationAnchor": null,
+          "decompAnchor": null,
+          "observedIn": [],
+          "payloadLengths": [],
+          "confidence": "decomp_routed",
+          "notes": "dispatch_slot_evidence=data/zone_dispatch_map.json#cases.110; retail_client_analysis=ZoneProtoDown FUN_00DBFD10 opcode 0x0174 selects case 110 and callback slot 112; naming=placeholder retained; dispatch_boundary=structural callback slot does not identify an application handler, payload layout, packet meaning or server behavior; no_pcap_evidence"
+        },
+        {
           "name": "SetPushEventConditionWithTriggerBox",
           "opcode": 373,
           "opcodeHex": "0x0175",
@@ -4019,6 +4227,19 @@
           "confidence": "implemented",
           "notes": "",
           "retail_class_name": "Application::Lua::Script::Client::Command::Network::SetPushEventConditionWithTriggerBoxReceiver"
+        },
+        {
+          "name": "_0x0176",
+          "opcode": 374,
+          "opcodeHex": "0x0176",
+          "service": "map",
+          "direction": "clientbound",
+          "implementationAnchor": null,
+          "decompAnchor": null,
+          "observedIn": [],
+          "payloadLengths": [],
+          "confidence": "decomp_routed",
+          "notes": "dispatch_slot_evidence=data/zone_dispatch_map.json#cases.112; retail_client_analysis=ZoneProtoDown FUN_00DBFD10 opcode 0x0176 selects case 112 and callback slot 114; naming=placeholder retained; dispatch_boundary=structural callback slot does not identify an application handler, payload layout, packet meaning or server behavior; no_pcap_evidence"
         },
         {
           "name": "SetActorStatusPacket",
@@ -4471,6 +4692,19 @@
           ],
           "confidence": "decomp_routed",
           "notes": "retail_client_analysis=FUN_005763A0 forwards opcode 0x018b through FUN_006C5DF0 and FUN_006C5240 into the client Group/SharedWork layout path; application_payload=0x38 bytes with an opaque 8-byte group header, group-handle u32 at +0x08, localized-name u32 at +0x0c, signed layout-id dword at +0x10, unresolved layout-kind byte at +0x14, unresolved reserved byte at +0x15, and layout name char[34] at +0x16; observed=31 retained 88-byte subpackets across 13 captures; semantic_status=decomp_routed; naming=client-derived from the Group/SharedWork layout path; client_only=route and shape do not establish server behavior; alternate_spelling=SetGroupLayoutIdPacket; prior_label=MapServerOpcode::SetGroupLayoutId; conflict=implementation anchor lacks a source-owned declaration; client_evidence=BCS-Y-0579 dispatcher and BCS-Y-0889 GroupSharedWork layout path; client_semantics_evidence=data/client_opcode_semantics.json#s2c-018b; dependency_status=closed"
+        },
+        {
+          "name": "_0x018C",
+          "opcode": 396,
+          "opcodeHex": "0x018c",
+          "service": "map",
+          "direction": "clientbound",
+          "implementationAnchor": null,
+          "decompAnchor": null,
+          "observedIn": [],
+          "payloadLengths": [],
+          "confidence": "decomp_routed",
+          "notes": "dispatch_slot_evidence=data/zone_dispatch_map.json#cases.133; retail_client_analysis=ZoneProtoDown FUN_00DBFD10 opcode 0x018c selects case 133 and callback slot 135; naming=placeholder retained; dispatch_boundary=structural callback slot does not identify an application handler, payload layout, packet meaning or server behavior; no_pcap_evidence"
         },
         {
           "name": "_0x018D",
@@ -5063,6 +5297,19 @@
           "retail_class_name": "Application::Lua::Script::Client::Command::Network::HamletDefenseScoreReceiver"
         },
         {
+          "name": "_0x01C2",
+          "opcode": 450,
+          "opcodeHex": "0x01c2",
+          "service": "map",
+          "direction": "clientbound",
+          "implementationAnchor": null,
+          "decompAnchor": null,
+          "observedIn": [],
+          "payloadLengths": [],
+          "confidence": "decomp_routed",
+          "notes": "dispatch_slot_evidence=data/zone_dispatch_map.json#cases.162; retail_client_analysis=ZoneProtoDown FUN_00DBFD10 opcode 0x01c2 selects case 162 and callback slot 164; naming=placeholder retained; dispatch_boundary=structural callback slot does not identify an application handler, payload layout, packet meaning or server behavior; no_pcap_evidence"
+        },
+        {
           "name": "_0x01C3",
           "opcode": 451,
           "opcodeHex": "0x01c3",
@@ -5485,6 +5732,45 @@
           "payloadLengths": [],
           "confidence": "implemented",
           "notes": "no_pcap_evidence"
+        },
+        {
+          "name": "_0x01F4",
+          "opcode": 500,
+          "opcodeHex": "0x01f4",
+          "service": "map",
+          "direction": "clientbound",
+          "implementationAnchor": null,
+          "decompAnchor": null,
+          "observedIn": [],
+          "payloadLengths": [],
+          "confidence": "decomp_routed",
+          "notes": "dispatch_slot_evidence=data/zone_dispatch_map.json#cases.194; retail_client_analysis=ZoneProtoDown FUN_00DBFD10 opcode 0x01f4 selects case 194 and callback slot 196; naming=placeholder retained; dispatch_boundary=structural callback slot does not identify an application handler, payload layout, packet meaning or server behavior; no_pcap_evidence"
+        },
+        {
+          "name": "_0x01F5",
+          "opcode": 501,
+          "opcodeHex": "0x01f5",
+          "service": "map",
+          "direction": "clientbound",
+          "implementationAnchor": null,
+          "decompAnchor": null,
+          "observedIn": [],
+          "payloadLengths": [],
+          "confidence": "decomp_routed",
+          "notes": "dispatch_slot_evidence=data/zone_dispatch_map.json#cases.195; retail_client_analysis=ZoneProtoDown FUN_00DBFD10 opcode 0x01f5 selects case 195 and callback slot 197; naming=placeholder retained; dispatch_boundary=structural callback slot does not identify an application handler, payload layout, packet meaning or server behavior; no_pcap_evidence"
+        },
+        {
+          "name": "_0x01F6",
+          "opcode": 502,
+          "opcodeHex": "0x01f6",
+          "service": "map",
+          "direction": "clientbound",
+          "implementationAnchor": null,
+          "decompAnchor": null,
+          "observedIn": [],
+          "payloadLengths": [],
+          "confidence": "decomp_routed",
+          "notes": "dispatch_slot_evidence=data/zone_dispatch_map.json#cases.196; retail_client_analysis=ZoneProtoDown FUN_00DBFD10 opcode 0x01f6 selects case 196 and callback slot 198; naming=placeholder retained; dispatch_boundary=structural callback slot does not identify an application handler, payload layout, packet meaning or server behavior; no_pcap_evidence"
         },
         {
           "name": "_0x01FD",

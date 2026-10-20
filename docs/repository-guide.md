@@ -15,7 +15,7 @@ at the repository root.
 | `data/decomp_opcodes.json` | Curated catalog inputs. |
 | `data/client_receivers.json` | RTTI inventory of client receivers, including slot RVA, namespace, and mapping target. |
 | `data/npc_log_evidence.json` | NPC-capture opcode enrichment evidence against a baseline capture set. |
-| `data/zone_dispatch_map.json` | Decompiled universal server-to-client inner-packet dispatcher map. |
+| `data/zone_dispatch_map.json` | ZoneProtoDown callback slots, binary/table identity and structural routing limits. |
 | `data/zone_handoff_evidence.json` | World-to-map handoff timing evidence derived from capture edge windows. |
 | `data/client_opcode_semantics.json` | Retail-client body and consumer evidence for direction-qualified opcode rows. |
 | `data/achievement_lifecycle.json` | Direction-scoped achievement title and rate request/update routes, capture chronology, and causality boundaries. |

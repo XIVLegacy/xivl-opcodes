@@ -3,6 +3,16 @@
     "opcode": 1,
     "opcodeHex": "0x0001",
     "name": "_0x0001",
+    "service": "world",
+    "direction": "clientbound",
+    "evidence": "ChatProtoDown dispatcher FUN_00E40630 maps clientbound opcode 0x0001 to callback-interface slot 6. The tracked retail dispatcher enumeration covers four low-range values, 0x0001, 0x0002, 0x0003 and 0x00c8, at slots 6 through 9. Source: xivl-decomp:config/ffxivgame.symbol_evidence.json#ChatProtoDown_opcode_dispatcher; binary SHA-256 9341f2b4567440b310a4d494f5cc5599ca334ba51c8042247317ff466492f2e9; producing tool tools/extract_opcode_dispatch.py. The known caller installs ChatProtoDownDummyCallback, whose callback stubs are documented in xivl-decomp:docs/net/stream-pump-and-state.md#va-0x004e2670. This identifies a structural clientbound Chat route, not a packet name, payload layout, application effect or server policy.",
+    "likely_role": "Unidentified Chat clientbound callback route",
+    "source": "clientbound_dispatch_completion"
+  },
+  {
+    "opcode": 1,
+    "opcodeHex": "0x0001",
+    "name": "_0x0001",
     "service": "lobby",
     "direction": "clientbound",
     "evidence": "Lobby s2c dispatcher (LobbyProtoDownCallbackInterface slot 1 at VA 0x00da4160) case 0 routes opcode 0x0001 to active-callback slot 2. Bootup-active callback is RaptureLobbyCallback; slot 2 handler at VA 0x0088e5e0 is 144 bytes with SEH and stores service-id [+0x1bac]=0x1bc.",

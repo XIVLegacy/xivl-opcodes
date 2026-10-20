@@ -11,6 +11,12 @@ REVERIFY_METHOD = "live-validation: verify that the retail 1.23b client accepts 
 CLIENT_SEMANTICS_PATH = (
     Path(__file__).resolve().parent.parent / "data" / "client_opcode_semantics.json"
 )
+ZONE_DISPATCH_PATH = (
+    Path(__file__).resolve().parent.parent / "data" / "zone_dispatch_map.json"
+)
+DECOMP_OPCODES_PATH = (
+    Path(__file__).resolve().parent.parent / "data" / "decomp_opcodes.json"
+)
 BATTLE_RESULT_SEMANTICS_PATH = (
     Path(__file__).resolve().parent.parent / "data" / "battle_result_semantics.json"
 )
@@ -1241,6 +1247,75 @@ def apply_achievement_lifecycle(top: dict) -> tuple[int, int]:
     return applied, errors
 
 
+def apply_dispatch_catalog_completion(top: dict) -> int:
+    """Insert missing structural routes without replacing existing evidence."""
+    inserted = 0
+    evidence = json.loads(ZONE_DISPATCH_PATH.read_text(encoding="utf-8"))
+    entries = top["lists"]["MapClientbound"]
+    for case in evidence["cases"]:
+        if case["is_catchall"]:
+            continue
+        for opcode_hex in case["opcodes"]:
+            if opcode_hex in evidence.get("catalog_exclusions", {}):
+                continue
+            opcode = int(opcode_hex, 16)
+            if any(entry["opcode"] == opcode for entry in entries):
+                continue
+            entries.append(
+                {
+                    "name": f"_0x{opcode:04X}",
+                    "opcode": opcode,
+                    "opcodeHex": f"0x{opcode:04x}",
+                    "service": "map",
+                    "direction": "clientbound",
+                    "implementationAnchor": None,
+                    "decompAnchor": None,
+                    "observedIn": [],
+                    "payloadLengths": [],
+                    "confidence": "decomp_routed",
+                    "notes": (
+                        f"dispatch_slot_evidence=data/zone_dispatch_map.json#cases.{case['case']}; "
+                        f"retail_client_analysis=ZoneProtoDown FUN_00DBFD10 opcode {opcode_hex} "
+                        f"selects case {case['case']} and callback slot {case['vtable_slot']}; "
+                        "naming=placeholder retained; dispatch_boundary=structural callback slot "
+                        "does not identify an application handler, payload layout, packet meaning "
+                        "or server behavior; no_pcap_evidence"
+                    ),
+                }
+            )
+            inserted += 1
+
+    curated = json.loads(DECOMP_OPCODES_PATH.read_text(encoding="utf-8"))
+    for row in curated:
+        if row.get("source") != "clientbound_dispatch_completion":
+            continue
+        bucket = {"world": "WorldClientbound"}[row["service"]]
+        entries = top["lists"][bucket]
+        if any(entry["opcode"] == row["opcode"] for entry in entries):
+            continue
+        entries.append(
+            {
+                "name": row["name"],
+                "opcode": row["opcode"],
+                "opcodeHex": row["opcodeHex"].lower(),
+                "service": row["service"],
+                "direction": row["direction"],
+                "implementationAnchor": None,
+                "decompAnchor": None,
+                "observedIn": [],
+                "payloadLengths": [],
+                "confidence": "decomp_routed",
+                "notes": "dispatch_slot_evidence=data/decomp_opcodes.json#world.clientbound.0x0001; "
+                + row["evidence"]
+                + "; no_pcap_evidence",
+            }
+        )
+        inserted += 1
+    for bucket in ("MapClientbound", "WorldClientbound"):
+        top["lists"][bucket].sort(key=lambda entry: (entry["opcode"], entry["name"]))
+    return inserted
+
+
 def apply_zone_dummy_cluster(top: dict) -> tuple[int, int]:
     """Replace imported 0x01c3..0x01df s2c nouns with retail no-op routes."""
     entries = top["lists"]["MapClientbound"]
@@ -2030,6 +2105,9 @@ def main() -> int:
     social_applied, social_errors = apply_map_social_neighborhood(top)
     warned += social_errors
     print(f"Applied {social_applied} Map social-neighborhood routes")
+
+    dispatch_inserted = apply_dispatch_catalog_completion(top)
+    print(f"Inserted {dispatch_inserted} structural callback catalog routes")
 
     cluster_applied, cluster_inserted = apply_zone_dummy_cluster(top)
     print(
