@@ -369,6 +369,78 @@ OVERRIDES = [
         " 16-byte game-message header; the direction-specific matrix is "
         "xivl-captures:studies/world-party-chat-00c9-contract/derived/field-matrix.csv.",
     ),
+    (
+        "MapServerbound",
+        "0x00ca",
+        "UpdatePlayerPositionPacket",
+        "decomp_source=tierd_outbound_scan; bcsy_ref=BCS-Y-0321 + BCS-Y-0324 summary; evidence=Tier-D "
+        "emitter FUN_004DC690 (3364-byte host function, sole caller FUN_004E20A0 = BCS-Y-0314) emits "
+        "opcode 0x00CA via record-builder FUN_004dd620: `uVar6 = FUN_004dd620((int)_Var13, &local_9f4);"
+        " FUN_004E0240(uVar6, 0xCA, 0)`. Size determined by FUN_004dd620 (not hardcoded at caller). "
+        "NOTE this is OUTSIDE the 0x01C3..0x01DF cluster - separate lower-range opcode.; "
+        "likely_role=Map action-system request (0x01C3-0x01DF cluster: combat/skill/action use; "
+        "specific role TBD via pcap correlation) | decomp_source=final_gap_outbound_scan; "
+        "bcsy_ref=BCS-Y-0328 + BCS-Y-0321; evidence=Cross-confirmation (second emission site): "
+        "BCS-Y-0321 documented FUN_004DC690 (3364B helper-built path via FUN_004dd620); BCS-Y-0328 "
+        "confirms FUN_00589030 (stack-record path via FUN_004D6D10 thunk) emits the same opcode 0x00CA "
+        "size 0x30. The same opcode has two distinct production paths in the binary - normal "
+        "stack-record (FUN_00589030) and large-context helper-built (FUN_004DC690 from tick handler "
+        "FUN_004E20A0 / BCS-Y-0314).; likely_role=Map channel state push (size 0x30 = 48 bytes, dual "
+        "production paths) | pcap_observations merged from xivl-client-structs "
+        "pcap_opcode_evidence.json.",
+        "decomp_source=tierd_outbound_scan; bcsy_ref=BCS-Y-0321 + BCS-Y-0324 summary; evidence=Tier-D "
+        "emitter FUN_004DC690 (3364-byte host function, sole caller FUN_004E20A0 = BCS-Y-0314) emits "
+        "opcode 0x00CA via record-builder FUN_004dd620: `uVar6 = FUN_004dd620((int)_Var13, &local_9f4);"
+        " FUN_004E0240(uVar6, 0xCA, 0)`. Size determined by FUN_004dd620 (not hardcoded at caller). "
+        "NOTE this is OUTSIDE the 0x01C3..0x01DF cluster - separate lower-range opcode.; "
+        "likely_role=Map position update through the helper-built production path | "
+        "decomp_source=final_gap_outbound_scan; bcsy_ref=BCS-Y-0328 + BCS-Y-0321; "
+        "evidence=Cross-confirmation (second emission site): BCS-Y-0321 documented FUN_004DC690 (3364B "
+        "helper-built path via FUN_004dd620); BCS-Y-0328 confirms FUN_00589030 (stack-record path via "
+        "FUN_004D6D10 thunk) emits the same opcode 0x00CA size 0x30. The same opcode has two distinct "
+        "production paths in the binary - normal stack-record (FUN_00589030) and large-context "
+        "helper-built (FUN_004DC690 from tick handler FUN_004E20A0 / BCS-Y-0314).; likely_role=Map "
+        "position update (internal record size 0x30, two production paths) | pcap_observations merged "
+        "from xivl-client-structs pcap_opcode_evidence.json.; "
+        "field_contract=xivl-client-structs:manifests/c2s_payload_decoding.json#payloadStructs.c2s_0x00ca;"
+        " application_extent=32 bytes after the 16-byte game-message prefix; "
+        "selected_builder_fields=FUN_004DD620 exposes an eight-byte time container at +0, float "
+        "x/y/z/rotation at +8/+12/+16/+20, u16 state at +24, and six uninterpreted bytes at +26; "
+        "time_boundary=the retained low-dword __time64 write does not establish additional precision; "
+        "semantic_boundary=movement enums, units and cadence policy are not established by this field "
+        "geometry",
+    ),
+    (
+        "MapServerbound",
+        "0x0133",
+        "GroupWorkUpdatePacket",
+        "role=client-to-server actor/group work update; the client sends one when it first observes a "
+        "group or actor and asks the server to register that actor's event handlers. Same wire integer "
+        "as the outbound generic-data opcode, disambiguated by direction. Observed across 16 captures, "
+        "72-byte packet; corpus request_response_pairs.json: 268 total c2s 0x0133 firings paired with "
+        "s2c responses within 200ms; top response is s2c 0x0137 SetActorProperty (180 pairs, 67% "
+        "c2sShare = action command reliably triggers property update). Also reliably triggers s2c "
+        "0x00CC (161 pairs, 60%) and 0x0134 (161 pairs, 60%) - composite 5+ packet response. | "
+        "pcap_observations merged from xivl-client-structs pcap_opcode_evidence.json.",
+        "role=client-side Group work emission with unresolved caller-word semantics; "
+        "producer=FUN_0075E950 copies two supplied u32 values followed by 32 staged bytes and sends "
+        "through FUN_004D6D30->FUN_004E0240; application_extent=40 bytes after the 16-byte game-message"
+        " prefix, within a 72-byte subpacket; "
+        "producer_evidence=xivl-client-structs:manifests/op0133_groupcreated_emitter.json; "
+        "bounded_caller=a Group ring-drain ADD route reaches the builder through "
+        "FUN_006C8CF0/FUN_006C72E0; "
+        "caller_evidence=xivl-client-structs:docs/client-architecture.md#zone-actor-binding-and-lua-class-readiness;"
+        " field_boundary=the two caller dwords and copied buffer do not establish a universal actor ID,"
+        " sequence, timestamp, transition mode or property path; "
+        "retained_correlation=xivl-captures:derived/request_response_pairs.json reports 270 numeric "
+        "c2s 0x0133 events and a 200ms window, with 180 pairs with s2c 0x0137 (67%), 161 with s2c "
+        "0x00cc (60%) and 161 with s2c 0x0134 (60%); causality_boundary=these overlapping timing "
+        "correlations do not prove that this packet requests handler registration or triggers the "
+        "later packets; scope_boundary=the cited Group-ADD route bounds one client "
+        "producer example, while the numeric-c2s correlation product does not independently prove "
+        "Map attribution for every event; existing World/Map capture-attribution qualifications "
+        "remain; pcap_observations merged from xivl-client-structs pcap_opcode_evidence.json.",
+    ),
 ]
 
 UNSUPPORTED_IMPLEMENTATION_OVERRIDES = [
