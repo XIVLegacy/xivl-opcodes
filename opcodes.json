@@ -2702,11 +2702,11 @@
           "service": "map",
           "direction": "clientbound",
           "implementationAnchor": "MapServerOpcode::StartCountdown",
-          "decompAnchor": null,
+          "decompAnchor": "FUN_0058CCA0",
           "observedIn": [],
           "payloadLengths": [],
-          "confidence": "implemented",
-          "notes": "no_pcap_evidence"
+          "confidence": "decomp_routed",
+          "notes": "retail_client_analysis=CharaElement FUN_0058CCA0 case 0x0058D246; application_fields=u8 at +0, u32 words at +8/+0xC, copied bytes at +0x18 with width32; native_min_application_read=56, game_message_read=72; native_extent_is_not_observed_size; string_length_word=FFFFFFFF at 0x00F67298, retained value selects strlen in FUN_00447260 BCS-Y-0311; string_termination=no local NUL or 32-byte scan bound proved; forwarded_arg0=only low8 bits established, upper24 unproved; forwarded_words=arg0,word_at_app8,word_at_appC,local_string_pointer; next_consumer=FUN_0058EB80 forwards unchanged words to FUN_00797C80 with receiver Chara+0xE60; consumer_time_units_presentation_and_raid_carrier=unproved; client_contract=xivl-decomp:docs/net/e5-field-staging.md; no_pcap_evidence"
         },
         {
           "name": "_0x012C",

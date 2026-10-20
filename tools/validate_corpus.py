@@ -364,6 +364,45 @@ def validate_e3_state_index(top: dict) -> None:
         errors.append("E3 state index: capture witnesses/length mismatched")
 
 
+def validate_e5_field_staging(top: dict) -> None:
+    """Reject a short read extent, wrong text offset or invented observation."""
+    rows = [r for r in top["lists"]["MapClientbound"] if r.get("opcode") == 0xE5]
+    if len(rows) != 1:
+        errors.append("E5 field staging: expected one Map clientbound row")
+        return
+    row = rows[0]
+    if (
+        row.get("name") != "StartCountdownPacket"
+        or row.get("decompAnchor") != "FUN_0058CCA0"
+        or row.get("confidence") != "decomp_routed"
+    ):
+        errors.append("E5 field staging: retained identity/native route changed")
+    required = (
+        "application_fields=u8 at +0, u32 words at +8/+0xC, copied bytes at +0x18 with width32",
+        "native_min_application_read=56, game_message_read=72",
+        "native_extent_is_not_observed_size",
+        "string_length_word=FFFFFFFF at 0x00F67298, retained value selects strlen in FUN_00447260 BCS-Y-0311",
+        "string_termination=no local NUL or 32-byte scan bound proved",
+        "forwarded_arg0=only low8 bits established, upper24 unproved",
+        "forwarded_words=arg0,word_at_app8,word_at_appC,local_string_pointer",
+        "next_consumer=FUN_0058EB80 forwards unchanged words to FUN_00797C80 with receiver Chara+0xE60",
+        "consumer_time_units_presentation_and_raid_carrier=unproved",
+        "client_contract=xivl-decomp:docs/net/e5-field-staging.md",
+        "no_pcap_evidence",
+    )
+    if any(token not in row.get("notes", "") for token in required):
+        errors.append("E5 field staging: native field/extent/string contract changed")
+    if row.get("observedIn") or row.get("payloadLengths"):
+        errors.append("E5 field staging: native read extent is not a captured size")
+    for name, key in (
+        ("payload_samples.json", "samples"),
+        ("payload_layouts.json", "layouts"),
+    ):
+        product = _load(DATA_DIR / "vendor/captures" / name)[key]["s2c"]
+        if "0x00e5" in product:
+            errors.append(f"E5 field staging: pinned {name} absence changed")
+
+
 def validate_catalog(cap_names: set[str]) -> None:
     cat_path = OPCODES_PATH
     const_path = CONSTANTS_PATH
@@ -383,6 +422,7 @@ def validate_catalog(cap_names: set[str]) -> None:
     validate_low_pair_staging(top)
     validate_e2_selector(top)
     validate_e3_state_index(top)
+    validate_e5_field_staging(top)
     constants = _load(const_path) if const_path.is_file() else {}
     region = top.get("region")
     declared = constants.get(region) if isinstance(constants, dict) else None

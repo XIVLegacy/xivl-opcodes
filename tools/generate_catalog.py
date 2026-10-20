@@ -1567,6 +1567,34 @@ def apply_e3_state_index_contract(top: dict) -> int:
     return 1
 
 
+def apply_e5_field_staging_contract(top: dict) -> int:
+    """Keep the native E5 read extent separate from an observed packet length."""
+    rows = [r for r in top["lists"]["MapClientbound"] if r["opcode"] == 0xE5]
+    if len(rows) != 1:
+        raise ValueError("E5 field staging requires one Map clientbound row")
+    row = rows[0]
+    managed_notes = (
+        "retail_client_analysis=CharaElement FUN_0058CCA0 case 0x0058D246; "
+        "application_fields=u8 at +0, u32 words at +8/+0xC, copied bytes at +0x18 with width32; "
+        "native_min_application_read=56, game_message_read=72; native_extent_is_not_observed_size; "
+        "string_length_word=FFFFFFFF at 0x00F67298, retained value selects strlen in FUN_00447260 BCS-Y-0311; "
+        "string_termination=no local NUL or 32-byte scan bound proved; "
+        "forwarded_arg0=only low8 bits established, upper24 unproved; "
+        "forwarded_words=arg0,word_at_app8,word_at_appC,local_string_pointer; "
+        "next_consumer=FUN_0058EB80 forwards unchanged words to FUN_00797C80 with receiver Chara+0xE60; "
+        "consumer_time_units_presentation_and_raid_carrier=unproved; "
+        "client_contract=xivl-decomp:docs/net/e5-field-staging.md; no_pcap_evidence"
+    )
+    row["notes"], status = swap_managed_prefix(
+        row.get("notes", ""), "no_pcap_evidence", managed_notes
+    )
+    if status == "mismatch":
+        raise ValueError("E5 staging notes do not match the managed prefix")
+    row["decompAnchor"] = "FUN_0058CCA0"
+    row["confidence"] = "decomp_routed"
+    return 1
+
+
 def apply_retained_contracts(top: dict) -> int:
     """Attach bounded retail contracts without treating native sizes as captures."""
     structures = "xivl-client-structs:manifests/"
@@ -2314,6 +2342,9 @@ def main() -> int:
 
     e3_applied = apply_e3_state_index_contract(top)
     print(f"Applied {e3_applied} E3 state index contract")
+
+    e5_applied = apply_e5_field_staging_contract(top)
+    print(f"Applied {e5_applied} E5 field staging contract")
 
     stale_removed, ambiguity_added, ambiguity_removed = reconcile_pcap_notes(top)
     print(f"Removed {stale_removed} stale no-pcap note tokens")
