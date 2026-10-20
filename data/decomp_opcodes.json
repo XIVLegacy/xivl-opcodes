@@ -405,8 +405,8 @@
     "name": "_0x00C8",
     "service": "world",
     "direction": "serverbound",
-    "evidence": "Closes BCS-Y-0316 (FUN_004DF810 Chat emitter) deferred state. FUN_004E3750 (79-byte body) writes `*record = 0xC8 (opcode)` and `record[1] = 0x230 (size, 560 bytes)` plus 4 qwords header + 512-byte body block. FUN_004DF810 then calls FUN_00DB3E30 (BCS-Y-0306, Chat generic forwarder) with the built record. Body block (0x200 bytes) loaded from string-pool via FUN_00445210/FUN_004451F0 - same canonical-state pattern as Zone 0x0003 (BCS-Y-0313).",
-    "likely_role": "World channel large-state c2s push (560-byte body, canonical-state pattern)",
+    "evidence": "BCS-Y-0316 records FUN_004DF810 as the Chat emitter. FUN_004E3750 (79-byte body) writes `*record = 0xC8 (opcode)` and `record[1] = 0x230 (internal builder-record size, 560 bytes)` plus 4 qwords of target[32] + 512-byte message block. FUN_004DF810 then calls FUN_00DB3E30 (BCS-Y-0306, Chat generic forwarder) with the built record. Body block (0x200 bytes) loaded from string-pool via FUN_00445210/FUN_004451F0 - the published client body contract data/client_opcode_semantics.json#c2s-00c8 identifies the target at record +0x18 and message at +0x38, with bounded copies and a nonempty-target check in FUN_004DF810. No retail tell capture is retained; the 560-byte internal record is not an observed wire body.",
+    "likely_role": "World tell-chat request with target[32] and message[512]",
     "source": "final_gap_outbound_scan"
   },
   {
