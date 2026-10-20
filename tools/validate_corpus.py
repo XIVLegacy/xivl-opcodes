@@ -403,6 +403,51 @@ def validate_e5_field_staging(top: dict) -> None:
             errors.append(f"E5 field staging: pinned {name} absence changed")
 
 
+def validate_shadow_flag(top: dict) -> None:
+    """Keep a consumed byte distinct from a zero-valued sample selection."""
+    rows = [r for r in top["lists"]["MapClientbound"] if r.get("opcode") == 0x17B]
+    if len(rows) != 1:
+        errors.append("Shadow flag: expected one Map clientbound row")
+        return
+    row = rows[0]
+    if (
+        row.get("name") != "SetActorIsZoningPacket"
+        or row.get("decompAnchor") != "FUN_0089CC70"
+        or row.get("confidence") != "decomp_routed"
+    ):
+        errors.append("Shadow flag: retained identity/native route changed")
+    required = (
+        "native_route=FUN_004D8860 case0x17B reads game+0x10 then FUN_005752B0 slot89/+0x164",
+        "route_conditions=dispatcher entry gate, nonnull receiver+0x80 and matching LuaActorImpl implementation",
+        "FUN_0089CC70 BCS-Y-0944 forwards to FUN_006DBE50 BCS-Y-1814",
+        "application_flag=u8 at +0, not unused padding or a proved boolean-only field",
+        "target_store=full byte at target+0x5D, including an equal value",
+        "changed_value=target virtual slot31 at +0x7C only when old!=new",
+        "pre_post_warp_slots=41/42 at +0xA4/+0xA8 are separate",
+        "remaining_application_bytes=7 with unproved meaning or required value",
+        "retained_samples=55 across16captures with zero application bytes",
+        "framing=40-byte subevent,24-byte game message,8-byte application",
+        "dynamic_callback_visible_effect_and_historical_sender_policy=unproved",
+        "client_contract=xivl-decomp:docs/net/shadow-flag-state.md",
+    )
+    if any(token not in row.get("notes", "") for token in required):
+        errors.append("Shadow flag: field/store/callback boundary changed")
+    product = _load(DATA_DIR / "vendor/captures/payload_samples.json")["samples"][
+        "s2c"
+    ]["0x017b"]
+    samples = product["samples"]
+    witnesses = sorted({sample["capture"] for sample in samples})
+    if product["sampleCount"] != 55 or len(samples) != 55 or len(witnesses) != 16:
+        errors.append("Shadow flag: pinned sample denominator changed")
+    if row.get("observedIn") != witnesses or row.get("payloadLengths") != [40]:
+        errors.append("Shadow flag: capture witnesses/framing changed")
+    for sample in samples:
+        message = bytes.fromhex(sample["bytes"])
+        if sample["sub_size"] != 40 or len(message) != 24 or message[16:] != bytes(8):
+            errors.append("Shadow flag: pinned framing/zero observation changed")
+            break
+
+
 def validate_catalog(cap_names: set[str]) -> None:
     cat_path = OPCODES_PATH
     const_path = CONSTANTS_PATH
@@ -423,6 +468,7 @@ def validate_catalog(cap_names: set[str]) -> None:
     validate_e2_selector(top)
     validate_e3_state_index(top)
     validate_e5_field_staging(top)
+    validate_shadow_flag(top)
     constants = _load(const_path) if const_path.is_file() else {}
     region = top.get("region")
     declared = constants.get(region) if isinstance(constants, dict) else None

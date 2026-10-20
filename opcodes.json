@@ -4346,7 +4346,7 @@
           "service": "map",
           "direction": "clientbound",
           "implementationAnchor": "MapServerOpcode::ChangeShadowActorFlag",
-          "decompAnchor": null,
+          "decompAnchor": "FUN_0089CC70",
           "observedIn": [
             "combat_autoattack.pcapng",
             "from_gridania_to_blackshroud.pcapng",
@@ -4368,8 +4368,8 @@
           "payloadLengths": [
             40
           ],
-          "confidence": "implemented",
-          "notes": "",
+          "confidence": "decomp_routed",
+          "notes": "native_route=FUN_004D8860 case0x17B reads game+0x10 then FUN_005752B0 slot89/+0x164; route_conditions=dispatcher entry gate, nonnull receiver+0x80 and matching LuaActorImpl implementation; retail_client_analysis=ChangeShadowActorFlagReceiver FUN_0089CC70 BCS-Y-0944 forwards to FUN_006DBE50 BCS-Y-1814; application_flag=u8 at +0, not unused padding or a proved boolean-only field; target_store=full byte at target+0x5D, including an equal value; changed_value=target virtual slot31 at +0x7C only when old!=new; pre_post_warp_slots=41/42 at +0xA4/+0xA8 are separate; remaining_application_bytes=7 with unproved meaning or required value; retained_samples=55 across16captures with zero application bytes; framing=40-byte subevent,24-byte game message,8-byte application; dynamic_callback_visible_effect_and_historical_sender_policy=unproved; client_contract=xivl-decomp:docs/net/shadow-flag-state.md",
           "retail_class_name": "Application::Lua::Script::Client::Command::Network::ChangeShadowActorFlagReceiver"
         },
         {

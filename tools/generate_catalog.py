@@ -1595,6 +1595,35 @@ def apply_e5_field_staging_contract(top: dict) -> int:
     return 1
 
 
+def apply_shadow_flag_contract(top: dict) -> int:
+    """Retain the consumed byte despite zero-valued capture samples."""
+    rows = [r for r in top["lists"]["MapClientbound"] if r["opcode"] == 0x17B]
+    if len(rows) != 1:
+        raise ValueError("Shadow flag contract requires one Map clientbound row")
+    row = rows[0]
+    managed_notes = (
+        "native_route=FUN_004D8860 case0x17B reads game+0x10 then FUN_005752B0 slot89/+0x164; "
+        "route_conditions=dispatcher entry gate, nonnull receiver+0x80 and matching LuaActorImpl implementation; "
+        "retail_client_analysis=ChangeShadowActorFlagReceiver FUN_0089CC70 BCS-Y-0944 "
+        "forwards to FUN_006DBE50 BCS-Y-1814; "
+        "application_flag=u8 at +0, not unused padding or a proved boolean-only field; "
+        "target_store=full byte at target+0x5D, including an equal value; "
+        "changed_value=target virtual slot31 at +0x7C only when old!=new; "
+        "pre_post_warp_slots=41/42 at +0xA4/+0xA8 are separate; "
+        "remaining_application_bytes=7 with unproved meaning or required value; "
+        "retained_samples=55 across16captures with zero application bytes; "
+        "framing=40-byte subevent,24-byte game message,8-byte application; "
+        "dynamic_callback_visible_effect_and_historical_sender_policy=unproved; "
+        "client_contract=xivl-decomp:docs/net/shadow-flag-state.md"
+    )
+    row["notes"], status = swap_managed_prefix(row.get("notes", ""), "", managed_notes)
+    if status == "mismatch":
+        raise ValueError("Shadow flag notes do not match the managed prefix")
+    row["decompAnchor"] = "FUN_0089CC70"
+    row["confidence"] = "decomp_routed"
+    return 1
+
+
 def apply_retained_contracts(top: dict) -> int:
     """Attach bounded retail contracts without treating native sizes as captures."""
     structures = "xivl-client-structs:manifests/"
@@ -2345,6 +2374,9 @@ def main() -> int:
 
     e5_applied = apply_e5_field_staging_contract(top)
     print(f"Applied {e5_applied} E5 field staging contract")
+
+    shadow_applied = apply_shadow_flag_contract(top)
+    print(f"Applied {shadow_applied} shadow flag contract")
 
     stale_removed, ambiguity_added, ambiguity_removed = reconcile_pcap_notes(top)
     print(f"Removed {stale_removed} stale no-pcap note tokens")
