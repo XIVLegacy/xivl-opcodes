@@ -2686,6 +2686,16 @@ def apply_retained_contracts(top: dict) -> int:
         ),
     }
     additions = {
+        ("MapServerbound", 0x01C8): (
+            "selected_row_caller=FUN_004BF4F0 call0x004BF592 supplies words from "
+            "[A+0x98+80*I] and [A+0x9C+80*I], A=[owner+0x18], I=caller stack index; "
+            "selected_path=local entry byte+0x40 equals2 and signed [A+0x9F8]>I; "
+            "cached_pair_block=FUN_004C8390 at0x004C847A supplies [A+0x88]/[A+0x8C] "
+            "when the pair is nonzero, call0x004C84A4; switch-state mapping uninspected; "
+            "identity_boundary=two supplied u32 words do not prove one logical u64 recruitment ID, "
+            "a universal key domain, named UI action or cancellation/leave policy; "
+            "caller_contract=xivl-decomp:docs/net/recruitment-1c8-caller-inputs.md"
+        ),
         ("MapServerbound", 0x0002): (
             "selected_caller=FUN_004E30A0 at 0x004E3340 supplies first application u32 zero "
             "and sixteen bytes from the data pointer of owner+0x254 string object; "

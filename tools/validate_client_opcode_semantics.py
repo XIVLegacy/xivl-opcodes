@@ -548,6 +548,23 @@ def main() -> int:
             if fragment not in entry.get("notes", ""):
                 errors.append(f"c2s Map 0x0002 lost required fact {fragment!r}")
 
+    recruitment_inputs = [
+        entry
+        for entry in catalog["lists"]["MapServerbound"]
+        if entry.get("opcode") == 0x01C8
+    ]
+    if len(recruitment_inputs) != 1:
+        errors.append("c2s Map 0x01C8 must have exactly one catalog row")
+    else:
+        for fragment in (
+            "call0x004BF592 supplies words from [A+0x98+80*I] and [A+0x9C+80*I]",
+            "call0x004C84A4; switch-state mapping uninspected",
+            "two supplied u32 words do not prove one logical u64 recruitment ID",
+            "caller_contract=xivl-decomp:docs/net/recruitment-1c8-caller-inputs.md",
+        ):
+            if fragment not in recruitment_inputs[0].get("notes", ""):
+                errors.append(f"c2s Map 0x01C8 lost required fact {fragment!r}")
+
     periodic = [
         entry
         for entry in catalog["lists"]["MapServerbound"]
