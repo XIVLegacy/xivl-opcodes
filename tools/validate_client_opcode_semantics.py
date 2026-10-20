@@ -446,8 +446,8 @@ def main() -> int:
                 )
 
     anchors = [entry["decompAnchor"] for entry in entries if entry.get("decompAnchor")]
-    if len(anchors) != 112:
-        errors.append(f"catalog has {len(anchors)} decompAnchor values, expected 112")
+    if len(anchors) != 129:
+        errors.append(f"catalog has {len(anchors)} decompAnchor values, expected 129")
     bad_anchors = [anchor for anchor in anchors if not BARE_FUNCTION.fullmatch(anchor)]
     if bad_anchors:
         errors.append(f"non-bare decompAnchor values: {bad_anchors}")

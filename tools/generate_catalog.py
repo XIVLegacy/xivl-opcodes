@@ -405,42 +405,46 @@ OVERRIDES = [
         "MapServerbound",
         "0x00ca",
         "UpdatePlayerPositionPacket",
-        "decomp_source=tierd_outbound_scan; bcsy_ref=BCS-Y-0321 + BCS-Y-0324 summary; evidence=Tier-D "
-        "emitter FUN_004DC690 (3364-byte host function, sole caller FUN_004E20A0 = BCS-Y-0314) emits "
-        "opcode 0x00CA via record-builder FUN_004dd620: `uVar6 = FUN_004dd620((int)_Var13, &local_9f4);"
-        " FUN_004E0240(uVar6, 0xCA, 0)`. Size determined by FUN_004dd620 (not hardcoded at caller). "
-        "NOTE this is OUTSIDE the 0x01C3..0x01DF cluster - separate lower-range opcode.; "
-        "likely_role=Map action-system request (0x01C3-0x01DF cluster: combat/skill/action use; "
-        "specific role TBD via pcap correlation) | decomp_source=final_gap_outbound_scan; "
-        "bcsy_ref=BCS-Y-0328 + BCS-Y-0321; evidence=Cross-confirmation (second emission site): "
-        "BCS-Y-0321 documented FUN_004DC690 (3364B helper-built path via FUN_004dd620); BCS-Y-0328 "
-        "confirms FUN_00589030 (stack-record path via FUN_004D6D10 thunk) emits the same opcode 0x00CA "
-        "size 0x30. The same opcode has two distinct production paths in the binary - normal "
-        "stack-record (FUN_00589030) and large-context helper-built (FUN_004DC690 from tick handler "
-        "FUN_004E20A0 / BCS-Y-0314).; likely_role=Map channel state push (size 0x30 = 48 bytes, dual "
-        "production paths) | pcap_observations merged from xivl-client-structs "
-        "pcap_opcode_evidence.json.",
-        "decomp_source=tierd_outbound_scan; bcsy_ref=BCS-Y-0321 + BCS-Y-0324 summary; evidence=Tier-D "
-        "emitter FUN_004DC690 (3364-byte host function, sole caller FUN_004E20A0 = BCS-Y-0314) emits "
-        "opcode 0x00CA via record-builder FUN_004dd620: `uVar6 = FUN_004dd620((int)_Var13, &local_9f4);"
-        " FUN_004E0240(uVar6, 0xCA, 0)`. Size determined by FUN_004dd620 (not hardcoded at caller). "
-        "NOTE this is OUTSIDE the 0x01C3..0x01DF cluster - separate lower-range opcode.; "
-        "likely_role=Map position update through the helper-built production path | "
+        "decomp_source=tierd_outbound_scan; bcsy_ref=BCS-Y-0321 + BCS-Y-0324 summary; "
+        "evidence=Tier-D emitter FUN_004DC690 (3364-byte host function, sole caller "
+        "FUN_004E20A0 = BCS-Y-0314) emits opcode 0x00CA via record-builder FUN_004dd620: "
+        "`uVar6 = FUN_004dd620((int)_Var13, &local_9f4); FUN_004E0240(uVar6, 0xCA, 0)`. "
+        "Size determined by FUN_004dd620 (not hardcoded at caller). NOTE this is OUTSIDE "
+        "the 0x01C3..0x01DF cluster - separate lower-range opcode.; likely_role=Map "
+        "position update through the helper-built production path | "
         "decomp_source=final_gap_outbound_scan; bcsy_ref=BCS-Y-0328 + BCS-Y-0321; "
-        "evidence=Cross-confirmation (second emission site): BCS-Y-0321 documented FUN_004DC690 (3364B "
-        "helper-built path via FUN_004dd620); BCS-Y-0328 confirms FUN_00589030 (stack-record path via "
-        "FUN_004D6D10 thunk) emits the same opcode 0x00CA size 0x30. The same opcode has two distinct "
-        "production paths in the binary - normal stack-record (FUN_00589030) and large-context "
-        "helper-built (FUN_004DC690 from tick handler FUN_004E20A0 / BCS-Y-0314).; likely_role=Map "
-        "position update (internal record size 0x30, two production paths) | pcap_observations merged "
-        "from xivl-client-structs pcap_opcode_evidence.json.; "
+        "evidence=Cross-confirmation (second emission site): BCS-Y-0321 documented "
+        "FUN_004DC690 (3364B helper-built path via FUN_004dd620); BCS-Y-0328 confirms "
+        "FUN_00589030 (stack-record path via FUN_004D6D10 thunk) emits the same opcode "
+        "0x00CA size 0x30. The same opcode has two distinct production paths in the binary "
+        "- normal stack-record (FUN_00589030) and large-context helper-built (FUN_004DC690 "
+        "from tick handler FUN_004E20A0 / BCS-Y-0314).; likely_role=Map position update "
+        "(internal record size 0x30, two production paths) | pcap_observations merged from "
+        "xivl-client-structs pcap_opcode_evidence.json.; "
         "field_contract=xivl-client-structs:manifests/c2s_payload_decoding.json#payloadStructs.c2s_0x00ca;"
         " application_extent=32 bytes after the 16-byte game-message prefix; "
-        "selected_builder_fields=FUN_004DD620 exposes an eight-byte time container at +0, float "
-        "x/y/z/rotation at +8/+12/+16/+20, u16 state at +24, and six uninterpreted bytes at +26; "
-        "time_boundary=the retained low-dword __time64 write does not establish additional precision; "
-        "semantic_boundary=movement enums, units and cadence policy are not established by this field "
-        "geometry",
+        "selected_builder_fields=FUN_004DD620 exposes an eight-byte time container at +0, "
+        "float x/y/z/rotation at +8/+12/+16/+20, u16 state at +24, and six uninterpreted "
+        "bytes at +26; time_boundary=the retained low-dword __time64 write does not "
+        "establish additional precision; semantic_boundary=movement enums, units and "
+        "cadence policy are not established by this field geometry",
+        "client_context=Position producer geometry; producer=Published production sites are"
+        " FUN_00589030, the FUN_004DC690 case-7 path using FUN_004DD620, and FUN_0058E0C0 "
+        "case 0x51. The dispatcher is a host of one embedded emit, not a standalone "
+        "position emitter.; field_geometry=IPC 48 bytes; application 32 bytes: eight-byte "
+        "time container at +0, floats at +8/+12/+16/+20, u16 state at +24, six unresolved "
+        "bytes at +26.; "
+        "client_contract=xivl-client-structs:manifests/c2s_payload_decoding.json#payloadStructs.c2s_0x00ca;"
+        " "
+        "framing_contract=xivl-client-structs:docs/search-recruitment-wire-contract.md#outbound-framing;"
+        " semantic_boundary=The documented low-dword __time64 write does not establish "
+        "additional precision. Movement enums, units and cadence policy remain unresolved.;"
+        " confidence_boundary=the native emitter anchor does not confirm the retained "
+        "packet name, implementation label, server policy or acceptance; "
+        "decomp_source=tierd_outbound_scan; bcsy_ref=BCS-Y-0321 + BCS-Y-0324 summary; "
+        "decomp_source=final_gap_outbound_scan; bcsy_ref=BCS-Y-0328 + BCS-Y-0321; "
+        "pcap_observations merged from xivl-client-structs pcap_opcode_evidence.json.; "
+        "related_catalog_refs=BCS-Y-0314",
     ),
     (
         "MapServerbound",
@@ -472,6 +476,412 @@ OVERRIDES = [
         "producer example, while the numeric-c2s correlation product does not independently prove "
         "Map attribution for every event; existing World/Map capture-attribution qualifications "
         "remain; pcap_observations merged from xivl-client-structs pcap_opcode_evidence.json.",
+    ),
+    (
+        "MapServerbound",
+        "0x0007",
+        "ZoneInCompletePacket",
+        "| decomp_source=final_gap_outbound_scan; bcsy_ref=BCS-Y-0330; evidence=Dual-site "
+        "Tier-D emission: FUN_00586F40 (gated on DAT_01338D28 == 0, initial-once with "
+        "timestamp via __time64) and FUN_00586FB0 (unconditional fallback) both build stack"
+        " record `local_8b0=7, local_8ac=0x18, local_898=timestamp, "
+        "local_894=param/0xFFFFFFFF` and call FUN_004D6CF0 (BCS-Y-0323 gating thunk) -> "
+        "FUN_004E0240 (BCS-Y-0312) -> FUN_00DAE010 (BCS-Y-0304, Zone Tier-B). Pattern "
+        "suggests keepalive/connection-state ping.; likely_role=Map channel "
+        "connection-state ping / keepalive (c2s, dual emission with retry fallback) | "
+        "pcap_observations merged from xivl-client-structs pcap_opcode_evidence.json.",
+        "client_context=Dual timestamp/caller-word emission; producer=FUN_00586F40 is gated"
+        " on DAT_01338D28 == 0; FUN_00586FB0 supplies the fallback. Both reach FUN_004D6CF0"
+        " -> FUN_004E0240 -> FUN_00DAE010.; field_geometry=IPC 24 bytes; application 8 "
+        "bytes: __time64-derived u32 at +0 and caller u32 or 0xFFFFFFFF at +4.; "
+        "client_contract=xivl-client-structs:manifests/structs.json#BCS-S-0028; "
+        "framing_contract=xivl-client-structs:docs/search-recruitment-wire-contract.md#outbound-framing;"
+        " semantic_boundary=Keepalive, zone-completion effects, seed meanings and higher "
+        "time precision are not established.; confidence_boundary=the native emitter anchor"
+        " does not confirm the retained packet name, implementation label, server policy or"
+        " acceptance; decomp_source=final_gap_outbound_scan; bcsy_ref=BCS-Y-0330; "
+        "pcap_observations merged from xivl-client-structs pcap_opcode_evidence.json.; "
+        "related_catalog_refs=BCS-Y-0304,BCS-Y-0312,BCS-Y-0323",
+    ),
+    (
+        "MapServerbound",
+        "0x00cc",
+        "LockTargetPacket",
+        "corpus request_response_pairs.json: 66 c2s 0x00CC LockTarget firings; top "
+        "responses s2c 0x0190 (116/175% c2sShare indicating multi-response), 0x0001 "
+        "(23/34%), 0x00d3 (21/31%). LockTarget triggers actor-state + heartbeat + "
+        "target-time update.",
+        "client_context=Target-control producer with unresolved tail; producer=Both "
+        "retained FUN_00561BB0 branches build 0x00CC and reach FUN_004D6D10 -> "
+        "FUN_004E0240; one writes 0xC0000000 and the other an object-ID-style word.; "
+        "field_geometry=IPC 24 bytes; application 8 bytes: actor-ID-style u32 at +0 and "
+        "four unresolved bytes at +4.; "
+        "client_contract=xivl-client-structs:manifests/c2s_payload_decoding.json#payloadStructs.c2s_0x00cc;"
+        " "
+        "framing_contract=xivl-client-structs:docs/search-recruitment-wire-contract.md#outbound-framing;"
+        " semantic_boundary=The selected pass did not find an explicit trailing-word write;"
+        " universal noninitialization and a lock-kind enum are unproved. Numeric timing "
+        "correlations do not prove a causal response.; confidence_boundary=the native "
+        "emitter anchor does not confirm the retained packet name, implementation label, "
+        "server policy or acceptance",
+    ),
+    (
+        "MapServerbound",
+        "0x00cd",
+        "SetTargetPacket",
+        "",
+        "client_context=Two-word target-control producer; producer=FUN_0075EB30 and "
+        "FUN_00562D30 write the same two-dword application. The former reaches FUN_004D6D10"
+        " -> FUN_004E0240.; field_geometry=IPC 24 bytes; application 8 bytes: "
+        "object-ID-style u32 at +0 and a second target-control u32 at +4.; "
+        "client_contract=xivl-client-structs:manifests/c2s_payload_decoding.json#payloadStructs.c2s_0x00cd;"
+        " "
+        "framing_contract=xivl-client-structs:docs/search-recruitment-wire-contract.md#outbound-framing;"
+        " semantic_boundary=No target-kind enum or complete value domain is established.; "
+        "confidence_boundary=the native emitter anchor does not confirm the retained packet"
+        " name, implementation label, server policy or acceptance",
+    ),
+    (
+        "MapServerbound",
+        "0x0130",
+        "UpdateGroupPacket",
+        "decomp_source=final_gap_outbound_scan; bcsy_ref=BCS-Y-0329; evidence=FUN_0075E8D0 "
+        "builds stack record `local_8b0=0x130, local_8ac=0x20` then calls FUN_004D6D30 "
+        "(BCS-Y-0323 gating thunk, sole caller of that thunk) with `(&local_8b0, 0, 0)`. "
+        "Routes thunk -> FUN_004E0240 -> FUN_00DAE010. Opcode 0x0130 = decimal 304, sits "
+        "OUTSIDE the 0x01C3-0x01DF action cluster.; likely_role=Map channel mid-range "
+        "opcode (separate from action cluster); lua_binding=CharaBase._updateGroup -> "
+        "0x0130 via FUN_0075E860 (confirmed_direct_emit, BCS-Y-0380); "
+        "lua_binding=GroupBase._updateMemberAndInformation -> 0x0130 via 0x0075E8D0 "
+        "(confirmed_direct_emit, BCS-Y-0382, recovered via reverse-BFS from send-helper "
+        "caller lists); naming_upgrade=_0x0130 -> UpdateGroupPacket based on the two "
+        "confirmed Lua triggers _updateGroup and _updateMemberAndInformation both emitting "
+        "this opcode with size 0x20, matching the convention of neighbor 0x0131 "
+        "UpdateItemPackagePacket (Lua trigger _updateItemPackage)",
+        "client_context=Group update producer variants; producer=CharaBase._updateGroup "
+        "reaches FUN_0075E860; GroupBase._updateMemberAndInformation reaches FUN_0075E8D0. "
+        "Both use FUN_004D6D30 -> FUN_004E0240 -> FUN_00DAE010.; field_geometry=IPC 32 "
+        "bytes; application 16 bytes in four unnamed u32 fields. FUN_0075E860 zeros the "
+        "last two; FUN_0075E8D0 fills all four.; "
+        "client_contract=xivl-client-structs:manifests/c2s_payload_decoding.json#payloadStructs.c2s_0x0130;"
+        " "
+        "framing_contract=xivl-client-structs:docs/search-recruitment-wire-contract.md#outbound-framing;"
+        " semantic_boundary=Group policy and field nouns remain unresolved. The retained "
+        "catalog length 32 is the legacy builder totalSize; the selected native framing "
+        "implies a 48-byte subevent, not a new capture observation.; "
+        "confidence_boundary=the native emitter anchor does not confirm the retained packet"
+        " name, implementation label, server policy or acceptance; "
+        "decomp_source=final_gap_outbound_scan; bcsy_ref=BCS-Y-0329; "
+        "related_catalog_refs=BCS-Y-0323,BCS-Y-0380,BCS-Y-0382",
+    ),
+    (
+        "MapServerbound",
+        "0x01c3",
+        "StartRecruitingRequestPacket",
+        "no_pcap_evidence; decomp_source=tierd_outbound_scan; bcsy_ref=BCS-Y-0318 + "
+        "BCS-Y-0324 summary; evidence=Tier-D emitter 0x004B7A20 builds record via helper "
+        "`uVar = FUN_004cfd10(...)` then calls FUN_004E0240(uVar, 0x01C3, 0). Size "
+        "determined by FUN_004cfd10 (not hardcoded at caller). Routed through Tier-C "
+        "wrapper FUN_004E0240 (BCS-Y-0312) -> Tier-B FUN_00DAE010 (BCS-Y-0304).; "
+        "likely_role=Map action-system request (0x01C3-0x01DF cluster: combat/skill/action "
+        "use; specific role TBD via pcap correlation)",
+        "no_pcap_evidence; client_context=Bounded recruitment listing post/start context; "
+        "producer=FUN_004B7A20 sends the helper-built record from FUN_004CFD10 through "
+        "FUN_004E0240.; field_geometry=IPC 464 bytes (0x1D0); application 448 bytes "
+        "(0x1C0): three leading u32 values, four three-dword groups, a 96-dword block, and "
+        "four unresolved bytes at +0x1BC.; "
+        "client_contract=xivl-client-structs:manifests/structs.json#BCS-S-0356; "
+        "framing_contract=xivl-client-structs:docs/search-recruitment-wire-contract.md#outbound-framing;"
+        " semantic_boundary=Individual field meanings, server listing policy and client "
+        "acceptance remain unresolved.; confidence_boundary=the native emitter anchor does "
+        "not confirm the retained packet name, implementation label, server policy or "
+        "acceptance; decomp_source=tierd_outbound_scan; bcsy_ref=BCS-Y-0318 + BCS-Y-0324 "
+        "summary; related_catalog_refs=BCS-Y-0304,BCS-Y-0312",
+    ),
+    (
+        "MapServerbound",
+        "0x01c4",
+        "_0x01C4Handler",
+        "no_pcap_evidence; | decomp_source=tierd_outbound_scan; bcsy_ref=BCS-Y-0324; "
+        "per-opcode binding in operation_opcode_map_outbound.json tierDSweep.bindings "
+        "table; evidence=Tier-D emitter 0x004B7AD0 sets stack record `local_8b0 = 0x01C4 "
+        "(opcode); local_8ac = 0x18 (size); [body fields]` then calls "
+        "FUN_004E0240(&local_8b0, 0x01C4, 0). Routed through Tier-C wrapper FUN_004E0240 "
+        "(BCS-Y-0312) -> Tier-B Zone forwarder FUN_00DAE010 (BCS-Y-0304). Member of the "
+        "24-emitter 0x01C3..0x01DF action-system traffic cluster.; likely_role=Map "
+        "action-system request (0x01C3-0x01DF cluster: combat/skill/action use; specific "
+        "role TBD via pcap correlation)",
+        "no_pcap_evidence; client_context=Bounded recruitment listing-view/browse context; "
+        "producer=FUN_004B7AD0 constructs 0x01C4 and reaches FUN_004E0240.; "
+        "field_geometry=IPC 24 bytes; application 8 bytes: explicitly zero u32 at +0 and "
+        "four bytes with no documented write at +4.; "
+        "client_contract=xivl-client-structs:manifests/structs.json#BCS-S-0359; "
+        "framing_contract=xivl-client-structs:docs/search-recruitment-wire-contract.md#outbound-framing;"
+        " semantic_boundary=The zero has no established enum meaning; the retained "
+        "EndRecruitingRequest implementation label is not retail identity.; "
+        "confidence_boundary=the native emitter anchor does not confirm the retained packet"
+        " name, implementation label, server policy or acceptance; "
+        "decomp_source=tierd_outbound_scan; bcsy_ref=BCS-Y-0324; "
+        "related_catalog_refs=BCS-Y-0304,BCS-Y-0312",
+    ),
+    (
+        "MapServerbound",
+        "0x01c5",
+        "_0x01C5Handler",
+        "no_pcap_evidence; | decomp_source=tierd_outbound_scan; bcsy_ref=BCS-Y-0324; "
+        "per-opcode binding in operation_opcode_map_outbound.json tierDSweep.bindings "
+        "table; evidence=Tier-D emitter 0x004B7990 sets stack record `local_8b0 = 0x01C5 "
+        "(opcode); local_8ac = 0x18 (size); [body fields]` then calls "
+        "FUN_004E0240(&local_8b0, 0x01C5, 0). Routed through Tier-C wrapper FUN_004E0240 "
+        "(BCS-Y-0312) -> Tier-B Zone forwarder FUN_00DAE010 (BCS-Y-0304). Member of the "
+        "24-emitter 0x01C3..0x01DF action-system traffic cluster.; likely_role=Map "
+        "action-system request (0x01C3-0x01DF cluster: combat/skill/action use; specific "
+        "role TBD via pcap correlation)",
+        "no_pcap_evidence; client_context=Bounded recruitment edit-mode toggle context; "
+        "producer=FUN_004B7990 constructs 0x01C5 and reaches FUN_004E0240.; "
+        "field_geometry=IPC 24 bytes; application 8 bytes: explicitly zero u32 at +0 and "
+        "four unresolved bytes at +4.; "
+        "client_contract=xivl-client-structs:manifests/structs.json#BCS-S-0360; "
+        "framing_contract=xivl-client-structs:docs/search-recruitment-wire-contract.md#outbound-framing;"
+        " semantic_boundary=The complete edit operation, zero meaning and server policy are"
+        " unresolved; no new packet name is established.; confidence_boundary=the native "
+        "emitter anchor does not confirm the retained packet name, implementation label, "
+        "server policy or acceptance; decomp_source=tierd_outbound_scan; "
+        "bcsy_ref=BCS-Y-0324; related_catalog_refs=BCS-Y-0304,BCS-Y-0312",
+    ),
+    (
+        "MapServerbound",
+        "0x01c8",
+        "RecruitmentDetailsRequestPacket",
+        "no_pcap_evidence; | decomp_source=tierd_outbound_scan; bcsy_ref=BCS-Y-0324; "
+        "per-opcode binding in operation_opcode_map_outbound.json tierDSweep.bindings "
+        "table; evidence=Tier-D emitter 0x004B7B60 sets stack record `local_8b0 = 0x01C8 "
+        "(opcode); local_8ac = 0x18 (size); [body fields]` then calls "
+        "FUN_004E0240(&local_8b0, 0x01C8, 0). Routed through Tier-C wrapper FUN_004E0240 "
+        "(BCS-Y-0312) -> Tier-B Zone forwarder FUN_00DAE010 (BCS-Y-0304). Member of the "
+        "24-emitter 0x01C3..0x01DF action-system traffic cluster.; likely_role=Map "
+        "action-system request (0x01C3-0x01DF cluster: combat/skill/action use; specific "
+        "role TBD via pcap correlation)",
+        "no_pcap_evidence; client_context=Neutral recruitment-context emission; "
+        "producer=FUN_004B7B60 constructs 0x01C8 from two caller words and reaches "
+        "FUN_004E0240.; field_geometry=IPC 24 bytes; application 8 bytes in two "
+        "caller-supplied u32 values.; "
+        "client_contract=xivl-client-structs:manifests/c2s_emit_sites.json#emit_sites_table;"
+        " "
+        "framing_contract=xivl-client-structs:docs/search-recruitment-wire-contract.md#outbound-framing;"
+        " semantic_boundary=Retained detailed sources disagree between recruitment-details "
+        "and cancellation/leave/withdraw roles. The current structs "
+        "method.c463Limits/c467Limits defers a detailed model. Caller action, argument "
+        "identities and the exact operation remain unresolved.; confidence_boundary=the "
+        "native emitter anchor does not confirm the retained packet name, implementation "
+        "label, server policy or acceptance; decomp_source=tierd_outbound_scan; "
+        "bcsy_ref=BCS-Y-0324; related_catalog_refs=BCS-Y-0304,BCS-Y-0312",
+    ),
+    (
+        "MapServerbound",
+        "0x01d0",
+        "FaqListRequestPacket",
+        "no_pcap_evidence; decomp_source=tierd_outbound_scan; bcsy_ref=BCS-Y-0324; "
+        "per-opcode binding in operation_opcode_map_outbound.json tierDSweep.bindings "
+        "table; evidence=Tier-D emitter 0x004B7F90 sets stack record `local_8b0 = 0x01D0 "
+        "(opcode); local_8ac = 0x18 (size); [body fields]` then calls "
+        "FUN_004E0240(&local_8b0, 0x01D0, 0). Routed through Tier-C wrapper FUN_004E0240 "
+        "(BCS-Y-0312) -> Tier-B Zone forwarder FUN_00DAE010 (BCS-Y-0304). Member of the "
+        "24-emitter 0x01C3..0x01DF action-system traffic cluster.; likely_role=Map "
+        "action-system request (0x01C3-0x01DF cluster: combat/skill/action use; specific "
+        "role TBD via pcap correlation)",
+        "no_pcap_evidence; client_context=Bounded Topic/bulletin-board list context; "
+        "producer=FUN_004B7F90 constructs 0x01D0 and reaches FUN_004E0240; the first word "
+        "comes from provider virtual +0x18.; field_geometry=IPC 24 bytes; application 8 "
+        "bytes: provider-result u32 at +0 and four unresolved bytes at +4.; "
+        "client_contract=xivl-client-structs:manifests/structs.json#BCS-S-0351; "
+        "framing_contract=xivl-client-structs:docs/search-recruitment-wire-contract.md#outbound-framing;"
+        " semantic_boundary=Provider identity and token meaning remain unresolved. The "
+        "retained FAQ label is implementation provenance.; confidence_boundary=the native "
+        "emitter anchor does not confirm the retained packet name, implementation label, "
+        "server policy or acceptance; decomp_source=tierd_outbound_scan; "
+        "bcsy_ref=BCS-Y-0324; related_catalog_refs=BCS-Y-0304,BCS-Y-0312",
+    ),
+    (
+        "MapServerbound",
+        "0x01d1",
+        "FaqBodyRequestPacket",
+        "no_pcap_evidence; | decomp_source=tierd_outbound_scan; bcsy_ref=BCS-Y-0324; "
+        "per-opcode binding in operation_opcode_map_outbound.json tierDSweep.bindings "
+        "table; evidence=Tier-D emitter 0x004B8030 sets stack record `local_8b0 = 0x01D1 "
+        "(opcode); local_8ac = 0x18 (size); [body fields]` then calls "
+        "FUN_004E0240(&local_8b0, 0x01D1, 0). Routed through Tier-C wrapper FUN_004E0240 "
+        "(BCS-Y-0312) -> Tier-B Zone forwarder FUN_00DAE010 (BCS-Y-0304). Member of the "
+        "24-emitter 0x01C3..0x01DF action-system traffic cluster.; likely_role=Map "
+        "action-system request (0x01C3-0x01DF cluster: combat/skill/action use; specific "
+        "role TBD via pcap correlation)",
+        "no_pcap_evidence; client_context=Bounded Call/help request context; "
+        "producer=FUN_004B8030 constructs 0x01D1 and reaches FUN_004E0240.; "
+        "field_geometry=IPC 24 bytes; application 8 bytes: explicit caller u32 at +0 and "
+        "provider virtual +0x18 result u32 at +4.; "
+        "client_contract=xivl-client-structs:manifests/structs.json#BCS-S-0352; "
+        "framing_contract=xivl-client-structs:docs/search-recruitment-wire-contract.md#outbound-framing;"
+        " semantic_boundary=Voice-call versus help-call semantics and both value domains "
+        "remain unresolved; the FAQ label is implementation provenance.; "
+        "confidence_boundary=the native emitter anchor does not confirm the retained packet"
+        " name, implementation label, server policy or acceptance; "
+        "decomp_source=tierd_outbound_scan; bcsy_ref=BCS-Y-0324; "
+        "related_catalog_refs=BCS-Y-0304,BCS-Y-0312",
+    ),
+    (
+        "MapServerbound",
+        "0x01d2",
+        "GMTicketIssuesRequestPacket",
+        "no_pcap_evidence; | decomp_source=tierd_outbound_scan; bcsy_ref=BCS-Y-0324; "
+        "per-opcode binding in operation_opcode_map_outbound.json tierDSweep.bindings "
+        "table; evidence=Tier-D emitter 0x004B80E0 sets stack record `local_8b0 = 0x01D2 "
+        "(opcode); local_8ac = 0x18 (size); [body fields]` then calls "
+        "FUN_004E0240(&local_8b0, 0x01D2, 0). Routed through Tier-C wrapper FUN_004E0240 "
+        "(BCS-Y-0312) -> Tier-B Zone forwarder FUN_00DAE010 (BCS-Y-0304). Member of the "
+        "24-emitter 0x01C3..0x01DF action-system traffic cluster.; likely_role=Map "
+        "action-system request (0x01C3-0x01DF cluster: combat/skill/action use; specific "
+        "role TBD via pcap correlation)",
+        "no_pcap_evidence; client_context=Bounded mail-compose send context; "
+        "producer=FUN_004B80E0 constructs 0x01D2 and reaches FUN_004E0240.; "
+        "field_geometry=IPC 24 bytes; application 8 bytes: provider-result u32 at +0 and "
+        "four unresolved bytes at +4.; "
+        "client_contract=xivl-client-structs:manifests/structs.json#BCS-S-0353; "
+        "framing_contract=xivl-client-structs:docs/search-recruitment-wire-contract.md#outbound-framing;"
+        " semantic_boundary=The context-token domain and mail delivery policy are "
+        "unresolved; the GM-ticket label is implementation provenance.; "
+        "confidence_boundary=the native emitter anchor does not confirm the retained packet"
+        " name, implementation label, server policy or acceptance; "
+        "decomp_source=tierd_outbound_scan; bcsy_ref=BCS-Y-0324; "
+        "related_catalog_refs=BCS-Y-0304,BCS-Y-0312",
+    ),
+    (
+        "MapServerbound",
+        "0x01d3",
+        "_0x01D3Handler",
+        "no_pcap_evidence; | decomp_source=tierd_outbound_scan; bcsy_ref=BCS-Y-0324; "
+        "per-opcode binding in operation_opcode_map_outbound.json tierDSweep.bindings "
+        "table; evidence=Tier-D emitter 0x004B8180 sets stack record `local_8b0 = 0x01D3 "
+        "(opcode); local_8ac = 0x18 (size); [body fields]` then calls "
+        "FUN_004E0240(&local_8b0, 0x01D3, 0). Routed through Tier-C wrapper FUN_004E0240 "
+        "(BCS-Y-0312) -> Tier-B Zone forwarder FUN_00DAE010 (BCS-Y-0304). Member of the "
+        "24-emitter 0x01C3..0x01DF action-system traffic cluster.; likely_role=Map "
+        "action-system request (0x01C3-0x01DF cluster: combat/skill/action use; specific "
+        "role TBD via pcap correlation)",
+        "no_pcap_evidence; client_context=State-gated neutral emission; "
+        "producer=FUN_004B8180 requires owner+0x10 == 0 and owner+0x15 != 0, calls a "
+        "pre-emit helper, constructs 0x01D3 and reaches FUN_004E0240. Success writes owner "
+        "state.; field_geometry=IPC 24 bytes; application 8 bytes: explicit zero u32 at +0,"
+        " with remaining initialization unresolved.; "
+        "client_contract=xivl-client-structs:manifests/symbols.json#BCS-Y-1074; "
+        "framing_contract=xivl-client-structs:docs/search-recruitment-wire-contract.md#outbound-framing;"
+        " semantic_boundary=Owner-byte permission/GM-rank meaning and complete operation "
+        "identity are unproved. No login witness or completely zero body is added.; "
+        "confidence_boundary=the native emitter anchor does not confirm the retained packet"
+        " name, implementation label, server policy or acceptance; "
+        "decomp_source=tierd_outbound_scan; bcsy_ref=BCS-Y-0324; "
+        "related_catalog_refs=BCS-Y-0304,BCS-Y-0312",
+    ),
+    (
+        "MapServerbound",
+        "0x01d4",
+        "_0x01D4Handler",
+        "no_pcap_evidence; | decomp_source=tierd_outbound_scan; bcsy_ref=BCS-Y-0324; "
+        "per-opcode binding in operation_opcode_map_outbound.json tierDSweep.bindings "
+        "table; evidence=Tier-D emitter 0x004B8210 sets stack record `local_8b0 = 0x01D4 "
+        "(opcode); local_8ac = 0x18 (size); [body fields]` then calls "
+        "FUN_004E0240(&local_8b0, 0x01D4, 0). Routed through Tier-C wrapper FUN_004E0240 "
+        "(BCS-Y-0312) -> Tier-B Zone forwarder FUN_00DAE010 (BCS-Y-0304). Member of the "
+        "24-emitter 0x01C3..0x01DF action-system traffic cluster.; likely_role=Map "
+        "action-system request (0x01C3-0x01DF cluster: combat/skill/action use; specific "
+        "role TBD via pcap correlation)",
+        "no_pcap_evidence; client_context=Bounded Topic submit/update context; "
+        "producer=FUN_004B8210 constructs 0x01D4 and reaches FUN_004E0240.; "
+        "field_geometry=IPC 24 bytes; application 8 bytes: explicit zero u32 at +0 and four"
+        " unresolved bytes at +4.; "
+        "client_contract=xivl-client-structs:manifests/structs.json#BCS-S-0354; "
+        "framing_contract=xivl-client-structs:docs/search-recruitment-wire-contract.md#outbound-framing;"
+        " semantic_boundary=The exact Topic operation and value meaning remain unresolved; "
+        "the GM-ticket label is implementation provenance.; confidence_boundary=the native "
+        "emitter anchor does not confirm the retained packet name, implementation label, "
+        "server policy or acceptance; decomp_source=tierd_outbound_scan; "
+        "bcsy_ref=BCS-Y-0324; related_catalog_refs=BCS-Y-0304,BCS-Y-0312",
+    ),
+    (
+        "MapServerbound",
+        "0x01d5",
+        "GMSupportTicketPacket",
+        "no_pcap_evidence; | decomp_source=tierd_outbound_scan; bcsy_ref=BCS-Y-0324; "
+        "per-opcode binding in operation_opcode_map_outbound.json tierDSweep.bindings "
+        "table; evidence=Tier-D emitter 0x004B82A0 sets stack record `local_8b0 = 0x01D5 "
+        "(opcode); local_8ac = 0x898 (size); [body fields]` then calls "
+        "FUN_004E0240(&local_8b0, 0x01D5, 0). Routed through Tier-C wrapper FUN_004E0240 "
+        "(BCS-Y-0312) -> Tier-B Zone forwarder FUN_00DAE010 (BCS-Y-0304). Member of the "
+        "24-emitter 0x01C3..0x01DF action-system traffic cluster.; likely_role=Map "
+        "action-system request (0x01C3-0x01DF cluster: combat/skill/action use; specific "
+        "role TBD via pcap correlation)",
+        "no_pcap_evidence; client_context=Bounded mail-compose field-update context; "
+        "producer=FUN_004B82A0 constructs 0x01D5 and reaches FUN_004E0240.; "
+        "field_geometry=IPC 2200 bytes (0x898); application 2184 bytes (0x888): two leading"
+        " dwords, a 32-dword block at +8, and a 512-dword block at +0x88.; "
+        "client_contract=xivl-client-structs:manifests/structs.json#BCS-S-0350; "
+        "framing_contract=xivl-client-structs:docs/search-recruitment-wire-contract.md#outbound-framing;"
+        " semantic_boundary=Individual field meanings and mail transaction policy remain "
+        "unresolved. IPC 2200 is not a 2200-byte application, and the final block is not "
+        "513 dwords; the GM-support label is implementation provenance.; "
+        "confidence_boundary=the native emitter anchor does not confirm the retained packet"
+        " name, implementation label, server policy or acceptance; "
+        "decomp_source=tierd_outbound_scan; bcsy_ref=BCS-Y-0324; "
+        "related_catalog_refs=BCS-Y-0304,BCS-Y-0312",
+    ),
+    (
+        "MapServerbound",
+        "0x01d6",
+        "_0x01D6Handler",
+        "no_pcap_evidence; | decomp_source=tierd_outbound_scan; bcsy_ref=BCS-Y-0324; "
+        "per-opcode binding in operation_opcode_map_outbound.json tierDSweep.bindings "
+        "table; evidence=Tier-D emitter 0x004B8370 sets stack record `local_8b0 = 0x01D6 "
+        "(opcode); local_8ac = 0x18 (size); [body fields]` then calls "
+        "FUN_004E0240(&local_8b0, 0x01D6, 0). Routed through Tier-C wrapper FUN_004E0240 "
+        "(BCS-Y-0312) -> Tier-B Zone forwarder FUN_00DAE010 (BCS-Y-0304). Member of the "
+        "24-emitter 0x01C3..0x01DF action-system traffic cluster.; likely_role=Map "
+        "action-system request (0x01C3-0x01DF cluster: combat/skill/action use; specific "
+        "role TBD via pcap correlation)",
+        "no_pcap_evidence; client_context=Bounded Call acknowledgement/status context; "
+        "producer=FUN_004B8370 constructs 0x01D6 and reaches FUN_004E0240.; "
+        "field_geometry=IPC 24 bytes; application 8 bytes: explicit zero u32 at +0 and four"
+        " unresolved bytes at +4.; "
+        "client_contract=xivl-client-structs:manifests/structs.json#BCS-S-0355; "
+        "framing_contract=xivl-client-structs:docs/search-recruitment-wire-contract.md#outbound-framing;"
+        " semantic_boundary=The complete Call lifecycle and server policy remain "
+        "unresolved; the GM-ticket label is implementation provenance.; "
+        "confidence_boundary=the native emitter anchor does not confirm the retained packet"
+        " name, implementation label, server policy or acceptance; "
+        "decomp_source=tierd_outbound_scan; bcsy_ref=BCS-Y-0324; "
+        "related_catalog_refs=BCS-Y-0304,BCS-Y-0312",
+    ),
+    (
+        "MapServerbound",
+        "0x01db",
+        "_0x01DB",
+        "decomp_source=final_gap_outbound_scan; bcsy_ref=BCS-Y-0327; evidence=FUN_004C73D0 "
+        "sets stack record `local_8b0=0x1DB (opcode), local_8ac=0x18 (size)` then calls "
+        "FUN_004C7150 (BCS-Y-0322 passthrough relay). Passthrough reads *record and "
+        "forwards to FUN_004E0240 -> FUN_00DAE010. Fills one of the 3 cluster gaps left "
+        "unbound in 0x01C3..0x01DF.; likely_role=Map action-system request (cluster member,"
+        " size 0x18 single-record)",
+        "client_context=Neutral ItemSearch marketplace context; producer=FUN_004C73D0 "
+        "constructs 0x01DB and reaches FUN_004C7150 -> FUN_004E0240 -> FUN_00DAE010.; "
+        "field_geometry=IPC 24 bytes; application 8 bytes: explicit zero u32 at +0 and four"
+        " unresolved bytes at +4.; "
+        "client_contract=xivl-client-structs:manifests/structs.json#BCS-S-0367; "
+        "framing_contract=xivl-client-structs:docs/search-recruitment-wire-contract.md#outbound-framing;"
+        " semantic_boundary=The detailed ItemSearch operation remains unresolved. Selected "
+        "native framing implies a 40-byte subevent; the retained catalog length 24 has no "
+        "joined capture witness and is not validated by this static construction.; "
+        "confidence_boundary=the native emitter anchor does not confirm the retained packet"
+        " name, implementation label, server policy or acceptance; "
+        "decomp_source=final_gap_outbound_scan; bcsy_ref=BCS-Y-0327; "
+        "related_catalog_refs=BCS-Y-0322",
     ),
 ]
 
@@ -647,6 +1057,23 @@ CONFIDENCE_OVERRIDES = [
 ]
 
 DECOMP_ANCHOR_OVERRIDES = [
+    ("MapServerbound", "0x0007", "ZoneInCompletePacket", "FUN_00586F40"),
+    ("MapServerbound", "0x00ca", "UpdatePlayerPositionPacket", "FUN_00589030"),
+    ("MapServerbound", "0x00cc", "LockTargetPacket", "FUN_00561BB0"),
+    ("MapServerbound", "0x00cd", "SetTargetPacket", "FUN_0075EB30"),
+    ("MapServerbound", "0x0130", "UpdateGroupPacket", "FUN_0075E8D0"),
+    ("MapServerbound", "0x01c3", "StartRecruitingRequestPacket", "FUN_004B7A20"),
+    ("MapServerbound", "0x01c4", "_0x01C4Handler", "FUN_004B7AD0"),
+    ("MapServerbound", "0x01c5", "_0x01C5Handler", "FUN_004B7990"),
+    ("MapServerbound", "0x01c8", "RecruitmentDetailsRequestPacket", "FUN_004B7B60"),
+    ("MapServerbound", "0x01d0", "FaqListRequestPacket", "FUN_004B7F90"),
+    ("MapServerbound", "0x01d1", "FaqBodyRequestPacket", "FUN_004B8030"),
+    ("MapServerbound", "0x01d2", "GMTicketIssuesRequestPacket", "FUN_004B80E0"),
+    ("MapServerbound", "0x01d3", "_0x01D3Handler", "FUN_004B8180"),
+    ("MapServerbound", "0x01d4", "_0x01D4Handler", "FUN_004B8210"),
+    ("MapServerbound", "0x01d5", "GMSupportTicketPacket", "FUN_004B82A0"),
+    ("MapServerbound", "0x01d6", "_0x01D6Handler", "FUN_004B8370"),
+    ("MapServerbound", "0x01db", "_0x01DB", "FUN_004C73D0"),
     ("MapServerbound", "0x0001", "PingPacket", "FUN_004E20A0"),
     ("MapClientbound", "0x00e1", "_0x00E1", "FUN_0058C690"),
     ("MapClientbound", "0x0144", "SetActorSubStatePacket", "FUN_008A32C0"),

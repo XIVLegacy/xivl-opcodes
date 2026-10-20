@@ -125,8 +125,8 @@
     "name": "_0x00CA",
     "service": "map",
     "direction": "serverbound",
-    "evidence": "Tier-D emitter FUN_004DC690 (3364-byte host function, sole caller FUN_004E20A0 = BCS-Y-0314) emits opcode 0x00CA via record-builder FUN_004dd620: `uVar6 = FUN_004dd620((int)_Var13, &local_9f4); FUN_004E0240(uVar6, 0xCA, 0)`. Size determined by FUN_004dd620 (not hardcoded at caller). NOTE this is OUTSIDE the 0x01C3..0x01DF cluster - separate lower-range opcode. | Refined likely_role via pcap correlation against xivl-captures/captures/*.pcapng (54 scenarios). evidenceKind=pcap_observed, pcapTotalCount=16867, sourceEvidence=pcap_correlation.",
-    "likely_role": "Map position-broadcast tick (c2s); 64-byte subpacket (0x30 game-message body); appears in 54/54 pcap scenarios with frequency proportional to movement (2402x in moving_around_gridania, 3388x in party_battle_leve, 62x in mount_unmount_chocobo). Periodic player-state heartbeat - not an action-system opcode despite the outbound-scan cluster grouping. Same opcode as BCS-Y-0328 dual-production-paths entry.",
+    "evidence": "Published production sites are FUN_00589030, the FUN_004DC690 case-7 path using FUN_004DD620, and FUN_0058E0C0 case 0x51. The dispatcher is a host of one embedded emit, not a standalone position emitter. IPC 48 bytes; application 32 bytes: eight-byte time container at +0, floats at +8/+12/+16/+20, u16 state at +24, six unresolved bytes at +26. The documented low-dword __time64 write does not establish additional precision. Movement enums, units and cadence policy remain unresolved. Contract: xivl-client-structs:manifests/c2s_payload_decoding.json#payloadStructs.c2s_0x00ca.",
+    "likely_role": "Position producer geometry; field domains and server policy remain qualified by the cited contract",
     "source": "tierd_outbound_scan | pcap_correlation"
   },
   {
@@ -135,8 +135,8 @@
     "name": "_0x01C3",
     "service": "map",
     "direction": "serverbound",
-    "evidence": "Tier-D emitter 0x004B7A20 builds record via helper `uVar = FUN_004cfd10(...)` then calls FUN_004E0240(uVar, 0x01C3, 0). Size determined by FUN_004cfd10 (not hardcoded at caller). Routed through Tier-C wrapper FUN_004E0240 (BCS-Y-0312) -> Tier-B FUN_00DAE010 (BCS-Y-0304). | Refined likely_role via pcap correlation against xivl-captures/captures/*.pcapng (54 scenarios). evidenceKind=pcap_unobserved, pcapTotalCount=0, sourceEvidence=pcap_correlation. | Cluster role refined via Ghidra static caller decomposition. Source: ghidra-projects/caller_decomp.txt; caller(s)=0x004BBEA0; subsystem=PcMatching/Recruitment; sourceEvidence=static_caller_dig.",
-    "likely_role": "PcMatching/Recruitment - C2S - post new PC-Matching (party recruitment) listing. Caller FUN_004BBEA0 reads UI fields Button_Operate, ComboBox_Purpose, ComboBox_GLName, ComboBox_Place, TextBox_Comment, and 4x {ComboBox_Skill_N, CustomControl_RankFrom_N, CustomControl_RankTo_N, CustomControl_NumberOfPeople_N} - a full recruitment posting with 4 skill slots, rank ranges, and headcounts.",
+    "evidence": "FUN_004B7A20 sends the helper-built record from FUN_004CFD10 through FUN_004E0240. IPC 464 bytes (0x1D0); application 448 bytes (0x1C0): three leading u32 values, four three-dword groups, a 96-dword block, and four unresolved bytes at +0x1BC. Individual field meanings, server listing policy and client acceptance remain unresolved. Contract: xivl-client-structs:manifests/structs.json#BCS-S-0356.",
+    "likely_role": "Bounded recruitment listing post/start context; field domains and server policy remain qualified by the cited contract",
     "source": "tierd_outbound_scan | pcap_correlation | static_caller_dig"
   },
   {
@@ -145,8 +145,8 @@
     "name": "_0x01C4",
     "service": "map",
     "direction": "serverbound",
-    "evidence": "Tier-D emitter 0x004B7AD0 sets stack record `local_8b0 = 0x01C4 (opcode); local_8ac = 0x18 (size); [body fields]` then calls FUN_004E0240(&local_8b0, 0x01C4, 0). Routed through Tier-C wrapper FUN_004E0240 (BCS-Y-0312) -> Tier-B Zone forwarder FUN_00DAE010 (BCS-Y-0304). Member of the 24-emitter 0x01C3..0x01DF action-system traffic cluster. | Refined likely_role via pcap correlation against xivl-captures/captures/*.pcapng (54 scenarios). evidenceKind=pcap_unobserved, pcapTotalCount=0, sourceEvidence=pcap_correlation. | Cluster role refined via Ghidra static caller decomposition. Source: ghidra-projects/caller_decomp.txt; caller(s)=0x004C8390; subsystem=PcMatching/Recruitment; sourceEvidence=static_caller_dig.",
-    "likely_role": "PcMatching/Recruitment - C2S - PC-Matching listing view-mode action (apply / view / browse). Caller FUN_004C8390 reads TextBlock_GLName, TextBlock_PersonName, TextBlock_RemainTime + 4x TextBlock_Skill/RankFrom/RankTo/NumberOfPeople - the read-only view side of the listing UI.",
+    "evidence": "FUN_004B7AD0 constructs 0x01C4 and reaches FUN_004E0240. IPC 24 bytes; application 8 bytes: explicitly zero u32 at +0 and four bytes with no documented write at +4. The zero has no established enum meaning; the retained EndRecruitingRequest implementation label is not retail identity. Contract: xivl-client-structs:manifests/structs.json#BCS-S-0359.",
+    "likely_role": "Bounded recruitment listing-view/browse context; field domains and server policy remain qualified by the cited contract",
     "source": "tierd_outbound_scan | pcap_correlation | static_caller_dig"
   },
   {
@@ -155,8 +155,8 @@
     "name": "_0x01C5",
     "service": "map",
     "direction": "serverbound",
-    "evidence": "Tier-D emitter 0x004B7990 sets stack record `local_8b0 = 0x01C5 (opcode); local_8ac = 0x18 (size); [body fields]` then calls FUN_004E0240(&local_8b0, 0x01C5, 0). Routed through Tier-C wrapper FUN_004E0240 (BCS-Y-0312) -> Tier-B Zone forwarder FUN_00DAE010 (BCS-Y-0304). Member of the 24-emitter 0x01C3..0x01DF action-system traffic cluster. | Refined likely_role via pcap correlation against xivl-captures/captures/*.pcapng (54 scenarios). evidenceKind=pcap_unobserved, pcapTotalCount=0, sourceEvidence=pcap_correlation. | Cluster role refined via Ghidra static caller decomposition. Source: ghidra-projects/caller_decomp.txt; caller(s)=0x004C8390 + 0x004C80C0; subsystem=PcMatching/Recruitment; sourceEvidence=static_caller_dig.",
-    "likely_role": "PcMatching/Recruitment - C2S - PC-Matching edit-mode toggle. Caller FUN_004C80C0 reads Button_PcMatching_Edit; also invoked from FUN_004C8390 listing-view handler. Transitions between view and edit modes.",
+    "evidence": "FUN_004B7990 constructs 0x01C5 and reaches FUN_004E0240. IPC 24 bytes; application 8 bytes: explicitly zero u32 at +0 and four unresolved bytes at +4. The complete edit operation, zero meaning and server policy are unresolved; no new packet name is established. Contract: xivl-client-structs:manifests/structs.json#BCS-S-0360.",
+    "likely_role": "Bounded recruitment edit-mode toggle context; field domains and server policy remain qualified by the cited contract",
     "source": "tierd_outbound_scan | pcap_correlation | static_caller_dig"
   },
   {
@@ -185,8 +185,8 @@
     "name": "_0x01C8",
     "service": "map",
     "direction": "serverbound",
-    "evidence": "Tier-D emitter 0x004B7B60 sets stack record `local_8b0 = 0x01C8 (opcode); local_8ac = 0x18 (size); [body fields]` then calls FUN_004E0240(&local_8b0, 0x01C8, 0). Routed through Tier-C wrapper FUN_004E0240 (BCS-Y-0312) -> Tier-B Zone forwarder FUN_00DAE010 (BCS-Y-0304). Member of the 24-emitter 0x01C3..0x01DF action-system traffic cluster. | Refined likely_role via pcap correlation against xivl-captures/captures/*.pcapng (54 scenarios). evidenceKind=pcap_unobserved, pcapTotalCount=0, sourceEvidence=pcap_correlation. | Cluster role refined via Ghidra static caller decomposition. Source: ghidra-projects/caller_decomp.txt; caller(s)=0x004C8390 + 0x004BF4F0; subsystem=PcMatching/Recruitment; sourceEvidence=static_caller_dig.",
-    "likely_role": "PcMatching/Recruitment - C2S - PC-Matching cancel/leave/withdraw. Caller pair spanning both edit (0x004C8390) and view (0x004BF4F0) handlers - common exit/abort path.",
+    "evidence": "FUN_004B7B60 constructs 0x01C8 from two caller words and reaches FUN_004E0240. IPC 24 bytes; application 8 bytes in two caller-supplied u32 values. Retained detailed sources disagree between recruitment-details and cancellation/leave/withdraw roles. The current structs method.c463Limits/c467Limits defers a detailed model. Caller action, argument identities and the exact operation remain unresolved. Contract: xivl-client-structs:manifests/c2s_emit_sites.json#emit_sites_table.",
+    "likely_role": "Neutral recruitment-context emission; field domains and server policy remain qualified by the cited contract",
     "source": "tierd_outbound_scan | pcap_correlation | static_caller_dig"
   },
   {
@@ -265,8 +265,8 @@
     "name": "_0x01D0",
     "service": "map",
     "direction": "serverbound",
-    "evidence": "Tier-D emitter 0x004B7F90 sets stack record `local_8b0 = 0x01D0 (opcode); local_8ac = 0x18 (size); [body fields]` then calls FUN_004E0240(&local_8b0, 0x01D0, 0). Routed through Tier-C wrapper FUN_004E0240 (BCS-Y-0312) -> Tier-B Zone forwarder FUN_00DAE010 (BCS-Y-0304). Member of the 24-emitter 0x01C3..0x01DF action-system traffic cluster. | Refined likely_role via pcap correlation against xivl-captures/captures/*.pcapng (54 scenarios). evidenceKind=pcap_unobserved, pcapTotalCount=0, sourceEvidence=pcap_correlation. | Cluster role refined via Ghidra static caller decomposition. Source: ghidra-projects/caller_decomp.txt; caller(s)=0x004C0AF0; subsystem=Topic/Forum; sourceEvidence=static_caller_dig.",
-    "likely_role": "Topic/Forum - C2S - Topic/Bulletin board list request. Caller FUN_004C0AF0 uses TextBlock_TopicTitle + Call_Maker + Info_Maker UI control pattern - the topic-list / discussion board UI. Sister of 0x01D4.",
+    "evidence": "FUN_004B7F90 constructs 0x01D0 and reaches FUN_004E0240; the first word comes from provider virtual +0x18. IPC 24 bytes; application 8 bytes: provider-result u32 at +0 and four unresolved bytes at +4. Provider identity and token meaning remain unresolved. The retained FAQ label is implementation provenance. Contract: xivl-client-structs:manifests/structs.json#BCS-S-0351.",
+    "likely_role": "Bounded Topic/bulletin-board list context; field domains and server policy remain qualified by the cited contract",
     "source": "tierd_outbound_scan | pcap_correlation | static_caller_dig"
   },
   {
@@ -275,8 +275,8 @@
     "name": "_0x01D1",
     "service": "map",
     "direction": "serverbound",
-    "evidence": "Tier-D emitter 0x004B8030 sets stack record `local_8b0 = 0x01D1 (opcode); local_8ac = 0x18 (size); [body fields]` then calls FUN_004E0240(&local_8b0, 0x01D1, 0). Routed through Tier-C wrapper FUN_004E0240 (BCS-Y-0312) -> Tier-B Zone forwarder FUN_00DAE010 (BCS-Y-0304). Member of the 24-emitter 0x01C3..0x01DF action-system traffic cluster. | Refined likely_role via pcap correlation against xivl-captures/captures/*.pcapng (54 scenarios). evidenceKind=pcap_unobserved, pcapTotalCount=0, sourceEvidence=pcap_correlation. | Cluster role refined via Ghidra static caller decomposition. Source: ghidra-projects/caller_decomp.txt; caller(s)=0x004C2170; subsystem=Call/Voice (or Call-Help feature); sourceEvidence=static_caller_dig.",
-    "likely_role": "Call/Voice (or Call-Help feature) - C2S - Call/Help request. Caller FUN_004C2170 uses Button_Call + TextBlock_Content + Visibility/Visible/Collapsed control pattern - voice-call or help-call request UI. Sister of 0x01D6.",
+    "evidence": "FUN_004B8030 constructs 0x01D1 and reaches FUN_004E0240. IPC 24 bytes; application 8 bytes: explicit caller u32 at +0 and provider virtual +0x18 result u32 at +4. Voice-call versus help-call semantics and both value domains remain unresolved; the FAQ label is implementation provenance. Contract: xivl-client-structs:manifests/structs.json#BCS-S-0352.",
+    "likely_role": "Bounded Call/help request context; field domains and server policy remain qualified by the cited contract",
     "source": "tierd_outbound_scan | pcap_correlation | static_caller_dig"
   },
   {
@@ -285,8 +285,8 @@
     "name": "_0x01D2",
     "service": "map",
     "direction": "serverbound",
-    "evidence": "Tier-D emitter 0x004B80E0 sets stack record `local_8b0 = 0x01D2 (opcode); local_8ac = 0x18 (size); [body fields]` then calls FUN_004E0240(&local_8b0, 0x01D2, 0). Routed through Tier-C wrapper FUN_004E0240 (BCS-Y-0312) -> Tier-B Zone forwarder FUN_00DAE010 (BCS-Y-0304). Member of the 24-emitter 0x01C3..0x01DF action-system traffic cluster. | Refined likely_role via pcap correlation against xivl-captures/captures/*.pcapng (54 scenarios). evidenceKind=pcap_unobserved, pcapTotalCount=0, sourceEvidence=pcap_correlation. | Cluster role refined via Ghidra static caller decomposition. Source: ghidra-projects/caller_decomp.txt; caller(s)=0x004C2A20; subsystem=Mail/Compose; sourceEvidence=static_caller_dig.",
-    "likely_role": "Mail/Compose - C2S - Mail compose send. Caller FUN_004C2A20 uses Button_Send + ComboBox_Kind + TextBox_Content + TextBox_Header + Kind_Maker + kindtext UI - the actual mail-message-compose / send UI. Sister of 0x01D5.",
+    "evidence": "FUN_004B80E0 constructs 0x01D2 and reaches FUN_004E0240. IPC 24 bytes; application 8 bytes: provider-result u32 at +0 and four unresolved bytes at +4. The context-token domain and mail delivery policy are unresolved; the GM-ticket label is implementation provenance. Contract: xivl-client-structs:manifests/structs.json#BCS-S-0353.",
+    "likely_role": "Bounded mail-compose send context; field domains and server policy remain qualified by the cited contract",
     "source": "tierd_outbound_scan | pcap_correlation | static_caller_dig"
   },
   {
@@ -295,8 +295,8 @@
     "name": "_0x01D3",
     "service": "map",
     "direction": "serverbound",
-    "evidence": "Tier-D emitter 0x004B8180 sets stack record `local_8b0 = 0x01D3 (opcode); local_8ac = 0x18 (size); [body fields]` then calls FUN_004E0240(&local_8b0, 0x01D3, 0). Routed through Tier-C wrapper FUN_004E0240 (BCS-Y-0312) -> Tier-B Zone forwarder FUN_00DAE010 (BCS-Y-0304). Member of the 24-emitter 0x01C3..0x01DF action-system traffic cluster. | Refined likely_role via pcap correlation against xivl-captures/captures/*.pcapng (54 scenarios). evidenceKind=pcap_observed, pcapTotalCount=1, sourceEvidence=pcap_correlation.",
-    "likely_role": "Login-time map/zone handshake step (c2s, 40-byte subpacket). Observed ONLY in login.pcapng (1 emission). Pairs with 0x01CB + 0x01CE.",
+    "evidence": "FUN_004B8180 requires owner+0x10 == 0 and owner+0x15 != 0, calls a pre-emit helper, constructs 0x01D3 and reaches FUN_004E0240. Success writes owner state. IPC 24 bytes; application 8 bytes: explicit zero u32 at +0, with remaining initialization unresolved. Owner-byte permission/GM-rank meaning and complete operation identity are unproved. No login witness or completely zero body is added. Contract: xivl-client-structs:manifests/symbols.json#BCS-Y-1074.",
+    "likely_role": "State-gated neutral emission; field domains and server policy remain qualified by the cited contract",
     "source": "tierd_outbound_scan | pcap_correlation"
   },
   {
@@ -305,8 +305,8 @@
     "name": "_0x01D4",
     "service": "map",
     "direction": "serverbound",
-    "evidence": "Tier-D emitter 0x004B8210 sets stack record `local_8b0 = 0x01D4 (opcode); local_8ac = 0x18 (size); [body fields]` then calls FUN_004E0240(&local_8b0, 0x01D4, 0). Routed through Tier-C wrapper FUN_004E0240 (BCS-Y-0312) -> Tier-B Zone forwarder FUN_00DAE010 (BCS-Y-0304). Member of the 24-emitter 0x01C3..0x01DF action-system traffic cluster. | Refined likely_role via pcap correlation against xivl-captures/captures/*.pcapng (54 scenarios). evidenceKind=pcap_unobserved, pcapTotalCount=0, sourceEvidence=pcap_correlation. | Cluster role refined via Ghidra static caller decomposition. Source: ghidra-projects/caller_decomp.txt; caller(s)=0x004C0AF0; subsystem=Topic/Forum; sourceEvidence=static_caller_dig.",
-    "likely_role": "Topic/Forum - C2S - Topic/Bulletin board submit/update. Same caller as 0x01D0 (FUN_004C0AF0); paired emit covering the topic-board submit half.",
+    "evidence": "FUN_004B8210 constructs 0x01D4 and reaches FUN_004E0240. IPC 24 bytes; application 8 bytes: explicit zero u32 at +0 and four unresolved bytes at +4. The exact Topic operation and value meaning remain unresolved; the GM-ticket label is implementation provenance. Contract: xivl-client-structs:manifests/structs.json#BCS-S-0354.",
+    "likely_role": "Bounded Topic submit/update context; field domains and server policy remain qualified by the cited contract",
     "source": "tierd_outbound_scan | pcap_correlation | static_caller_dig"
   },
   {
@@ -315,8 +315,8 @@
     "name": "_0x01D5",
     "service": "map",
     "direction": "serverbound",
-    "evidence": "Tier-D emitter 0x004B82A0 sets stack record `local_8b0 = 0x01D5 (opcode); local_8ac = 0x898 (size); [body fields]` then calls FUN_004E0240(&local_8b0, 0x01D5, 0). Routed through Tier-C wrapper FUN_004E0240 (BCS-Y-0312) -> Tier-B Zone forwarder FUN_00DAE010 (BCS-Y-0304). Member of the 24-emitter 0x01C3..0x01DF action-system traffic cluster. | Refined likely_role via pcap correlation against xivl-captures/captures/*.pcapng (54 scenarios). evidenceKind=pcap_unobserved, pcapTotalCount=0, sourceEvidence=pcap_correlation. | Cluster role refined via Ghidra static caller decomposition. Source: ghidra-projects/caller_decomp.txt; caller(s)=0x004C2A20; subsystem=Mail/Compose; sourceEvidence=static_caller_dig.",
-    "likely_role": "Mail/Compose - C2S - Mail compose field update. Same caller as 0x01D2 (FUN_004C2A20); paired emit for sending individual compose-field updates.",
+    "evidence": "FUN_004B82A0 constructs 0x01D5 and reaches FUN_004E0240. IPC 2200 bytes (0x898); application 2184 bytes (0x888): two leading dwords, a 32-dword block at +8, and a 512-dword block at +0x88. Individual field meanings and mail transaction policy remain unresolved. IPC 2200 is not a 2200-byte application, and the final block is not 513 dwords; the GM-support label is implementation provenance. Contract: xivl-client-structs:manifests/structs.json#BCS-S-0350.",
+    "likely_role": "Bounded mail-compose field-update context; field domains and server policy remain qualified by the cited contract",
     "source": "tierd_outbound_scan | pcap_correlation | static_caller_dig"
   },
   {
@@ -325,8 +325,8 @@
     "name": "_0x01D6",
     "service": "map",
     "direction": "serverbound",
-    "evidence": "Tier-D emitter 0x004B8370 sets stack record `local_8b0 = 0x01D6 (opcode); local_8ac = 0x18 (size); [body fields]` then calls FUN_004E0240(&local_8b0, 0x01D6, 0). Routed through Tier-C wrapper FUN_004E0240 (BCS-Y-0312) -> Tier-B Zone forwarder FUN_00DAE010 (BCS-Y-0304). Member of the 24-emitter 0x01C3..0x01DF action-system traffic cluster. | Refined likely_role via pcap correlation against xivl-captures/captures/*.pcapng (54 scenarios). evidenceKind=pcap_unobserved, pcapTotalCount=0, sourceEvidence=pcap_correlation. | Cluster role refined via Ghidra static caller decomposition. Source: ghidra-projects/caller_decomp.txt; caller(s)=0x004C2170; subsystem=Call/Voice; sourceEvidence=static_caller_dig.",
-    "likely_role": "Call/Voice - C2S - Call ack/status. Same caller as 0x01D1 (FUN_004C2170); paired emit for call lifecycle state changes.",
+    "evidence": "FUN_004B8370 constructs 0x01D6 and reaches FUN_004E0240. IPC 24 bytes; application 8 bytes: explicit zero u32 at +0 and four unresolved bytes at +4. The complete Call lifecycle and server policy remain unresolved; the GM-ticket label is implementation provenance. Contract: xivl-client-structs:manifests/structs.json#BCS-S-0355.",
+    "likely_role": "Bounded Call acknowledgement/status context; field domains and server policy remain qualified by the cited contract",
     "source": "tierd_outbound_scan | pcap_correlation | static_caller_dig"
   },
   {
@@ -395,8 +395,8 @@
     "name": "_0x0007",
     "service": "map",
     "direction": "serverbound",
-    "evidence": "Dual-site Tier-D emission: FUN_00586F40 (gated on DAT_01338D28 == 0, initial-once with timestamp via __time64) and FUN_00586FB0 (unconditional fallback) both build stack record `local_8b0=7, local_8ac=0x18, local_898=timestamp, local_894=param/0xFFFFFFFF` and call FUN_004D6CF0 (BCS-Y-0323 gating thunk) -> FUN_004E0240 (BCS-Y-0312) -> FUN_00DAE010 (BCS-Y-0304, Zone Tier-B). Pattern suggests keepalive/connection-state ping.",
-    "likely_role": "Map channel connection-state ping / keepalive (c2s, dual emission with retry fallback)",
+    "evidence": "FUN_00586F40 is gated on DAT_01338D28 == 0; FUN_00586FB0 supplies the fallback. Both reach FUN_004D6CF0 -> FUN_004E0240 -> FUN_00DAE010. IPC 24 bytes; application 8 bytes: __time64-derived u32 at +0 and caller u32 or 0xFFFFFFFF at +4. Keepalive, zone-completion effects, seed meanings and higher time precision are not established. Contract: xivl-client-structs:manifests/structs.json#BCS-S-0028.",
+    "likely_role": "Dual timestamp/caller-word emission; field domains and server policy remain qualified by the cited contract",
     "source": "final_gap_outbound_scan"
   },
   {
@@ -415,8 +415,8 @@
     "name": "_0x00CA",
     "service": "map",
     "direction": "serverbound",
-    "evidence": "Cross-confirmation (second emission site): BCS-Y-0321 documented FUN_004DC690 (3364B helper-built path via FUN_004dd620); BCS-Y-0328 confirms FUN_00589030 (stack-record path via FUN_004D6D10 thunk) emits the same opcode 0x00CA size 0x30. The same opcode has two distinct production paths in the binary - normal stack-record (FUN_00589030) and large-context helper-built (FUN_004DC690 from tick handler FUN_004E20A0 / BCS-Y-0314).",
-    "likely_role": "Map channel state push (size 0x30 = 48 bytes, dual production paths)",
+    "evidence": "Published production sites are FUN_00589030, the FUN_004DC690 case-7 path using FUN_004DD620, and FUN_0058E0C0 case 0x51. The dispatcher is a host of one embedded emit, not a standalone position emitter. IPC 48 bytes; application 32 bytes: eight-byte time container at +0, floats at +8/+12/+16/+20, u16 state at +24, six unresolved bytes at +26. The documented low-dword __time64 write does not establish additional precision. Movement enums, units and cadence policy remain unresolved. Contract: xivl-client-structs:manifests/c2s_payload_decoding.json#payloadStructs.c2s_0x00ca.",
+    "likely_role": "Position producer geometry; field domains and server policy remain qualified by the cited contract",
     "source": "final_gap_outbound_scan"
   },
   {
@@ -425,8 +425,8 @@
     "name": "_0x0130",
     "service": "map",
     "direction": "serverbound",
-    "evidence": "FUN_0075E8D0 builds stack record `local_8b0=0x130, local_8ac=0x20` then calls FUN_004D6D30 (BCS-Y-0323 gating thunk, sole caller of that thunk) with `(&local_8b0, 0, 0)`. Routes thunk -> FUN_004E0240 -> FUN_00DAE010. Opcode 0x0130 = decimal 304, sits OUTSIDE the 0x01C3-0x01DF action cluster.",
-    "likely_role": "Map channel mid-range opcode (separate from action cluster)",
+    "evidence": "CharaBase._updateGroup reaches FUN_0075E860; GroupBase._updateMemberAndInformation reaches FUN_0075E8D0. Both use FUN_004D6D30 -> FUN_004E0240 -> FUN_00DAE010. IPC 32 bytes; application 16 bytes in four unnamed u32 fields. FUN_0075E860 zeros the last two; FUN_0075E8D0 fills all four. Group policy and field nouns remain unresolved. The retained catalog length 32 is the legacy builder totalSize; the selected native framing implies a 48-byte subevent, not a new capture observation. Contract: xivl-client-structs:manifests/c2s_payload_decoding.json#payloadStructs.c2s_0x0130.",
+    "likely_role": "Group update producer variants; field domains and server policy remain qualified by the cited contract",
     "source": "final_gap_outbound_scan"
   },
   {
@@ -435,8 +435,8 @@
     "name": "_0x01DB",
     "service": "map",
     "direction": "serverbound",
-    "evidence": "FUN_004C73D0 sets stack record `local_8b0=0x1DB (opcode), local_8ac=0x18 (size)` then calls FUN_004C7150 (BCS-Y-0322 passthrough relay). Passthrough reads *record and forwards to FUN_004E0240 -> FUN_00DAE010. Fills one of the 3 cluster gaps left unbound in 0x01C3..0x01DF.",
-    "likely_role": "Map action-system request (cluster member, size 0x18 single-record)",
+    "evidence": "FUN_004C73D0 constructs 0x01DB and reaches FUN_004C7150 -> FUN_004E0240 -> FUN_00DAE010. IPC 24 bytes; application 8 bytes: explicit zero u32 at +0 and four unresolved bytes at +4. The detailed ItemSearch operation remains unresolved. Selected native framing implies a 40-byte subevent; the retained catalog length 24 has no joined capture witness and is not validated by this static construction. Contract: xivl-client-structs:manifests/structs.json#BCS-S-0367.",
+    "likely_role": "Neutral ItemSearch marketplace context; field domains and server policy remain qualified by the cited contract",
     "source": "final_gap_outbound_scan"
   },
   {
