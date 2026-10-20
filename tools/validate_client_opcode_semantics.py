@@ -446,11 +446,36 @@ def main() -> int:
                 )
 
     anchors = [entry["decompAnchor"] for entry in entries if entry.get("decompAnchor")]
-    if len(anchors) != 111:
-        errors.append(f"catalog has {len(anchors)} decompAnchor values, expected 111")
+    if len(anchors) != 112:
+        errors.append(f"catalog has {len(anchors)} decompAnchor values, expected 112")
     bad_anchors = [anchor for anchor in anchors if not BARE_FUNCTION.fullmatch(anchor)]
     if bad_anchors:
         errors.append(f"non-bare decompAnchor values: {bad_anchors}")
+
+    periodic = [
+        entry
+        for entry in catalog["lists"]["MapServerbound"]
+        if entry.get("opcode") == 1
+    ]
+    if len(periodic) != 1:
+        errors.append("c2s Map 0x0001 must have exactly one catalog row")
+    else:
+        entry = periodic[0]
+        if entry.get("decompAnchor") != "FUN_004E20A0":
+            errors.append("c2s Map 0x0001 lost its selected producer anchor")
+        for fragment in (
+            "application_extent=24 bytes",
+            "within a 56-byte subpacket",
+            "u32 timeGetTime result at application+0",
+            "20 explicitly zeroed bytes at application+4",
+            "producer_evidence=xivl-decomp:docs/net/periodic-map-0001.md",
+            "the __time64-based send trigger is separate",
+            "does not require that no inbound packet was processed earlier",
+            "do not establish a causal reply",
+            "without retail semantic confirmation",
+        ):
+            if fragment not in entry.get("notes", ""):
+                errors.append(f"c2s Map 0x0001 lost required fact {fragment!r}")
 
     battle_effect_row = next(row for row in rows if row.get("id") == "s2c-00da")
     battle_effect_observation = battle_effect_row.get("observation", "")

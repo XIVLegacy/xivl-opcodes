@@ -716,7 +716,7 @@
           "service": "map",
           "direction": "serverbound",
           "implementationAnchor": "MapClientOpcode::Ping",
-          "decompAnchor": null,
+          "decompAnchor": "FUN_004E20A0",
           "observedIn": [
             "accept_leve.pcapng",
             "accept_local_leve.pcapng",
@@ -776,7 +776,7 @@
             56
           ],
           "confidence": "implemented",
-          "notes": "corpus request_response_pairs.json: 3329 c2s 0x0001 firings; top responses s2c 0x0190 (1288 pairs, 38%), 0x0137 (423/12%), 0x00d0 (242/7%). Likely heartbeat/keepalive with paired periodic updates. | decomp_source=tierc_outbound_scan; bcsy_ref=BCS-Y-0314; evidence=FUN_004E20A0 (Zone tick handler) emits opcode 0x0001 size 0x28 via thunk_FUN_004E0240 -> FUN_004E0240 (BCS-Y-0312, Tier-C wrapper) -> FUN_00DAE010 (BCS-Y-0304, Zone generic forwarder). The stack record at the thunk call site has local_1160 = 1 (opcode) and local_115c = 0x28 (size). This is an INDIRECT Tier-D binding via the Tier-C wrapper path - the previously-named PingPacket entry is confirmed at the emission site here.; likely_role=Map channel keepalive / ping (c2s, in tick loop) | pcap_observations merged from xivl-client-structs pcap_opcode_evidence.json."
+          "notes": "retail_client_analysis=FUN_004E20A0 periodic construction sends through 0x004E24E7 -> FUN_004DD660 -> FUN_004E0240 -> FUN_00DAE010; application_extent=24 bytes after the 16-byte game-message prefix, within a 56-byte subpacket; field_map=u32 timeGetTime result at application+0 followed by 20 explicitly zeroed bytes at application+4; producer_evidence=xivl-decomp:docs/net/periodic-map-0001.md; clock_boundary=the __time64-based send trigger is separate from the four-byte wire clock; trigger_boundary=the path follows the queue drain and does not require that no inbound packet was processed earlier in the invocation; retained_correlation=xivl-captures:derived/request_response_pairs.json reports 3371 numeric c2s 0x0001 events and a 200ms window, with 1288 pairs with s2c 0x0190 (38%), 423 with s2c 0x0137 (13%) and 242 with s2c 0x00d0 (7%); semantic_boundary=overlapping timing correlations do not establish a causal reply, ping/pong identity, server echo, sequence meaning, cadence policy or guaranteed delivery; naming=PingPacket retained as a lookup label without retail semantic confirmation; pcap_observations merged from xivl-client-structs pcap_opcode_evidence.json."
         },
         {
           "name": "_0x0002Handler",

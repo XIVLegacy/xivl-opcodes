@@ -85,8 +85,8 @@
     "name": "_0x0001",
     "service": "map",
     "direction": "serverbound",
-    "evidence": "FUN_004E20A0 (Zone tick handler) emits opcode 0x0001 size 0x28 via thunk_FUN_004E0240 -> FUN_004E0240 (BCS-Y-0312, Tier-C wrapper) -> FUN_00DAE010 (BCS-Y-0304, Zone generic forwarder). The stack record at the thunk call site has local_1160 = 1 (opcode) and local_115c = 0x28 (size). This is an INDIRECT Tier-D binding via the Tier-C wrapper path - the previously-named PingPacket entry is confirmed at the emission site here.",
-    "likely_role": "Map channel keepalive / ping (c2s, in tick loop)",
+    "evidence": "FUN_004E20A0 selected periodic construction writes opcode 1 and size 0x28, then sends at 0x004E24E7 through FUN_004DD660 -> FUN_004E0240 (BCS-Y-0312) -> FUN_00DAE010 (BCS-Y-0304). The 24-byte application copied from record+0x18 consists of a u32 timeGetTime return followed by 20 explicitly zeroed bytes. The __time64 trigger is a separate clock path. Reaching this branch after queue draining does not prove that no inbound packet was processed earlier in the invocation. Evidence: xivl-decomp:docs/net/periodic-map-0001.md.",
+    "likely_role": "Periodic Map serverbound 0x0001 with a clock word and explicit zero fill; reply identity and server policy unresolved",
     "source": "tierc_outbound_scan"
   },
   {
