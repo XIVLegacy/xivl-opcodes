@@ -608,12 +608,14 @@
       "direction": "serverbound",
       "function": "FUN_0075EAC0",
       "status": "closed",
-      "supportedLabel": "0x0132 builder for a 0x18-byte packet containing u32/u16/u8 fields",
+      "supportedLabel": "0x0132 builder with declared size 0x18 and an eight-byte application",
       "tool": "XIVLegacy Ghidra DumpFunctionDecomp.java and build_data_dependency_catalog.py",
-      "observation": "The builder writes opcode 0x0132 and size 0x18, writes a u32 item-or-actor id, u16 work id, and u8 work value, and calls FUN_004D6D30 through the map send path.",
+      "observation": "The builder writes opcode 0x0132 and size 0x18, writes a u32 item-or-actor id, u16 work id, and u8 work value, and calls FUN_004D6D30 through the map send path. The declared size is the 24-byte game message; its eight-byte application statically implies a 40-byte subpacket. No retained Map capture witness establishes an observed size.",
       "sourceRefs": [
         "xivl-client-structs:manifests/c2s_payload_decoding.json#c2s_0x0132",
-        "xivl-client-structs:manifests/data_dependency_catalog.json#c2s_0x0132"
+        "xivl-client-structs:manifests/data_dependency_catalog.json#c2s_0x0132",
+        "xivl-client-structs:docs/search-recruitment-wire-contract.md#outbound-framing",
+        "xivl-decomp:docs/net/zone-outbound-header.md"
       ]
     },
     {

@@ -517,6 +517,26 @@ def main() -> int:
             if fact not in entry.get("notes", ""):
                 errors.append(f"{label} lost required fact {fact!r}")
 
+    for bucket, bucket_entries in catalog["lists"].items():
+        for entry in bucket_entries:
+            if entry.get("payloadLengths") and not entry.get("observedIn"):
+                errors.append(
+                    f"{bucket}/{entry.get('opcodeHex')}: observed sizes lack a capture witness"
+                )
+
+    for opcode, length in ((0x0002, 56), (0x01D3, 40)):
+        captured = [
+            e for e in catalog["lists"]["MapServerbound"] if e["opcode"] == opcode
+        ]
+        if (
+            len(captured) != 1
+            or captured[0].get("observedIn") != ["login.pcapng"]
+            or captured[0].get("payloadLengths") != [length]
+            or "login_layout_evidence=xivl-captures@526954241b592aefec1d57f3697796114466753c:"
+            not in captured[0].get("notes", "")
+        ):
+            errors.append(f"c2s Map 0x{opcode:04x} lost its retained login witness")
+
     value_two = [
         entry
         for entry in catalog["lists"]["MapServerbound"]
@@ -536,7 +556,7 @@ def main() -> int:
             "slot3 FUN_00DC1C10 and its two no-store helpers",
             "application_extent=24 bytes within a statically implied 56-byte subpacket",
             "the final application u32 is not written by this builder",
-            "its caller initialization and selected value remain unknown",
+            "its caller initialization and required value remain unknown",
             "login/handshake name, final-u32 selector meaning, response policy, delivery",
             "and client acceptance remain unproved",
             "header_binding_evidence=xivl-decomp:docs/net/zone-outbound-header.md",

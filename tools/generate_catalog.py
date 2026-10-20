@@ -221,34 +221,44 @@ OVERRIDES = [
         "MapServerbound",
         "0x0002",
         "_0x0002Handler",
-        "no_pcap_evidence; "
-        "implementationServiceRelabel=LobbyOpcode::Error_at_lobby_clientbound_same_wire_integer;"
-        " not_a_parity_discrepancy; native_record_candidate=FUN_004E3910 writes record "
-        "value 2 and size 0x28, one caller u32 and two qwords totaling 16 supplied bytes; "
-        "copy_boundary=the published forwarder implies a 24-byte region whose final four "
-        "bytes are not written by this builder; initialization_boundary=caller "
-        "initialization and the selected input values remain unknown; "
-        "wire_binding_boundary=record value 2 is not independent proof of serialized Map "
-        "opcode 0x0002 or a login/handshake identity; "
-        "native_record_evidence=xivl-decomp:docs/net/zone-value-two-record.md; "
-        "next_static_edge=the builder value through finalization to the serialized header",
-        "no_pcap_evidence; "
-        "implementationServiceRelabel=LobbyOpcode::Error_at_lobby_clientbound_same_wire_integer;"
-        " not_a_parity_discrepancy; native_record_producer=FUN_004E3910 writes record "
-        "value 2 and size 0x28; header_binding=Zone constructors store that value at "
-        "builder+0x1c and vtable slot2 FUN_00DC1BE0 writes its low16 to game-header+2 "
-        "with tag 0x0014; finalization=slot3 FUN_00DC1C10 and its two no-store helpers "
+        "no_pcap_evidence; implementationServiceRelabel=LobbyOpcode::Error_at_lob"
+        "by_clientbound_same_wire_integer; not_a_parity_discrepancy; "
+        "native_record_producer=FUN_004E3910 writes record value 2 and size 0x28;"
+        " header_binding=Zone constructors store that value at builder+0x1c and "
+        "vtable slot2 FUN_00DC1BE0 writes its low16 to game-header+2 with tag "
+        "0x0014; finalization=slot3 FUN_00DC1C10 and its two no-store helpers "
         "preserve the opcode through FUN_00DB06A0 submission to FUN_00DAF920; "
-        "application_extent=24 bytes within a statically implied 56-byte subpacket; "
-        "builder_fields=one caller u32 and two qwords totaling 16 supplied bytes; "
-        "tail_boundary=the final application u32 is not written by this builder and "
-        "its caller initialization and selected value remain unknown; "
-        "semantic_boundary=the native Map serverbound 0x0002 route is bound, while a "
-        "login/handshake name, final-u32 selector meaning, response policy, delivery "
-        "and client acceptance remain unproved; naming=placeholder retained; "
+        "application_extent=24 bytes within a statically implied 56-byte "
+        "subpacket; builder_fields=one caller u32 and two qwords totaling 16 "
+        "supplied bytes; tail_boundary=the final application u32 is not written "
+        "by this builder and its caller initialization and selected value remain "
+        "unknown; semantic_boundary=the native Map serverbound 0x0002 route is "
+        "bound, while a login/handshake name, final-u32 selector meaning, "
+        "response policy, delivery and client acceptance remain unproved; "
+        "naming=placeholder retained; "
         "native_record_evidence=xivl-decomp:docs/net/zone-value-two-record.md; "
         "header_binding_evidence=xivl-decomp:docs/net/zone-outbound-header.md; "
-        "next_static_edge=the specific caller input values and final-u32 initialization",
+        "next_static_edge=the specific caller input values and final-u32 "
+        "initialization",
+        "implementationServiceRelabel=LobbyOpcode::Error_at_lobby_clientbound_sam"
+        "e_wire_integer; not_a_parity_discrepancy; "
+        "native_record_producer=FUN_004E3910 writes record value 2 and size 0x28;"
+        " header_binding=Zone constructors store that value at builder+0x1c and "
+        "vtable slot2 FUN_00DC1BE0 writes its low16 to game-header+2 with tag "
+        "0x0014; finalization=slot3 FUN_00DC1C10 and its two no-store helpers "
+        "preserve the opcode through FUN_00DB06A0 submission to FUN_00DAF920; "
+        "application_extent=24 bytes within a statically implied 56-byte "
+        "subpacket; builder_fields=one caller u32 and two qwords totaling 16 "
+        "supplied bytes; tail_boundary=the final application u32 is not written "
+        "by this builder and its caller initialization and required value remain "
+        "unknown; semantic_boundary=the native Map serverbound 0x0002 route is "
+        "bound, while a login/handshake name, final-u32 selector meaning, "
+        "response policy, delivery and client acceptance remain unproved; "
+        "naming=placeholder retained; "
+        "native_record_evidence=xivl-decomp:docs/net/zone-value-two-record.md; "
+        "header_binding_evidence=xivl-decomp:docs/net/zone-outbound-header.md; "
+        "next_static_edge=the specific caller input values and final-u32 "
+        "initialization",
     ),
     (
         "MapClientbound",
@@ -592,32 +602,36 @@ OVERRIDES = [
         "MapServerbound",
         "0x0130",
         "UpdateGroupPacket",
-        "decomp_source=final_gap_outbound_scan; bcsy_ref=BCS-Y-0329; evidence=FUN_0075E8D0 "
-        "builds stack record `local_8b0=0x130, local_8ac=0x20` then calls FUN_004D6D30 "
-        "(BCS-Y-0323 gating thunk, sole caller of that thunk) with `(&local_8b0, 0, 0)`. "
-        "Routes thunk -> FUN_004E0240 -> FUN_00DAE010. Opcode 0x0130 = decimal 304, sits "
-        "OUTSIDE the 0x01C3-0x01DF action cluster.; likely_role=Map channel mid-range "
-        "opcode (separate from action cluster); lua_binding=CharaBase._updateGroup -> "
-        "0x0130 via FUN_0075E860 (confirmed_direct_emit, BCS-Y-0380); "
-        "lua_binding=GroupBase._updateMemberAndInformation -> 0x0130 via 0x0075E8D0 "
-        "(confirmed_direct_emit, BCS-Y-0382, recovered via reverse-BFS from send-helper "
-        "caller lists); naming_upgrade=_0x0130 -> UpdateGroupPacket based on the two "
-        "confirmed Lua triggers _updateGroup and _updateMemberAndInformation both emitting "
-        "this opcode with size 0x20, matching the convention of neighbor 0x0131 "
-        "UpdateItemPackagePacket (Lua trigger _updateItemPackage)",
-        "client_context=Group update producer variants; producer=CharaBase._updateGroup "
-        "reaches FUN_0075E860; GroupBase._updateMemberAndInformation reaches FUN_0075E8D0. "
-        "Both use FUN_004D6D30 -> FUN_004E0240 -> FUN_00DAE010.; field_geometry=IPC 32 "
-        "bytes; application 16 bytes in four unnamed u32 fields. FUN_0075E860 zeros the "
-        "last two; FUN_0075E8D0 fills all four.; "
-        "client_contract=xivl-client-structs:manifests/c2s_payload_decoding.json#payloadStructs.c2s_0x0130;"
-        " "
-        "framing_contract=xivl-client-structs:docs/search-recruitment-wire-contract.md#outbound-framing;"
-        " semantic_boundary=Group policy and field nouns remain unresolved. The retained "
-        "catalog length 32 is the legacy builder totalSize; the selected native framing "
-        "implies a 48-byte subevent, not a new capture observation.; "
-        "confidence_boundary=the native emitter anchor does not confirm the retained packet"
-        " name, implementation label, server policy or acceptance; "
+        "client_context=Group update producer variants; "
+        "producer=CharaBase._updateGroup reaches FUN_0075E860; "
+        "GroupBase._updateMemberAndInformation reaches FUN_0075E8D0. Both use "
+        "FUN_004D6D30 -> FUN_004E0240 -> FUN_00DAE010.; field_geometry=IPC 32 "
+        "bytes; application 16 bytes in four unnamed u32 fields. FUN_0075E860 "
+        "zeros the last two; FUN_0075E8D0 fills all four.; client_contract=xivl-c"
+        "lient-structs:manifests/c2s_payload_decoding.json#payloadStructs.c2s_0x0"
+        "130; framing_contract=xivl-client-structs:docs/search-recruitment-wire-c"
+        "ontract.md#outbound-framing; semantic_boundary=Group policy and field "
+        "nouns remain unresolved. The retained catalog length 32 is the legacy "
+        "builder totalSize; the selected native framing implies a 48-byte "
+        "subevent, not a new capture observation.; confidence_boundary=the native"
+        " emitter anchor does not confirm the retained packet name, "
+        "implementation label, server policy or acceptance; "
+        "decomp_source=final_gap_outbound_scan; bcsy_ref=BCS-Y-0329; "
+        "related_catalog_refs=BCS-Y-0323,BCS-Y-0380,BCS-Y-0382",
+        "client_context=Group update producer variants; "
+        "producer=CharaBase._updateGroup reaches FUN_0075E860; "
+        "GroupBase._updateMemberAndInformation reaches FUN_0075E8D0. Both use "
+        "FUN_004D6D30 -> FUN_004E0240 -> FUN_00DAE010.; field_geometry=IPC 32 "
+        "bytes; application 16 bytes in four unnamed u32 fields. FUN_0075E860 "
+        "zeros the last two; FUN_0075E8D0 fills all four.; client_contract=xivl-c"
+        "lient-structs:manifests/c2s_payload_decoding.json#payloadStructs.c2s_0x0"
+        "130; framing_contract=xivl-client-structs:docs/search-recruitment-wire-c"
+        "ontract.md#outbound-framing; semantic_boundary=Group policy and field "
+        "nouns remain unresolved. The declared builder size is 32; selected "
+        "native framing implies a 48-byte subevent. No retained Map capture "
+        "witness establishes an observed size.; confidence_boundary=the native "
+        "emitter anchor does not confirm the retained packet name, implementation"
+        " label, server policy or acceptance; "
         "decomp_source=final_gap_outbound_scan; bcsy_ref=BCS-Y-0329; "
         "related_catalog_refs=BCS-Y-0323,BCS-Y-0380,BCS-Y-0382",
     ),
@@ -805,27 +819,33 @@ OVERRIDES = [
         "MapServerbound",
         "0x01d3",
         "_0x01D3Handler",
-        "no_pcap_evidence; | decomp_source=tierd_outbound_scan; bcsy_ref=BCS-Y-0324; "
-        "per-opcode binding in operation_opcode_map_outbound.json tierDSweep.bindings "
-        "table; evidence=Tier-D emitter 0x004B8180 sets stack record `local_8b0 = 0x01D3 "
-        "(opcode); local_8ac = 0x18 (size); [body fields]` then calls "
-        "FUN_004E0240(&local_8b0, 0x01D3, 0). Routed through Tier-C wrapper FUN_004E0240 "
-        "(BCS-Y-0312) -> Tier-B Zone forwarder FUN_00DAE010 (BCS-Y-0304). Member of the "
-        "24-emitter 0x01C3..0x01DF action-system traffic cluster.; likely_role=Map "
-        "action-system request (0x01C3-0x01DF cluster: combat/skill/action use; specific "
-        "role TBD via pcap correlation)",
         "no_pcap_evidence; client_context=State-gated neutral emission; "
-        "producer=FUN_004B8180 requires owner+0x10 == 0 and owner+0x15 != 0, calls a "
-        "pre-emit helper, constructs 0x01D3 and reaches FUN_004E0240. Success writes owner "
-        "state.; field_geometry=IPC 24 bytes; application 8 bytes: explicit zero u32 at +0,"
-        " with remaining initialization unresolved.; "
-        "client_contract=xivl-client-structs:manifests/symbols.json#BCS-Y-1074; "
-        "framing_contract=xivl-client-structs:docs/search-recruitment-wire-contract.md#outbound-framing;"
-        " semantic_boundary=Owner-byte permission/GM-rank meaning and complete operation "
-        "identity are unproved. No login witness or completely zero body is added.; "
-        "confidence_boundary=the native emitter anchor does not confirm the retained packet"
-        " name, implementation label, server policy or acceptance; "
-        "decomp_source=tierd_outbound_scan; bcsy_ref=BCS-Y-0324; "
+        "producer=FUN_004B8180 requires owner+0x10 == 0 and owner+0x15 != 0, "
+        "calls a pre-emit helper, constructs 0x01D3 and reaches FUN_004E0240. "
+        "Success writes owner state.; field_geometry=IPC 24 bytes; application 8 "
+        "bytes: explicit zero u32 at +0, with remaining initialization "
+        "unresolved.; "
+        "client_contract=xivl-client-structs:manifests/symbols.json#BCS-Y-1074; f"
+        "raming_contract=xivl-client-structs:docs/search-recruitment-wire-contrac"
+        "t.md#outbound-framing; semantic_boundary=Owner-byte permission/GM-rank "
+        "meaning and complete operation identity are unproved. No login witness "
+        "or completely zero body is added.; confidence_boundary=the native "
+        "emitter anchor does not confirm the retained packet name, implementation"
+        " label, server policy or acceptance; decomp_source=tierd_outbound_scan; "
+        "bcsy_ref=BCS-Y-0324; related_catalog_refs=BCS-Y-0304,BCS-Y-0312",
+        "client_context=State-gated neutral emission; producer=FUN_004B8180 "
+        "requires owner+0x10 == 0 and owner+0x15 != 0, calls a pre-emit helper, "
+        "constructs 0x01D3 and reaches FUN_004E0240. Success writes owner state.;"
+        " field_geometry=IPC 24 bytes; application 8 bytes: explicit zero u32 at "
+        "+0, with remaining initialization unresolved.; "
+        "client_contract=xivl-client-structs:manifests/symbols.json#BCS-Y-1074; f"
+        "raming_contract=xivl-client-structs:docs/search-recruitment-wire-contrac"
+        "t.md#outbound-framing; semantic_boundary=Owner-byte permission/GM-rank "
+        "meaning and complete operation identity are unproved. The native "
+        "construction alone does not establish a zero closing word or login "
+        "policy.; confidence_boundary=the native emitter anchor does not confirm "
+        "the retained packet name, implementation label, server policy or "
+        "acceptance; decomp_source=tierd_outbound_scan; bcsy_ref=BCS-Y-0324; "
         "related_catalog_refs=BCS-Y-0304,BCS-Y-0312",
     ),
     (
@@ -910,24 +930,32 @@ OVERRIDES = [
         "MapServerbound",
         "0x01db",
         "_0x01DB",
-        "decomp_source=final_gap_outbound_scan; bcsy_ref=BCS-Y-0327; evidence=FUN_004C73D0 "
-        "sets stack record `local_8b0=0x1DB (opcode), local_8ac=0x18 (size)` then calls "
-        "FUN_004C7150 (BCS-Y-0322 passthrough relay). Passthrough reads *record and "
-        "forwards to FUN_004E0240 -> FUN_00DAE010. Fills one of the 3 cluster gaps left "
-        "unbound in 0x01C3..0x01DF.; likely_role=Map action-system request (cluster member,"
-        " size 0x18 single-record)",
-        "client_context=Neutral ItemSearch marketplace context; producer=FUN_004C73D0 "
-        "constructs 0x01DB and reaches FUN_004C7150 -> FUN_004E0240 -> FUN_00DAE010.; "
-        "field_geometry=IPC 24 bytes; application 8 bytes: explicit zero u32 at +0 and four"
-        " unresolved bytes at +4.; "
-        "client_contract=xivl-client-structs:manifests/structs.json#BCS-S-0367; "
-        "framing_contract=xivl-client-structs:docs/search-recruitment-wire-contract.md#outbound-framing;"
-        " semantic_boundary=The detailed ItemSearch operation remains unresolved. Selected "
-        "native framing implies a 40-byte subevent; the retained catalog length 24 has no "
-        "joined capture witness and is not validated by this static construction.; "
-        "confidence_boundary=the native emitter anchor does not confirm the retained packet"
-        " name, implementation label, server policy or acceptance; "
-        "decomp_source=final_gap_outbound_scan; bcsy_ref=BCS-Y-0327; "
+        "client_context=Neutral ItemSearch marketplace context; "
+        "producer=FUN_004C73D0 constructs 0x01DB and reaches FUN_004C7150 -> "
+        "FUN_004E0240 -> FUN_00DAE010.; field_geometry=IPC 24 bytes; application "
+        "8 bytes: explicit zero u32 at +0 and four unresolved bytes at +4.; "
+        "client_contract=xivl-client-structs:manifests/structs.json#BCS-S-0367; f"
+        "raming_contract=xivl-client-structs:docs/search-recruitment-wire-contrac"
+        "t.md#outbound-framing; semantic_boundary=The detailed ItemSearch "
+        "operation remains unresolved. Selected native framing implies a 40-byte "
+        "subevent; the retained catalog length 24 has no joined capture witness "
+        "and is not validated by this static construction.; "
+        "confidence_boundary=the native emitter anchor does not confirm the "
+        "retained packet name, implementation label, server policy or acceptance;"
+        " decomp_source=final_gap_outbound_scan; bcsy_ref=BCS-Y-0327; "
+        "related_catalog_refs=BCS-Y-0322",
+        "client_context=Neutral ItemSearch marketplace context; "
+        "producer=FUN_004C73D0 constructs 0x01DB and reaches FUN_004C7150 -> "
+        "FUN_004E0240 -> FUN_00DAE010.; field_geometry=IPC 24 bytes; application "
+        "8 bytes: explicit zero u32 at +0 and four unresolved bytes at +4.; "
+        "client_contract=xivl-client-structs:manifests/structs.json#BCS-S-0367; f"
+        "raming_contract=xivl-client-structs:docs/search-recruitment-wire-contrac"
+        "t.md#outbound-framing; semantic_boundary=The detailed ItemSearch "
+        "operation remains unresolved. Selected native framing implies a 40-byte "
+        "subevent. No retained Map capture witness establishes an observed size.;"
+        " confidence_boundary=the native emitter anchor does not confirm the "
+        "retained packet name, implementation label, server policy or acceptance;"
+        " decomp_source=final_gap_outbound_scan; bcsy_ref=BCS-Y-0327; "
         "related_catalog_refs=BCS-Y-0322",
     ),
     (
@@ -1500,6 +1528,8 @@ LOGIN_CAPTURE_SHA256 = (
 LOGIN_LANE_EVIDENCE = "xivl-captures:derived/lane_observations.json"
 LOGIN_OBSERVATION_EVIDENCE = "xivl-captures:derived/observations.json"
 LOGIN_PREZONE_ATTRIBUTIONS = [
+    ("MapServerbound", "0x0002", "_0x0002Handler", "c2s", 56),
+    ("MapServerbound", "0x01d3", "_0x01D3Handler", "c2s", 40),
     ("MapServerbound", "0x0133", "GroupWorkUpdatePacket", "c2s", 72),
     ("MapServerbound", "0x0006", "LangaugeCodePacket", "c2s", 40),
     ("MapServerbound", "0x01cb", "_0x01CBHandler", "c2s", 40),
@@ -1523,6 +1553,19 @@ LOGIN_PREZONE_ATTRIBUTIONS = [
     ("MapClientbound", "0x01ce", "_0x01CE", "s2c", 840),
 ]
 LOBBY_CENSUS_COMMIT = "458115d9682a76d4540392ba224d30ba17722b1f"
+LOGIN_LAYOUT_COMMIT = "526954241b592aefec1d57f3697796114466753c"
+UNWITNESSED_LENGTHS = [
+    ("WorldServerbound", 0x00C8, "TellChatMessagePacket", 576),
+    ("MapServerbound", 0x0004, "_0x0004", 24),
+    ("MapServerbound", 0x01D7, "_0x01D7", 24),
+    ("MapServerbound", 0x01D8, "_0x01D8", 40),
+    ("MapServerbound", 0x01D9, "_0x01D9", 32),
+    ("MapServerbound", 0x01DA, "_0x01DA", 32),
+    ("MapServerbound", 0x0130, "UpdateGroupPacket", 32),
+    ("MapServerbound", 0x01DB, "_0x01DB", 24),
+    ("MapServerbound", 0x00D0, "_0x00d0", 272),
+    ("MapServerbound", 0x0132, "ItemWorkUpdatePacket", 24),
+]
 LOBBY_CENSUS_EVIDENCE = (
     f"xivl-captures@{LOBBY_CENSUS_COMMIT}:"
     "studies/lobby-handshake-triage/derived/record-census.md"
@@ -2704,7 +2747,15 @@ def apply_retained_contracts(top: dict) -> int:
             "or FUN_004E11F0 nonzero; local_success=forwarder AL nonzero writes owner+0x250=5; "
             "remaining=source-string population and contents, final application u32 initialization, "
             "identity, cadence, delivery and server response unproved; "
-            "caller_contract=xivl-decomp:docs/net/zone-value-two-record.md#selected-caller-arguments-and-result"
+            "caller_contract=xivl-decomp:docs/net/zone-value-two-record.md#selected-caller-arguments-and-result; "
+            "retained_login=one main-lane 56-byte subpacket,40-byte game message,24-byte application; "
+            "observed_application=first twenty bytes zero,closing u32 nonzero; "
+            "one_specimen_does_not_identify_the_producer_or_a_required_tail_value"
+        ),
+        ("MapServerbound", 0x01D3): (
+            "retained_login=one main-lane 40-byte subpacket,24-byte game message,8-byte application; "
+            "observed_application=first u32 zero,closing u32 nonzero; "
+            "one_specimen_does_not_establish_GM_permission_or_operation_identity"
         ),
         ("MapServerbound", 0x012D): (
             "direct_fallback=both _callServerOnCommand and _doServerOnCommand construct this opcode; "
@@ -2864,6 +2915,29 @@ def append_note_token(notes: str, token: str) -> str:
     return f"{notes}; {token}" if notes else token
 
 
+def clear_unwitnessed_lengths(top: dict) -> int:
+    """Retire exact unsupported observed-size lists without inventing replacements."""
+    changed = 0
+    for bucket, opcode, name, legacy in UNWITNESSED_LENGTHS:
+        rows = [r for r in top["lists"][bucket] if r["opcode"] == opcode]
+        if len(rows) != 1 or rows[0]["name"] != name:
+            raise ValueError(
+                f"unwitnessed length identity drift: {bucket} 0x{opcode:04x}"
+            )
+        row = rows[0]
+        if row.get("observedIn") != [] or row.get("payloadLengths") not in (
+            [legacy],
+            [],
+        ):
+            raise ValueError(
+                f"unwitnessed length evidence drift: {bucket} 0x{opcode:04x}"
+            )
+        if row["payloadLengths"]:
+            row["payloadLengths"] = []
+            changed += 1
+    return changed
+
+
 def apply_login_prezone_attributions(top: dict) -> tuple[int, int, int]:
     """Assign login.pcapng observations to the captured main Map/Zone lane."""
     applied = 0
@@ -2915,6 +2989,11 @@ def apply_login_prezone_attributions(top: dict) -> tuple[int, int, int]:
         )
         notes = selected.get("notes", "")
         tokens = [attribution, evidence_token, identity_token]
+        if bucket == "MapServerbound" and opcode_hex in {"0x0002", "0x01d3"}:
+            tokens.append(
+                f"login_layout_evidence=xivl-captures@{LOGIN_LAYOUT_COMMIT}:"
+                f"derived/payload_layouts.json#layouts.c2s.{opcode_hex}"
+            )
         if opcode_hex in {"0x01cb", "0x01ce"}:
             tokens.append(observation_token)
         if bucket == "MapClientbound" and opcode_hex == "0x0003":
@@ -3428,6 +3507,9 @@ def main() -> int:
         f"Applied {observation_applied} login pre-zone attributions "
         f"({observation_skipped} skipped)"
     )
+
+    cleared_lengths = clear_unwitnessed_lengths(top)
+    print(f"Cleared {cleared_lengths} unwitnessed observed-size lists")
 
     lobby_applied, lobby_skipped, lobby_errors = apply_lobby_census_attributions(top)
     warned += lobby_errors

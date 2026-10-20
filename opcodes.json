@@ -409,9 +409,7 @@
           "implementationAnchor": null,
           "decompAnchor": "FUN_004E3750",
           "observedIn": [],
-          "payloadLengths": [
-            576
-          ],
+          "payloadLengths": [],
           "confidence": "decomp_routed",
           "notes": "decomp_source=retail_chat_wire_trace; bcsy_ref=BCS-Y-0331 + BCS-Y-0316; FUN_004DF810 rejects an empty target but does not reject an empty message, and bounds target/message through FUN_00447BC0 before FUN_004E3750 writes opcode 0x00c8, builder-record size 0x230, target[32] at record +0x18, and message[512] at record +0x38; FUN_00DB3E30 forwards it on the World Chat lane; derived subpacket size 0x240 and application size 0x228 with opaque[8] at +0x00, target[32] at +0x08, and message[512] at +0x28; no retail tell capture; server recipient selection, presence, echo, offline behavior, and cross-zone behavior remain unknown; client_semantics_evidence=data/client_opcode_semantics.json#c2s-00c8; dependency_status=closed"
         },
@@ -426,7 +424,7 @@
           "observedIn": [],
           "payloadLengths": [],
           "confidence": "decomp_routed",
-          "notes": "no_pcap_evidence; decomp_source=chat_outbound_header_binding; evidence=Chat constructor FUN_00E40A60 stores record value 2 at builder+0x1C. Class-specific header function FUN_00E409E0 copies its low16 to game-header+2 with tag 0x0014 and writes literal u32 10 at header+8. The inspected accessor and finalization hooks do not mutate the header; buffer replacement and transmission were not reproduced. Published dedicated producer FUN_00DB4020 supplies value 2 and size 0x38, with leading application u32 0x00003C6B. Callback FUN_004DF9A0 supplies the same record value/size with leading zero and 36 supplied bytes. BCS-S-0373 owns the complete 40-byte application, distinct from the 56-byte game message and statically implied 72-byte subpacket. No capture witness, universal leading value, individual identity-field meaning, narrower login policy, server response, delivery or client acceptance follows. Sources: xivl-decomp:docs/net/chat-outbound-header.md; xivl-client-structs:manifests/structs.json#BCS-S-0373; BCS-Y-0303,BCS-Y-0307,BCS-Y-0315. Header original is retail ffxivgame.exe SHA-256 9341f2b4567440b310a4d494f5cc5599ca334ba51c8042247317ff466492f2e9; REA/Ghidra 12.1.3 exact reads checked against original PE with pefile 2024.8.26/Capstone 5.0.7."
+          "notes": "no_pcap_evidence; decomp_source=chat_outbound_header_binding; evidence=Chat constructor FUN_00E40A60 stores record value 2 at builder+0x1C. Class-specific header function FUN_00E409E0 copies its low16 to game-header+2 with tag 0x0014 and writes literal u32 10 at header+8. The inspected accessor and finalization hooks do not mutate the header; buffer replacement and transmission were not reproduced. Published dedicated producer FUN_00DB4020 supplies value 2 and size 0x38, with leading application u32 0x00003C6B. Callback FUN_004DF9A0 supplies the same record value/size with leading zero and 36 supplied bytes. BCS-S-0373 owns the complete 40-byte application, distinct from the 56-byte game message and statically implied 72-byte subpacket. No capture witness, universal leading value, individual identity-field meaning, narrower login policy, server response, delivery or client acceptance follows. Sources: xivl-decomp:docs/net/chat-outbound-header.md; xivl-client-structs:manifests/structs.json#BCS-S-0373; BCS-Y-0303,BCS-Y-0307,BCS-Y-0315. Header original is retail ffxivgame.exe SHA-256 9341f2b4567440b310a4d494f5cc5599ca334ba51c8042247317ff466492f2e9; REA/Ghidra 12.1.3 exact reads checked against original PE with pefile 2024.8.26/Capstone 5.0.7.; login_service_exclusion=map_main_lane; login_evidence=xivl-captures:derived/lane_observations.json#lanes/main/c2s/0x0002; login_capture_sha256=28e06b54fe559870031f077f8549b9244caafa7e5177dbca08a7feae6c2b1b62"
         }
       ],
       "WorldClientbound": [
@@ -795,12 +793,14 @@
           "direction": "serverbound",
           "implementationAnchor": "MapClientOpcode::Opaque0x02",
           "decompAnchor": "FUN_004E3910",
-          "observedIn": [],
+          "observedIn": [
+            "login.pcapng"
+          ],
           "payloadLengths": [
             56
           ],
           "confidence": "decomp_routed",
-          "notes": "no_pcap_evidence; implementationServiceRelabel=LobbyOpcode::Error_at_lobby_clientbound_same_wire_integer; not_a_parity_discrepancy; native_record_producer=FUN_004E3910 writes record value 2 and size 0x28; header_binding=Zone constructors store that value at builder+0x1c and vtable slot2 FUN_00DC1BE0 writes its low16 to game-header+2 with tag 0x0014; finalization=slot3 FUN_00DC1C10 and its two no-store helpers preserve the opcode through FUN_00DB06A0 submission to FUN_00DAF920; application_extent=24 bytes within a statically implied 56-byte subpacket; builder_fields=one caller u32 and two qwords totaling 16 supplied bytes; tail_boundary=the final application u32 is not written by this builder and its caller initialization and selected value remain unknown; semantic_boundary=the native Map serverbound 0x0002 route is bound, while a login/handshake name, final-u32 selector meaning, response policy, delivery and client acceptance remain unproved; naming=placeholder retained; native_record_evidence=xivl-decomp:docs/net/zone-value-two-record.md; header_binding_evidence=xivl-decomp:docs/net/zone-outbound-header.md; next_static_edge=the specific caller input values and final-u32 initialization; retained_contract=selected_caller=FUN_004E30A0 at 0x004E3340 supplies first application u32 zero and sixteen bytes from the data pointer of owner+0x254 string object; argument_boundary=FUN_00445210 is an accessor, not an actual two-zero-argument call; caller_gate=after FUN_004E20A0, owner+0x234 nonzero and either owner+0x238 zero or FUN_004E11F0 nonzero; local_success=forwarder AL nonzero writes owner+0x250=5; remaining=source-string population and contents, final application u32 initialization, identity, cadence, delivery and server response unproved; caller_contract=xivl-decomp:docs/net/zone-value-two-record.md#selected-caller-arguments-and-result"
+          "notes": "implementationServiceRelabel=LobbyOpcode::Error_at_lobby_clientbound_same_wire_integer; not_a_parity_discrepancy; native_record_producer=FUN_004E3910 writes record value 2 and size 0x28; header_binding=Zone constructors store that value at builder+0x1c and vtable slot2 FUN_00DC1BE0 writes its low16 to game-header+2 with tag 0x0014; finalization=slot3 FUN_00DC1C10 and its two no-store helpers preserve the opcode through FUN_00DB06A0 submission to FUN_00DAF920; application_extent=24 bytes within a statically implied 56-byte subpacket; builder_fields=one caller u32 and two qwords totaling 16 supplied bytes; tail_boundary=the final application u32 is not written by this builder and its caller initialization and required value remain unknown; semantic_boundary=the native Map serverbound 0x0002 route is bound, while a login/handshake name, final-u32 selector meaning, response policy, delivery and client acceptance remain unproved; naming=placeholder retained; native_record_evidence=xivl-decomp:docs/net/zone-value-two-record.md; header_binding_evidence=xivl-decomp:docs/net/zone-outbound-header.md; next_static_edge=the specific caller input values and final-u32 initialization; login_service_attribution=map_main_lane; login_evidence=xivl-captures:derived/lane_observations.json#lanes/main/c2s/0x0002; login_capture_sha256=28e06b54fe559870031f077f8549b9244caafa7e5177dbca08a7feae6c2b1b62; login_layout_evidence=xivl-captures@526954241b592aefec1d57f3697796114466753c:derived/payload_layouts.json#layouts.c2s.0x0002; retained_contract=selected_caller=FUN_004E30A0 at 0x004E3340 supplies first application u32 zero and sixteen bytes from the data pointer of owner+0x254 string object; argument_boundary=FUN_00445210 is an accessor, not an actual two-zero-argument call; caller_gate=after FUN_004E20A0, owner+0x234 nonzero and either owner+0x238 zero or FUN_004E11F0 nonzero; local_success=forwarder AL nonzero writes owner+0x250=5; remaining=source-string population and contents, final application u32 initialization, identity, cadence, delivery and server response unproved; caller_contract=xivl-decomp:docs/net/zone-value-two-record.md#selected-caller-arguments-and-result; retained_login=one main-lane 56-byte subpacket,40-byte game message,24-byte application; observed_application=first twenty bytes zero,closing u32 nonzero; one_specimen_does_not_identify_the_producer_or_a_required_tail_value"
         },
         {
           "name": "ChatMessagePacket",
@@ -1435,12 +1435,14 @@
           "direction": "serverbound",
           "implementationAnchor": "MapClientOpcode::StartGMTicketRequest",
           "decompAnchor": "FUN_004B8180",
-          "observedIn": [],
+          "observedIn": [
+            "login.pcapng"
+          ],
           "payloadLengths": [
             40
           ],
           "confidence": "implemented",
-          "notes": "no_pcap_evidence; client_context=State-gated neutral emission; producer=FUN_004B8180 requires owner+0x10 == 0 and owner+0x15 != 0, calls a pre-emit helper, constructs 0x01D3 and reaches FUN_004E0240. Success writes owner state.; field_geometry=IPC 24 bytes; application 8 bytes: explicit zero u32 at +0, with remaining initialization unresolved.; client_contract=xivl-client-structs:manifests/symbols.json#BCS-Y-1074; framing_contract=xivl-client-structs:docs/search-recruitment-wire-contract.md#outbound-framing; semantic_boundary=Owner-byte permission/GM-rank meaning and complete operation identity are unproved. No login witness or completely zero body is added.; confidence_boundary=the native emitter anchor does not confirm the retained packet name, implementation label, server policy or acceptance; decomp_source=tierd_outbound_scan; bcsy_ref=BCS-Y-0324; related_catalog_refs=BCS-Y-0304,BCS-Y-0312"
+          "notes": "client_context=State-gated neutral emission; producer=FUN_004B8180 requires owner+0x10 == 0 and owner+0x15 != 0, calls a pre-emit helper, constructs 0x01D3 and reaches FUN_004E0240. Success writes owner state.; field_geometry=IPC 24 bytes; application 8 bytes: explicit zero u32 at +0, with remaining initialization unresolved.; client_contract=xivl-client-structs:manifests/symbols.json#BCS-Y-1074; framing_contract=xivl-client-structs:docs/search-recruitment-wire-contract.md#outbound-framing; semantic_boundary=Owner-byte permission/GM-rank meaning and complete operation identity are unproved. The native construction alone does not establish a zero closing word or login policy.; confidence_boundary=the native emitter anchor does not confirm the retained packet name, implementation label, server policy or acceptance; decomp_source=tierd_outbound_scan; bcsy_ref=BCS-Y-0324; related_catalog_refs=BCS-Y-0304,BCS-Y-0312; login_service_attribution=map_main_lane; login_evidence=xivl-captures:derived/lane_observations.json#lanes/main/c2s/0x01d3; login_capture_sha256=28e06b54fe559870031f077f8549b9244caafa7e5177dbca08a7feae6c2b1b62; login_layout_evidence=xivl-captures@526954241b592aefec1d57f3697796114466753c:derived/payload_layouts.json#layouts.c2s.0x01d3; retained_contract=retained_login=one main-lane 40-byte subpacket,24-byte game message,8-byte application; observed_application=first u32 zero,closing u32 nonzero; one_specimen_does_not_establish_GM_permission_or_operation_identity"
         },
         {
           "name": "_0x01D4Handler",
@@ -1507,9 +1509,7 @@
           "implementationAnchor": null,
           "decompAnchor": null,
           "observedIn": [],
-          "payloadLengths": [
-            24
-          ],
+          "payloadLengths": [],
           "confidence": "decomp_routed",
           "notes": "decomp_source=tierc_outbound_scan; bcsy_ref=BCS-Y-0314; evidence=FUN_004E20A0 (Zone tick handler) case 0xe/0x11 emits opcode 0x0004 size 0x18 directly via FUN_00DAE010 at VA 0x004E235E. Stack record: local_8c0=4 (opcode), local_8bc=0x18 (size). Sole emit site for c2s 0x0004 in Map channel.; likely_role=Map state transition (tick-driven, action types 0xe/0x11)"
         },
@@ -1522,9 +1522,7 @@
           "implementationAnchor": null,
           "decompAnchor": null,
           "observedIn": [],
-          "payloadLengths": [
-            24
-          ],
+          "payloadLengths": [],
           "confidence": "decomp_routed",
           "notes": "decomp_source=tierd_outbound_scan; bcsy_ref=BCS-Y-0324; per-opcode binding in operation_opcode_map_outbound.json tierDSweep.bindings table; evidence=Tier-D emitter 0x00519440 sets stack record `local_8b0 = 0x01D7 (opcode); local_8ac = 0x18 (size); [body fields]` then calls FUN_004E0240(&local_8b0, 0x01D7, 0). Routed through Tier-C wrapper FUN_004E0240 (BCS-Y-0312) -> Tier-B Zone forwarder FUN_00DAE010 (BCS-Y-0304). Member of the 24-emitter 0x01C3..0x01DF action-system traffic cluster.; attribution=ItemSearchListWidget (1.x Retainer Marketplace parent class, vftable BCS-Y-0922 at 0x00F9E650); emitter BCS-Y-0692 called via case-5 chain from FUN_0051A4A0 in 10-case tick state machine BCS-Y-0926 (FUN_00525E50); sibling of 0x01D8 (case 6) and 0x01DF (case 10); same widget parent as 0x01D9/01DA/01DE (PriceView/HistoryView/DirectPurchase sub-widgets); likely_role=Retainer/ItemSearch (1.x marketplace) - C2S - ItemSearchListWidget tick handler case-5-chain emit (24B body)"
         },
@@ -1537,9 +1535,7 @@
           "implementationAnchor": null,
           "decompAnchor": null,
           "observedIn": [],
-          "payloadLengths": [
-            40
-          ],
+          "payloadLengths": [],
           "confidence": "decomp_routed",
           "notes": "decomp_source=tierd_outbound_scan; bcsy_ref=BCS-Y-0324; per-opcode binding in operation_opcode_map_outbound.json tierDSweep.bindings table; evidence=Tier-D emitter 0x0051AAC0 sets stack record `local_8b0 = 0x01D8 (opcode); local_8ac = 0x28 (size); [body fields]` then calls FUN_004E0240(&local_8b0, 0x01D8, 0). Routed through Tier-C wrapper FUN_004E0240 (BCS-Y-0312) -> Tier-B Zone forwarder FUN_00DAE010 (BCS-Y-0304). Member of the 24-emitter 0x01C3..0x01DF action-system traffic cluster.; attribution=ItemSearchListWidget (1.x Retainer Marketplace parent class, vftable BCS-Y-0922 at 0x00F9E650); caller FUN_00525E50 (BCS-Y-0926) is the 10-case tick state machine; 0x01D8 is case 6 direct emit (FUN_0051AAC0 = BCS-Y-0694); body is 5 dwords of widget state (`this+0xe28+*(this+0x1228)*4`, `this+0x1220`, `this+0x1238`, `this+0x1224`, `this+0x1234`); gated on `*(this+0x123c)==*(this+0x1240)`; sets state +0x1214=7; sibling of 0x01D7 (case 5 chain) and 0x01DF (case 10); likely_role=Retainer/ItemSearch (1.x marketplace) - C2S - ItemSearchListWidget tick handler case-6 direct emit (40B body, list-state commit/sync)"
         },
@@ -1552,9 +1548,7 @@
           "implementationAnchor": null,
           "decompAnchor": null,
           "observedIn": [],
-          "payloadLengths": [
-            32
-          ],
+          "payloadLengths": [],
           "confidence": "decomp_routed",
           "notes": "decomp_source=tierd_outbound_scan; bcsy_ref=BCS-Y-0324; per-opcode binding in operation_opcode_map_outbound.json tierDSweep.bindings table; evidence=Tier-D emitter 0x004FA750 sets stack record `local_8b0 = 0x01D9 (opcode); local_8ac = 0x20 (size); [body fields]` then calls FUN_004E0240(&local_8b0, 0x01D9, 0). Routed through Tier-C wrapper FUN_004E0240 (BCS-Y-0312) -> Tier-B Zone forwarder FUN_00DAE010 (BCS-Y-0304). Member of the 24-emitter 0x01C3..0x01DF action-system traffic cluster.; likely_role=Map action-system request (0x01C3-0x01DF cluster: combat/skill/action use; specific role TBD via pcap correlation)"
         },
@@ -1567,9 +1561,7 @@
           "implementationAnchor": null,
           "decompAnchor": null,
           "observedIn": [],
-          "payloadLengths": [
-            32
-          ],
+          "payloadLengths": [],
           "confidence": "decomp_routed",
           "notes": "decomp_source=tierd_outbound_scan; bcsy_ref=BCS-Y-0324; per-opcode binding in operation_opcode_map_outbound.json tierDSweep.bindings table; evidence=Tier-D emitter 0x00532A40 sets stack record `local_8b0 = 0x01DA (opcode); local_8ac = 0x20 (size); [body fields]` then calls FUN_004E0240(&local_8b0, 0x01DA, 0). Routed through Tier-C wrapper FUN_004E0240 (BCS-Y-0312) -> Tier-B Zone forwarder FUN_00DAE010 (BCS-Y-0304). Member of the 24-emitter 0x01C3..0x01DF action-system traffic cluster.; likely_role=Map action-system request (0x01C3-0x01DF cluster: combat/skill/action use; specific role TBD via pcap correlation)"
         },
@@ -1608,11 +1600,9 @@
           "implementationAnchor": null,
           "decompAnchor": "FUN_0075E8D0",
           "observedIn": [],
-          "payloadLengths": [
-            32
-          ],
+          "payloadLengths": [],
           "confidence": "decomp_routed",
-          "notes": "client_context=Group update producer variants; producer=CharaBase._updateGroup reaches FUN_0075E860; GroupBase._updateMemberAndInformation reaches FUN_0075E8D0. Both use FUN_004D6D30 -> FUN_004E0240 -> FUN_00DAE010.; field_geometry=IPC 32 bytes; application 16 bytes in four unnamed u32 fields. FUN_0075E860 zeros the last two; FUN_0075E8D0 fills all four.; client_contract=xivl-client-structs:manifests/c2s_payload_decoding.json#payloadStructs.c2s_0x0130; framing_contract=xivl-client-structs:docs/search-recruitment-wire-contract.md#outbound-framing; semantic_boundary=Group policy and field nouns remain unresolved. The retained catalog length 32 is the legacy builder totalSize; the selected native framing implies a 48-byte subevent, not a new capture observation.; confidence_boundary=the native emitter anchor does not confirm the retained packet name, implementation label, server policy or acceptance; decomp_source=final_gap_outbound_scan; bcsy_ref=BCS-Y-0329; related_catalog_refs=BCS-Y-0323,BCS-Y-0380,BCS-Y-0382"
+          "notes": "client_context=Group update producer variants; producer=CharaBase._updateGroup reaches FUN_0075E860; GroupBase._updateMemberAndInformation reaches FUN_0075E8D0. Both use FUN_004D6D30 -> FUN_004E0240 -> FUN_00DAE010.; field_geometry=IPC 32 bytes; application 16 bytes in four unnamed u32 fields. FUN_0075E860 zeros the last two; FUN_0075E8D0 fills all four.; client_contract=xivl-client-structs:manifests/c2s_payload_decoding.json#payloadStructs.c2s_0x0130; framing_contract=xivl-client-structs:docs/search-recruitment-wire-contract.md#outbound-framing; semantic_boundary=Group policy and field nouns remain unresolved. The declared builder size is 32; selected native framing implies a 48-byte subevent. No retained Map capture witness establishes an observed size.; confidence_boundary=the native emitter anchor does not confirm the retained packet name, implementation label, server policy or acceptance; decomp_source=final_gap_outbound_scan; bcsy_ref=BCS-Y-0329; related_catalog_refs=BCS-Y-0323,BCS-Y-0380,BCS-Y-0382"
         },
         {
           "name": "_0x01DB",
@@ -1623,11 +1613,9 @@
           "implementationAnchor": null,
           "decompAnchor": "FUN_004C73D0",
           "observedIn": [],
-          "payloadLengths": [
-            24
-          ],
+          "payloadLengths": [],
           "confidence": "decomp_routed",
-          "notes": "client_context=Neutral ItemSearch marketplace context; producer=FUN_004C73D0 constructs 0x01DB and reaches FUN_004C7150 -> FUN_004E0240 -> FUN_00DAE010.; field_geometry=IPC 24 bytes; application 8 bytes: explicit zero u32 at +0 and four unresolved bytes at +4.; client_contract=xivl-client-structs:manifests/structs.json#BCS-S-0367; framing_contract=xivl-client-structs:docs/search-recruitment-wire-contract.md#outbound-framing; semantic_boundary=The detailed ItemSearch operation remains unresolved. Selected native framing implies a 40-byte subevent; the retained catalog length 24 has no joined capture witness and is not validated by this static construction.; confidence_boundary=the native emitter anchor does not confirm the retained packet name, implementation label, server policy or acceptance; decomp_source=final_gap_outbound_scan; bcsy_ref=BCS-Y-0327; related_catalog_refs=BCS-Y-0322"
+          "notes": "client_context=Neutral ItemSearch marketplace context; producer=FUN_004C73D0 constructs 0x01DB and reaches FUN_004C7150 -> FUN_004E0240 -> FUN_00DAE010.; field_geometry=IPC 24 bytes; application 8 bytes: explicit zero u32 at +0 and four unresolved bytes at +4.; client_contract=xivl-client-structs:manifests/structs.json#BCS-S-0367; framing_contract=xivl-client-structs:docs/search-recruitment-wire-contract.md#outbound-framing; semantic_boundary=The detailed ItemSearch operation remains unresolved. Selected native framing implies a 40-byte subevent. No retained Map capture witness establishes an observed size.; confidence_boundary=the native emitter anchor does not confirm the retained packet name, implementation label, server policy or acceptance; decomp_source=final_gap_outbound_scan; bcsy_ref=BCS-Y-0327; related_catalog_refs=BCS-Y-0322"
         },
         {
           "name": "_0x01DC",
@@ -1651,9 +1639,7 @@
           "implementationAnchor": null,
           "decompAnchor": "FUN_00763DC0",
           "observedIn": [],
-          "payloadLengths": [
-            272
-          ],
+          "payloadLengths": [],
           "confidence": "decomp_routed",
           "notes": "decomp_source=xivl-client-structs expanded reverse-BFS catalog gap; bcsy_ref=BCS-Y-0384; evidence=FUN_00763DC0 builds stack record with opcode literal 0x00d0 and size literal 0x110 (272 bytes) then calls a known send helper in the canonical c2s map send path; no_lua_reach_in_scan; likely_role=bulk snapshot or initialization packet given the 272-byte size, distinctly larger than neighbor map opcodes 0x00cc LockTarget (0x18 = 24 bytes) and 0x00cd SetTarget (0x18) which carry incremental updates; builder VA 0x00763DC0 sits outside the 0x0075E* item/group builder family, suggesting a separate subsystem origin"
         },
@@ -1666,9 +1652,7 @@
           "implementationAnchor": null,
           "decompAnchor": "FUN_0075EAC0",
           "observedIn": [],
-          "payloadLengths": [
-            24
-          ],
+          "payloadLengths": [],
           "confidence": "decomp_routed",
           "notes": "decomp_source=xivl-client-structs catalog-gap recovery; bcsy_ref=BCS-Y-0383; evidence=FUN_0075EAC0 builds stack record with opcode literal 0x132 and size literal 0x18 then routes through FUN_004D6D30 -> FUN_004E0240 -> FUN_00DAE010 wire send (the canonical c2s map send path); lua_trigger=ItemBase._updateWork (confirmed_direct_emit binding via reverse-BFS from send-helper caller lists, BCS-Y-0382 + BCS-Y-0383 catalog-gap recovery); naming=tentative, derived from Lua N-API trigger name and neighbor convention (0x0131 UpdateItemPackagePacket sibling); client_semantics_evidence=data/client_opcode_semantics.json#c2s-0132; dependency_status=closed"
         },

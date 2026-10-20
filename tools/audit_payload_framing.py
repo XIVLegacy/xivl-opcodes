@@ -26,7 +26,7 @@ ALLOWLIST: dict[tuple[str, int], str] = {
     (
         "c2s",
         0x0130,
-    ): "catalog 32 is the legacy client builder totalSize, not the 48-byte full wire size",
+    ): "observed-size list is empty; the native 48-byte subpacket shape has no retained witness",
     (
         "c2s",
         0x0131,
@@ -34,7 +34,7 @@ ALLOWLIST: dict[tuple[str, int], str] = {
     (
         "c2s",
         0x0132,
-    ): "catalog 24 is the legacy client builder totalSize, not the 40-byte full wire size",
+    ): "observed-size list is empty; the native 40-byte subpacket shape has no retained witness",
     (
         "s2c",
         0x01A4,

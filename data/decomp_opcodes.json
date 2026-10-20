@@ -295,7 +295,7 @@
     "name": "_0x01D3",
     "service": "map",
     "direction": "serverbound",
-    "evidence": "FUN_004B8180 requires owner+0x10 == 0 and owner+0x15 != 0, calls a pre-emit helper, constructs 0x01D3 and reaches FUN_004E0240. Success writes owner state. IPC 24 bytes; application 8 bytes: explicit zero u32 at +0, with remaining initialization unresolved. Owner-byte permission/GM-rank meaning and complete operation identity are unproved. No login witness or completely zero body is added. Contract: xivl-client-structs:manifests/symbols.json#BCS-Y-1074.",
+    "evidence": "FUN_004B8180 requires owner+0x10 == 0 and owner+0x15 != 0, calls a pre-emit helper, constructs 0x01D3 and reaches FUN_004E0240. Success writes owner state. IPC 24 bytes; application 8 bytes: explicit zero u32 at +0, with remaining initialization unresolved. Owner-byte permission/GM-rank meaning and complete operation identity are unproved. The native construction alone does not establish a zero closing word or login policy. Contract: xivl-client-structs:manifests/symbols.json#BCS-Y-1074.",
     "likely_role": "State-gated neutral emission; field domains and server policy remain qualified by the cited contract",
     "source": "tierd_outbound_scan | pcap_correlation"
   },
@@ -425,7 +425,7 @@
     "name": "_0x0130",
     "service": "map",
     "direction": "serverbound",
-    "evidence": "CharaBase._updateGroup reaches FUN_0075E860; GroupBase._updateMemberAndInformation reaches FUN_0075E8D0. Both use FUN_004D6D30 -> FUN_004E0240 -> FUN_00DAE010. IPC 32 bytes; application 16 bytes in four unnamed u32 fields. FUN_0075E860 zeros the last two; FUN_0075E8D0 fills all four. Group policy and field nouns remain unresolved. The retained catalog length 32 is the legacy builder totalSize; the selected native framing implies a 48-byte subevent, not a new capture observation. Contract: xivl-client-structs:manifests/c2s_payload_decoding.json#payloadStructs.c2s_0x0130.",
+    "evidence": "CharaBase._updateGroup reaches FUN_0075E860; GroupBase._updateMemberAndInformation reaches FUN_0075E8D0. Both use FUN_004D6D30 -> FUN_004E0240 -> FUN_00DAE010. IPC 32 bytes; application 16 bytes in four unnamed u32 fields. FUN_0075E860 zeros the last two; FUN_0075E8D0 fills all four. Group policy and field nouns remain unresolved. The declared builder size is 32; selected native framing implies a 48-byte subevent. No retained Map capture witness establishes an observed size. Contract: xivl-client-structs:manifests/c2s_payload_decoding.json#payloadStructs.c2s_0x0130.",
     "likely_role": "Group update producer variants; field domains and server policy remain qualified by the cited contract",
     "source": "final_gap_outbound_scan"
   },
@@ -435,7 +435,7 @@
     "name": "_0x01DB",
     "service": "map",
     "direction": "serverbound",
-    "evidence": "FUN_004C73D0 constructs 0x01DB and reaches FUN_004C7150 -> FUN_004E0240 -> FUN_00DAE010. IPC 24 bytes; application 8 bytes: explicit zero u32 at +0 and four unresolved bytes at +4. The detailed ItemSearch operation remains unresolved. Selected native framing implies a 40-byte subevent; the retained catalog length 24 has no joined capture witness and is not validated by this static construction. Contract: xivl-client-structs:manifests/structs.json#BCS-S-0367.",
+    "evidence": "FUN_004C73D0 constructs 0x01DB and reaches FUN_004C7150 -> FUN_004E0240 -> FUN_00DAE010. IPC 24 bytes; application 8 bytes: explicit zero u32 at +0 and four unresolved bytes at +4. The detailed ItemSearch operation remains unresolved. Selected native framing implies a 40-byte subevent. No retained Map capture witness establishes an observed size. Contract: xivl-client-structs:manifests/structs.json#BCS-S-0367.",
     "likely_role": "Neutral ItemSearch marketplace context; field domains and server policy remain qualified by the cited contract",
     "source": "final_gap_outbound_scan"
   },
