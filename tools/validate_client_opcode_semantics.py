@@ -540,6 +540,10 @@ def main() -> int:
             "login/handshake name, final-u32 selector meaning, response policy, delivery",
             "and client acceptance remain unproved",
             "header_binding_evidence=xivl-decomp:docs/net/zone-outbound-header.md",
+            "0x004E3340 supplies first application u32 zero",
+            "data pointer of owner+0x254 string object",
+            "forwarder AL nonzero writes owner+0x250=5",
+            "source-string population and contents, final application u32 initialization",
         ):
             if fragment not in entry.get("notes", ""):
                 errors.append(f"c2s Map 0x0002 lost required fact {fragment!r}")

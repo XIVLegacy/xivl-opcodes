@@ -2686,6 +2686,16 @@ def apply_retained_contracts(top: dict) -> int:
         ),
     }
     additions = {
+        ("MapServerbound", 0x0002): (
+            "selected_caller=FUN_004E30A0 at 0x004E3340 supplies first application u32 zero "
+            "and sixteen bytes from the data pointer of owner+0x254 string object; "
+            "argument_boundary=FUN_00445210 is an accessor, not an actual two-zero-argument call; "
+            "caller_gate=after FUN_004E20A0, owner+0x234 nonzero and either owner+0x238 zero "
+            "or FUN_004E11F0 nonzero; local_success=forwarder AL nonzero writes owner+0x250=5; "
+            "remaining=source-string population and contents, final application u32 initialization, "
+            "identity, cadence, delivery and server response unproved; "
+            "caller_contract=xivl-decomp:docs/net/zone-value-two-record.md#selected-caller-arguments-and-result"
+        ),
         ("MapServerbound", 0x012D): (
             "direct_fallback=both _callServerOnCommand and _doServerOnCommand construct this opcode; "
             "direct_fields=+04 command binding reference,+08 self actor+14; event wrappers have a different +08 source; "
