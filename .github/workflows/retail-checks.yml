@@ -114,7 +114,7 @@ jobs:
             -process ffxivgame.exe \
             -noanalysis \
             -readOnly \
-            -scriptPath "${GITHUB_WORKSPACE}/tools/ghidra_scripts" \
+            -scriptPath "${GITHUB_WORKSPACE}/tools" \
             -postScript ExportZoneDispatchRoute.java \
             > "${private_root}/verify.log" 2>&1
 

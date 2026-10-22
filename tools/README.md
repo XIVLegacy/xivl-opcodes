@@ -123,7 +123,7 @@ writer. Abbreviated, uppercase, or omitted hashes are rejected.
   route-state ownership. It also rejects mutations to the Lua/native index map,
   signed ActionCheck gate, negative edge and timer-unit boundaries, null-state
   exclusion, and semantic citations.
-- `ghidra_scripts/ExportZoneDispatchRoute.java` verifies the fixed dispatcher
+- `ExportZoneDispatchRoute.java` verifies the fixed dispatcher
   data flow in a fresh analyzed program and emits one private structured
   observation. It emits no disassembly, bytes, paths, names, or expected
   case/slot values.

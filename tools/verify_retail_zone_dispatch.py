@@ -25,7 +25,7 @@ DEFAULT_SCHEMA = REPO / "schemas" / "retail-evidence-attestation.schema.json"
 DEFAULT_ZONE_MAP = REPO / "data" / "zone_dispatch_map.json"
 DEFAULT_SEMANTICS = REPO / "data" / "client_opcode_semantics.json"
 DEFAULT_CATALOG = REPO / "opcodes.json"
-DEFAULT_EXPORTER = REPO / "tools" / "ghidra_scripts" / "ExportZoneDispatchRoute.java"
+DEFAULT_EXPORTER = REPO / "tools" / "ExportZoneDispatchRoute.java"
 
 CHECK_ID = "zone-dispatch-0x018d-slot-v1"
 INPUT_ID = "ffxivgame-1.23b"

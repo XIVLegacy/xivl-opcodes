@@ -1379,8 +1379,7 @@ NAME_OVERRIDES = [
     ),
 ]
 
-# Accept managed aliases while preserving the pristine-input guard carried by
-# NAME_OVERRIDES.
+# Managed aliases must not bypass the original-name checks in NAME_OVERRIDES.
 NAME_OVERRIDE_PRIOR_ALIASES = {
     ("MapClientbound", "0x0147", "_0x0147"): ("InventorySetEndPacket",),
     ("MapClientbound", "0x018b", "SetGroupLayoutIDPacket"): ("SetGroupLayoutIdPacket",),
