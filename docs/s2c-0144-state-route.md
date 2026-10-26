@@ -100,6 +100,32 @@ count and supported mask, and a nonnull resource root remain separate gates.
 The static route does not establish state-value names, encounter phases,
 server policy, delivery timing or a rendered result.
 
+## Scene payload +0x06 stores
+
+Once the resolved CharaActor reaches case `0x006638A4` and its type-2 and
+type-3 calls return, the case passes the Scene payload's `+0x06` u16 to
+`0x007A5260`. Entry `0x00662D46` takes the payload pointer from `[EBP+0x0C]`
+into ESI, and `0x00662D4A` preserves the incoming actor receiver in EDI.
+The case advances EDI by `0x1110` at `0x006638A6`. At
+`0x006638C0-0x006638C7`, it zero-extends the payload word to a 32-bit stack
+argument and calls `0x007A5260` with `ECX = actor + 0x1110`.
+
+The complete callee loads that argument into EAX at `0x007A5260`. It stores
+AX as a 16-bit word at receiver `+0x12` at `0x007A5264`, so this destination
+is actor `+0x1122`. It then loads the 32-bit pointer at receiver `+0x00`
+into ECX at `0x007A5268` and stores AX as a 16-bit word at that pointer
+`+0xC20` at `0x007A526A`. The pointer-derived destination is not established
+as the incoming actor by these instructions.
+
+The callee has no branch, call or null-pointer check. At `0x007A5271`,
+`RET 4` removes the stack argument. EAX still holds the zero-extended word
+supplied by this caller; that register value does not establish a success
+status. The stores do not establish a motion-pack enum, motion-bank selection
+or a later visible effect. The missing link is a downstream reader of receiver
+`+0x12` or the pointer-derived `+0xC20` word that connects the stored value to
+such behavior. This storage result leaves the actor-lifetime, reentrant
+snapshot and presentation gates above unchanged.
+
 ## Binary and method
 
 The input is retail 1.23b `ffxivgame.exe`, PE32 x86, size 15996808 bytes,
@@ -124,6 +150,15 @@ The same local export's `FUN_004d7980` row has RVA `0xD7980` and body-range sum
 `0xCA`. Its retained instruction addresses establish two disjoint half-open
 ranges, `[0x004D7980,0x004D7A22)` and `[0x004D7A2D,0x004D7A55)`:
 202 bytes and 59 instructions. The omitted eleven-byte gap was not decoded
-or interpreted. The combined instruction union is 395 bytes and 110
-instructions. No original Scene dispatcher or constructor body was read for
-this finding; those edges use the published sources above.
+or interpreted. The producer and broadcaster instruction union is 395 bytes
+and 110 instructions.
+
+The same export's unique `FUN_00662d30` row has RVA `0x262D30` and body-range
+sum `0xDB8`. Original-PE decoding covers only its three selected half-open
+ranges: `[0x00662D30,0x00662D78)`, `[0x006638A4,0x006638E0)` and
+`[0x00663AD4,0x00663AE8)`, totaling 152 bytes and 53 instructions. The unique
+`FUN_007a5260` row has RVA `0x3A5260` and size `0x14`; its dense complete
+range `[0x007A5260,0x007A5274)` contains 20 bytes and five instructions.
+The full Scene dispatcher, its tables and the constructor body were not read
+from the original PE for this finding. Their remaining edges use the published
+sources above.
