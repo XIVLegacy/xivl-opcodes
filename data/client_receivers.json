@@ -929,36 +929,14 @@
       "rtti_rva": "0xc57488",
       "slots": 6,
       "slot1_fn": "FUN_008a2a20",
-      "label": "user data (primary vtable)",
+      "label": "user data (secondary interface)",
       "mapping": {
         "opcode": "0x0133",
         "confidence": "confirmed",
         "catalog_entry": "GenericDataPacket",
-        "evidence": "full_disasm: constructor-wrapped LuaParam dispatch (calls FUN_0xcc9320/cc9330 init/dtor pair, conditionally invokes FUN_0x783e30 string-op on this+8 buffer). The shape fits GenericData's 192-byte LuaParam list body: receiver wraps its own context, populates from packet body, processes optional sub-content. Both vtables 0xc57488 (6-slot) and 0xc574a4 (2-slot) share slot1 fn; dispatcher_hunt: FUN_004d8860 event-family specific handler FUN_00575060",
-        "notes": "The central packet dispatcher binding is supported by decomp evidence. Opcode 0x0133 confirmed dispatched by FUN_004d8860 event-family specific handler FUN_00575060. Strong-confidence keyword overlap from the receiver inventory is backed by decomp evidence of the dispatcher binding."
-      },
-      "cast_target": null,
-      "slot1_shape": {
-        "insns_to_first_ret": 5,
-        "max_local_stack": 0,
-        "seh": false,
-        "tail_jmp": null
-      },
-      "lua_actor_impl_slot": 59
-    },
-    {
-      "name": "UserDataReceiver",
-      "namespace": "Network",
-      "rtti_rva": "0xc574a4",
-      "slots": 2,
-      "slot1_fn": "FUN_008a2a20",
-      "label": "user data (sibling vtable, same slot1 fn)",
-      "mapping": {
-        "opcode": "0x0133",
-        "confidence": "confirmed",
-        "catalog_entry": "GenericDataPacket",
-        "evidence": "shares slot1 fn with the primary 6-slot vtable at 0xc57488; same disasm verdict applies; dispatcher_hunt: FUN_004d8860 event-family specific handler FUN_00575060",
-        "notes": "The central packet dispatcher binding is supported by decomp evidence. Opcode 0x0133 confirmed dispatched by FUN_004d8860 event-family specific handler FUN_00575060. Strong-confidence keyword overlap from the receiver inventory is backed by decomp evidence of the dispatcher binding."
+        "evidence": "xivl-decomp:docs/event/user-data-receiver.md#direct-native-application-and-input; constructor FUN_0089EED0 installs secondary table VA 0x01057488 at receiver+8; its slot 1 is FUN_008A2A20, distinct from primary Receive FUN_008A0190.",
+        "notes": "Opcode 0x0133 identifies the receiver class. The mapped actor route directly calls primary Receive FUN_008A0190 through LuaActorImpl slot 59 FUN_00759E50; this secondary table is not the selected Receive interface.",
+        "dispatch_shape": "Six-slot secondary interface at receiver+8; slot 1 is distinct from the directly called primary Receive."
       },
       "cast_target": null,
       "slot1_shape": {
@@ -967,6 +945,26 @@
         "seh": false,
         "tail_jmp": null
       }
+    },
+    {
+      "name": "UserDataReceiver",
+      "namespace": "Network",
+      "rtti_rva": "0xc574a4",
+      "slots": 2,
+      "slot1_fn": "FUN_008a0190",
+      "label": "user data (primary Receive)",
+      "mapping": {
+        "opcode": "0x0133",
+        "confidence": "confirmed",
+        "catalog_entry": "GenericDataPacket",
+        "evidence": "xivl-decomp:docs/event/user-data-receiver.md#direct-native-application-and-input; FUN_00575060 -> LuaActorImpl slot 59 FUN_00759E50 -> FUN_008A0190; constructor FUN_0089EED0 installs primary table VA 0x010574A4 at receiver+0, with slot 1 FUN_008A0190. The wrapper directly calls Receive at 0x00759E9D.",
+        "notes": "The ordinary FunctionCallValueList path requests _onReceiveDataPacket with the selected binding value followed by materialized input values. A valid first tag 0x0D with nonzero remaining count instead supplies [servererror] to FUN_00CC7EA0; this is not a generic parse-failure test. Actual function binding, call/resume conditions and completion remain conditional.",
+        "lua_callback": "_onReceiveDataPacket",
+        "body_shape": "Constructor requests a 0xC0-byte input copy; allocation/copy completion, transport payload offset and receiver instance size are not established.",
+        "dispatch_shape": "Two-slot primary interface; LuaActorImpl slot 59 wrapper directly calls Receive, then destroys the temporary, without receiver submit/clone queuing in that wrapper. Lua completion is not established."
+      },
+      "cast_target": null,
+      "lua_actor_impl_slot": 59
     },
     {
       "name": "JobQuestCompleteTripleReceiver",
