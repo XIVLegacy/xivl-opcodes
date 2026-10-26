@@ -291,9 +291,13 @@ EXPECTED_0193_SAMPLES = (
 
 CHANT_BOUNDARY_EXPECTATIONS = {
     "s2c-0144": (
-        "FUN_0075A9A0 constructs ChangeActorSubStatModeBorderReceiver from application offset 4",
+        "FUN_00588C50 stores the full little-endian application +0 u32 W at CharaElement+0xF8",
+        "The border is (W >> 20) & 15",
+        "FUN_0075A9A0, which constructs ChangeActorSubStatModeBorderReceiver from that border",
         "FUN_006EECB0 writes only that byte to CharaSubStatStorage+0x18",
-        "does not write the status-word bits 8..15",
+        "The separate application +4 mode byte passes through FUN_00575290 and ActorImpl virtual +0x15C",
+        "_onChangeSubStatMode fires only when new and previous mode bytes differ",
+        "The packed actor W includes context-dependent chant/object nibble readers but is distinct from a status-row word resolved through 0x0179",
         "does not establish a chant enum",
     ),
     "s2c-0179": (

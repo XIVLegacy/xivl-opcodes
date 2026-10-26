@@ -1644,15 +1644,24 @@ LANE_UNRESOLVED = {"0x0188"}
 
 CLIENT_SEMANTICS_SPECIAL_NOTES = {
     "s2c-0144": (
-        "retail_client_analysis=the 8-byte application payload retains structural byte labels, "
-        "but FUN_0075A9A0 constructs ChangeActorSubStatModeBorderReceiver from application "
-        "offset 4 and FUN_008A32C0 applies only that byte through FUN_006EECB0 to "
-        "CharaSubStatStorage+0x18; callback=FUN_008A3310->FUN_007084E0 fires "
-        "_onChangeSubStatMode for a changed byte; chant_boundary=application offset 1 has the "
-        "historical chantId layout label but this retained route does not copy it into the "
-        "status-word bits 8..15 or establish a chant enum; observed=60 retained 40-byte "
-        "subpackets with 8 application bytes; client_only=layout, store, and callback do not "
-        "establish server behavior or packet ordering"
+        "retail_client_analysis=the 8-byte application retains structural byte labels; "
+        "FUN_00588C50 stores application +0 u32 W at CharaElement+0xF8; "
+        "border=(W >> 20) & 15 through FUN_00575280 and ActorImpl +0x158 to "
+        "FUN_0075A9A0->FUN_008A32C0->FUN_006EECB0 and CharaSubStatStorage+0x18; "
+        "separate_mode=application +4 u8 through FUN_00575290 and ActorImpl +0x15C to "
+        "FUN_0075AA20->FUN_008A3310->FUN_007084E0; callback=_onChangeSubStatMode only "
+        "for changed mode bytes, with border-only changes excluded by that equality gate; "
+        "scene_packing=stored W u32,zero-extended mode u16,motionPack u16 at local +0,+4,+6; "
+        "application +5 is not the mode word high byte; scene_route=selector 0x3B becomes "
+        "queued command 0x50 keyed by the element, then actor dispatch restores 0x3B with "
+        "unchanged payload/length; when the key resolves to CharaActor and admission passes, "
+        "FUN_00662D30 case 0x006638A4 reads Scene +4 u16 for type-3 state; "
+        "presentation_boundary=real substatus-kick drain,model metadata and resource root "
+        "remain separate gates; chant_boundary=packed actor W and 0x0179 status-row words "
+        "are distinct, and the historical chantId label does not establish a chant enum; "
+        "route_evidence=docs/s2c-0144-state-route.md; observed=60 retained 40-byte subpackets "
+        "with 8 application bytes; client_only=no state-value names,server behavior,causal "
+        "packet ordering or rendered result follows"
     ),
     "s2c-0179": (
         "retail_client_analysis=the 40-byte application payload is u16 statusIds[20]; "
